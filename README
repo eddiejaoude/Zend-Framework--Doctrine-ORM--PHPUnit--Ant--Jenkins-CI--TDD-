@@ -1,14 +1,38 @@
 --------------------------------------------------------
-Technologies
+TECHNOLOGIES USED
 --------------------------------------------------------
-- Zend Framework 1.11
+- Zend Framework 1.11+
 - Doctrine 1.2
-- PHPUnit 
+- PHPUnit 3.5+
 - Ant
 - Hudson
+- PHP Documentor
 
 
 --------------------------------------------------------
-Goal - Best Practice
+OTHER TECHNOLOGIES REQUIRED
+--------------------------------------------------------
+- PHP 5.3+
+- Xdebug 2.x
+- MySQL 5.x
+
+
+--------------------------------------------------------
+GOAL - BEST PRACTICE
 --------------------------------------------------------
 To achieve a Best Practice Zend Framework skeleton project using Doctrine ORM with full Code Coverage on the Doctrine Models. Using PHPUnit, Ant & Hudson for Continous Integration.
+
+Together we can achieve this!
+
+--------------------------------------------------------
+INSTALLATION
+--------------------------------------------------------
+Coming shortly
+
+
+--------------------------------------------------------
+FAQs
+--------------------------------------------------------
+Coming shortly
+
+
