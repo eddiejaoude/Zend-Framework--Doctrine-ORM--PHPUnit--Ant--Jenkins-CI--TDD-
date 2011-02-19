@@ -1,0 +1,14 @@
+--------------------------------------------------------
+Technologies
+--------------------------------------------------------
+- Zend Framework 1.11
+- Doctrine 1.2
+- PHPUnit 
+- Ant
+- Hudson
+
+
+--------------------------------------------------------
+Goal - Best Practice
+--------------------------------------------------------
+To achieve a Best Practice Zend Framework skeleton project using Doctrine ORM with full Code Coverage on the Doctrine Models. Using PHPUnit, Ant & Hudson for Continous Integration.
