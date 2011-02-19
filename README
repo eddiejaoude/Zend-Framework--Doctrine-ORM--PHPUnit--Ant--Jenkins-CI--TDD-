@@ -4,7 +4,7 @@ TECHNOLOGIES USED
 - Zend Framework 1.11+
 - Doctrine 1.2
 - PHPUnit 3.5+
-- Hudson
+- Jenkins (formally Hudson)
 - PHP Documentor
 
 
@@ -19,7 +19,7 @@ OTHER TECHNOLOGIES REQUIRED
 --------------------------------------------------------
 GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
 --------------------------------------------------------
-To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Hudson for Continous Integration.
+To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents.
 
 Together we can achieve this!
 
@@ -34,4 +34,28 @@ FAQs
 --------------------------------------------------------
 Coming shortly
 
+
+
+--------------------------------------------------------
+APPENDIX
+--------------------------------------------------------
+- Zend Framework
+Zend Framework is an open source framework for developing web applications and services with PHP 5. Zend Framework is implemented using 100% object-oriented code. The component structure of Zend Framework is somewhat unique; each component is designed with few dependencies on other components. This loosely coupled architecture allows developers to use components individually. We often call this a "use-at-will" design.
+While they can be used separately, Zend Framework components in the standard library form a powerful and extensible web application framework when combined. Zend Framework offers a robust, high performance MVC implementation, a database abstraction that is simple to use, and a forms component that implements HTML form rendering, validation, and filtering so that developers can consolidate all of these operations using one easy-to-use, object oriented interface. Other components, such as Zend_Auth and Zend_Acl, provide user authentication and authorization against all common credential stores. Still others implement client libraries to simply access to the most popular web services available. Whatever your application needs are, you're likely to find a Zend Framework component that can be used to dramatically reduce development time with a thoroughly tested foundation.
+
+- Doctrine
+Doctrine is an object relational mapper (ORM) for PHP 5.2.3+ that sits on top of a powerful database abstraction layer (DBAL). One of its key features is the option to write database queries in a proprietary object oriented SQL dialect called Doctrine Query Language (DQL), inspired by Hibernates HQL. This provides developers with a powerful alternative to SQL that maintains flexibility without requiring unnecessary code duplication.
+
+- PHPUnit
+Even good programmers make mistakes. The difference between a good programmer and a bad programmer is that the good programmer uses tests to detect his mistakes as soon as possible. The sooner you test for a mistake the greater your chance of finding it and the less it will cost to find and fix. This explains why leaving testing until just before releasing software is so problematic. Most errors do not get caught at all, and the cost of fixing the ones you do catch is so high that you have to perform triage with the errors because you just cannot afford to fix them all.
+
+Testing with PHPUnit is not a totally different activity from what you should already be doing. It is just a different way of doing it. The difference is between testing, that is, checking that your program behaves as expected, and performing a battery of tests, runnable code-fragments that automatically test the correctness of parts (units) of the software. These runnable code-fragments are called unit tests.
+
+- Jenkins
+Jenkins monitors executions of repeated jobs, such as building a software project or jobs run by cron. Among those things, current Jenkins focuses on the following two jobs:
+1. Building/testing software projects continuously, just like CruiseControl or DamageControl. In a nutshell, Jenkins provides an easy-to-use so-called continuous integration system, making it easier for developers to integrate changes to the project, and making it easier for users to obtain a fresh build. The automated, continuous build increases the productivity.
+2. Monitoring executions of externally-run jobs, such as cron jobs and procmail jobs, even those that are run on a remote machine. For example, with cron, all you receive is regular e-mails that capture the output, and it is up to you to look at them diligently and notice when it broke. Jenkins keeps those outputs and makes it easy for you to notice when something is wrong.
+
+- PHPDocumentor
+phpDocumentor uses an extensive templating system to change your source code comments into human readable, and hence useful, formats. This system allows the creation of easy to read documentation in 15 different pre-designed HTML versions, PDF format, Windows Helpfile CHM format, and in Docbook XML. You can also create your own templates to match the look and feel of your project.
 
