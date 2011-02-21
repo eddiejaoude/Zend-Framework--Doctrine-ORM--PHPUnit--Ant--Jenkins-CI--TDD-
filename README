@@ -4,7 +4,6 @@ TECHNOLOGIES USED
 - Zend Framework 1.11+
 - Doctrine 1.2
 - PHPUnit 3.5+
-- Jenkins (formally Hudson)
 - PHP Documentor
 
 
@@ -15,6 +14,7 @@ OTHER TECHNOLOGIES REQUIRED
 - Xdebug 2.x
 - MySQL 5.x
 - Ant
+- Jenkins (formally Hudson)
 
 --------------------------------------------------------
 GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
@@ -22,6 +22,16 @@ GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
 To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents.
 
 Together we can achieve this!
+
+--------------------------------------------------------
+ADVANTAGES of TTD (Test Driven Developement)
+--------------------------------------------------------
+- Improved stability
+- Regression testing
+- Refactoring - code can be improved without breaking
+- Test first - improves code planning
+- High code coverage reports - shows what code is not tested yet
+- ...
 
 --------------------------------------------------------
 INSTALLATION
@@ -34,6 +44,14 @@ FAQs
 --------------------------------------------------------
 Coming shortly
 
+
+--------------------------------------------------------
+FUTURE IMPROVEMENTS
+--------------------------------------------------------
+- PHPCPD - copy & paste detector
+- PHPMD - mess detector
+- PHPCS - code sniffer
+- MutateMe - mutation test
 
 
 --------------------------------------------------------
