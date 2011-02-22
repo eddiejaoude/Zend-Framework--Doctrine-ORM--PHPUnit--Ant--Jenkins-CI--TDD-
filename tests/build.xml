@@ -1,0 +1,56 @@
+<project name="Public Website" default="build">
+    <target name="clean">
+        <delete dir="${basedir}/build"/>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${basedir}/build"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/docs"/>
+    </target>
+
+    <target name="phpunit-my">
+        <exec dir="${basedir}" executable="phpunit" failonerror="false">
+            <arg line="--configuration phpunit-my.xml
+              --log-junit ${basedir}/build/logs/phpunit-my.xml
+              --coverage-html ${basedir}/build/coverage-my
+              --coverage-source ${basedir}/build/coverage-src-my
+              --process-isolation" />
+        </exec>
+    </target>
+
+    <target name="phpdoc">
+        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+            <arg line="-t ${basedir}/build/docs
+              -o PDF:default:default
+              -d ${basedir}/../../app"/>
+        </exec>
+    </target>
+
+    <target name="phpdoc2">
+        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+            <arg line="-t ${basedir}/build/docs/earthli
+              -o HTML:frames:earthli
+              -d ${basedir}/../../app"/>
+        </exec>
+    </target>
+
+    <target name="phpdoc3">
+        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+            <arg line="-t ${basedir}/build/docs/lol33t
+              -o HTML:frames:l0l33t
+              -d ${basedir}/../../app"/>
+        </exec>
+    </target>
+
+    <target name="phpdoc4">
+        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+            <arg line="-t ${basedir}/build/docs/smarty
+              -o HTML:Smarty:PHP
+              -d ${basedir}/../../app"/>
+        </exec>
+    </target>
+
+    <target name="build" depends="clean,prepare,phpunit-my,phpdoc,phpdoc2,phpdoc3,phpdoc4"/>
+ 
+</project>
