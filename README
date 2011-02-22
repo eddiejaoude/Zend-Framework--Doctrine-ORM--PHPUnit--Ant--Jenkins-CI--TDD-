@@ -1,4 +1,20 @@
 --------------------------------------------------------
+GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
+--------------------------------------------------------
+To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents.
+
+Together we can achieve this!
+
+
+--------------------------------------------------------
+FEATURES include
+--------------------------------------------------------
+- ZF Modules
+- Unit testing
+- Ant build scripts for Continuous Integration
+
+
+--------------------------------------------------------
 TECHNOLOGIES USED
 --------------------------------------------------------
 - Zend Framework 1.11+
@@ -16,12 +32,6 @@ OTHER TECHNOLOGIES REQUIRED
 - Ant
 - Jenkins (formally Hudson)
 
---------------------------------------------------------
-GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
---------------------------------------------------------
-To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents.
-
-Together we can achieve this!
 
 --------------------------------------------------------
 ADVANTAGES of TTD (Test Driven Developement)
