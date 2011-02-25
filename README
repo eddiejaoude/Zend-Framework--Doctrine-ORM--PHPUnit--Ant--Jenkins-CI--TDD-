@@ -11,6 +11,14 @@ FEATURES include
 --------------------------------------------------------
 - ZF Modules
 - Unit testing
+- Best practice php tools
+  - phploc
+  - phpcpd
+  - phpdcd
+  - pdepend
+  - phpmd
+  - phpcs
+  - php_codebrowser
 - Ant build scripts for Continuous Integration
 
 
@@ -18,7 +26,7 @@ FEATURES include
 TECHNOLOGIES USED
 --------------------------------------------------------
 - Zend Framework 1.11+
-- Doctrine 1.2
+- Doctrine 2+
 - PHPUnit 3.5+
 - PHP Documentor
 
@@ -37,7 +45,6 @@ OTHER TECHNOLOGIES REQUIRED
 ADVANTAGES of TTD (Test Driven Developement)
 --------------------------------------------------------
 - Improved stability
-- Regression testing
 - Refactoring - code can be improved without breaking
 - Test first - improves code planning
 - High code coverage reports - shows what code is not tested yet
@@ -58,9 +65,6 @@ Coming shortly
 --------------------------------------------------------
 FUTURE IMPROVEMENTS
 --------------------------------------------------------
-- PHPCPD - copy & paste detector
-- PHPMD - mess detector
-- PHPCS - code sniffer
 - MutateMe - mutation test
 
 
