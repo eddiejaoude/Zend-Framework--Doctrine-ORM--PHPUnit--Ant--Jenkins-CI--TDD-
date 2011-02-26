@@ -1,0 +1,41 @@
+<phpunit bootstrap="./bootstrap.php" colors="true" stopOnFailure="false" syntaxCheck="false" processIsolation="true">
+   <testsuites>
+
+      <testsuite name="Application unit test suite">
+           <directory>./application/config</directory>
+           <filter>
+                <whitelist>
+                    <directory suffix=".php">./application/config</directory>
+                </whitelist>
+                <exclude>
+                        <directory suffix=".phml">./application/config</directory>
+                    </exclude>
+            </filter>
+        </testsuite>
+<!--
+       <testsuite name="Default module unit test suite">
+           <directory>./../modules/default/tests/models</directory>
+            <filter>
+                <whitelist>
+                    <directory suffix=".php">./../modules/default/tests/models</directory>
+                    <exclude>
+                        <directory suffix=".php">./../plugins/my/models/behaviors</directory>
+                    </exclude>
+                </whitelist>
+            </filter>
+
+            <logging>
+                <log type="coverage-html" target="./log/coverage" charset="UTF-8"
+                     yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
+            </logging>
+        </testsuite>
+-->
+
+        <!--
+        <testsuite name="Suite for Selenium">
+                <directory>../plugins/index/tests/selenium</directory>
+        </testsuite>
+        -->
+
+    </testsuites>
+</phpunit>

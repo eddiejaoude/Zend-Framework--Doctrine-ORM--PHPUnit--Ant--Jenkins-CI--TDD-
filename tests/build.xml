@@ -1,4 +1,4 @@
-<project name="Public Website" default="build">
+<project name="Zend Framework Best Practice" default="build">
     <target name="clean">
         <delete dir="${basedir}/build"/>
     </target>
@@ -9,18 +9,18 @@
         <mkdir dir="${basedir}/build/docs"/>
     </target>
 
-    <target name="phpunit-my">
+    <target name="phpunit">
         <exec dir="${basedir}" executable="phpunit" failonerror="false">
-            <arg line="--configuration phpunit-my.xml
-              --log-junit ${basedir}/build/logs/phpunit-my.xml
-              --coverage-html ${basedir}/build/coverage-my
-              --coverage-source ${basedir}/build/coverage-src-my
+            <arg line="--configuration phpunit.xml
+              --log-junit ${basedir}/build/logs/phpunit.xml
+              --coverage-html ${basedir}/build/coverage
+              --coverage-source ${basedir}/build/coverage-src
               --process-isolation" />
         </exec>
     </target>
 
     <target name="phpdoc">
-        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs
               -o PDF:default:default
               -d ${basedir}/../../app"/>
@@ -28,7 +28,7 @@
     </target>
 
     <target name="phpdoc2">
-        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs/earthli
               -o HTML:frames:earthli
               -d ${basedir}/../../app"/>
@@ -36,7 +36,7 @@
     </target>
 
     <target name="phpdoc3">
-        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs/lol33t
               -o HTML:frames:l0l33t
               -d ${basedir}/../../app"/>
@@ -44,13 +44,13 @@
     </target>
 
     <target name="phpdoc4">
-        <exec dir="${basedir}/../../vendors/phpDocumentor" executable="./phpdoc" failonerror="false">
+        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs/smarty
               -o HTML:Smarty:PHP
               -d ${basedir}/../../app"/>
         </exec>
     </target>
 
-    <target name="build" depends="clean,prepare,phpunit-my,phpdoc,phpdoc2,phpdoc3,phpdoc4"/>
- 
+    <target name="build" depends="clean,prepare,phpunit,phpdoc,phpdoc2,phpdoc3,phpdoc4"/>
+
 </project>
