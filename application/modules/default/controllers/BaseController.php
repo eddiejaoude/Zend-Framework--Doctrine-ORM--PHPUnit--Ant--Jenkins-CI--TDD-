@@ -5,10 +5,8 @@
  *
  * Base controller to Default Module
  *
- * @author 			Eddie Jaoude
- * @category   		Real Browser
- * @package 		Default Module
- * @version 		SVN: $Id:$
+ * @author          Eddie Jaoude
+ * @package       Default Module
  *
  */
 abstract class BaseController extends Zend_Controller_Action {

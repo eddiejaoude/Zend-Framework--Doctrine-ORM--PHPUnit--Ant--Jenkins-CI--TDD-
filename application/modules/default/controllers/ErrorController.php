@@ -1,8 +1,22 @@
 <?php
-
+/**
+ * Default Error Controller
+ *
+ * @author          Eddie Jaoude
+ * @package       Default Module
+ *
+ */
 class ErrorController extends Zend_Controller_Action
 {
 
+    /**
+     * Error method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -41,6 +55,14 @@ class ErrorController extends Zend_Controller_Action
         $this->view->request   = $errors->request;
     }
 
+    /**
+     * getLog method
+     *
+     * @author          ZF
+     * @param           void
+     * @return           object $log
+     *
+     */
     public function getLog()
     {
         $bootstrap = $this->getInvokeArg('bootstrap');
