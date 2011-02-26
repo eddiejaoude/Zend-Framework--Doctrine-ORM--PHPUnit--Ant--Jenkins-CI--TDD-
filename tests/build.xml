@@ -14,8 +14,21 @@
             <arg line="--configuration phpunit.xml
               --log-junit ${basedir}/build/logs/phpunit.xml
               --coverage-html ${basedir}/build/coverage
-              --coverage-source ${basedir}/build/coverage-src
               --process-isolation" />
+        </exec>
+    </target>
+
+    <target name="phpcpd">
+        <exec dir="${basedir}" executable="phpcpd" failonerror="false">
+            <arg line="--log-pmd ${basedir}/build/logs/phpcpd.xml
+            ${basedir}/../application" />
+        </exec>
+    </target>
+
+    <target name="phploc">
+        <exec dir="${basedir}" executable="phploc" failonerror="false">
+            <arg line="--log-xml ${basedir}/build/logs/phploc.xml
+            ${basedir}/../application" />
         </exec>
     </target>
 
@@ -23,7 +36,7 @@
         <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs
               -o PDF:default:default
-              -d ${basedir}/../../app"/>
+              -d ${basedir}/../../application"/>
         </exec>
     </target>
 
@@ -51,6 +64,6 @@
         </exec>
     </target>
 
-    <target name="build" depends="clean,prepare,phpunit,phpdoc,phpdoc2,phpdoc3,phpdoc4"/>
+    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc"/>
 
 </project>
