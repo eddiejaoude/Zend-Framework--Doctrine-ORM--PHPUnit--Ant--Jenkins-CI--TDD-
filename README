@@ -14,11 +14,11 @@ FEATURES include
 - Best practice php tools
   - phploc
   - phpcpd
-  - phpdcd
-  - pdepend
-  - phpmd
-  - phpcs
-  - php_codebrowser
+  - phpdcd (coming soon)
+  - pdepend (coming soon)
+  - phpmd (coming soon)
+  - phpcs (coming soon)
+  - php_codebrowser (coming soon)
 - Ant build scripts for Continuous Integration
 
 
