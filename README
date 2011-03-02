@@ -14,7 +14,7 @@ FEATURES include
 - Best practice php tools
   - phploc
   - phpcpd
-  - phpdcd (coming soon)
+  - phpdcd 
   - pdepend (coming soon)
   - phpmd (coming soon)
   - phpcs (coming soon)
