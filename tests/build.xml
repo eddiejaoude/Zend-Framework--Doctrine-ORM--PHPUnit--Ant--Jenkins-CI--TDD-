@@ -32,6 +32,12 @@
         </exec>
     </target>
 
+    <target name="phpdcd">
+        <exec dir="${basedir}" executable="phpdcd" failonerror="false" output="${basedir}/build/logs/phpdcd.xml">
+            <arg line="${basedir}/../application" />
+        </exec>
+    </target>
+
     <target name="phpdoc">
         <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="-t ${basedir}/build/docs
@@ -64,6 +70,6 @@
         </exec>
     </target>
 
-    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc"/>
+    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc,phpdcd"/>
 
 </project>
