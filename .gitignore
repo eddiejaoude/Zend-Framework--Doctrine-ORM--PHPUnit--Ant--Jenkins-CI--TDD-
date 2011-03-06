@@ -1,1 +1,6 @@
 tests/build/**
+
+.idea
+.settings
+.project
+.buildpath

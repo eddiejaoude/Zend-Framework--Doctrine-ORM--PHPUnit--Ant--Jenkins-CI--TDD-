@@ -12,14 +12,14 @@
                     </exclude>
             </filter>
         </testsuite>
-<!--
+
        <testsuite name="Default module unit test suite">
            <directory>./../modules/default/tests/models</directory>
             <filter>
                 <whitelist>
-                    <directory suffix=".php">./../modules/default/tests/models</directory>
+                    <directory suffix=".php">./../application/modules/default/tests/models</directory>
                     <exclude>
-                        <directory suffix=".php">./../plugins/my/models/behaviors</directory>
+                        <directory suffix=".php">./../application/plugins/my/models/behaviors</directory>
                     </exclude>
                 </whitelist>
             </filter>
@@ -29,7 +29,6 @@
                      yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
             </logging>
         </testsuite>
--->
 
         <!--
         <testsuite name="Suite for Selenium">

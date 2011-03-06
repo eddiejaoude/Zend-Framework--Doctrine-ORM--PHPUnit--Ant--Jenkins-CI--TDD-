@@ -14,7 +14,7 @@ FEATURES include
 - Best practice php tools
   - phploc
   - phpcpd
-  - phpdcd 
+  - phpdcd (coming soon)
   - pdepend (coming soon)
   - phpmd (coming soon)
   - phpcs (coming soon)
@@ -28,7 +28,7 @@ TECHNOLOGIES USED
 - Zend Framework 1.11+
 - Doctrine 2+
 - PHPUnit 3.5+
-- PHP Documentor (coming soon)
+- PHP Documentor
 
 
 --------------------------------------------------------

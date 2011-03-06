@@ -7,10 +7,14 @@
         <mkdir dir="${basedir}/build"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/docs"/>
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
     </target>
 
     <target name="phpunit">
-        <exec dir="${basedir}" executable="phpunit" failonerror="false">
+        <exec dir="${basedir}" executable="phpunit" failonerror="true">
             <arg line="--configuration phpunit.xml
               --log-junit ${basedir}/build/logs/phpunit.xml
               --coverage-html ${basedir}/build/coverage
@@ -18,11 +22,40 @@
         </exec>
     </target>
 
-    <target name="phpcpd">
-        <exec dir="${basedir}" executable="phpcpd" failonerror="false">
-            <arg line="--log-pmd ${basedir}/build/logs/phpcpd.xml
-            ${basedir}/../application" />
+    <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
+    <target name="parallelTasks">
+    <parallel>
+    <antcall target="pdepend"/>
+    <antcall target="phpmd"/>
+    <antcall target="phpcpd"/>
+    <antcall target="phpcs"/>
+    <antcall target="phpdoc"/>
+    </parallel>
+    </target>
+
+    <!-- Generate jdepend.xml and software metrics charts -->
+    <target name="pdepend">
+        <exec executable="pdepend">
+            <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
+              --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
+              --overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg
+              ${basedir}"/>
         </exec>
+    </target>
+
+    <!-- Generate pmd.xml -->
+    <target name="phpmd">
+    <exec executable="phpmd">
+    <arg line="${basedir} xml codesize,unusedcode
+    --reportfile ${basedir}/build/logs/pmd.xml" />
+    </exec>
+    </target>
+
+    <!-- Generate pmd-cpd.xml -->
+    <target name="phpcpd">
+    <exec executable="phpcpd">
+    <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml ${basedir}" />
+    </exec>
     </target>
 
     <target name="phploc">
@@ -31,45 +64,33 @@
             ${basedir}/../application" />
         </exec>
     </target>
-
-    <target name="phpdcd">
-        <exec dir="${basedir}" executable="phpdcd" failonerror="false" output="${basedir}/build/logs/phpdcd.xml">
-            <arg line="${basedir}/../application" />
-        </exec>
+    
+    <!-- Generate checkstyle.xml -->
+    <target name="phpcs">
+    <exec executable="phpcs" output="/dev/null">
+    <arg line="--report=checkstyle
+    --report-file=${basedir}/build/logs/checkstyle.xml
+    --standard=Sebastian
+    ${basedir}" />
+    </exec>
     </target>
 
+    <!-- Generate API documentation -->
     <target name="phpdoc">
-        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="-t ${basedir}/build/docs
-              -o PDF:default:default
-              -d ${basedir}/../../application"/>
+        <exec executable="phpdoc">
+            <arg line="--directory ${basedir}
+                 --target    ${basedir}/build/api"/>
         </exec>
     </target>
 
-    <target name="phpdoc2">
-        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="-t ${basedir}/build/docs/earthli
-              -o HTML:frames:earthli
-              -d ${basedir}/../../app"/>
+    <target name="phpcb">
+        <exec executable="phpcb">
+            <arg line="--log ${basedir}/build/logs
+            --source ${basedir}
+            --output ${basedir}/build/code-browser" />
         </exec>
     </target>
 
-    <target name="phpdoc3">
-        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="-t ${basedir}/build/docs/lol33t
-              -o HTML:frames:l0l33t
-              -d ${basedir}/../../app"/>
-        </exec>
-    </target>
-
-    <target name="phpdoc4">
-        <exec dir="${basedir}/../../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="-t ${basedir}/build/docs/smarty
-              -o HTML:Smarty:PHP
-              -d ${basedir}/../../app"/>
-        </exec>
-    </target>
-
-    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc,phpdcd"/>
+    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc,parallelTasks,phpcb"/>
 
 </project>
