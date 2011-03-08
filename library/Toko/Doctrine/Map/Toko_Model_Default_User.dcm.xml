@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Default_Model_User" table="user">
+        <id name="id" type="integer" column="userId">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="username" column="username" type="string" length="64" unique="true" />
+        <field name="passwordHash" column="passwordHash" type="string" length="40" nullable="true" />
+    </entity>
+</doctrine-mapping>
