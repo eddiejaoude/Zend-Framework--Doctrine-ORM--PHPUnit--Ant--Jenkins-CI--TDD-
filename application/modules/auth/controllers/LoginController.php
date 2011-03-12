@@ -32,7 +32,11 @@ class Auth_LoginController extends Auth_BaseController
      *
      */
     public function indexAction() {
-        
+        # load form
+        $form = new Auth_Form_Login;
+
+        # send to view
+        $this->view->loginForm = $form;
     }
     
     /**
@@ -48,4 +52,3 @@ class Auth_LoginController extends Auth_BaseController
     }
 
 }
-
