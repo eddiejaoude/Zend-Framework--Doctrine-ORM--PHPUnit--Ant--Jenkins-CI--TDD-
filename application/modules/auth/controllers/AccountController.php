@@ -1,12 +1,13 @@
 <?php
 /**
- * Default Controller
+ * Auth Login Controller
+ *
  *
  * @author          Eddie Jaoude
- * @package       Default Module
+ * @package       Auth Module
  *
  */
-class IndexController extends BaseController
+class Auth_AccountController extends Auth_BaseController
 {
 
     /**
@@ -19,7 +20,7 @@ class IndexController extends BaseController
      */
     public function init()
     {
-        
+        parent::init();
     }
 
     /**
@@ -31,7 +32,10 @@ class IndexController extends BaseController
      *
      */
     public function indexAction() {
+        $accounts = $this->_em->find('Auth_Model_Account', 3);
+        echo $accounts->getName(); exit;
         
+        $this->view->accounts = $accounts;
     }
     
 

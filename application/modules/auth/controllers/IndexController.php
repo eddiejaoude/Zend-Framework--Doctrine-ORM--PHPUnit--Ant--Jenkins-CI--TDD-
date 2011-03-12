@@ -1,12 +1,13 @@
 <?php
 /**
- * Default Controller
+ * Auth Default Controller
+ *
  *
  * @author          Eddie Jaoude
- * @package       Default Module
+ * @package       Auth Module
  *
  */
-class IndexController extends BaseController
+class Auth_IndexController extends Auth_BaseController
 {
 
     /**
@@ -19,7 +20,7 @@ class IndexController extends BaseController
      */
     public function init()
     {
-        
+        parent::init();
     }
 
     /**

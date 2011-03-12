@@ -29,15 +29,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return \Doctrine\ORM\EntityManager
      * @todo Resource configurator like http://framework.zend.com/wiki/x/0IAbAQ
      */
-    protected function _initDoctrineORMEntityManager()
+    protected function _initDoctrine()
     {
-        #$autoloader = Zend_Loader_Autoloader::getInstance();
-        
+        # doctrine loader
         require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
         $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine', APPLICATION_PATH . '/../library');
         $doctrineAutoloader->register();
-        #$autoloader->pushAutoloader(array($doctrineAutoloader, 'loadClass'), 'doctrine');
         
+        # configure doctrine
         $cache = new Doctrine\Common\Cache\ArrayCache;
         $config = new Configuration;
         $config->setMetadataCacheImpl($cache);
@@ -46,17 +45,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $config->setQueryCacheImpl($cache);
         $config->setProxyDir( APPLICATION_PATH . '/default/models/proxies' );
         $config->setProxyNamespace('Doctrine\Proxies');
-
         $config->setAutoGenerateProxyClasses(true);
 
-        $connectionOptions = array(
-            'driver' => 'pdo_mysql',
-            'user' => 'root',
-            'password' => '',
-            'dbname' => 'skeleton'
-        );
-
-        $_em = EntityManager::create($connectionOptions, $config);
+        # database connection
+        $appConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+        $_em = EntityManager::create($appConfig->doctrine->connection->toArray(), $config);
         
         # get registery
         $registry = Zend_Registry::getInstance();
