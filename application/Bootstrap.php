@@ -40,11 +40,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $cache = new Doctrine\Common\Cache\ArrayCache;
         $config = new Configuration;
         $config->setMetadataCacheImpl($cache);
-        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . '/default/models/base/' );
+        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . '/auth/models/entities' );
         $config->setMetadataDriverImpl($driverImpl);
         $config->setQueryCacheImpl($cache);
-        $config->setProxyDir( APPLICATION_PATH . '/default/models/proxies' );
-        $config->setProxyNamespace('Doctrine\Proxies');
+        $config->setProxyDir( APPLICATION_PATH . '/auth/models/proxies' );
+        $config->setProxyNamespace('Proxies');
         $config->setAutoGenerateProxyClasses(true);
 
         # database connection

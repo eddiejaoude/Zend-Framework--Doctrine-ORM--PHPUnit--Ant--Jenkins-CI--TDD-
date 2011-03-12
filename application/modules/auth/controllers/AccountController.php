@@ -32,13 +32,11 @@ class Auth_AccountController extends Auth_BaseController
      *
      */
     public function indexAction() {
-        $accounts = $this->_em->find('Auth_Model_Account', 3);
-        echo $accounts->getName(); exit;
-        
+        $accounts = $this->_em->getRepository('Auth_Model_Account')->findAll();
+       
         $this->view->accounts = $accounts;
     }
     
 
 
 }
-

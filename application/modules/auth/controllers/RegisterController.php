@@ -1,13 +1,13 @@
 <?php
 /**
- * Auth Login Controller
+ * Auth Register Controller
  *
  *
  * @author          Eddie Jaoude
  * @package       Auth Module
  *
  */
-class Auth_LoginController extends Auth_BaseController
+class Auth_RegisterController extends Auth_BaseController
 {
 
     /**
@@ -35,17 +35,7 @@ class Auth_LoginController extends Auth_BaseController
         
     }
     
-    /**
-     * Impersonate method
-     *
-     * @author          Eddie Jaoude
-     * @param           void
-     * @return           void
-     *
-     */
-    public function impersonateAction() {
-        
-    }
+
 
 }
 

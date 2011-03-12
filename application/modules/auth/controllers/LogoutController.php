@@ -1,13 +1,13 @@
 <?php
 /**
- * Auth Login Controller
+ * Auth Logout Controller
  *
  *
  * @author          Eddie Jaoude
  * @package       Auth Module
  *
  */
-class Auth_LoginController extends Auth_BaseController
+class Auth_LogoutController extends Auth_BaseController
 {
 
     /**
