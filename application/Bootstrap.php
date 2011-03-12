@@ -6,6 +6,8 @@
  * @package       Default Module
  *
  */
+use Doctrine\ORM\EntityManager,
+    Doctrine\ORM\Configuration;
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
     /**
@@ -20,7 +22,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $doctypeHelper = new Zend_View_Helper_Doctype();
         $doctypeHelper->doctype('XHTML1_STRICT');
     }
-	/**
+    
+    /**
      * Initializes and returns Doctrine ORM entity manager
      *
      * @return \Doctrine\ORM\EntityManager
@@ -28,41 +31,38 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initDoctrineORMEntityManager()
     {
-        // Get Doctrine options
-        $optionsDoctrine = $this->getOption('doctrine');
-
-        // Create ORM configuration
-        $config = new \Doctrine\ORM\Configuration();
-
-        // Proxy configuration
-        $config->setProxyDir(__DIR__ . '/../../Doctrine/Proxy');
-        $config->setProxyNamespace('Deftek\ScrumTools\Doctrine\Proxy');
-        $config->setAutoGenerateProxyClasses($optionsDoctrine['autoGenerateProxyClasses']);
-
-        // Mapping configuration
-        $driverImpl = new \Doctrine\ORM\Mapping\Driver\XmlDriver(__DIR__ . '/../library/Toko/Doctrine/Map');
+        #$autoloader = Zend_Loader_Autoloader::getInstance();
+        
+        require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
+        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine', APPLICATION_PATH . '/../library');
+        $doctrineAutoloader->register();
+        #$autoloader->pushAutoloader(array($doctrineAutoloader, 'loadClass'), 'doctrine');
+        
+        $cache = new Doctrine\Common\Cache\ArrayCache;
+        $config = new Configuration;
+        $config->setMetadataCacheImpl($cache);
+        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . '/default/models/base/' );
         $config->setMetadataDriverImpl($driverImpl);
+        $config->setQueryCacheImpl($cache);
+        $config->setProxyDir( APPLICATION_PATH . '/default/models/proxies' );
+        $config->setProxyNamespace('Doctrine\Proxies');
 
-        // Caching configuration
-        $cacheImpl = new $optionsDoctrine['cacheImplementation']();
-        $config->setMetadataCacheImpl($cacheImpl);
-        $config->setQueryCacheImpl($cacheImpl);
-        $config->setResultCacheImpl($cacheImpl);
+        $config->setAutoGenerateProxyClasses(true);
 
-        // Create event manager
-        $eventManager = new \Doctrine\Common\EventManager();
+        $connectionOptions = array(
+            'driver' => 'pdo_mysql',
+            'user' => 'root',
+            'password' => '',
+            'dbname' => 'skeleton'
+        );
 
-        // Initialize MySQL character set and collation
-        $eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit());
+        $_em = EntityManager::create($connectionOptions, $config);
+        
+        # get registery
+        $registry = Zend_Registry::getInstance();
 
-        // Obtain entity manager
-        $entityManager = \Doctrine\ORM\EntityManager::create(
-            $optionsDoctrine['connection'],
-            $config,
-            $eventManager
-            );
-        // Return entity manager
-        return $entityManager;
+        # save new database adapter to registry
+        $registry->doctrine->_em = $_em; 
     }
 
 }

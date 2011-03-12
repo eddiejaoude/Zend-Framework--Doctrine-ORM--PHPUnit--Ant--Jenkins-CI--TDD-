@@ -33,7 +33,12 @@ class IndexController extends BaseController
      *
      */
     public function indexAction() {
+        # get registery
+        $registry = Zend_Registry::getInstance();
+        $_em = $registry->doctrine->_em;
         
+        $account = $_em->find('Default_Model_Account', 3);
+        echo $account->getName();
     }
     
 
