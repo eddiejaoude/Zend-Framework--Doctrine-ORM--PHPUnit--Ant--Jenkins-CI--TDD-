@@ -25,6 +25,10 @@
         <div id="page">
             
             <div id="main">
+                <ul>
+                    <li><a href="/auth/register/">Register</a></li>
+                </ul>
+                <?php echo !empty($this->alert) ? '<div class="error">' . $this->alert .'</div>' : null; ?>
                 <?php echo $this->layout()->content; ?>
             </div>
             

@@ -16,5 +16,9 @@ table { border-collapse: collapse; }
 .click { cursor:pointer; }
 .hidden { display:none; }
 
+/* ERRORS */
+ul.errors  li { color:#f00; }
+div.error { border:1px solid #f00; color:#f00; background:#FFDFDF; padding:1em; }
+
 body {  }
 div#page {  }

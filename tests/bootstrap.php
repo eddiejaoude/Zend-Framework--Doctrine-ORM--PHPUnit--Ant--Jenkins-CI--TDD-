@@ -15,13 +15,41 @@ $autoloader = Zend_Loader_Autoloader::getInstance();
  *
  * All controller tests should extend this
  */
+use Doctrine\ORM\EntityManager,
+    Doctrine\ORM\Configuration;
 abstract class BaseTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
 
+    protected $_em;
+    
     public function setUp() {
-        return parent::setUp();
+        $this->doctrine();
+        parent::setUp();
+        return;
     }
 
     public function tearDown() {
         
+    }
+    
+    private function doctrine() {
+        # doctrine loader
+        require_once './../library/Doctrine/Common/ClassLoader.php';
+        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine', './../library');
+        $doctrineAutoloader->register();
+        
+        # configure doctrine
+        $cache = new Doctrine\Common\Cache\ArrayCache;
+        $config = new Configuration;
+        $config->setMetadataCacheImpl($cache);
+        $driverImpl = $config->newDefaultAnnotationDriver( '/entities' );
+        $config->setMetadataDriverImpl($driverImpl);
+        $config->setQueryCacheImpl($cache);
+        $config->setProxyDir( '/proxies' );
+        $config->setProxyNamespace('Proxies');
+        $config->setAutoGenerateProxyClasses(true);
+
+        # database connection
+        $appConfig = new Zend_Config_Ini( APP_PATH . '/configs/application.ini', APP_ENVIRONMENT);
+        $this->_em = EntityManager::create($appConfig->doctrine->connection->toArray(), $config);
     }
 }

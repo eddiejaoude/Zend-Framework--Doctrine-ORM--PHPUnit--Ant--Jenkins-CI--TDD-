@@ -7,6 +7,7 @@ class Auth_Model_Account {
     /**
      * @var integer $id
      * @Id @Column(type="integer") 
+     * @GeneratedValue
      */
     private $id;
 

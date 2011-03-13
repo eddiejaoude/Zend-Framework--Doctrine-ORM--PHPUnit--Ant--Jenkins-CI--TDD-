@@ -15,18 +15,10 @@ class Auth_Form_Register extends Zend_Form {
 
     public function __construct($options = null) {
         parent::__construct($options);
-        $this->setName('Registration')
+        $this->setName('Register')
                 ->setMethod('post')
                 ->setAttrib('class', 'box')
-                ->setAction('/auth/registration/');
-
-        # Company
-        $company = new Zend_Form_Element_Text('company');
-        $company->setLabel('Company Name')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty');
+                ->setAction('/auth/register/');
 
         # Name	
         $name = new Zend_Form_Element_Text('name');
@@ -70,7 +62,7 @@ class Auth_Form_Register extends Zend_Form {
         $submit = new Zend_Form_Element_Submit('Register');
 
         # Create
-        $this->addElements(array($company, $name, $email, $password, $spamcode, $submit));
+        $this->addElements(array($name, $email, $password, $spamcode, $submit));
     }
 
 }

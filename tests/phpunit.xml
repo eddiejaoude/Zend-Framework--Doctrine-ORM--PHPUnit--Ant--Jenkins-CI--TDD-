@@ -19,7 +19,24 @@
                 <whitelist>
                     <directory suffix=".php">./../application/modules/default/tests/models</directory>
                     <exclude>
-                        <directory suffix=".php">./../application/plugins/my/models/behaviors</directory>
+                        <directory suffix=".php">./../application/plugins/default/models/behaviors</directory>
+                    </exclude>
+                </whitelist>
+            </filter>
+
+            <logging>
+                <log type="coverage-html" target="./log/coverage" charset="UTF-8"
+                     yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
+            </logging>
+        </testsuite>
+        
+        <testsuite name="Auth module unit test suite">
+           <directory>./../modules/auth/tests/models</directory>
+            <filter>
+                <whitelist>
+                    <directory suffix=".php">./../application/modules/auth/tests/models</directory>
+                    <exclude>
+                        <directory suffix=".php">./../application/plugins/auth/models/behaviors</directory>
                     </exclude>
                 </whitelist>
             </filter>
