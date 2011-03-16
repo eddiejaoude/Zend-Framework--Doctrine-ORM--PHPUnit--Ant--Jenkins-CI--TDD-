@@ -91,7 +91,7 @@ class Auth_RegisterController extends Auth_BaseController
             # populate form
             $form->populate($data);
         }
-        return array('form' => $form, 'alert' => $alert);
+        return array('form' => $form, 'alert' => empty($alert) ? null : $alert );
     }
     
 
