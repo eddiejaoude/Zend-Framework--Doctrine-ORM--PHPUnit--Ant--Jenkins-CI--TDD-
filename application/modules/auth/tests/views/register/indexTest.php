@@ -8,7 +8,7 @@
  *
  */
 
-class RegisterViewTest extends BaseTestCase {
+class Auth_Register_IndexViewTest extends BaseTestCase {
 
     /**
      * Initialisation of config object
@@ -25,18 +25,19 @@ class RegisterViewTest extends BaseTestCase {
     public function testForm()
     {
         $this->dispatch('/auth/register');
-        #$this->assertModule('auth');
+        $this->assertModule('auth');
         $this->assertController('register');
         $this->assertAction('index');
+        $this->assertQueryCount('form#Register', 1);
     }
 
     public function testRequiredFields()
     {
         $this->dispatch('/auth/register');
-        #$this->assertModule('auth');
+        $this->assertModule('auth');
         $this->assertController('register');
         $this->assertAction('index');
-        $this->assertQueryCount('form#Register', 1);
+        
     }
 
 }

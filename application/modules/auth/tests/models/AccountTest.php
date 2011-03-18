@@ -7,9 +7,7 @@
  * @package     Auth
  * 
  */
-require( APP_PATH . '/modules/auth/models/Account.php');
-
-class AccountModelTest extends BaseTestCase {
+class Auth_AccountModelTest extends BaseTestCase {
 
     /**
      * Model object

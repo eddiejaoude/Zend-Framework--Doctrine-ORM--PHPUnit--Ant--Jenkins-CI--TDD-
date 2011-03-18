@@ -32,7 +32,7 @@
         
         <testsuite name="Auth module unit test suite">
            <directory>./../modules/auth/tests/models</directory>
-           <directory>./../modules/auth/tests/views/register</directory>
+           <directory>./../modules/auth/tests/views</directory>
             <filter>
                 <whitelist>
                     <directory suffix=".php">./../application/modules/auth/tests/models</directory>

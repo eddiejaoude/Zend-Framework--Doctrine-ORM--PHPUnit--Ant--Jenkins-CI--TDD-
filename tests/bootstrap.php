@@ -4,8 +4,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-defined('APP_ENVIRONMENT') || define('APP_ENVIRONMENT', 'testing');
-defined('APP_PATH') || define('APP_PATH', realpath(dirname(__FILE__) . '/../application'));
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'testing');
+defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
 require_once 'Zend/Loader/Autoloader.php';
 $autoloader = Zend_Loader_Autoloader::getInstance();
@@ -23,6 +23,8 @@ abstract class BaseTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
     
     public function setUp() {
         $this->doctrine();
+        
+        $this->bootstrap = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
         parent::setUp();
         return;
     }
@@ -49,7 +51,7 @@ abstract class BaseTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
         $config->setAutoGenerateProxyClasses(true);
 
         # database connection
-        $appConfig = new Zend_Config_Ini( APP_PATH . '/configs/application.ini', APP_ENVIRONMENT);
+        $appConfig = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
         $this->_em = EntityManager::create($appConfig->doctrine->connection->toArray(), $config);
     }
 }
