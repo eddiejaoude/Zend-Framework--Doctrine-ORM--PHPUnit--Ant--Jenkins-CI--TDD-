@@ -45,6 +45,7 @@ form.box input {
     padding:0.3em;
     width:100%; 
 }
+form.box input.active { border:1px solid #3F4FFF; background:#DFDFFF; }
 form.box select {  }
 
 /* FONTs */
