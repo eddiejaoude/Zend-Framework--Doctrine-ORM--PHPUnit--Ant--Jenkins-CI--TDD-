@@ -22,6 +22,20 @@ class Auth_LoginController extends Auth_BaseController
     {
         parent::init();
     }
+    
+    /**
+     * initiates before any action is dispatched
+     *
+     * @param	void
+     * @return	void
+     */
+    public function preDispatch() {
+        # if the user is logged in, they can not register again
+        if (Zend_Auth::getInstance()->hasIdentity()) {
+            # redirect login page
+            $this->_helper->redirector('index', 'index', 'default');
+        }
+    }
 
     /**
      * default method

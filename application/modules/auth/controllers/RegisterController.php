@@ -57,6 +57,22 @@ class Auth_RegisterController extends Auth_BaseController
         $this->view->alert = $save['alert'];
     }
     
+     /**
+     * successful method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function successfulAction() {
+        # load form
+        $form = new Auth_Form_Login;
+
+        # send to view
+        $this->view->loginForm = $form;
+    }
+    
     /**
      * save method
      *
@@ -83,7 +99,7 @@ class Auth_RegisterController extends Auth_BaseController
                     $this->_em->flush();
 
                     # send to login page
-                    $this->_helper->redirector('index', 'login', 'auth');
+                    $this->_helper->redirector('successful', 'register', 'auth');
                 } else {
                     $alert = 'Registration Failed: Email already exists';
                 }
