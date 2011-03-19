@@ -31,13 +31,35 @@ class Auth_Register_IndexViewTest extends BaseTestCase {
         $this->assertQueryCount('form#Register', 1);
     }
 
-    public function testRequiredFields()
+    public function testRequiredFieldMessages()
     {
+        $this->request->setMethod('POST')
+              ->setPost(array( ));
+
         $this->dispatch('/auth/register');
         $this->assertModule('auth');
         $this->assertController('register');
         $this->assertAction('index');
-        
+
+        $this->assertQueryCount('ul.errors', 4);
+    }
+
+    public function testSuccessfulRegistration()
+    {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+        /*
+        $this->request->setMethod('POST')
+              ->setPost(array(
+                  'name' => 'test',
+                  'email' => 'test@email.com',
+                  'password' => 'test',
+              ));
+
+        $this->dispatch('/auth/register');
+        $this->assertModule('auth');
+        $this->assertController('register');
+        $this->assertAction('index');
+        */
     }
 
 }
