@@ -51,9 +51,10 @@ ADVANTAGES of TTD (Test Driven Developement)
 - ...
 
 --------------------------------------------------------
-INSTALLATION
+RUNNING TESTS
 --------------------------------------------------------
-Coming shortly
+> cd tests/
+> phpunit  
 
 
 --------------------------------------------------------
