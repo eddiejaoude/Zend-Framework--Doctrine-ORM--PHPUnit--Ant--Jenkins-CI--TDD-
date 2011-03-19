@@ -17,6 +17,7 @@ class Auth_Form_Login extends Zend_Form
 		parent::__construct($options);
 		$this->setName('Login')
 			 ->setMethod('post')
+                        ->setAttrib('class', 'box')
 			 ->setAction('/auth/login/identify');
 		
 		# Email	
