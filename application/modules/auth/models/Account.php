@@ -31,6 +31,7 @@ class Auth_Model_Account {
     
     /**
      * @var string $created_at
+     * @Column(length=50)
      */
     private $created_at;
 
