@@ -25,9 +25,11 @@ class LoginViewTest extends BaseTestCase {
     public function testForm()
     {
         $this->dispatch('/auth/login');
-        #$this->assertModule('auth');
+        $this->assertModule('auth');
         $this->assertController('login');
         $this->assertAction('index');
+        
+        $this->assertQueryCount('form#Login', 1);
     }
 
 }
