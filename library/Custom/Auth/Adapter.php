@@ -30,11 +30,7 @@ class Custom_Auth_Adapter implements Zend_Auth_Adapter_Interface
      *
      */
     public function authenticate() {
-        $account = $this->model
-                        ->findBy(array(
-                            'email' => (string) $this->data['email'],
-                            'password' => (string) hash('SHA256', $this->hash . $this->data['password']) // move hash to model
-                         ));
+        $account = $this->model->authenticate($this->hash, $this->data);
         if (count($account) === 1) {
             $status = Zend_Auth_Result::SUCCESS;
         } else {

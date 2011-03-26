@@ -1,6 +1,7 @@
 <?php
 /**
- * @Entity @Table(name="accounts")
+ * @Table(name="accounts")
+ * @Entity(repositoryClass="Auth_Model_AccountRepository")
  */
 class Auth_Model_Account {
 
