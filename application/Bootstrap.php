@@ -22,6 +22,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $doctypeHelper = new Zend_View_Helper_Doctype();
         $doctypeHelper->doctype('XHTML1_STRICT');
     }
+
+    /**
+     * Configuration
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _initConfig() {
+        # get config
+        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+
+        # get registery
+        $this->_registry = Zend_Registry::getInstance();
+
+        # save new database adapter to registry
+        $this->_registry->auth->_hash = $this->_config->auth->hash;
+    }
     
     /**
      * Initializes and returns Doctrine ORM entity manager
@@ -48,14 +67,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $config->setAutoGenerateProxyClasses(true);
 
         # database connection
-        $appConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
-        $_em = EntityManager::create($appConfig->doctrine->connection->toArray(), $config);
-        
-        # get registery
-        $registry = Zend_Registry::getInstance();
-
-        # save new database adapter to registry
-        $registry->doctrine->_em = $_em; 
+        $this->_registry->doctrine->_em = EntityManager::create($this->_config->doctrine->connection->toArray(), $config);
     }
 
 }

@@ -13,25 +13,25 @@ class Auth_Model_Account {
 
     /**
      * @var string $name
-     * @Column(length=50)
+     * @Column(type="string")
      */
     private $name;
     
     /**
      * @var string $email
-     * @Column(length=50)
+     * @Column(type="string")
      */
     private $email;
     
     /**
      * @var string $password
-     * @Column(length=50)
+     * @Column(type="string")
      */
     private $password;
     
     /**
      * @var string $created_at
-     * @Column(length=50)
+      @Column(type="datetime")
      */
     private $created_at;
 
