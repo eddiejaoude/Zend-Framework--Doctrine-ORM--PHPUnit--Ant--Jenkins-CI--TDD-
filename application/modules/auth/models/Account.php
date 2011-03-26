@@ -91,8 +91,11 @@ class Auth_Model_Account {
      *
      * @param string $password
      */
-    public function setPassword($password, $hash='d2e07fd2d1fb1dd9339c410e024cc36164ccf5790b2b138380293dffb45e1a47')
+    public function setPassword($password, $hash)
     {
+        if (empty($hash)) {
+            throw new Exception('Hash required');
+        }
         # move salt to config file
         $this->password = hash('SHA256', $hash . $password);
     }

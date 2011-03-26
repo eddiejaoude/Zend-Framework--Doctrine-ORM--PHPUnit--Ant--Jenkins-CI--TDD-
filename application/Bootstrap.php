@@ -41,6 +41,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         # save new database adapter to registry
         $this->_registry->auth->_hash = $this->_config->auth->hash;
     }
+
+    /**
+     * Logger
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _initLogger() {
+        $writer = new Zend_Log_Writer_Stream( APPLICATION_PATH . '/tmp/error.log');
+        $logger = new Zend_Log($writer);
+
+        $this->_registry->logger = $logger;
+    }
     
     /**
      * Initializes and returns Doctrine ORM entity manager

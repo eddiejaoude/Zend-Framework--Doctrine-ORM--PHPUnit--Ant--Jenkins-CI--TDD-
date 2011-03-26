@@ -25,6 +25,7 @@ abstract class Auth_BaseController extends Zend_Controller_Action {
         $registry = Zend_Registry::getInstance();
         $this->_em = $registry->doctrine->_em;
         $this->_hash = $registry->auth->_hash;
+        $this->_logger = $registry->logger;
     }
 
 }
