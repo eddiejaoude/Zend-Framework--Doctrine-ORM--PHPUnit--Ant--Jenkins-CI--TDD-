@@ -29,13 +29,19 @@ class Custom_Auth_Adapter implements Zend_Auth_Adapter_Interface
      * @return           void
      *
      */
-    public function authenticate() {
+    public function authenticate() 
+    {
+        # attempt to authenticate
         $account = $this->model->authenticate($this->hash, $this->data);
+
+        # check results
         if (count($account) === 1) {
             $status = Zend_Auth_Result::SUCCESS;
         } else {
             $status = Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND;
         }
+
+        # return results
         $result = new Zend_Auth_Result($status, $account);
         return $result;
     }

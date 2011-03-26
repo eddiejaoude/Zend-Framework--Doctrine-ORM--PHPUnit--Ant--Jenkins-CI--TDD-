@@ -65,13 +65,16 @@ class Auth_LoginController extends Auth_BaseController
      *
      */
     public  function authenticate() {
+        # get form
         $form = $this->loginForm;
         if ($this->_request->isPost()) {
             # get params
             $data = $this->_request->getPost();
-            if ($form->isValid($data)) {
-                    $authenticate = new Custom_Auth_Adapter($this->_em->getRepository('Auth_Model_Account'), $this->_hash, $data);
 
+            # check validate form
+            if ($form->isValid($data)) {
+                    # attempt to authentication
+                    $authenticate = new Custom_Auth_Adapter($this->_em->getRepository('Auth_Model_Account'), $this->_hash, $data);
                     $save = Zend_Auth::getInstance()->authenticate($authenticate);
                     if (Zend_Auth::getInstance()->hasIdentity()) {
                         # send to dashboard/user page
