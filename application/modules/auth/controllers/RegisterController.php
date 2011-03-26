@@ -53,7 +53,7 @@ class Auth_RegisterController extends Auth_BaseController
         $save = $this->save($form);
 
         # send to view
-        $this->view->registerForm = $form;
+        $this->view->registerForm = $save['form'];
         $this->view->alert = $save['alert'];
     }
     
@@ -101,7 +101,7 @@ class Auth_RegisterController extends Auth_BaseController
                     # send to login page
                     $this->_helper->redirector('successful', 'register', 'auth');
                 } else {
-                    $alert = 'Registration Failed: Email already exists';
+                    $alert = 'Registration Failed: Email already exists'; // move to view
                 }
             }
             # populate form

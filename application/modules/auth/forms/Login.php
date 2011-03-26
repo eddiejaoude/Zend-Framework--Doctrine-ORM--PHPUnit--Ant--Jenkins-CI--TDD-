@@ -18,7 +18,7 @@ class Auth_Form_Login extends Zend_Form
 		$this->setName('Login')
 			 ->setMethod('post')
                         ->setAttrib('class', 'box')
-			 ->setAction('/auth/login/identify');
+			 ->setAction('/auth/login');
 		
 		# Email	
 		$email = new Zend_Form_Element_Text('email');

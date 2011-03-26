@@ -34,6 +34,9 @@ class Auth_LogoutController extends Auth_BaseController
     public function indexAction() {
         # clears users identity
         Zend_Auth::getInstance()->clearIdentity();
+
+        # redirect
+        $this->_helper->redirector('index', 'login', 'auth');
     }
     
     /**

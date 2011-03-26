@@ -47,11 +47,51 @@ class Auth_LoginController extends Auth_BaseController
      */
     public function indexAction() {
         # load form
-        $form = new Auth_Form_Login;
+        $this->loginForm = new Auth_Form_Login;
+
+        $save = $this->authenticate();
 
         # send to view
-        $this->view->loginForm = $form;
+        $this->view->loginForm = $save['form'];
+        $this->view->alert = $save['alert'];
     }
+
+    /**
+     * authentication method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public  function authenticate() {
+        $form = $this->loginForm;
+        if ($this->_request->isPost()) {
+            # get params
+            $data = $this->_request->getPost();
+            if ($form->isValid($data)) {
+                # check for existing email
+                $account = $this->_em->getRepository('Auth_Model_Account')
+                        ->findBy(array(
+                            'email' => (string) $data['email'],
+                            'password' => (string) hash('SHA256', 'd2e07fd2d1fb1dd9339c410e024cc36164ccf5790b2b138380293dffb45e1a47' . $data['password']) // move hash to model
+                         ));
+                if (count($account) === 1) {
+                    $authenticate = new Custom_Auth_Adapter;
+                    $save = Zend_Auth::getInstance()->authenticate($authenticate);
+
+                    # send to dashboard/user page
+                    $this->_helper->redirector('index', 'index', 'auth');
+                } else {
+                    $alert = 'Login failed: Invalid details'; // move to view
+                }
+            } 
+            # populate form
+            $form->populate($data);
+        }
+        return array('form' => $form, 'alert' => empty($alert) ? null : $alert );
+    }
+
     
     /**
      * Impersonate method
