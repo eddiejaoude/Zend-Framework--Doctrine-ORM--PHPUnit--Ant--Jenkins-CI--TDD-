@@ -30,10 +30,11 @@ class Auth_Model_AccountRepository extends EntityRepository
         }
 
         # get data
-        $result = $this->findBy(array(
+        $result = $this->findOneBy(array(
                             'email' => (string) $data['email'],
-                            'password' => (string) hash('SHA256', $hash . $data['password']) // move hash to model
+                            'password' => (string) hash('SHA256', $hash . $data['password']) 
                          ));
+
         return $result;
     }
 

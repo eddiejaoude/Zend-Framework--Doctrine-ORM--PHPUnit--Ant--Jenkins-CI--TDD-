@@ -22,6 +22,14 @@ class LoginViewTest extends BaseTestCase {
         parent::setUp();
     }
 
+    /**
+     * Test form exists on login page
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
     public function testForm()
     {
         $this->dispatch('/auth/login');
@@ -30,6 +38,34 @@ class LoginViewTest extends BaseTestCase {
         $this->assertAction('index');
         
         $this->assertQueryCount('form#Login', 1);
+        $this->assertQueryCount('input#email', 1);
+        $this->assertQueryCount('input#password', 1);
+    }
+
+    /**
+     * Test login failure
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
+    public function testLoginFailure()
+    {
+
+    }
+
+    /**
+     * Test login successful
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
+    public function testLoginSuccessfull()
+    {
+
     }
 
 }

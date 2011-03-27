@@ -32,7 +32,7 @@ class Auth_Model_Account {
     
     /**
      * @var string $created_at
-      @Column(type="datetime")
+     * @Column(type="string")
      */
     private $created_at;
 
@@ -94,7 +94,7 @@ class Auth_Model_Account {
     public function setPassword($password, $hash)
     {
         if (empty($hash)) {
-            throw new Exception('Hash required');
+            throw new Exception('Hash required (2nd argument): use $object->setPassword($password, $hash)');
         }
         # move salt to config file
         $this->password = hash('SHA256', $hash . $password);
