@@ -69,7 +69,7 @@ class Auth_AccountModelTest extends BaseTestCase {
         # save info
         $account = new Auth_Model_Account;
         try {
-            $account->setPassword($this->data['email']);
+            $account->setPassword($this->data['email'], '');
         } catch (Exception $expected) {
             return;
         }
