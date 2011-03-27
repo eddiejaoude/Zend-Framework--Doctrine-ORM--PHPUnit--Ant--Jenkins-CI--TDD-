@@ -40,6 +40,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         # save new database adapter to registry
         $this->_registry->auth->_hash = $this->_config->auth->hash;
+        $this->_registry->logs = $this->_config->logs;
     }
 
     /**
@@ -51,12 +52,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      *
      */
     protected function _initTmpDirectory() {
-        # tmp directroy
-        $tmp_dir = APPLICATION_PATH . '/tmp/';
-
         # check tmp directory is writable
-        if (!is_writable($tmp_dir)) {
-            throw new Exception('Error: tmp dir is not writable ( ' . $tmp_dir . '), check folder/file permissions');
+        if (!is_writable($this->_registry->logs->tmpDir)) {
+            throw new Exception('Error: tmp dir is not writable ( ' . $this->_registry->logs->tmpDir . '), check folder/file permissions');
         }
     }
 
@@ -70,7 +68,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initLogger() {
         # log file
-        $error_log = APPLICATION_PATH . '/tmp/error.log';
+        $error_log = $this->_registry->logs->tmpDir . '/' . $this->_registry->logs->error;
 
         # create log file if does not exist
         if (!file_exists($error_log)) { 
