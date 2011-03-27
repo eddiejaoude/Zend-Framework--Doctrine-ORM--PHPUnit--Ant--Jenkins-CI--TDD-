@@ -33,7 +33,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initConfig() {
         # get config
-        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . 
+                DIRECTORY_SEPARATOR . 'configs' .
+                DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
 
         # get registery
         $this->_registry = Zend_Registry::getInstance();
@@ -68,7 +70,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initLogger() {
         # log file
-        $error_log = $this->_registry->logs->tmpDir . '/' . $this->_registry->logs->error;
+        $error_log = $this->_registry->logs->tmpDir . DIRECTORY_SEPARATOR . $this->_registry->logs->error;
 
         # create log file if does not exist
         if (!file_exists($error_log)) { 
@@ -97,18 +99,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     protected function _initDoctrine()
     {
         # doctrine loader
-        require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
-        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine', APPLICATION_PATH . '/../library');
+        require_once (APPLICATION_PATH .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . 'library' .
+            DIRECTORY_SEPARATOR . 'Doctrine' .
+            DIRECTORY_SEPARATOR . 'Common' .
+            DIRECTORY_SEPARATOR . 'ClassLoader.php'
+        );
+        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine', APPLICATION_PATH .
+                DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . 'library'
+        );
         $doctrineAutoloader->register();
         
         # configure doctrine
         $cache = new Doctrine\Common\Cache\ArrayCache;
         $config = new Configuration;
         $config->setMetadataCacheImpl($cache);
-        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . '/auth/models/entities' );
+        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH );
         $config->setMetadataDriverImpl($driverImpl);
         $config->setQueryCacheImpl($cache);
-        $config->setProxyDir( APPLICATION_PATH . '/auth/models/proxies' );
+        $config->setProxyDir( APPLICATION_PATH );
         $config->setProxyNamespace('Proxies');
         $config->setAutoGenerateProxyClasses(true);
 
