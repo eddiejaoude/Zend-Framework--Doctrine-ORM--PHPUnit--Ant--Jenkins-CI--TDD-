@@ -12,14 +12,14 @@
                     </exclude>
             </filter>
         </testsuite>
-<!--
+
        <testsuite name="Default module unit test suite">
            <directory>./../modules/default/tests/models</directory>
             <filter>
                 <whitelist>
-                    <directory suffix=".php">./../modules/default/tests/models</directory>
+                    <directory suffix=".php">./../application/modules/default/tests/models</directory>
                     <exclude>
-                        <directory suffix=".php">./../plugins/my/models/behaviors</directory>
+                        <directory suffix=".php">./../application/plugins/default/models/behaviors</directory>
                     </exclude>
                 </whitelist>
             </filter>
@@ -29,7 +29,25 @@
                      yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
             </logging>
         </testsuite>
--->
+        
+        <testsuite name="Auth module unit test suite">
+           <directory>./../modules/auth/tests/models</directory>
+           <directory>./../modules/auth/tests/views</directory>
+            <filter>
+                <whitelist>
+                    <directory suffix=".php">./../application/modules/auth/tests/models</directory>
+                    <directory suffix=".php">./../application/modules/auth/tests/views</directory>
+                    <exclude>
+                        <directory suffix=".php">./../application/plugins/auth/models/behaviors</directory>
+                    </exclude>
+                </whitelist>
+            </filter>
+
+            <logging>
+                <log type="coverage-html" target="./log/coverage" charset="UTF-8"
+                     yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
+            </logging>
+        </testsuite>
 
         <!--
         <testsuite name="Suite for Selenium">

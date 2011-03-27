@@ -23,8 +23,22 @@
     <body>
         <?php echo '<!-- Mode: ' . APPLICATION_ENV . ' mode -->'; ?>
         <div id="page">
+            <h1>Website</h1>
+            <ul id="navigation">
+                <?php
+                if (Zend_Auth::getInstance()->hasIdentity()) {
+                    echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
+                    echo '<li><a href="/auth/logout/">Logout</a></li>';
+                }
+                else {
+                    echo '<li><a href="/auth/login/">Login</a></li>';
+                    echo '<li><a href="/auth/register/">Register</a></li>';
+                }
+                ?>
+            </ul>
             
             <div id="main">
+                <?php echo !empty($this->alert) ? '<div class="error">' . $this->alert .'</div>' : null; ?>
                 <?php echo $this->layout()->content; ?>
             </div>
             

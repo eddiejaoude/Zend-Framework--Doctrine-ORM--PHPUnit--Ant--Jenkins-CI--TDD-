@@ -16,5 +16,79 @@ table { border-collapse: collapse; }
 .click { cursor:pointer; }
 .hidden { display:none; }
 
-body {  }
-div#page {  }
+/* ERRORS */
+ul.errors  li { color:#f00; }
+div.error {
+    background:#FFDFDF;
+    border:1px solid #f00; 
+    color:#f00;
+    padding:1em;
+    margin:0.8em 0em;
+}
+
+/* FORMs */
+form.box {
+    background:#EFEFEF;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+    border:1px solid #ccc;
+    color:#333;
+    margin:auto;
+    padding:2em;
+    width:40em;
+}
+form.box input {
+    border:1px solid #ccc;
+    color:#333;
+    margin-bottom:0.6em;    
+    padding:0.3em;
+    width:100%; 
+}
+form.box input.active { border:1px solid #3F4FFF; background:#DFDFFF; }
+form.box select {  }
+
+/* FONTs */
+h1 {
+    border-bottom:1px solid #ccc;
+    float:left;
+    width:10em;
+}
+h2 {  }
+
+/* NAVIGATIO */
+ul#navigation { 
+    float:right;
+}
+ul#navigation li {
+    float:left;
+}
+ul#navigation li.details {
+    font-style:italic;
+    font-weight:bold;
+}
+ul#navigation li a,
+ul#navigation li a:link,
+ul#navigation li a:active,
+ul#navigation li a:visited {
+    color:#333;
+    padding:0.2em 1em;
+    text-decoration:none;
+}
+ul#navigation li a:hover {
+    color:#666;
+}
+
+/* COMMON LAYOUT */
+body {
+
+}
+div#page {
+    margin:1em;
+    padding:1em;
+}
+
+div#main {
+    clear:both;
+}

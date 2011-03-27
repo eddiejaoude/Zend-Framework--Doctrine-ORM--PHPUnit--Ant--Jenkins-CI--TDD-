@@ -1,8 +1,6 @@
 <?php
 /**
- * Default Base Controller
- *
- * Base controller to Default Module
+ * Default Controller
  *
  * @author          Eddie Jaoude
  * @package       Default Module

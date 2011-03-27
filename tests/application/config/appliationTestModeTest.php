@@ -27,7 +27,7 @@ class ApplicationConfigTestModeTest extends BaseTestCase
      */
     public function setup() {
         parent::setUp();
-        $this->config = new Zend_Config_Ini(APP_PATH . '/configs/application.ini', 'testing');
+        $this->config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'testing');
     }
 
     /**
