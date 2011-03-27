@@ -38,7 +38,6 @@
             
             <div id="main">
                 <?php echo !empty($this->alert) ? '<div class="error">' . $this->alert .'</div>' : null; ?>
-                <?php echo Zend_Auth::getInstance()->hasIdentity() . '---------'; ?>
                 <?php echo $this->layout()->content; ?>
             </div>
             
