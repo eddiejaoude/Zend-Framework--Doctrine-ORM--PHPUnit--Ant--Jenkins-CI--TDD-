@@ -43,6 +43,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     /**
+     * Tmp director
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _initTmpDirectory() {
+        # tmp directroy
+        $tmp_dir = APPLICATION_PATH . '/tmp/';
+
+        # check tmp directory is writable
+        if (!is_writable($tmp_dir)) {
+            throw new Exception('Error: tmp dir is not writable ( ' . $tmp_dir . '), check folder/file permissions');
+        }
+    }
+
+    /**
      * Logger
      *
      * @author          Eddie Jaoude
@@ -51,7 +69,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      *
      */
     protected function _initLogger() {
-        $writer = new Zend_Log_Writer_Stream( APPLICATION_PATH . '/tmp/error.log');
+        # log file
+        $error_log = APPLICATION_PATH . '/tmp/error.log';
+
+        # create log file if does not exist
+        if (!file_exists($error_log)) { 
+            $date = new Zend_Date;
+            file_put_contents($error_log, 'Error log file created on: ' . $date->toString('YYYY-MM-dd HH:mm:ss') .  "\n\n");
+        }
+
+        # check log file is writable
+        if (!is_writable($error_log)) {
+            throw new Exception('Error: log file is not writable ( ' . $error_log . '), check folder/file permissions');
+        }
+
+        # create logger object
+        $writer = new Zend_Log_Writer_Stream( $error_log );
         $logger = new Zend_Log($writer);
 
         $this->_registry->logger = $logger;
