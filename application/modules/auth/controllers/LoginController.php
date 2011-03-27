@@ -76,6 +76,7 @@ class Auth_LoginController extends Auth_BaseController
                     # attempt to authentication
                     $authenticate = new Custom_Auth_Adapter($this->_em->getRepository('Auth_Model_Account'), $this->_hash, $data);
                     $save = Zend_Auth::getInstance()->authenticate($authenticate);
+
                     if (Zend_Auth::getInstance()->hasIdentity()) {
                         # send to dashboard/user page
                         $this->_helper->redirector('index', 'index', 'auth');

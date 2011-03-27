@@ -64,6 +64,10 @@ ul#navigation {
 ul#navigation li {
     float:left;
 }
+ul#navigation li.details {
+    font-style:italic;
+    font-weight:bold;
+}
 ul#navigation li a,
 ul#navigation li a:link,
 ul#navigation li a:active,

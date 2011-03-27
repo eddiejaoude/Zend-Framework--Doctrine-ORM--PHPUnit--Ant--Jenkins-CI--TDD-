@@ -27,6 +27,7 @@
             <ul id="navigation">
                 <?php
                 if (Zend_Auth::getInstance()->hasIdentity()) {
+                    echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
                     echo '<li><a href="/auth/logout/">Logout</a></li>';
                 }
                 else {
