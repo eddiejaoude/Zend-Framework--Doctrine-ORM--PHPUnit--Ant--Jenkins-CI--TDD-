@@ -77,6 +77,9 @@ INSTALLATION (linux)
 - Restart apache with:
 [Ubuntu] > sudo service apache2 restart
 [CentOS] > sudo service httpd restart
+- Add ServerName, in this case js.skeleton to your host file with your local IP
+> vi /etc/hosts
+> 127.0.0.1 js.skeleton
 - Update application/config/application.ini file with your database credentials
 
 --------------------------------------------------------
