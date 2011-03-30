@@ -56,6 +56,33 @@ RUNNING TESTS
 > cd tests/
 > phpunit  
 
+--------------------------------------------------------
+INSTALLATION (linux)
+--------------------------------------------------------
+- Navigation to root directory of project (ie. application,data,docs,library etc)
+- Create the database with the following command
+> mysql -u[username] -p[password] [database] < data/schema.sql
+- Create apache vhost, with config:
+<VirtualHost *:80>
+        DocumentRoot /var/www/vhosts/js.skeleton/httpdocs/public
+        ServerName js.skeleton
+        <Directory /var/www/vhosts/js.skeleton/httpdocs/public>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
+- Install/Enable apache module mod_rewrite
+- Restart apache with:
+[Ubuntu] > sudo service apache2 restart
+[CentOS] > sudo service httpd restart
+- Update application/config/application.ini file with your database credentials
+
+--------------------------------------------------------
+SCREEN SHOTS
+--------------------------------------------------------
+See Wiki
 
 --------------------------------------------------------
 FAQs
