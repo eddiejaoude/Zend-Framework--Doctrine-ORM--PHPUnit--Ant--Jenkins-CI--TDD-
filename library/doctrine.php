@@ -25,7 +25,7 @@ $classLoader->register();
 $classLoader = new \Doctrine\Common\ClassLoader('Symfony', 'Doctrine');
 $classLoader->register();
 
-$configFile = getcwd() . DIRECTORY_SEPARATOR . 'cli-config.php';
+$configFile = getcwd() . DIRECTORY_SEPARATOR . 'doctrine-cli-config.php';
 
 $helperSet = null;
 if (file_exists($configFile)) {
