@@ -45,5 +45,21 @@ class Custom_Auth_Adapter implements Zend_Auth_Adapter_Interface
         $result = new Zend_Auth_Result($status, $account);
         return $result;
     }
+    
+    /**
+     * Check is user with this email exists
+     */
+    public function checkEmail()
+    {
+    	$email = $this->model->checkEmail($this->data);
+    	
+    	if(count($email) === 1) {
+    		$status = 'SUCCESS';
+    	} else {
+    		$status = 'FAILURE_IDENTITY_NOT_FOUND';
+    	}
+    	
+    	return $status;
+    }
 
 }

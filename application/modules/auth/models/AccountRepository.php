@@ -37,5 +37,19 @@ class Auth_Model_AccountRepository extends EntityRepository
 
         return $result;
     }
+    
+    /**
+     * Check is account with this email exists
+	 * 
+     * @author Koen Huybrechts
+     */
+    
+    public function checkEmail($data)
+    {
+    	$result = $this->findOneBy(array(
+    		'email' => (string) $data['email']
+    	));
+    	return $result;
+    }
 
 }
