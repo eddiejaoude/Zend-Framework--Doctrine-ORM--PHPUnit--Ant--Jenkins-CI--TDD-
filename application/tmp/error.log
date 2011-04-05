@@ -684,3 +684,161 @@ Stack trace:
 #2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
 #3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
 #4 {main}
+2011-04-05T18:19:36+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:19:36+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:19:36+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:19:37+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:20:00+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:20:01+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:21:21+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:21:21+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:21:21+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:21:22+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:21:28+02:00 CRIT (2): Application error: exception 'Zend_Session_Exception' with message 'Session must be started before any output has been sent to the browser; output started in C:\xampp\htdocs\test\Skeleton\application\Bootstrap.php/128' in C:\xampp\htdocs\test\Skeleton\library\Zend\Session.php:454
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Session\Namespace.php(143): Zend_Session::start(true)
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth\Storage\Session.php(87): Zend_Session_Namespace->__construct('Zend_Auth')
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(91): Zend_Auth_Storage_Session->__construct()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Auth.php(141): Zend_Auth->getStorage()
+#4 C:\xampp\htdocs\test\Skeleton\application\layouts\master.phtml(29): Zend_Auth->hasIdentity()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\View.php(108): include('C:\xampp\htdocs...')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\View\Abstract.php(880): Zend_View->_run('C:\xampp\htdocs...')
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout.php(796): Zend_View_Abstract->render('master.phtml')
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Layout\Controller\Plugin\Layout.php(143): Zend_Layout->render()
+#9 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Plugin\Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#10 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(965): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Controller_Request_Http))
+#11 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#12 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#13 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#14 {main}
+2011-04-05T18:21:28+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:21:40+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-05T18:22:25+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
