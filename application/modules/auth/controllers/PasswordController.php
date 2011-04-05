@@ -66,12 +66,11 @@ class Auth_PasswordController extends Auth_BaseController
 
             # check validate form
             if ($form->isValid($data)) {
-                    # attempt to authentication
-                    $model = new Auth_Model_Account();
-                    $accountModel = $this->_em->getRepository('Auth_Model_Account');
-                    $email = $accountModel->checkEmail($data);
+                    # attempt to resend password
+                    $email = $this->_em->getRepository('Auth_Model_Account')->findBy(array('email' => (string) $data['email']));
                     
-                    if ($email instanceof  Auth_Model_Account) {
+                    if (count($email) === 1) {
+                    	$email = $email[0];
 				        # get config
 				        /**
 				         * How can we make this better? So you don't have to get the config file manually?
@@ -81,23 +80,26 @@ class Auth_PasswordController extends Auth_BaseController
 				                DIRECTORY_SEPARATOR . $this->getRequest()->getModuleName() . '.ini', APPLICATION_ENV);
 				                
                     	$password = substr(md5(rand().rand()), 0, $this->_config->password->minlength);
-                    	
-                    	$accountModel->setPassword($password);
-                    	
-                    	Zend_Debug::dump($password); die();
+
+                    	$email->setPassword($password, $this->_hash);
+                    	$this->_em->flush();
                     	
                         # send email
-                        
-                    	
-                    	
-                    	#redirect to frontpage
-                        $this->_helper->redirector('index', 'index', 'auth');
+                        $emailReset = new Zend_Mail();
+                        $emailReset->addTo($email->getEmail(), $email->getName());
+                        $emailReset->setSubject('Password Reset');
+                        $emailReset->setBodyText('New Password: ' . $password);
+                        $emailReset->setFrom('no-reply@domain.com', 'domain Admin');
+                        if($emailReset->send()) {
+                        	$alert = 'A new password is send to ' . $email->getEmail();
+                        }
                     } else {
                         $alert = 'Sending failed: Invalid details'; // move to view
                     }
-            } 
-            # populate form
-            $form->populate($data);
+            } else {
+	            # populate form
+	            $form->populate($data);
+            }
         }
         return array('form' => $form, 'alert' => empty($alert) ? null : $alert );
     }
