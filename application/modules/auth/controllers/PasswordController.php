@@ -67,10 +67,25 @@ class Auth_PasswordController extends Auth_BaseController
             # check validate form
             if ($form->isValid($data)) {
                     # attempt to authentication
-                    $adapter = new Custom_Auth_Adapter($this->_em->getRepository('Auth_Model_Account'), $this->_hash, $data);
-                    $save = $adapter->checkEmail();
+                    $model = new Auth_Model_Account();
+                    $accountModel = $this->_em->getRepository('Auth_Model_Account');
+                    $email = $accountModel->checkEmail($data);
                     
-                    if ($save == 'SUCCESS') {
+                    if ($email instanceof  Auth_Model_Account) {
+				        # get config
+				        /**
+				         * How can we make this better? So you don't have to get the config file manually?
+				         */
+				        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' .
+				                DIRECTORY_SEPARATOR . $this->getRequest()->getModuleName() . DIRECTORY_SEPARATOR . 'config' .
+				                DIRECTORY_SEPARATOR . $this->getRequest()->getModuleName() . '.ini', APPLICATION_ENV);
+				                
+                    	$password = substr(md5(rand().rand()), 0, $this->_config->password->minlength);
+                    	
+                    	$accountModel->setPassword($password);
+                    	
+                    	Zend_Debug::dump($password); die();
+                    	
                         # send email
                         
                     	

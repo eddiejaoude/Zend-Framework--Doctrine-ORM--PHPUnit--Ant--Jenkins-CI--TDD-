@@ -39,7 +39,7 @@ class Auth_Model_AccountRepository extends EntityRepository
     }
     
     /**
-     * Check is account with this email exists
+     * Check if account with this email exists
 	 * 
      * @author Koen Huybrechts
      */
@@ -49,6 +49,11 @@ class Auth_Model_AccountRepository extends EntityRepository
     	$result = $this->findOneBy(array(
     		'email' => (string) $data['email']
     	));
+    	
+    	if(count($result) != 1) {
+    		throw new Exception('FAILURE_IDENTITY_NOT_FOUND');
+    	}
+    	
     	return $result;
     }
 
