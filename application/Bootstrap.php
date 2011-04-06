@@ -41,8 +41,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->_registry = Zend_Registry::getInstance();
 
         # save new database adapter to registry
-        $this->_registry->auth = new stdClass();
-        $this->_registry->auth->_hash = $this->_config->auth->hash;
         $this->_registry->logs = $this->_config->logs;
     }
 

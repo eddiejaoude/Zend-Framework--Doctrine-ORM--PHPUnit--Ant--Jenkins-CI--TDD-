@@ -70,16 +70,8 @@ class Auth_PasswordController extends Auth_BaseController
                     $email = $this->_em->getRepository('Auth_Model_Account')->findBy(array('email' => (string) $data['email']));
                     
                     if (count($email) === 1) {
-                    	$email = $email[0];
-				        # get config
-				        /**
-				         * How can we make this better? So you don't have to get the config file manually?
-				         */
-				        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' .
-				                DIRECTORY_SEPARATOR . $this->getRequest()->getModuleName() . DIRECTORY_SEPARATOR . 'config' .
-				                DIRECTORY_SEPARATOR . $this->getRequest()->getModuleName() . '.ini', APPLICATION_ENV);
-				                
-                    	$password = substr(md5(rand().rand()), 0, $this->_config->password->minlength);
+                    	$email = $email[0];				                
+                    	$password = substr(md5(rand().rand()), 0, $this->_auth->password->minlength);
 
                     	$email->setPassword($password, $this->_hash);
                     	$this->_em->flush();
