@@ -23,9 +23,7 @@ abstract class BaseTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
     
     public function setUp() {
         $this->appConfig = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
-        // needs to be moved to the auth module!
-        $this->appConfigAuth = new Zend_Config_Ini( APPLICATION_PATH . '/modules/auth/configs/auth.ini', APPLICATION_ENV);
-
+        
         $this->doctrine();
         
         $this->bootstrap = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');

@@ -43,6 +43,8 @@ class Auth_AccountModelTest extends BaseTestCase {
         parent::setUp();
         $this->assertEquals(true, is_object($this->_em));
         $this->model = $this->_em->getRepository('Auth_Model_Account');
+
+        $this->appConfigAuth = new Zend_Config_Ini( APPLICATION_PATH . '/modules/auth/configs/auth.ini', APPLICATION_ENV);
     }
 
     /**
