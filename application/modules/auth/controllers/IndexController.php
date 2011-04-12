@@ -34,7 +34,18 @@ class Auth_IndexController extends Auth_BaseController
     public function indexAction() {
         
     }
-    
+
+    /**
+     * access denied method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function deniedAction() {
+        
+    }
 
 
 }

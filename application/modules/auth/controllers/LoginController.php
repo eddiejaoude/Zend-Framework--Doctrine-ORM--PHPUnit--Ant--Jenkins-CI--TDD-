@@ -30,7 +30,7 @@ class Auth_LoginController extends Auth_BaseController
      * @return	void
      */
     public function preDispatch() {
-        # if the user is logged in, they can not register again
+        # if the user is logged in, they can not login again
         if (Zend_Auth::getInstance()->hasIdentity()) {
             # redirect login page
             $this->_helper->redirector('index', 'index', 'default');
@@ -79,7 +79,7 @@ class Auth_LoginController extends Auth_BaseController
 
                     if (Zend_Auth::getInstance()->hasIdentity()) {
                         # send to dashboard/user page
-                        $this->_helper->redirector('index', 'index', 'auth');
+                        $this->_helper->redirector('index', 'account', 'auth');
                     } else {
                         $alert = 'Login failed: Invalid details'; // move to view
                     }
