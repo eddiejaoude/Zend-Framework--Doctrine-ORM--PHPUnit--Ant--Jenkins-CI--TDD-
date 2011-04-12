@@ -123,7 +123,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $config->setAutoGenerateProxyClasses(true);
 
         # database connection
-        $this->_registry->doctrine->_em = new stdClass();
+        $this->_registry->doctrine = new stdClass();
         $this->_registry->doctrine->_em = EntityManager::create($this->_config->doctrine->connection->toArray(), $config);
     }
 
