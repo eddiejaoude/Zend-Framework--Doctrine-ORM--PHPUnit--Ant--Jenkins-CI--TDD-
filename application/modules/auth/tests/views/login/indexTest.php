@@ -122,7 +122,7 @@ class LoginViewTest extends BaseTestCase {
         $this->assertController('login');
         $this->assertAction('index');
         
-        $this->assertRedirectTo('/auth');
+        $this->assertRedirectTo('/auth/account');
     }
 
 }
