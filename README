@@ -1,7 +1,7 @@
 --------------------------------------------------------
 GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
 --------------------------------------------------------
-To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents.
+To achieve a Best Practice Zend Framework skeleton project. Using Doctrine ORM with full Code Coverage on the Doctrine Models and with Database Migrations. Using PHPUnit, Ant & Jenkins for Continous Integration and PHPDocumentor for our API documents. Using jQuery to progessively enhance the UI.
 
 Together we can achieve this! FORK ME!
 
@@ -10,6 +10,7 @@ Together we can achieve this! FORK ME!
 FEATURES include
 --------------------------------------------------------
 - ZF Modules
+- jQuery
 - Unit testing
 - Best practice php tools
   - phploc
@@ -20,7 +21,7 @@ FEATURES include
   - phpcs (coming soon)
   - php_codebrowser (coming soon)
 - Ant build scripts for Continuous Integration
-
+- Ant deploy script including 'dry run' mode (coming soon)
 
 --------------------------------------------------------
 TECHNOLOGIES USED
@@ -29,6 +30,7 @@ TECHNOLOGIES USED
 - Doctrine 2+
 - PHPUnit 3.5+
 - PHP Documentor
+- jQuery
 
 
 --------------------------------------------------------
