@@ -115,7 +115,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $cache = new Doctrine\Common\Cache\ArrayCache;
         $config = new Configuration;
         $config->setMetadataCacheImpl($cache);
-        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH );
+        $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'auth' . DIRECTORY_SEPARATOR . 'models' );
         $config->setMetadataDriverImpl($driverImpl);
         $config->setQueryCacheImpl($cache);
         $config->setProxyDir( APPLICATION_PATH );
