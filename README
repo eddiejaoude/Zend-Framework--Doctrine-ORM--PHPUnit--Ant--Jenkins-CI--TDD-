@@ -13,7 +13,8 @@ https://github.com/eddiejaoude/github-adv-search
 --------------------------------------------------------
 FEATURES include
 --------------------------------------------------------
-- ZF Modules
+- ZF Modular (modules) structure
+  - Controller plugin helper
 - jQuery
 - Unit testing
 - Best practice php tools
