@@ -38,23 +38,20 @@ class Auth_Model_AccountRepository extends EntityRepository
         return $result;
     }
     
+
+    
     /**
-     * Check if account with this email exists
-	 * 
+     * One place to generate a new password
+     * The length of the password is pass from the configuration of the module.
+     * 
      * @author Koen Huybrechts
+     * @param int $length The length of the new password
+     * @return string $password
      */
     
-    public function checkEmail($data)
+    public function generatePassword($length)
     {
-    	$result = $this->findOneBy(array(
-    		'email' => (string) $data['email']
-    	));
-    	
-    	if(count($result) != 1) {
-    		throw new Exception('FAILURE_IDENTITY_NOT_FOUND');
-    	}
-    	
-    	return $result;
+    	return substr(md5(rand().rand()), 0, $length);
     }
 
 }

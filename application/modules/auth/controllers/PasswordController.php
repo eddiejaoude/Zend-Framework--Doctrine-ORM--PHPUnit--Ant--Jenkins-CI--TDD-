@@ -70,10 +70,15 @@ class Auth_PasswordController extends Auth_BaseController
                     $email = $this->_em->getRepository('Auth_Model_Account')->findBy(array('email' => (string) $data['email']));
                     
                     if (count($email) === 1) {
+                    	//@Todo Remove this line
+                    	$this->_config = new Zend_Config_Ini(APPLICATION_PATH . 
+                DIRECTORY_SEPARATOR . 'configs' .
+                DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
+                    	
                     	$email = $email[0];				                
-                    	$password = substr(md5(rand().rand()), 0, $this->_auth->password->minlength);
-
-                    	$email->setPassword($password, $this->_hash);
+                    	$password = $this->_em->getRepository('Auth_Model_Account')->generatePassword($this->_auth->password->length);
+                    	
+                    	$email->setPassword($password, $this->_auth->hash);
                     	$this->_em->flush();
                     	
                         # send email
@@ -81,12 +86,14 @@ class Auth_PasswordController extends Auth_BaseController
                         $emailReset->addTo($email->getEmail(), $email->getName());
                         $emailReset->setSubject('Password Reset');
                         $emailReset->setBodyText('New Password: ' . $password);
-                        $emailReset->setFrom('no-reply@domain.com', 'domain Admin');
+                        
+                        $emailReset->setFrom($this->_config->system->email->address, $this->_config->system->email->name);
+                        Zend_Debug::dump($this->registry); die();
                         if($emailReset->send()) {
-                        	$alert = 'A new password is send to ' . $email->getEmail();
+                        	$this->_flashMessenger->addMessage('A new password is send to ' . $email->getEmail());
                         }
                     } else {
-                        $alert = 'Sending failed: Invalid details'; // move to view
+                        $this->_flashMessenger->addMessage('Sending failed: Emailaddress unknown'); // move to view
                     }
             } else {
 	            # populate form

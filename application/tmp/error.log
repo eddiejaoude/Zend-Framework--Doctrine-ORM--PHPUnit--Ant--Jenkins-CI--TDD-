@@ -1,0 +1,504 @@
+2011-04-22T16:21:11+02:00 CRIT (2): Application error: exception 'PDOException' with message 'SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)' in /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php:36
+Stack trace:
+#0 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php(36): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOMySql/Driver.php(47): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=loca...', 'root', '', Array)
+#2 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(303): Doctrine\DBAL\Driver\PDOMySql\Driver->connect(Array, 'root', '', Array)
+#3 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(561): Doctrine\DBAL\Connection->connect()
+#4 /var/www/test/Skeleton/library/Doctrine/ORM/Persisters/BasicEntityPersister.php(550): Doctrine\DBAL\Connection->executeQuery('SELECT t0.id AS...', Array, Array)
+#5 /var/www/test/Skeleton/library/Doctrine/ORM/EntityRepository.php(166): Doctrine\ORM\Persisters\BasicEntityPersister->load(Array)
+#6 /var/www/test/Skeleton/application/modules/auth/models/AccountRepository.php(36): Doctrine\ORM\EntityRepository->findOneBy(Array)
+#7 /var/www/test/Skeleton/library/Custom/Auth/Adapter.php(35): Auth_Model_AccountRepository->authenticate('d2e07fd2d1fb1dd...', Array)
+#8 /var/www/test/Skeleton/library/Zend/Auth.php(117): Custom_Auth_Adapter->authenticate()
+#9 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(87): Zend_Auth->authenticate(Object(Custom_Auth_Adapter))
+#10 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(61): Auth_LoginController->authenticate()
+#11 /var/www/test/Skeleton/library/Zend/Controller/Action.php(513): Auth_LoginController->indexAction()
+#12 /var/www/test/Skeleton/library/Zend/Controller/Dispatcher/Standard.php(295): Zend_Controller_Action->dispatch('indexAction')
+#13 /var/www/test/Skeleton/library/Zend/Controller/Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_HttpTestCase), Object(Zend_Controller_Response_HttpTestCase))
+#14 /var/www/test/Skeleton/library/Zend/Application/Bootstrap/Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#15 /var/www/test/Skeleton/library/Zend/Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#16 /var/www/test/Skeleton/library/Zend/Test/PHPUnit/ControllerTestCase.php(203): Zend_Application->run()
+#17 /var/www/test/Skeleton/application/modules/auth/tests/views/login/indexTest.php(63): Zend_Test_PHPUnit_ControllerTestCase->dispatch('/auth/login')
+#18 [internal function]: LoginViewTest->testLoginFailureIncorrectCredentials()
+#19 /usr/share/php/PHPUnit/Framework/TestCase.php(738): ReflectionMethod->invokeArgs(Object(LoginViewTest), Array)
+#20 /usr/share/php/PHPUnit/Framework/TestCase.php(628): PHPUnit_Framework_TestCase->runTest()
+#21 /usr/share/php/PHPUnit/Framework/TestResult.php(666): PHPUnit_Framework_TestCase->runBare()
+#22 /usr/share/php/PHPUnit/Framework/TestCase.php(576): PHPUnit_Framework_TestResult->run(Object(LoginViewTest))
+#23 -(22): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
+#24 -(178): __phpunit_run_isolated_test()
+#25 {main}
+2011-04-22T16:21:22+02:00 CRIT (2): Application error: exception 'PDOException' with message 'SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)' in /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php:36
+Stack trace:
+#0 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php(36): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOMySql/Driver.php(47): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=loca...', 'root', '', Array)
+#2 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(303): Doctrine\DBAL\Driver\PDOMySql\Driver->connect(Array, 'root', '', Array)
+#3 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(561): Doctrine\DBAL\Connection->connect()
+#4 /var/www/test/Skeleton/library/Doctrine/ORM/Persisters/BasicEntityPersister.php(550): Doctrine\DBAL\Connection->executeQuery('SELECT t0.id AS...', Array, Array)
+#5 /var/www/test/Skeleton/library/Doctrine/ORM/EntityRepository.php(166): Doctrine\ORM\Persisters\BasicEntityPersister->load(Array)
+#6 /var/www/test/Skeleton/application/modules/auth/models/AccountRepository.php(36): Doctrine\ORM\EntityRepository->findOneBy(Array)
+#7 /var/www/test/Skeleton/library/Custom/Auth/Adapter.php(35): Auth_Model_AccountRepository->authenticate('d2e07fd2d1fb1dd...', Array)
+#8 /var/www/test/Skeleton/library/Zend/Auth.php(117): Custom_Auth_Adapter->authenticate()
+#9 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(87): Zend_Auth->authenticate(Object(Custom_Auth_Adapter))
+#10 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(61): Auth_LoginController->authenticate()
+#11 /var/www/test/Skeleton/library/Zend/Controller/Action.php(513): Auth_LoginController->indexAction()
+#12 /var/www/test/Skeleton/library/Zend/Controller/Dispatcher/Standard.php(295): Zend_Controller_Action->dispatch('indexAction')
+#13 /var/www/test/Skeleton/library/Zend/Controller/Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_HttpTestCase), Object(Zend_Controller_Response_HttpTestCase))
+#14 /var/www/test/Skeleton/library/Zend/Application/Bootstrap/Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#15 /var/www/test/Skeleton/library/Zend/Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#16 /var/www/test/Skeleton/library/Zend/Test/PHPUnit/ControllerTestCase.php(203): Zend_Application->run()
+#17 /var/www/test/Skeleton/application/modules/auth/tests/views/login/indexTest.php(120): Zend_Test_PHPUnit_ControllerTestCase->dispatch('/auth/login')
+#18 [internal function]: LoginViewTest->testLoginSuccessful()
+#19 /usr/share/php/PHPUnit/Framework/TestCase.php(738): ReflectionMethod->invokeArgs(Object(LoginViewTest), Array)
+#20 /usr/share/php/PHPUnit/Framework/TestCase.php(628): PHPUnit_Framework_TestCase->runTest()
+#21 /usr/share/php/PHPUnit/Framework/TestResult.php(666): PHPUnit_Framework_TestCase->runBare()
+#22 /usr/share/php/PHPUnit/Framework/TestCase.php(576): PHPUnit_Framework_TestResult->run(Object(LoginViewTest))
+#23 -(22): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
+#24 -(204): __phpunit_run_isolated_test()
+#25 {main}
+2011-04-22T16:22:15+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:22:18+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:22:25+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:22:31+02:00 CRIT (2): Application error: exception 'Exception' with message 'Hash required (2nd argument): use $object->setPassword($password, $hash)' in C:\xampp\htdocs\test\Skeleton\application\modules\auth\models\Account.php:97
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(76): Auth_Model_Account->setPassword('172c9b', NULL)
+#1 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#7 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#8 {main}
+2011-04-22T16:22:32+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:27:01+02:00 CRIT (2): Application error: exception 'Zend_Controller_Action_Exception' with message 'Method "generatePassword" does not exist and was not trapped in __call()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php:488
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Zend_Controller_Action->__call('generatePasswor...', Array)
+#1 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Auth_PasswordController->generatePassword()
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#8 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#9 {main}
+2011-04-22T16:27:01+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:29:54+02:00 CRIT (2): Application error: exception 'Zend_Mail_Transport_Exception' with message 'Unable to send mail. mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Sendmail.php:137
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Abstract.php(348): Zend_Mail_Transport_Sendmail->_sendMail()
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail.php(1194): Zend_Mail_Transport_Abstract->send(Object(Zend_Mail))
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(85): Zend_Mail->send()
+#3 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#9 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#10 {main}
+2011-04-22T16:29:54+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:30:14+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:32:14+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:33:30+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:35:26+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:35:51+02:00 CRIT (2): Application error: exception 'Zend_Controller_Action_Exception' with message 'Method "generatePassword" does not exist and was not trapped in __call()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php:488
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Zend_Controller_Action->__call('generatePasswor...', Array)
+#1 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Auth_PasswordController->generatePassword()
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#8 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#9 {main}
+2011-04-22T16:35:51+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:38:54+02:00 CRIT (2): Application error: exception 'Zend_Controller_Action_Exception' with message 'Method "generatePassword" does not exist and was not trapped in __call()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php:488
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Zend_Controller_Action->__call('generatePasswor...', Array)
+#1 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(74): Auth_PasswordController->generatePassword()
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#3 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#8 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#9 {main}
+2011-04-22T16:38:54+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:39:09+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:40:10+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:40:17+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:40:19+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:40:25+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:42:33+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:42:34+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:42:36+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:42:45+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:42:58+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:43:04+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:45:01+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:45:08+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:47:34+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T16:57:31+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:06:15+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:08:13+02:00 CRIT (2): Application error: exception 'Zend_Mail_Transport_Exception' with message 'Unable to send mail. mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Sendmail.php:137
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Abstract.php(348): Zend_Mail_Transport_Sendmail->_sendMail()
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail.php(1194): Zend_Mail_Transport_Abstract->send(Object(Zend_Mail))
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(85): Zend_Mail->send()
+#3 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#9 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#10 {main}
+2011-04-22T17:08:14+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:21:34+02:00 CRIT (2): Application error: exception 'Zend_Mail_Transport_Exception' with message 'Unable to send mail. mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Sendmail.php:137
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Abstract.php(348): Zend_Mail_Transport_Sendmail->_sendMail()
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail.php(1194): Zend_Mail_Transport_Abstract->send(Object(Zend_Mail))
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(85): Zend_Mail->send()
+#3 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#9 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#10 {main}
+2011-04-22T17:21:34+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:21:40+02:00 CRIT (2): Application error: exception 'Zend_Mail_Transport_Exception' with message 'Unable to send mail. mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Sendmail.php:137
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Abstract.php(348): Zend_Mail_Transport_Sendmail->_sendMail()
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail.php(1194): Zend_Mail_Transport_Abstract->send(Object(Zend_Mail))
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(85): Zend_Mail->send()
+#3 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#9 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#10 {main}
+2011-04-22T17:21:40+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:42:20+02:00 CRIT (2): Application error: exception 'PDOException' with message 'SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)' in /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php:36
+Stack trace:
+#0 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php(36): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOMySql/Driver.php(47): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=loca...', 'root', '', Array)
+#2 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(303): Doctrine\DBAL\Driver\PDOMySql\Driver->connect(Array, 'root', '', Array)
+#3 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(561): Doctrine\DBAL\Connection->connect()
+#4 /var/www/test/Skeleton/library/Doctrine/ORM/Persisters/BasicEntityPersister.php(550): Doctrine\DBAL\Connection->executeQuery('SELECT t0.id AS...', Array, Array)
+#5 /var/www/test/Skeleton/library/Doctrine/ORM/EntityRepository.php(166): Doctrine\ORM\Persisters\BasicEntityPersister->load(Array)
+#6 /var/www/test/Skeleton/application/modules/auth/models/AccountRepository.php(36): Doctrine\ORM\EntityRepository->findOneBy(Array)
+#7 /var/www/test/Skeleton/library/Custom/Auth/Adapter.php(35): Auth_Model_AccountRepository->authenticate('d2e07fd2d1fb1dd...', Array)
+#8 /var/www/test/Skeleton/library/Zend/Auth.php(117): Custom_Auth_Adapter->authenticate()
+#9 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(87): Zend_Auth->authenticate(Object(Custom_Auth_Adapter))
+#10 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(61): Auth_LoginController->authenticate()
+#11 /var/www/test/Skeleton/library/Zend/Controller/Action.php(513): Auth_LoginController->indexAction()
+#12 /var/www/test/Skeleton/library/Zend/Controller/Dispatcher/Standard.php(295): Zend_Controller_Action->dispatch('indexAction')
+#13 /var/www/test/Skeleton/library/Zend/Controller/Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_HttpTestCase), Object(Zend_Controller_Response_HttpTestCase))
+#14 /var/www/test/Skeleton/library/Zend/Application/Bootstrap/Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#15 /var/www/test/Skeleton/library/Zend/Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#16 /var/www/test/Skeleton/library/Zend/Test/PHPUnit/ControllerTestCase.php(203): Zend_Application->run()
+#17 /var/www/test/Skeleton/application/modules/auth/tests/views/login/indexTest.php(63): Zend_Test_PHPUnit_ControllerTestCase->dispatch('/auth/login')
+#18 [internal function]: LoginViewTest->testLoginFailureIncorrectCredentials()
+#19 /usr/share/php/PHPUnit/Framework/TestCase.php(738): ReflectionMethod->invokeArgs(Object(LoginViewTest), Array)
+#20 /usr/share/php/PHPUnit/Framework/TestCase.php(628): PHPUnit_Framework_TestCase->runTest()
+#21 /usr/share/php/PHPUnit/Framework/TestResult.php(666): PHPUnit_Framework_TestCase->runBare()
+#22 /usr/share/php/PHPUnit/Framework/TestCase.php(576): PHPUnit_Framework_TestResult->run(Object(LoginViewTest))
+#23 -(22): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
+#24 -(178): __phpunit_run_isolated_test()
+#25 {main}
+2011-04-22T17:42:33+02:00 CRIT (2): Application error: exception 'PDOException' with message 'SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)' in /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php:36
+Stack trace:
+#0 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOConnection.php(36): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 /var/www/test/Skeleton/library/Doctrine/DBAL/Driver/PDOMySql/Driver.php(47): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=loca...', 'root', '', Array)
+#2 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(303): Doctrine\DBAL\Driver\PDOMySql\Driver->connect(Array, 'root', '', Array)
+#3 /var/www/test/Skeleton/library/Doctrine/DBAL/Connection.php(561): Doctrine\DBAL\Connection->connect()
+#4 /var/www/test/Skeleton/library/Doctrine/ORM/Persisters/BasicEntityPersister.php(550): Doctrine\DBAL\Connection->executeQuery('SELECT t0.id AS...', Array, Array)
+#5 /var/www/test/Skeleton/library/Doctrine/ORM/EntityRepository.php(166): Doctrine\ORM\Persisters\BasicEntityPersister->load(Array)
+#6 /var/www/test/Skeleton/application/modules/auth/models/AccountRepository.php(36): Doctrine\ORM\EntityRepository->findOneBy(Array)
+#7 /var/www/test/Skeleton/library/Custom/Auth/Adapter.php(35): Auth_Model_AccountRepository->authenticate('d2e07fd2d1fb1dd...', Array)
+#8 /var/www/test/Skeleton/library/Zend/Auth.php(117): Custom_Auth_Adapter->authenticate()
+#9 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(87): Zend_Auth->authenticate(Object(Custom_Auth_Adapter))
+#10 /var/www/test/Skeleton/application/modules/auth/controllers/LoginController.php(61): Auth_LoginController->authenticate()
+#11 /var/www/test/Skeleton/library/Zend/Controller/Action.php(513): Auth_LoginController->indexAction()
+#12 /var/www/test/Skeleton/library/Zend/Controller/Dispatcher/Standard.php(295): Zend_Controller_Action->dispatch('indexAction')
+#13 /var/www/test/Skeleton/library/Zend/Controller/Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_HttpTestCase), Object(Zend_Controller_Response_HttpTestCase))
+#14 /var/www/test/Skeleton/library/Zend/Application/Bootstrap/Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#15 /var/www/test/Skeleton/library/Zend/Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#16 /var/www/test/Skeleton/library/Zend/Test/PHPUnit/ControllerTestCase.php(203): Zend_Application->run()
+#17 /var/www/test/Skeleton/application/modules/auth/tests/views/login/indexTest.php(120): Zend_Test_PHPUnit_ControllerTestCase->dispatch('/auth/login')
+#18 [internal function]: LoginViewTest->testLoginSuccessful()
+#19 /usr/share/php/PHPUnit/Framework/TestCase.php(738): ReflectionMethod->invokeArgs(Object(LoginViewTest), Array)
+#20 /usr/share/php/PHPUnit/Framework/TestCase.php(628): PHPUnit_Framework_TestCase->runTest()
+#21 /usr/share/php/PHPUnit/Framework/TestResult.php(666): PHPUnit_Framework_TestCase->runBare()
+#22 /usr/share/php/PHPUnit/Framework/TestCase.php(576): PHPUnit_Framework_TestResult->run(Object(LoginViewTest))
+#23 -(22): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
+#24 -(204): __phpunit_run_isolated_test()
+#25 {main}
+2011-04-22T17:47:01+02:00 CRIT (2): Application error: exception 'Zend_Mail_Transport_Exception' with message 'Unable to send mail. mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()' in C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Sendmail.php:137
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail\Transport\Abstract.php(348): Zend_Mail_Transport_Sendmail->_sendMail()
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Mail.php(1194): Zend_Mail_Transport_Abstract->send(Object(Zend_Mail))
+#2 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(85): Zend_Mail->send()
+#3 C:\xampp\htdocs\test\Skeleton\application\modules\auth\controllers\PasswordController.php(51): Auth_PasswordController->sendPassword()
+#4 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Action.php(513): Auth_PasswordController->forgotAction()
+#5 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php(295): Zend_Controller_Action->dispatch('forgotAction')
+#6 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#7 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#8 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#9 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#10 {main}
+2011-04-22T17:47:02+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:47:23+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:56:15+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:57:05+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:57:19+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T17:57:27+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T18:00:39+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T18:00:46+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
+2011-04-22T18:00:55+02:00 CRIT (2): Page not found: exception 'Zend_Controller_Dispatcher_Exception' with message 'Invalid controller specified (favicon.ico)' in C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Dispatcher\Standard.php:248
+Stack trace:
+#0 C:\xampp\htdocs\test\Skeleton\library\Zend\Controller\Front.php(954): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#1 C:\xampp\htdocs\test\Skeleton\library\Zend\Application\Bootstrap\Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#2 C:\xampp\htdocs\test\Skeleton\library\Zend\Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#3 C:\xampp\htdocs\test\Skeleton\public\index.php(26): Zend_Application->run()
+#4 {main}
