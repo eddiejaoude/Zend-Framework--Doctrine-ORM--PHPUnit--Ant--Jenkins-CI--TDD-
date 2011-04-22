@@ -28,6 +28,7 @@
                 <?php
                 if (Zend_Auth::getInstance()->hasIdentity()) {
                     echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
+                    echo '<li><a href="/auth/account/history">History</a></li>';
                     echo '<li><a href="/auth/logout/">Logout</a></li>';
                 }
                 else {
@@ -38,7 +39,7 @@
             </ul>
             
             <div id="main">
-                <?php echo !empty($this->alert) ? '<div class="error">' . $this->alert .'</div>' : null; ?>
+                <?php echo !empty($this->alert) ? '<div class="error">' . implode('<br />', $this->alert) .'</div>' : null; ?>
                 <?php echo $this->layout()->content; ?>
             </div>
             

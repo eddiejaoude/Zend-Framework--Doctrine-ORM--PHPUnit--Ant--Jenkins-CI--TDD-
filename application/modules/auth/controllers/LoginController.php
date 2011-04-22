@@ -9,7 +9,6 @@
  */
 class Auth_LoginController extends Auth_BaseController
 {
-
     /**
      * Initialisation method
      *
@@ -35,6 +34,16 @@ class Auth_LoginController extends Auth_BaseController
             # redirect login page
             $this->_helper->redirector('index', 'index', 'default');
         }
+    }
+
+    /**
+     * initiates after any action is dispatched
+     *
+     * @param	void
+     * @return	void
+     */
+    public function postDispatch() {
+        parent::postDispatch();
     }
 
     /**
@@ -78,6 +87,7 @@ class Auth_LoginController extends Auth_BaseController
                     $save = Zend_Auth::getInstance()->authenticate($authenticate);
 
                     if (Zend_Auth::getInstance()->hasIdentity()) {
+                        $this->_flashMessenger->addMessage('Logged in successfully');
                         # log user login - move to helper?
                         $account_login_statistic = new Auth_Model_AccountLoginStatistic;
                         $account_login_statistic->setAccount_id(Zend_Auth::getInstance()->getIdentity()->getId());
@@ -90,10 +100,9 @@ class Auth_LoginController extends Auth_BaseController
                         # send to dashboard/user page
                         $this->_helper->redirector('index', 'account', 'auth');
                     } else {
-                        $alert = 'Login failed: Invalid details'; // move to view
+                        $alert = array('Logged in failed');
                     }
-            } 
-            # populate form
+            }
             $form->populate($data);
         }
         return array('form' => $form, 'alert' => empty($alert) ? null : $alert );

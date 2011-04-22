@@ -19,7 +19,20 @@ class IndexController extends BaseController
      */
     public function init()
     {
-        
+        parent::init();
+    }
+
+    /**
+     * post dispatch method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function  postDispatch()
+    {
+        parent::postDispatch();
     }
 
     /**

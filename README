@@ -14,9 +14,15 @@ https://github.com/eddiejaoude/github-adv-search
 FEATURES include
 --------------------------------------------------------
 - ZF Modular (modules) structure
-  - Controller plugin helper
+  - auth module
+    - login
+    - register (inc. captcha)
+  - controller plugin helper 
+  - flash message (flashMessenger) helper useable from any controller action
 - jQuery
 - Unit testing
+  - setup & configured
+  - 100% code coverage
 - Best practice php tools
   - phploc
   - phpcpd

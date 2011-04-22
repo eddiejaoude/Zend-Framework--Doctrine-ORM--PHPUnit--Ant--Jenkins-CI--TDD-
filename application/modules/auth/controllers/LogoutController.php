@@ -38,6 +38,16 @@ class Auth_LogoutController extends Auth_BaseController
     }
 
     /**
+     * initiates after any action is dispatched
+     *
+     * @param	void
+     * @return	void
+     */
+    public function postDispatch() {
+        parent::postDispatch();
+    }
+
+    /**
      * default method
      *
      * @author          Eddie Jaoude
@@ -48,6 +58,8 @@ class Auth_LogoutController extends Auth_BaseController
     public function indexAction() {
         # clears users identity
         Zend_Auth::getInstance()->clearIdentity();
+
+        $this->_flashMessenger->addMessage('You have been logged out');
 
         # redirect
         $this->_helper->redirector('index', 'login', 'auth');

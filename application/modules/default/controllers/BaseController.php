@@ -9,9 +9,10 @@
  * @package       Default Module
  *
  */
-abstract class BaseController extends Zend_Controller_Action {
+abstract class BaseController extends Application_BaseController
+{
 
-        /**
+    /**
      * Initialisation method
      *
      * @author          Eddie Jaoude
@@ -21,10 +22,20 @@ abstract class BaseController extends Zend_Controller_Action {
      */
     public function init()
     {
-        # get doctrine entity manager
-        $registry = Zend_Registry::getInstance();
-        $this->_em = $registry->doctrine->_em;
-        $this->_logger = $registry->logger;
+        parent::init();
+    }
+
+    /**
+     * post dispatch method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function  postDispatch()
+    {
+        parent::postDispatch();
     }
     
 

@@ -24,6 +24,19 @@ class Auth_IndexController extends Auth_BaseController
     }
 
     /**
+     * post dispatch method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function  postDispatch()
+    {
+        parent::postDispatch();
+    }
+
+    /**
      * default method
      *
      * @author          Eddie Jaoude

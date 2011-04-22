@@ -9,7 +9,8 @@
  * @package       Auth Module
  *
  */
-abstract class Auth_BaseController extends Zend_Controller_Action {
+abstract class Auth_BaseController extends Application_BaseController
+{
 
     /**
      * Initialisation method
@@ -21,11 +22,23 @@ abstract class Auth_BaseController extends Zend_Controller_Action {
      */
     public function init()
     {
-        # get doctrine entity manager
-        $registry = Zend_Registry::getInstance();
-        $this->_em = $registry->doctrine->_em;
-        $this->_auth = $registry->auth;
-        $this->_logger = $registry->logger;
+        parent::init();
+        
+        # get auth configuration
+        $this->_auth = $this->registry->auth;
+    }
+
+    /**
+     * post dispatch method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function  postDispatch()
+    {
+        parent::postDispatch();
     }
 
 }

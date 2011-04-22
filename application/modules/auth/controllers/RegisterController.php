@@ -38,6 +38,16 @@ class Auth_RegisterController extends Auth_BaseController
     }
 
     /**
+     * initiates after any action is dispatched
+     *
+     * @param	void
+     * @return	void
+     */
+    public function postDispatch() {
+        parent::postDispatch();
+    }
+
+    /**
      * default method
      *
      * @author          Eddie Jaoude
