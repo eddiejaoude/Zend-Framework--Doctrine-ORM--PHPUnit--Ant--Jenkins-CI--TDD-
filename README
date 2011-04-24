@@ -17,7 +17,8 @@ FEATURES include
   - auth module
     - login
     - register (inc. captcha)
-  - controller plugin helper 
+  - custom controller plugin helpers
+  - custom controller action helpers
   - flash message (flashMessenger) helper useable from any controller action
 - jQuery
 - Unit testing

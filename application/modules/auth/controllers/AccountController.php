@@ -60,6 +60,22 @@ class Auth_AccountController extends Auth_BaseController
     public function indexAction() {
         
     }
+
+    /**
+     * history method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function eventAction() {
+        # get account events
+        $events = $this->_em->getRepository('Auth_Model_AccountEvent')->findBy(array('account_id' => Zend_Auth::getInstance()->getIdentity()->getId()));
+
+        # send to view
+        $this->view->events = $events;
+    }
     
 
 

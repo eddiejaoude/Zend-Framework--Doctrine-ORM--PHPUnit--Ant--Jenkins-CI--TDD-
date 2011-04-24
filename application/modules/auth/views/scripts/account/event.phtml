@@ -1,0 +1,30 @@
+<h2>Events</h2>
+
+<table class="data">
+    <thead>
+        <tr>
+            <td>Date</td>
+            <td>Event</td>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if (count($this->events) > 0)
+        {
+            foreach ($this->events as $k=>$v)
+            {
+                echo '
+                <tr>
+                    <td>' . $v->getCreated_at() . '</td>
+                    <td>' . $v->getEvent() . '</td>
+                </tr>
+                ';
+            }
+        }
+        else
+        {
+            echo '<tr><td colspan="2">No results</td></tr>';
+        }
+        ?>
+    </tbody>
+</table>
