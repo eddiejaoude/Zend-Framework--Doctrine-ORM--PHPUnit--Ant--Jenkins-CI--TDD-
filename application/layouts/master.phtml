@@ -28,7 +28,7 @@
                 <?php
                 if (Zend_Auth::getInstance()->hasIdentity()) {
                     echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
-                    echo '<li><a href="/auth/account/history">History</a></li>';
+                    echo '<li><a href="/auth/account/event">History</a></li>';
                     echo '<li><a href="/auth/logout/">Logout</a></li>';
                 }
                 else {
