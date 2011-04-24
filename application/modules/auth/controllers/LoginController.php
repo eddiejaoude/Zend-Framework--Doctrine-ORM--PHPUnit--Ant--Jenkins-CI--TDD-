@@ -88,14 +88,9 @@ class Auth_LoginController extends Auth_BaseController
 
                     if (Zend_Auth::getInstance()->hasIdentity()) {
                         $this->_flashMessenger->addMessage('Logged in successfully');
-                        # log user login - move to helper?
-                        $account_login_statistic = new Auth_Model_AccountLoginStatistic;
-                        $account_login_statistic->setAccount_id(Zend_Auth::getInstance()->getIdentity()->getId());
-                        $account_login_statistic->setEvent('logged in');
-                        $date = new Zend_Date;
-                        $account_login_statistic->setCreated_at($date->toString('YYYY-MM-dd HH:mm:ss'));
-                        $this->_em->persist($account_login_statistic);
-                        $this->_em->flush();
+                        
+                        # record event
+                        $this->_helper->event->record($this->_em, 'logged in');
 
                         # send to dashboard/user page
                         $this->_helper->redirector('index', 'account', 'auth');

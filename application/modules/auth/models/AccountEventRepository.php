@@ -1,6 +1,6 @@
 <?php
 /**
- * Account Login Statistic Repository
+ * Account Event Repository
  *
  *
  * @author          Eddie Jaoude
@@ -9,7 +9,7 @@
  */
 
 use Doctrine\ORM\EntityRepository;
-class Auth_Model_AccountLoginStatisticRepository extends EntityRepository
+class Auth_Model_AccountEventRepository extends EntityRepository
 {
   
 }

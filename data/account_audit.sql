@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `account_login_statistics`;
-CREATE TABLE `account_login_statistics` (
+DROP TABLE IF EXISTS `account_events`;
+CREATE TABLE `account_events` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(10) unsigned NOT NULL,
   `event` varchar(255) DEFAULT NULL,
