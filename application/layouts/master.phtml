@@ -28,12 +28,12 @@
                 <?php
                 if (Zend_Auth::getInstance()->hasIdentity()) {
                     echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
-                    echo '<li><a href="/auth/account/event">History</a></li>';
-                    echo '<li><a href="/auth/logout/">Logout</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'account', 'action' => 'event')) . '">History</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'logout')) . '">Logout</a></li>';
                 }
                 else {
-                    echo '<li><a href="/auth/login/">Login</a></li>';
-                    echo '<li><a href="/auth/register/">Register</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'login')) . '">Login</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'register')) . '">Register</a></li>';
                 }
                 ?>
             </ul>
