@@ -70,10 +70,11 @@ class Auth_PasswordController extends Auth_BaseController
                     $email = $this->_em->getRepository('Auth_Model_Account')->findBy(array('email' => (string) $data['email']));
                     
                     if (count($email) === 1) {
+			        	# get config
                     	//@Todo Remove this line
                     	$this->_config = new Zend_Config_Ini(APPLICATION_PATH . 
-                DIRECTORY_SEPARATOR . 'configs' .
-                DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
+			                DIRECTORY_SEPARATOR . 'configs' .
+			                DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
                     	
                     	$email = $email[0];				                
                     	$password = $this->_em->getRepository('Auth_Model_Account')->generatePassword($this->_auth->password->length);
@@ -85,15 +86,17 @@ class Auth_PasswordController extends Auth_BaseController
                         $emailReset = new Zend_Mail();
                         $emailReset->addTo($email->getEmail(), $email->getName());
                         $emailReset->setSubject('Password Reset');
+                        // @ToDo Create a view file with an email template
                         $emailReset->setBodyText('New Password: ' . $password);
                         
                         $emailReset->setFrom($this->_config->system->email->address, $this->_config->system->email->name);
-                        Zend_Debug::dump($this->registry); die();
                         if($emailReset->send()) {
                         	$this->_flashMessenger->addMessage('A new password is send to ' . $email->getEmail());
+                        	$this->_helper->redirector('index', 'index', 'default');                        	
                         }
                     } else {
                         $this->_flashMessenger->addMessage('Sending failed: Emailaddress unknown'); // move to view
+                        $this->_helper->redirector('forgot', 'password', 'auth');
                     }
             } else {
 	            # populate form
