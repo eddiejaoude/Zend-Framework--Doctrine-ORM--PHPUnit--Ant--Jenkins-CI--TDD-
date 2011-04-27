@@ -96,7 +96,7 @@ class Auth_Model_Account {
         if (empty($hash)) {
             throw new Exception('Hash required (2nd argument): use $object->setPassword($password, $hash)');
         }
-        # move salt to config file
+        
         $this->password = hash('SHA256', $hash . $password);
     }
 
