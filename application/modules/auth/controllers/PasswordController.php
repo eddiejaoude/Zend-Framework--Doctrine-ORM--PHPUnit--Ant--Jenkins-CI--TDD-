@@ -123,10 +123,14 @@ class Auth_PasswordController extends Auth_BaseController
                         
                         $emailReset->setFrom($this->_config->system->email->address, $this->_config->system->email->name);
                         if($emailReset->send()) {
+		                	# Record event
+		                    $this->_helper->event->record($this->_em, 'reset password');
                         	$this->_flashMessenger->addMessage('A new password is send to ' . $email->getEmail());
                         	$this->_helper->redirector('index', 'index', 'default');                        	
                         }
                     } else {
+	                	# Record event
+	                    $this->_helper->event->record($this->_em, 'reset password failed');
                         $this->_flashMessenger->addMessage('Sending failed: Emailaddress unknown'); // move to view
                         $this->_helper->redirector('forgot', 'password', 'auth');
                     }
@@ -171,6 +175,10 @@ class Auth_PasswordController extends Auth_BaseController
                     # Redirect to the secure page
                     $this->_helper->redirector('index', 'account', 'auth');
                 } else {
+                        
+                	# Record event
+                    $this->_helper->event->record($this->_em, 'update password failed');
+                    
                     $this->_flashMessenger->addMessage('Updating password failed'); // move to view
                     $this->_helper->redirector('index', 'index', 'default');
                 }
