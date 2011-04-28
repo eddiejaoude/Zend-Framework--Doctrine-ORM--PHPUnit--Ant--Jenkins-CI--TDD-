@@ -1,7 +1,0 @@
-application/tmp/**
-tests/build/**
-
-.idea
-.settings
-.project
-.buildpath
