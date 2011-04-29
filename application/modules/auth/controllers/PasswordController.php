@@ -49,7 +49,7 @@ class Auth_PasswordController extends Auth_BaseController
      */
     public function forgotAction()
     {
-        # if the user is logged in, they can not reset the password
+        # if the user is logged in, they can't reset the password
         if (Zend_Auth::getInstance()->hasIdentity()) {
             # redirect password update page
             $this->_helper->redirector('update', 'password', 'auth');
