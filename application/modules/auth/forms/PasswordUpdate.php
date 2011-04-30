@@ -11,7 +11,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
     {
     	# Load the custom validator
     	$this->addElementPrefixPath(
-                'Custom',
+                'Custom_Auth_Validate',
                 'Custom/Auth/Validate/',
                 'validate'
         );
