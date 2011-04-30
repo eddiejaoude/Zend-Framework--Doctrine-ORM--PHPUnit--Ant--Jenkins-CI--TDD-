@@ -5,7 +5,7 @@
  * @version 
  */
 
-class Custom_NotIdentical extends Zend_Validate_Identical
+class Custom_Auth_Validate_NotIdentical extends Zend_Validate_Identical
 {
 	const Are_Equal = 'areEqual';
 	protected $_messageTemplates = array(
