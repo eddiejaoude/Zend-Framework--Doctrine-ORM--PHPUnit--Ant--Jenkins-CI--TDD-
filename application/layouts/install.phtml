@@ -1,0 +1,34 @@
+<?php echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <?php 
+	# Title
+	echo $this->headTitle(); 
+        
+	# Meta data
+	echo $this->headMeta()
+                            ->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')
+                            ->appendHttpEquiv('Content-Language', 'en-US');
+        
+	# CSS
+	echo $this->headLink()
+                            ->appendStylesheet('/css/common.css'); 
+        
+	# Javascript
+	echo $this->headScript()
+                                    ->appendFile('/js/jquery.js', 'text/javascript')
+                                    ->appendFile('/js/common.js', 'text/javascript'); 
+        ?>
+    </head>
+    <body>
+        <?php echo '<!-- Mode: ' . APPLICATION_ENV . ' mode -->'; ?>
+        <div id="page">
+            <h1>Install</h1>
+            
+            <div id="main">
+                <?php echo $this->layout()->content; ?>
+            </div>
+            
+        </div>
+    </body>
+</html>
