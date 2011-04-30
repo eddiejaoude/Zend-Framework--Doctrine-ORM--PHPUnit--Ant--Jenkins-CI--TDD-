@@ -59,7 +59,7 @@ class Install_Bootstrap extends Zend_Application_Module_Bootstrap {
 
     protected function _initActionHelpers()
     {
-        Zend_Controller_Action_HelperBroker::addPath( APPLICATION_PATH . '/modules/auth/controllers/helpers', 'Auth_Controller_Helper_');
+        Zend_Controller_Action_HelperBroker::addPath( APPLICATION_PATH . '/modules/install/controllers/helpers', 'Install_Controller_Helper_');
         /*$controllersDir = Zend_Controller_Front::getInstance()->getControllerDirectory(strtolower($module));
 
         $prefix = implode('_', array_map('ucfirst', array($module,'controller','helper','')));
