@@ -45,4 +45,16 @@ class LibraryCustomAuthValidateTest extends BaseTestCase
        $this->assertEquals(true, is_object($this->object));
     }
 
+    /**
+     * Test Not Identical method
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
+    public function testNotIdentical() {
+       $this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
 }
