@@ -150,6 +150,11 @@ class Auth_PasswordController extends Auth_BaseController
     	if ($this->_request->isPost()) {
             # get params
             $data = $this->_request->getPost();
+			
+			$form->getElement('newPassword')->addValidator('NotIdentical', false, array('token' => $data['currentPassword']))
+											->addValidator('stringLength', false, array($this->_auth->password->length, 100));
+			$form->getElement('confirmPassword')->addValidator('Identical', false, array('token' => $data['newPassword']));
+			
 			$data['length'] = $this->_auth->password->length;			
             # check validate form
             if ($form->isValid($data)) {
