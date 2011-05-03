@@ -1,2 +1,11 @@
 application/tmp/**
 tests/build/**
+
+/.buildpath
+/.project
+/.settings/.jsdtscope
+/.settings/com.zend.php.formatter.core.prefs
+/.settings/com.zend.php.formatter.ui.prefs
+/.settings/org.eclipse.php.core.prefs
+/.settings/org.eclipse.wst.jsdt.ui.superType.container
+/.settings/org.eclipse.wst.jsdt.ui.superType.name

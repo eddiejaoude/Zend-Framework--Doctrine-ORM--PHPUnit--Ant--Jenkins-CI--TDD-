@@ -3,9 +3,11 @@
 
       <testsuite name="Application unit test suite">
            <directory>./application/config</directory>
+           <directory>./library</directory>
            <filter>
                 <whitelist>
                     <directory suffix=".php">./application/config</directory>
+                    <directory suffix=".php">./library</directory>
                 </whitelist>
                 <exclude>
                         <directory suffix=".phml">./application/config</directory>
