@@ -36,9 +36,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
 				->setRequired(true)
 				->addFilter('StripTags')
 				->addFilter('StringTrim')
-				->addValidator('NotEmpty')
-				->addValidator('NotIdentical', false, array('token' => $data['currentPassword']))
-				->addValidator('stringLength', false, array($data['length'], 100));
+				->addValidator('NotEmpty');
 		
 		# Confirm new password
 		$confirmPassword = new Zend_Form_Element_Password('confirmPassword');
@@ -46,8 +44,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
 				->setRequired(true)
 				->addFilter('StripTags')
 				->addFilter('StringTrim')
-				->addValidator('NotEmpty')
-				->addValidator('Identical', false, array('token' => $data['newPassword']));
+				->addValidator('NotEmpty');
 	
 		# Submit
 		$submit = new Zend_Form_Element_Submit('sendPassword', 'Update Password');
