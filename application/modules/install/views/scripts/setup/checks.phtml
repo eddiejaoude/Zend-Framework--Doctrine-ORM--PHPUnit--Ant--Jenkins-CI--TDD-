@@ -1,0 +1,22 @@
+<?php $this->headLink()->appendStylesheet('/css/install.css'); ?>
+
+<!-- Step 1: Pre-Setup checks -->
+<div id="step_1">
+	<h2>Pre-Setup checks</h2>
+	<ul id="checks">
+		<li class="<?php echo $this->phpVersion['class']; ?>">PHP-Version: <?php echo $this->phpVersion['value']; ?></li>
+		<li class="<?php echo $this->mysqlVersion['class']; ?>">MySQL-Version: <?php echo $this->mysqlVersion['value']; ?></li>
+		<li class="<?php echo $this->tmpWritable['class']; ?>">TMP-folder writable: <?php echo $this->tmpWritable['value']; ?></li>
+	</ul>
+</div>
+
+<!-- Step 2: Setup Database Connection -->
+<div id="step_2">
+	<h2>Setup Database Connection</h2>
+	<?php echo $this->databaseConnectForm; ?>
+</div>
+
+<!-- Step 3: Finish Installation -->
+<div id="step_3">
+	<h2>Finish Installation</h2>
+</div>

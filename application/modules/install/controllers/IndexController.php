@@ -46,25 +46,7 @@ class Install_IndexController extends Install_BaseController
      */
     public function indexAction()
     {
-        # Get PHP version
-        $phpVersion = Array(
-        	'value' => phpversion(),
-        	'class' => (phpversion() >= 5.3 ? 'pass' : 'fail')
-        );
-        
-        # Get MySQL version
-        $mysqlVersion = Array(
-        	'value' => mysql_get_server_info(),
-        	'class' => 'neutral'
-        );
-        
-        # Check if /tmp is writable
-        $writable = is_writable(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'tmp');
-        
-        $tmpWritable = Array(
-        	'value' => ($writable ? 'Pass' : 'Fail'),
-        	'class' => ($writable ? 'Pass' : 'Fail')
-        );
+        $this->_forward('checks', 'setup', 'install');
     }
 
     /**
