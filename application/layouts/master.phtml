@@ -29,6 +29,7 @@
                 if (Zend_Auth::getInstance()->hasIdentity()) {
                     echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
                     echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'account', 'action' => 'event')) . '">History</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'update')) . '">Update Password</a></li>';
                     echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'logout', 'action' => 'index')) . '">Logout</a></li>';
                 }
                 else {
