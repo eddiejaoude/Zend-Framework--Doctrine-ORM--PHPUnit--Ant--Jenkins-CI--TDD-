@@ -23,9 +23,6 @@ abstract class Auth_BaseController extends Application_BaseController
     public function init()
     {
         parent::init();
-        
-        # get auth configuration
-        $this->_auth = $this->registry->auth;
     }
 
     /**
@@ -42,4 +39,3 @@ abstract class Auth_BaseController extends Application_BaseController
     }
 
 }
-?>

@@ -33,7 +33,7 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
      */
     protected function _initBaseController() {
         # base controller - can this be moved and autoloaded?
-        include_once('controllers/AuthBaseController.php');
+        require_once('controllers/AuthBaseController.php');
     }
 
     /**
@@ -46,7 +46,7 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
      */
     protected function _initConfig() {
         # get config
-        $this->_configAuth = new Zend_Config_Ini( dirname(__FILE__) .
+        $config = new Zend_Config_Ini( dirname(__FILE__) .
                 DIRECTORY_SEPARATOR . 'configs' .
                 DIRECTORY_SEPARATOR . 'auth.ini', APPLICATION_ENV);
 
@@ -54,8 +54,7 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         $this->_registry = Zend_Registry::getInstance();
 
         # save config to registry
-        $this->_registry->auth = new stdClass();
-        $this->_registry->auth = $this->_configAuth->auth;
+        $this->_registry->config->auth = $config;
     }
 
     protected function _initActionHelpers()

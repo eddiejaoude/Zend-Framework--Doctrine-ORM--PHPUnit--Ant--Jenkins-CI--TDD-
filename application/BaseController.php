@@ -32,9 +32,11 @@ abstract class Application_BaseController extends Zend_Controller_Action
     public function init()
     {
         # get application objects
-        $this->registry = Zend_Registry::getInstance();
-        $this->_em = $this->registry->doctrine->_em;
-        $this->_logger = $this->registry->logger;
+        $this->_registry = Zend_Registry::getInstance();
+        
+        # clone objects for ease of use
+        $this->_em = $this->_registry->doctrine->_em;
+        $this->_logger = $this->_registry->logger;
 
         # flash messenger
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');

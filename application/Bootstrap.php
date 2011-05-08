@@ -45,7 +45,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initConfig() {
         # get config
-        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . 
+        $config = new Zend_Config_Ini(APPLICATION_PATH . 
                 DIRECTORY_SEPARATOR . 'configs' .
                 DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
 
@@ -53,7 +53,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->_registry = Zend_Registry::getInstance();
 
         # save new database adapter to registry
-        $this->_registry->logs = $this->_config->logs;
+        $this->_registry->config = new stdClass();
+        $this->_registry->config->application = $config;
     }
 
     /**
@@ -66,8 +67,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initTmpDirectory() {
         # check tmp directory is writable
-        if (!is_writable($this->_registry->logs->tmpDir)) {
-            throw new Exception('Error: tmp dir is not writable ( ' . $this->_registry->logs->tmpDir . '), check folder/file permissions');
+        if (!is_writable($this->_registry->config->application->logs->tmpDir)) {
+            throw new Exception('Error: tmp dir is not writable ( ' . $this->_registry->config->application->logs->tmpDir . '), check folder/file permissions');
         }
     }
 
@@ -81,7 +82,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      */
     protected function _initLogger() {
         # log file
-        $error_log = $this->_registry->logs->tmpDir . DIRECTORY_SEPARATOR . $this->_registry->logs->error;
+        $error_log = $this->_registry->config->application->logs->tmpDir . DIRECTORY_SEPARATOR . $this->_registry->config->application->logs->error;
 
         # create log file if does not exist
         if (!file_exists($error_log)) { 
@@ -136,8 +137,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         # database connection
         $this->_registry->doctrine = new stdClass();
-        $this->_registry->doctrine->_em = EntityManager::create($this->_config->doctrine->connection->toArray(), $config);
+        $this->_registry->doctrine->_em = EntityManager::create($this->_registry->config->application->doctrine->connection->toArray(), $config);
     }
 
 }
-
