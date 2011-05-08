@@ -33,8 +33,9 @@
                     echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'logout', 'action' => 'index')) . '">Logout</a></li>';
                 }
                 else {
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'login')) . '">Login</a></li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'register')) . '">Register</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'login', 'action' => 'index')) . '">Login</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'forgot')) . '">Forgot password</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'register', 'action' => 'index')) . '">Register</a></li>';
                 }
                 ?>
             </ul>
