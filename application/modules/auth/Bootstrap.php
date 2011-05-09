@@ -71,7 +71,7 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         $application = $this->getApplication();
         $application->bootstrap('doctrine');
         if (isset($application->_registry->doctrine->_em)){
-            // must be do-able via autoloading
+            // TODO: must be do-able via autoloading
             require_once 'controllers/helpers/Event.php';
             Auth_Controller_Helper_Event::$defaultEntityManager = $application->_registry->doctrine->_em;
         }
