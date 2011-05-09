@@ -57,8 +57,7 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         $this->_registry->config->auth = $config;
     }
 
-    protected function _initActionHelpers()
-    {
+    protected function _initActionHelpers() {
         Zend_Controller_Action_HelperBroker::addPath( APPLICATION_PATH . '/modules/auth/controllers/helpers', 'Auth_Controller_Helper_');
         /*$controllersDir = Zend_Controller_Front::getInstance()->getControllerDirectory(strtolower($module));
 
@@ -68,6 +67,15 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         Zend_Controller_Action_HelperBroker::addPath( $path, $prefix);*/
     }
 
+    protected function _initEventActionHelper(){
+        $application = $this->getApplication();
+        $application->bootstrap('doctrine');
+        if (isset($application->_registry->doctrine->_em)){
+            // must be do-able via autoloading
+            require_once 'controllers/helpers/Event.php';
+            Auth_Controller_Helper_Event::$defaultEntityManager = $application->_registry->doctrine->_em;
+        }
+    }
 
 }
 
