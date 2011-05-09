@@ -90,7 +90,7 @@ class Auth_LoginController extends Auth_BaseController
                         $this->_flashMessenger->addMessage('Logged in successfully');
                         
                         # record event
-                        $this->_helper->event->record($this->_em, 'logged in', Zend_Auth::getInstance()->getIdentity()->getId());
+                        $this->_helper->event->record('logged in', Zend_Auth::getInstance()->getIdentity()->getId());
 
                         # send to dashboard/user page
                         $this->_helper->redirector('index', 'account', 'auth');
