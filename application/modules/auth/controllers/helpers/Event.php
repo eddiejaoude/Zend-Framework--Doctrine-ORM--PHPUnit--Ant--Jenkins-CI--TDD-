@@ -13,7 +13,7 @@ class Auth_Controller_Helper_Event extends Zend_Controller_Action_Helper_Abstrac
     /**
      * The default entity manager to use when one is not set
      * 
-     * @var \Doctrine\Common\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     public static $defaultEntityManager;
 
