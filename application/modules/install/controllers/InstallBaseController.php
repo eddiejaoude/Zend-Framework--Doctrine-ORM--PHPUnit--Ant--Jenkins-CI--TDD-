@@ -23,9 +23,6 @@ abstract class Install_BaseController extends Application_BaseController
     public function init()
     {
         parent::init();
-        
-        # get install configuration
-        $this->_install = $this->registry->install;
     }
 
     /**

@@ -9,14 +9,6 @@
 		<li class="<?php echo $this->tmpWritable['class']; ?>">TMP-folder writable: <?php echo $this->tmpWritable['value']; ?></li>
 	</ul>
 </div>
-
-<!-- Step 2: Setup Database Connection -->
-<div id="step_2">
-	<h2>Setup Database Connection</h2>
-	<?php echo $this->databaseConnectForm; ?>
-</div>
-
-<!-- Step 3: Finish Installation -->
-<div id="step_3">
-	<h2>Finish Installation</h2>
+<div id="forward">
+	<a href="<?php echo $this->url(Array('module' => 'install', 'controller' => 'setup', 'action' => 'database')); ?>">Next step ></a>
 </div>

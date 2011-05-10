@@ -30,9 +30,10 @@ class Application_Plugin_InstallCheck extends Zend_Controller_Plugin_Abstract
       	$request = $this->getRequest();
       	
       	#Only run this forward if the application isn't installed yet and when we aren't in this module yet
+      	//Zend_Debug::dump($request->getModuleName());
         if(!$installConfig->installed && $request->getModuleName() != 'install') {
-        	$redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
-			$redirector->gotoUrl('/install');
+        	//$redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+			//$redirector->gotoUrl('/install');
         }
     }
 

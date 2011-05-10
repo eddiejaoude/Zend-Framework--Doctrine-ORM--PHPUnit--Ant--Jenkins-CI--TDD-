@@ -29,7 +29,7 @@ class Install_Form_DatabaseConnect extends Zend_Form
 		
 		# Username	
 		$username = new Zend_Form_Element_Text('username');
-		$username->setLabel('Server Address')
+		$username->setLabel('Username')
 				 ->setRequired(true)
 				 ->addFilter('StripTags')
 				 ->addFilter('StringTrim')
@@ -39,20 +39,22 @@ class Install_Form_DatabaseConnect extends Zend_Form
 		# Password
 		$password = new Zend_Form_Element_Password('password');
 		$password->setLabel('Password')
-				 ->setRequired(true)
+				 ->addFilter('StripTags')
+				 ->addFilter('StringTrim');
+				 
+	 	# Database Name
+	 	$database = new Zend_Form_Element_Text('database');
+	 	$database->setLabel('Database Name')
+	 			 ->setRequired(true)
 				 ->addFilter('StripTags')
 				 ->addFilter('StringTrim')
-				 ->addValidator('NotEmpty');
-				 
-		# Get Available databases
-		$databaseButton = new Zend_Form_Element_Button('databases');
-		$databaseButton->setLabel('Get databases');
+                 ->addValidator('NotEmpty');
 	
 		# Submit
 		$submit = new Zend_Form_Element_Submit('Setup Database');
 		
 		# Create
-		$this->addElements(array($server, $username, $password, $databaseButton, $submit));
+		$this->addElements(array($server, $username, $password, $database, $submit));
 	}
 }
 ?>

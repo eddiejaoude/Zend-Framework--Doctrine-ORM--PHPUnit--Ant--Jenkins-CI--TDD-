@@ -69,7 +69,6 @@ class Install_SetupController extends Install_BaseController
         $this->view->assign('phpVersion', $phpVersion);
         $this->view->assign('mysqlVersion', $mysqlVersion);
         $this->view->assign('tmpWritable', $tmpWritable);
-        $this->view->assign('databaseConnectForm', new Install_Form_DatabaseConnect);
     }
     
     /**
@@ -79,7 +78,13 @@ class Install_SetupController extends Install_BaseController
      */
     public function databaseAction()
     {
+    	# load form
+    	$this->databaseConnectForm =  new Install_Form_DatabaseConnect;
     	
+    	# make connection and load data
+    	$setup = $this->makeConnection();
+    	
+    	$this->view->databaseConnectForm = $setup;
     }
 
     /**
@@ -95,6 +100,42 @@ class Install_SetupController extends Install_BaseController
         
     }
 
+    public function makeConnection()
+    {
+        # get form
+        $form = $this->databaseConnectForm;
+        if ($this->_request->isPost()) {
+            # get params
+            $data = $this->_request->getPost();
+            # get config
+	        $location = APPLICATION_PATH . 
+	                DIRECTORY_SEPARATOR . 'configs' .
+	                DIRECTORY_SEPARATOR . 'application.ini';
+            # check validate form
+            if ($form->isValid($data)) {
+            	
+            	# read existing configuration
+            	$config = new Zend_Config_Ini(
+            				  $location,
+                              null,
+                              array('skipExtends'        => true,
+                                    'allowModifications' => true));
 
+                # add new values
+                $config->production->doctrine->connection = array();
+				$config->production->doctrine->connection->host = $data['server'];
+				$config->production->doctrine->connection->user = $data['username'];
+				$config->production->doctrine->connection->password = $data['password'];
+				$config->production->doctrine->connection->database = $data['database'];				
+				
+                # write new configuration
+				$writer = new Zend_Config_Writer_Ini(array('config'   => $config,
+				                                           'filename' => $location));
+				$writer->write();
+            }
+            $form->populate($data);
+        }
+        return $form;
+    }
 }
 
