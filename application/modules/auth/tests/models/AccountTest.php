@@ -61,7 +61,7 @@ class Auth_AccountModelTest extends BaseTestCase {
 
     /**
      * Test save password no hash exception
-     *
+     *  
      * @author 	Eddie Jaoude
      * @param 	null
      * @return 	null
@@ -91,7 +91,7 @@ class Auth_AccountModelTest extends BaseTestCase {
         $account = new Auth_Model_Account;
         $account->setName($this->data['name']);
         $account->setEmail($this->data['email']);
-        $account->setPassword($this->data['password'], $this->appConfigAuth->auth->hash);
+        $account->setPassword($this->data['password'], $this->appConfigAuth->hash);
         $date = new Zend_Date;
         $now = $date->toString('YYYY-MM-dd HH:mm:ss');
         $account->setCreated_at($now);
@@ -115,7 +115,7 @@ class Auth_AccountModelTest extends BaseTestCase {
      *
      */
     public function testAuthenticate() {
-        $result = $this->model->authenticate($this->appConfigAuth->auth->hash, $this->data);
+        $result = $this->model->authenticate($this->appConfigAuth->hash, $this->data);
 
         $this->assertEquals($this->data['name'], $result->getName());
         $this->assertEquals($this->data['email'], $result->getEmail());

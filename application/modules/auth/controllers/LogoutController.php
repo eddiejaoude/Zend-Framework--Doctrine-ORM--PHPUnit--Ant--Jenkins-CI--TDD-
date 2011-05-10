@@ -57,7 +57,7 @@ class Auth_LogoutController extends Auth_BaseController
      */
     public function indexAction() {
         # record event
-        $this->_helper->event->record($this->_em, 'logged out');
+        $this->_helper->event->record('logged out', Zend_Auth::getInstance()->getIdentity()->getId());
 
         # clears users identity
         Zend_Auth::getInstance()->clearIdentity();

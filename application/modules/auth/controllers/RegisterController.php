@@ -102,7 +102,7 @@ class Auth_RegisterController extends Auth_BaseController
                     $account = new Auth_Model_Account;
                     $account->setName($data['name']);
                     $account->setEmail($data['email']);
-                    $account->setPassword($data['password'], $this->_auth->hash);
+                    $account->setPassword($data['password'], $this->_registry->config->auth->hash);
                     $date = new Zend_Date;
                     $account->setCreated_at($date->toString('YYYY-MM-dd HH:mm:ss'));
                     $this->_em->persist($account);
