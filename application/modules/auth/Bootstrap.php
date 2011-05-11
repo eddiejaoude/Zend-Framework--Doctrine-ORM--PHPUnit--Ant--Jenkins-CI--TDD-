@@ -20,6 +20,10 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         $moduleLoader = new Zend_Application_Module_Autoloader(array(
                     'namespace' => 'Auth_',
                     'basePath' => APPLICATION_PATH . '/modules/auth'));
+        
+        $moduleLoader->addResourceType('controllerhelper',
+            'controllers/helpers', 'Controller_Helper');
+
         return $moduleLoader;
     }
 
@@ -58,24 +62,17 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
     }
 
     protected function _initActionHelpers() {
+
+        // path for module-specific controller helpers
         Zend_Controller_Action_HelperBroker::addPath( APPLICATION_PATH . '/modules/auth/controllers/helpers', 'Auth_Controller_Helper_');
-        /*$controllersDir = Zend_Controller_Front::getInstance()->getControllerDirectory(strtolower($module));
 
-        $prefix = implode('_', array_map('ucfirst', array($module,'controller','helper','')));
-        $path = realpath(implode(DIRECTORY_SEPARATOR, array($controllersDir,'helpers')));
-
-        Zend_Controller_Action_HelperBroker::addPath( $path, $prefix);*/
-    }
-
-    protected function _initEventActionHelper(){
+        // initialize the event helper with entity manager
+        $this->bootstrap('autoload');
         $application = $this->getApplication();
         $application->bootstrap('doctrine');
         if (isset($application->_registry->doctrine->_em)){
-            // TODO: must be do-able via autoloading
-            require_once 'controllers/helpers/Event.php';
             Auth_Controller_Helper_Event::$defaultEntityManager = $application->_registry->doctrine->_em;
         }
     }
-
 }
 
