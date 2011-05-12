@@ -12,12 +12,12 @@
         
 	# CSS
 	echo $this->headLink()
-                            ->appendStylesheet('/css/common.css'); 
+                            ->appendStylesheet($this->baseUrl() . '/css/common.css');
         
 	# Javascript
 	echo $this->headScript()
-                                    ->appendFile('/js/jquery.js', 'text/javascript')
-                                    ->appendFile('/js/common.js', 'text/javascript'); 
+                                    ->appendFile($this->baseUrl() . '/js/jquery.js', 'text/javascript')
+                                    ->appendFile($this->baseUrl() . '/js/common.js', 'text/javascript');
         ?>
     </head>
     <body>
