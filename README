@@ -28,10 +28,11 @@ FEATURES include
   - phploc
   - phpcpd
   - phpdcd (coming soon)
-  - pdepend (coming soon)
-  - phpmd (coming soon)
-  - phpcs (coming soon)
-  - php_codebrowser (coming soon)
+  - pdepend
+  - phpmd 
+  - phpcs 
+  - php_codebrowser 
+  - phpdocs
 - Ant build scripts for Continuous Integration
 - Ant deploy script including 'dry run' mode (coming soon)
 
