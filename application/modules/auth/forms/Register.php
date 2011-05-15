@@ -19,7 +19,8 @@ class Auth_Form_Register extends Zend_Form
                     'module' => 'auth',
                     'controller' => 'register',
                     'action' => 'index')))
-            ->setAttrib('class', 'box');
+            ->setAttrib('class', 'box')
+            ->setName('Register');
 
         # Name	
         $name = new Zend_Form_Element_Text('name');

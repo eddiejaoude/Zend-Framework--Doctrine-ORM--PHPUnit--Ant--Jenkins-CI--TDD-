@@ -30,7 +30,8 @@ class Auth_Form_Login extends Zend_Form
                     'module' => 'auth',
                     'controller' => 'login',
                     'action' => 'index')))
-            ->setAttrib('class', 'box');
+            ->setAttrib('class', 'box')
+            ->setName('Login');
 
         # Email
         $email = new Zend_Form_Element_Text('email');
