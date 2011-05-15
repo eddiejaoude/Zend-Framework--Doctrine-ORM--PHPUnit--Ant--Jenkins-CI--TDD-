@@ -29,7 +29,7 @@
     <antcall target="phpmd"/>
     <antcall target="phpcpd"/>
     <antcall target="phpcs"/>
-    <antcall target="phpdoc"/>
+    <!--<antcall target="phpdoc"/>-->
     </parallel>
     </target>
 
