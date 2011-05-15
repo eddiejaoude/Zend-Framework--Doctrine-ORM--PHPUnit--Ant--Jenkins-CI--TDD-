@@ -77,7 +77,7 @@
 
     <!-- Generate API documentation -->
     <target name="phpdoc">
-        <exec executable="phpdoc">
+        <exec dir="${basedir}/../library/phpDocumentor" executable="./phpdoc" failonerror="false">
             <arg line="--directory ${basedir}
                  --target    ${basedir}/build/api"/>
         </exec>
