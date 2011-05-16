@@ -131,7 +131,16 @@ class Install_SetupController extends Install_BaseController
                 # write new configuration
 				$writer = new Zend_Config_Writer_Ini(array('config'   => $config,
 				                                           'filename' => $location));
-				$writer->write();
+				if($writer->write()) {
+					#forward to the action where tables are created
+                    $this->_helper->redirector('tables', 'setup', 'install');
+					
+				} else {
+                    $this->_flashMessenger->addMessage('Cannot save database connection');
+                        
+                    # record event
+                    $this->_helper->event->record('can\'t write application');
+				}
             }
             $form->populate($data);
         }
