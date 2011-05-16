@@ -99,6 +99,40 @@ class Install_SetupController extends Install_BaseController
     {
         
     }
+    
+    /**
+     * create the database tables
+     * 
+     * @author Koen Huybrechts
+     */
+    public function tablesAction()
+    {
+    	$dataFolder = APPLICATION_PATH . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data';
+    	$handler = opendir($dataFolder);
+    	$model = $this->_em->getRepository('Install_Model_Setup');
+    	$queryFiles = Array();
+    	
+	    while (false !== ($file = readdir($handler))) {
+	        if($model->getFileExtension($file) == 'sql') {
+	        	$queryFiles[] = $file;
+	        }
+	    }
+	    
+	    $rsm = new Doctrine\ORM\Query\ResultSetMapping;
+	    
+	    # Read & Execute queries
+	    foreach ($queryFiles as $queryFile)
+	    {
+	    	$file = $dataFolder . DIRECTORY_SEPARATOR . $queryFile;
+	    	$stream = fopen($file,"r");
+	    	$query = fread($stream, filesize($file));
+	    	
+	    	$this->_em->createNativeQuery($query, $rsm);
+	    }
+	    Zend_Debug::dump($queryFiles);
+	    die();
+    	
+    }
 
     public function makeConnection()
     {
@@ -110,7 +144,7 @@ class Install_SetupController extends Install_BaseController
             # get config
 	        $location = APPLICATION_PATH . 
 	                DIRECTORY_SEPARATOR . 'configs' .
-	                DIRECTORY_SEPARATOR . 'application.ini';
+	                DIRECTORY_SEPARATOR . 'application.sample.ini';
             # check validate form
             if ($form->isValid($data)) {
             	
@@ -118,8 +152,7 @@ class Install_SetupController extends Install_BaseController
             	$config = new Zend_Config_Ini(
             				  $location,
                               null,
-                              array('skipExtends'        => true,
-                                    'allowModifications' => true));
+                              array('allowModifications' => true));
 
                 # add new values
                 $config->production->doctrine->connection = array();
@@ -131,16 +164,10 @@ class Install_SetupController extends Install_BaseController
                 # write new configuration
 				$writer = new Zend_Config_Writer_Ini(array('config'   => $config,
 				                                           'filename' => $location));
-				if($writer->write()) {
-					#forward to the action where tables are created
-                    $this->_helper->redirector('tables', 'setup', 'install');
-					
-				} else {
-                    $this->_flashMessenger->addMessage('Cannot save database connection');
-                        
-                    # record event
-                    $this->_helper->event->record('can\'t write application');
-				}
+				$writer->write();
+				
+				#forward to the action where tables are created
+                $this->_helper->redirector('tables', 'setup', 'install');
             }
             $form->populate($data);
         }
