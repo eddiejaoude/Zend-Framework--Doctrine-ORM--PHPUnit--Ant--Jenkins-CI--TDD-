@@ -78,7 +78,8 @@ INSTALLATION (linux)
 --------------------------------------------------------
 - Navigation to root directory of project (ie. application,data,docs,library etc)
 - Create the database with the following command
-> mysql -u[username] -p[password] [database] < data/schema.sql
+> mysql -u[username] -p[password] [database] < data/accounts.sql
+> mysql -u[username] -p[password] [database] < data/account_audit.sql
 - Create apache vhost, with config:
 <VirtualHost *:80>
         DocumentRoot /var/www/vhosts/js.skeleton/httpdocs/public
