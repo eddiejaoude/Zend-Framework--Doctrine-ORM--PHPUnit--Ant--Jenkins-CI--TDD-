@@ -45,7 +45,16 @@ class PageController extends BaseController
      */
     public function indexAction()
     {
-        Zend_Debug::dump($this->getRequest()->getParams()); die();
+    	$request = $this->getRequest();
+    	
+    	$page = $this->_em->getRepository('Default_Model_Page')->findOneBy(
+	    		array(
+	    			'slug' => (string) $request->getParam('slug'),
+	    			'language' => (string) $request->getParam('lang')
+	    		)
+    		);
+    	
+        Zend_Debug::dump($page); die();
     }
     
     public function viewAction()
