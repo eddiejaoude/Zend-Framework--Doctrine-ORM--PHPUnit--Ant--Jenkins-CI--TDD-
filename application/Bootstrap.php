@@ -156,7 +156,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             'all',
             new Zend_Controller_Router_Route('*',
                 array('controller' => 'page',
-                      'action'     => 'view')
+                      'action'     => 'index')
             )
         );
         

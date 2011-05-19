@@ -1,8 +1,8 @@
 <?php
 /**
- * Default Controller
+ * Page Controller: The default controller to process a request
  *
- * @author          Eddie Jaoude
+ * @author        Koen Huybrechts
  * @package       Default Module
  *
  */
@@ -12,7 +12,7 @@ class PageController extends BaseController
     /**
      * Initialisation method
      *
-     * @author          Eddie Jaoude
+     * @author          Koen Huybrechts
      * @param           void
      * @return           void
      *
@@ -25,7 +25,7 @@ class PageController extends BaseController
     /**
      * post dispatch method
      *
-     * @author          Eddie Jaoude
+     * @author          Koen Huybrechts
      * @param           void
      * @return           void
      *
@@ -38,18 +38,19 @@ class PageController extends BaseController
     /**
      * default method
      *
-     * @author          Eddie Jaoude
+     * @author          Koen Huybrechts
      * @param           void
      * @return           void
      *
      */
-    public function indexAction() {
-        
+    public function indexAction()
+    {
+        Zend_Debug::dump($this->getRequest()->getParams()); die();
     }
     
     public function viewAction()
     {
-    	Zend_Debug::dump($this->getRequest()->getParams()); die();
+    	
     }
     
 
