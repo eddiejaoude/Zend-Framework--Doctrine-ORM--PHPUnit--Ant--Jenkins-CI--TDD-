@@ -16,6 +16,18 @@ table { border-collapse: collapse; }
 .click { cursor:pointer; }
 .hidden { display:none; }
 
+a,
+a:link,
+a:active,
+a:visited {
+    color:#333;
+    padding:0.2em 1em;
+    text-decoration:none;
+}
+a:hover {
+    color:#666;
+}
+
 /* ERRORS */
 ul.errors  li { color:#f00; }
 div.error {
@@ -53,6 +65,10 @@ form.box input.active {
 form.box select {  }
 
 /* FONTs */
+p {
+    line-height:1.5em;
+    margin:0.8em 0em;
+}
 h1 {
     border-bottom:1px solid #ccc;
     float:left;
@@ -94,6 +110,13 @@ div#page {
 
 div#main {
     clear:both;
+}
+
+div#footer {
+    border-top:1px solid #ccc;
+    margin-top:2em;
+    padding-top:1em;
+    text-align:center;
 }
 
 /* TABLES */
