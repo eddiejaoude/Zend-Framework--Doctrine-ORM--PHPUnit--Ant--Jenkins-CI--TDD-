@@ -14,7 +14,7 @@
     </target>
 
     <target name="phpunit">
-        <exec dir="${basedir}" executable="phpunit" failonerror="true">
+        <exec dir="${basedir}" executable="phpunit" failonerror="false">
             <arg line="--configuration phpunit.xml
               --log-junit ${basedir}/build/logs/phpunit.xml
               --coverage-html ${basedir}/build/coverage
@@ -54,7 +54,7 @@
     <!-- Generate pmd-cpd.xml -->
     <target name="phpcpd">
     <exec executable="phpcpd">
-    <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml ${basedir}" />
+    <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml ${basedir}/../application" />
     </exec>
     </target>
 
@@ -71,14 +71,14 @@
     <arg line="--report=checkstyle
     --report-file=${basedir}/build/logs/checkstyle.xml
     --standard=Sebastian
-    ${basedir}" />
+    ${basedir}/../application" />
     </exec>
     </target>
 
     <!-- Generate API documentation -->
     <target name="phpdoc">
         <exec dir="${basedir}/../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="--directory ${basedir}
+            <arg line="--directory ${basedir}/../application
                  --target    ${basedir}/build/api"/>
         </exec>
     </target>
@@ -86,7 +86,7 @@
     <target name="phpcb">
         <exec executable="phpcb">
             <arg line="--log ${basedir}/build/logs
-            --source ${basedir}
+            --source ${basedir}/../application
             --output ${basedir}/build/code-browser" />
         </exec>
     </target>
