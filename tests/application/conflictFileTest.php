@@ -15,7 +15,7 @@ class ConflictFileTest extends BaseTestCase
      * @param 	object $config
      * 
      */
-    protected $directory = '';
+    protected $directory = '/..';
     
     /**
      * Initialisation of config object
