@@ -2,7 +2,7 @@
    <testsuites>
 
       <testsuite name="Application unit test suite">
-           <directory>./application/config</directory>
+           <directory>./application</directory>
            <directory>./library</directory>
            <filter>
                 <whitelist>
