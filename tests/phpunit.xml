@@ -4,52 +4,12 @@
       <testsuite name="Application unit test suite">
            <directory>./application</directory>
            <directory>./library</directory>
-           <filter>
-                <whitelist>
-                    <directory suffix=".php">./application/config</directory>
-                    <directory suffix=".php">./library</directory>
-                </whitelist>
-                <exclude>
-                        <directory suffix=".phml">./application/config</directory>
-                    </exclude>
-            </filter>
-        </testsuite>
-
-       <testsuite name="Default module unit test suite">
-           <directory>./../modules/default/tests/models</directory>
-            <filter>
-                <whitelist>
-                    <directory suffix=".php">./../application/modules/default/tests/models</directory>
-                    <exclude>
-                        <directory suffix=".php">./../application/plugins/default/models/behaviors</directory>
-                    </exclude>
-                </whitelist>
-            </filter>
-
+           <directory>./../application/modules/default/tests</directory>
+           <directory>./../application/modules/auth/tests</directory>
+            
             <logging>
                 <log type="coverage-html" target="./log/coverage" charset="UTF-8"
-                     yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
-            </logging>
-        </testsuite>
-        
-        <testsuite name="Auth module unit test suite">
-           <directory>./../modules/auth/tests/models</directory>
-           <directory>./../modules/auth/tests/views</directory>
-           <directory>./../modules/auth/tests/controllers/helpers</directory>
-            <filter>
-                <whitelist>
-                    <directory suffix=".php">./../application/modules/auth/tests/models</directory>
-                    <directory suffix=".php">./../application/modules/auth/tests/views</directory>
-                    <directory suffix=".php">./../application/modules/auth/tests/controllers/helpers</directory>
-                    <exclude>
-                        <directory suffix=".php">./../application/plugins/auth/models/behaviors</directory>
-                    </exclude>
-                </whitelist>
-            </filter>
-
-            <logging>
-                <log type="coverage-html" target="./log/coverage" charset="UTF-8"
-                     yui="true" highlight="false" lowUpperBound="35" highLowerBound="90"/>
+                     yui="true" highlight="false" lowUpperBound="60" highLowerBound="90"/>
             </logging>
         </testsuite>
 
