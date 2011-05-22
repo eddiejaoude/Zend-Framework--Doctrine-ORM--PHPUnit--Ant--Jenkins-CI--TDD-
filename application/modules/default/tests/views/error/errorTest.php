@@ -62,7 +62,7 @@ class ErrorPageTest extends BaseTestCase {
         $this->assertQueryCountMax('div.error', 0);
         $this->assertQueryContentContains('div#main h1', 'An error occurred');
         $this->assertQueryContentContains('div#main h2', 'Page not found');
-        $this->assertQueryContentNotContains('div#main h3', 'Stack trace:');
+        $this->assertQueryCountMax('div#main h3', 0);
     }
 
 }
