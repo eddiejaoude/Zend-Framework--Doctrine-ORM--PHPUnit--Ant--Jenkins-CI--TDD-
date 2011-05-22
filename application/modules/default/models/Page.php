@@ -68,6 +68,13 @@ class Default_Model_Page {
 	}
 
 	/**
+	 * @return the $layout
+	 */
+	public function getLayout() {
+		return $this->layout;
+	}
+
+	/**
 	 * @return the $name
 	 */
 	public function getName() {
@@ -110,10 +117,24 @@ class Default_Model_Page {
 	}
 
 	/**
+	 * @return the $language
+	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
 	 * @param integer $id
 	 */
 	public function setId($id) {
 		$this->id = $id;
+	}
+
+	/**
+	 * @param integer $layout
+	 */
+	public function setLayout($layout) {
+		$this->layout = $layout;
 	}
 
 	/**
@@ -157,5 +178,13 @@ class Default_Model_Page {
 	public function setCreated_at($created_at) {
 		$this->created_at = $created_at;
 	}
+
+	/**
+	 * @param string $language
+	 */
+	public function setLanguage($language) {
+		$this->language = $language;
+	}
+
 
 }

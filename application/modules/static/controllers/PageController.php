@@ -1,12 +1,12 @@
 <?php
 /**
- * Page Controller: The default controller to process a request
+ * Page Controller: The controller to show a static page
  *
  * @author        Koen Huybrechts
- * @package       Default Module
+ * @package       Static Module
  *
  */
-class PageController extends BaseController
+class Static_PageController extends BaseController
 {
 
     /**
@@ -64,6 +64,11 @@ class PageController extends BaseController
     public function viewAction()
     {
     	
+    }
+    
+    public function widgetAction()
+    {
+    	//echo 'ok'; die;
     }
     
 
