@@ -60,6 +60,8 @@ class HistoryViewTest extends BaseTestCase {
 
         $this->assertQueryCountMin('table.data', 1);
         $this->assertQueryCountMin('table.data tbody tr', 1);
+        
+        $this->mainNavigationCheck();
     }
 
 }

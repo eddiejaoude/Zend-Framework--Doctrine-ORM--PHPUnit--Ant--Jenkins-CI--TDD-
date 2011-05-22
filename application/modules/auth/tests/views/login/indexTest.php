@@ -21,6 +21,11 @@ class LoginViewTest extends BaseTestCase {
     public function setup() {
         parent::setUp();
     }
+    
+    public function testNavigation() {
+        $this->dispatch('/auth/login');
+        $this->mainNavigationCheck();
+    }
 
     /**
      * Test form exists on login page

@@ -21,6 +21,11 @@ class ForgotPasswordTest extends BaseTestCase {
     public function setup() {
         parent::setUp();
     }
+    
+    public function testNavigation() {
+        $this->dispatch('/auth/password/forgot');
+        $this->mainNavigationCheck();
+    }
 
     /**
      * Test form

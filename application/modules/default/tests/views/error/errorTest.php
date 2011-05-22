@@ -21,6 +21,11 @@ class ErrorPageTest extends BaseTestCase {
     public function setup() {
         parent::setUp();
     }
+    
+    public function testNavigation() {
+        $this->dispatch('/error/error');
+        $this->mainNavigationCheck();
+    }
 
     /**
      * Test homepage

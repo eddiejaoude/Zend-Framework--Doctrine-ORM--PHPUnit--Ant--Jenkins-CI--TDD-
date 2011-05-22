@@ -22,6 +22,11 @@ class Auth_Register_IndexViewTest extends BaseTestCase {
         parent::setUp();
     }
 
+    public function testNavigation() {
+        $this->dispatch('/auth/register');
+        $this->mainNavigationCheck();
+    }
+    
     public function testForm()
     {
         $this->dispatch('/auth/register');

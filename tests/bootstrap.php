@@ -55,4 +55,9 @@ abstract class BaseTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
         # database connection
         $this->_em = EntityManager::create($this->appConfig->doctrine->connection->toArray(), $config);
     }
+    
+    protected function mainNavigationCheck() {
+        $this->assertQueryCountMax('ul#navigation', 1);
+        $this->assertQueryCountMin('ul#navigation li', 2);
+    }
 }
