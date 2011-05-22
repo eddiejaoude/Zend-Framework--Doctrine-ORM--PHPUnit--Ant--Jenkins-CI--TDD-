@@ -97,12 +97,6 @@ class Auth_PasswordController extends Auth_BaseController {
                 $user = $this->_em->getRepository('Auth_Model_Account')->findOneBy(array('email' => (string) $data['email']));
 
                 if (count($user) === 1) {
-                    # get config
-                    //@Todo Remove this line
-                    $this->_config = new Zend_Config_Ini(APPLICATION_PATH .
-                                    DIRECTORY_SEPARATOR . 'configs' .
-                                    DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
-
                     $password = $this->_em->getRepository('Auth_Model_Account')->generatePassword($this->_registry->config->auth->password->length);
 
                     $user->setPassword($password, $this->_registry->config->auth->hash);
@@ -119,13 +113,13 @@ class Auth_PasswordController extends Auth_BaseController {
                     if ($emailReset->send()) {
                         # Record event
                         $this->_helper->event->record('reset password', $user->getId());
-                        $this->_flashMessenger->addMessage('A new password is send to ' . $user->getEmail());
+                        $this->_flashMessenger->addMessage('A new password has been sent to ' . $user->getEmail());
                         $this->_helper->redirector('index', 'index', 'default');
                     }
                 } else {
                     # Record event
                     // $this->_helper->event->record('reset password failed'); // removed because no account to log against
-                    $this->_flashMessenger->addMessage('Sending failed'); // removed 'email address not found' because too much info
+                    $this->_flashMessenger->addMessage('Sending failed'); 
                     $this->_helper->redirector('forgot', 'password', 'auth');
                 }
             } else {
