@@ -68,6 +68,14 @@ class Static_PageController extends BaseController
     
     public function widgetAction()
     {
+		# Get the default locale from the registry
+	    $locale = Zend_Registry::get('locale');
+    	$translate = Zend_Registry::get('Zend_Translate');
+    	$extraLanguage = new Zend_Translate('ini', APPLICATION_PATH . '/modules/static/languages/' . $locale->getLanguage() . '.ini', $locale->getLanguage());
+    	$translate->addTranslation($extraLanguage);
+    	Zend_Registry::set('Zend_Translate', $translate);
+    	
+    	
     	$this->view->test = 'Dit is de var-waarde';
     }
     
