@@ -3,17 +3,11 @@
 class Zend_Controller_Action_Helper_Widgets extends
                 Zend_Controller_Action_Helper_Abstract
 {
-    function direct($layout)
+    function direct($path, $layout)
     {
-    	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
-    		'..' . DIRECTORY_SEPARATOR . 
-    		'template' . DIRECTORY_SEPARATOR . 
-    		'page-layouts' . DIRECTORY_SEPARATOR . 
-    		$layout;
-    	$content = file_get_contents($path);
+    	$content = file_get_contents($path . $layout);
     	$pattern = '/<widget.*\:*\/>/';
     	preg_match_all($pattern, $content, $widgets);
-    	
     	$settings = Array();
     	$i = 1;
     	foreach ($widgets[0] as $widget)
@@ -29,6 +23,9 @@ class Zend_Controller_Action_Helper_Widgets extends
     		(count($id) == 2)? $data['options'] = explode('|',$id[1]): $id ;
     		
     		$view = Zend_Layout::getMvcInstance()->getView();
+    		$view->setScriptPath($path);
+    		$content = $view->render($layout);
+    		
     		$view->setScriptPath(APPLICATION_PATH . "/../template/views/" . $data['module'] . "/");
     		
     		$data['data'] = $view->action(
@@ -36,7 +33,7 @@ class Zend_Controller_Action_Helper_Widgets extends
     			$data['widget'],
     			$data['module']
     		);
-    		$settings[$i] = $data;
+    		
     		$content = str_replace($data['code'], $data['data'], $content);
     	}
         return $content;

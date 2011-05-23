@@ -68,7 +68,7 @@ class Static_PageController extends BaseController
     
     public function widgetAction()
     {
-    	//echo 'ok'; die;
+    	$this->view->test = 'Dit is de var-waarde';
     }
     
 

@@ -45,6 +45,18 @@ class PageController extends BaseController
      */
     public function indexAction()
     {
+    	$this->_helper->layout->disableLayout();
+    	
+    	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
+    		'..' . DIRECTORY_SEPARATOR . 
+    		'template' . DIRECTORY_SEPARATOR . 
+    		'page-layouts' . DIRECTORY_SEPARATOR;
+    	
+    	$layoutPath = APPLICATION_PATH . DIRECTORY_SEPARATOR .
+    		'..' . DIRECTORY_SEPARATOR . 
+    		'template' . DIRECTORY_SEPARATOR . 
+    		'layouts' . DIRECTORY_SEPARATOR;
+    	
     	$request = $this->getRequest();
     	
     	$page = $this->_em->getRepository('Default_Model_Page')->findOneBy(
@@ -53,9 +65,9 @@ class PageController extends BaseController
 	    			'language' => (string) $request->getParam('lang')
 	    		)
     		);
-    	$this->view->content = $this->_helper->widgets($page->getLayout());
-    	$this->view->header = $this->_helper->widgets('_header.phtml');
-    	$this->view->footer = $this->_helper->widgets('_footer.phtml');
+    	$this->view->content = $this->_helper->widgets($path, $page->getLayout());
+    	$this->view->page = $this->_helper->widgets($layoutPath, 'frontend.phtml');
+    	$this->view->setScriptPath(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'scripts');
     }
     
     public function viewAction()

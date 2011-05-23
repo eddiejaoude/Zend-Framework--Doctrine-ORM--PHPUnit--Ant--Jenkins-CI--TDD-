@@ -1,3 +1,9 @@
-<?php echo $this->header; ?>
+<?php
+echo $this->headTitle();
+echo $this->headLink();
+?>
+<widget static_page.default />
+
+<div id='main'>
 <?php echo $this->content; ?>
-<?php echo $this->footer; ?>
+</div>
