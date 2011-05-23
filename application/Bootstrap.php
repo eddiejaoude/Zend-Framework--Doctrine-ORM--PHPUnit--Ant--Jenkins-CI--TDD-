@@ -139,6 +139,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->_registry->doctrine->_em = EntityManager::create($this->_config->doctrine->connection->toArray(), $config);
     }
     
+    /**
+     * Setup the correct routing
+     */
+    protected function _initRoute()
+    {
+    	
+        $this->bootstrap('frontController');
+
+        /* @var $frontcontroller Zend_Controller_Front */
+        $frontcontroller = $this->getResource('frontController');
+		$frontcontroller->registerPlugin(new Custom_Controller_Plugin_Language());
+		
+        $router = $frontcontroller->getRouter();
+        
+        
+        $router->addRoute(
+            'all',
+            new Zend_Controller_Router_Route('*',
+                array('controller' => 'page',
+                      'action'     => 'index')
+            )
+        );
+        
+        $router->addRoute(
+        	'post',
+        	new Zend_Controller_Router_Route('post/:module/:controller/:action/*')
+        );
+        
+        $router->addRoute(
+        	'ajax',
+        	new Zend_Controller_Router_Route('ajax/:module/:controller/:action/*')
+        );
+        
+    }
+    
 
 }
 

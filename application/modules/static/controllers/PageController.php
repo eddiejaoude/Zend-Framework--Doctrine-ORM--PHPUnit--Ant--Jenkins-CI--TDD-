@@ -79,6 +79,11 @@ class Static_PageController extends BaseController
     	$this->view->test = 'Dit is de var-waarde';
     }
     
+    public function saveAction()
+    {
+    	echo 'ok'; die;
+    }
+    
 
 
 }
