@@ -45,8 +45,6 @@ class PageController extends BaseController
      */
     public function indexAction()
     {
-    	
-    	
     	$request = $this->getRequest();
     	
     	$page = $this->_em->getRepository('Default_Model_Page')->findOneBy(
@@ -55,11 +53,9 @@ class PageController extends BaseController
 	    			'language' => (string) $request->getParam('lang')
 	    		)
     		);
-    	$this->view->header = $this->_helper->widgets('_header.phtml');
     	$this->view->content = $this->_helper->widgets($page->getLayout());
+    	$this->view->header = $this->_helper->widgets('_header.phtml');
     	$this->view->footer = $this->_helper->widgets('_footer.phtml');
-    	//Zend_Debug::dump($this->view->content);
-        //die();
     }
     
     public function viewAction()
