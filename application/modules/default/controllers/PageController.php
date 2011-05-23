@@ -55,10 +55,11 @@ class PageController extends BaseController
 	    			'language' => (string) $request->getParam('lang')
 	    		)
     		);
-    	$widgets = Array();
-    	$widgets = $this->_helper->widgets($page->getLayout());
-    	
-        Zend_Debug::dump($widgets); die();
+    	$this->view->header = $this->_helper->widgets('_header.phtml');
+    	$this->view->content = $this->_helper->widgets($page->getLayout());
+    	$this->view->footer = $this->_helper->widgets('_footer.phtml');
+    	//Zend_Debug::dump($this->view->content);
+        //die();
     }
     
     public function viewAction()

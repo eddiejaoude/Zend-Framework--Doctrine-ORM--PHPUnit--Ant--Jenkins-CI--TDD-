@@ -11,7 +11,6 @@ class Zend_Controller_Action_Helper_Widgets extends
     		'page-layouts' . DIRECTORY_SEPARATOR . 
     		$layout;
     	$content = file_get_contents($path);
-    	Zend_Debug::dump($content);
     	$pattern = '/<widget.*\:*\/>/';
     	preg_match_all($pattern, $content, $widgets);
     	
@@ -31,7 +30,6 @@ class Zend_Controller_Action_Helper_Widgets extends
     		
     		$view = Zend_Layout::getMvcInstance()->getView();
     		$view->setScriptPath(APPLICATION_PATH . "/../template/views/" . $data['module'] . "/");
-    		//Zend_Debug::dump($data); die;
     		
     		$data['data'] = $view->action(
     			'widget',
@@ -40,11 +38,7 @@ class Zend_Controller_Action_Helper_Widgets extends
     		);
     		$settings[$i] = $data;
     		$content = str_replace($data['code'], $data['data'], $content);
-    		
-    		Zend_Debug::dump($content);
-    		Zend_Debug::dump($settings);
     	}
-    	die;
-        return $settings;
+        return $content;
     }
 }
