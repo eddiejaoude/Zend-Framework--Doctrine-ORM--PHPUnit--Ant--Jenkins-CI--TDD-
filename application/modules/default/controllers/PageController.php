@@ -45,16 +45,21 @@ class PageController extends BaseController
      */
     public function indexAction()
     {
+    		
+    		//Zend_Debug::dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName()); die;
+    		Zend_Debug::dump($this->_helper->templateSelector()); die;
     	$this->_helper->layout->disableLayout();
     	
     	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
     		'template' . DIRECTORY_SEPARATOR . 
+    		'frontend' . DIRECTORY_SEPARATOR . 
     		'page-layouts' . DIRECTORY_SEPARATOR;
     	
     	$layoutPath = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
     		'template' . DIRECTORY_SEPARATOR . 
+    		'frontend' . DIRECTORY_SEPARATOR . 
     		'layouts' . DIRECTORY_SEPARATOR;
     	
     	$request = $this->getRequest();

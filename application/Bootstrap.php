@@ -140,6 +140,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
     
     /**
+     * Add the helper path
+     */
+    protected function _initHelperPath()
+    {
+    	Zend_Controller_Action_HelperBroker::addPath(
+        APPLICATION_PATH. '/library/Custom/Controller/Helper');
+    }
+    
+    /**
      * Setup the correct routing
      */
     protected function _initRoute()

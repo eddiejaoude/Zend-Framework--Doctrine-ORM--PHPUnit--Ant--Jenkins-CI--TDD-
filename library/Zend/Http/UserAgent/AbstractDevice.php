@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage UserAgent
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -27,7 +27,7 @@ require_once 'Zend/Http/UserAgent/Device.php';
  * @category   Zend
  * @package    Zend_Http
  * @subpackage UserAgent
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Http_UserAgent_AbstractDevice
@@ -648,7 +648,9 @@ abstract class Zend_Http_UserAgent_AbstractDevice
                     if (isset($comment[4])) {
                         $result['browser_build'] = trim($comment[4]);
                     }
-                    $result['browser_language'] = trim($comment[3]);
+                    if (isset($comment[3])) {
+                        $result['browser_language'] = trim($comment[3]);
+                    }
 
                     // Netscape
                     if ($result['browser_name'] == 'Navigator' || $result['browser_name'] == 'Netscape6') {

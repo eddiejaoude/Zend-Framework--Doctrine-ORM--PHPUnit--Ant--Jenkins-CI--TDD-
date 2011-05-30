@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Captcha.php 22328 2010-05-30 15:09:06Z bittarman $
+ * @version    $Id: Captcha.php 23871 2011-04-23 22:40:16Z ramon $
  */
 
 /** @see Zend_Form_Element_Xhtml */
@@ -38,7 +38,7 @@ require_once 'Zend/Captcha/Adapter.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml
@@ -253,7 +253,7 @@ class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml
     /**
      * Load default decorators
      *
-     * @return void
+     * @return Zend_Form_Element_Captcha
      */
     public function loadDefaultDecorators()
     {

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: View.php 22965 2010-09-18 17:45:51Z intiilapa $
+ * @version    $Id: View.php 23992 2011-05-04 03:32:01Z ralph $
  */
 
 /**
@@ -33,7 +33,7 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Application_Resource_View extends Zend_Application_Resource_ResourceAbstract
@@ -77,6 +77,9 @@ class Zend_Application_Resource_View extends Zend_Application_Resource_ResourceA
             }
             if (isset($options['contentType'])) {
                 $this->_view->headMeta()->appendHttpEquiv('Content-Type', $options['contentType']);
+            }
+            if (isset($options['assign']) && is_array($options['assign'])) {
+                $this->_view->assign($options['assign']);
             }
         }
         return $this->_view;
