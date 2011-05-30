@@ -11,7 +11,7 @@
 class HomePageTest extends BaseTestCase {
 
     /**
-     * Initialisation of config object
+     * Setup
      *
      * @author 	Eddie Jaoude
      * @param 	null
