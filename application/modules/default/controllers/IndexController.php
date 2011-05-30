@@ -46,6 +46,18 @@ class IndexController extends BaseController
     public function indexAction() {
         
     }
+
+    /**
+     * table method
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return           void
+     *
+     */
+    public function tableAction() {
+        
+    }
     
 
 
