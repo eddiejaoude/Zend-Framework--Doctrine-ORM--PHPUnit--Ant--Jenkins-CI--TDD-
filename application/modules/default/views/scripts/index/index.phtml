@@ -3,3 +3,53 @@
 <p>Vestibulum non sapien tellus. Nulla pharetra convallis velit, vel feugiat est sollicitudin ac. Maecenas ut massa nunc, vitae bibendum purus. Aenean sed odio erat. Sed rutrum ultricies orci quis vestibulum. Etiam rhoncus est quis ante suscipit hendrerit. Fusce non neque eget dolor aliquet tempus eu pulvinar ligula. Suspendisse convallis ipsum at felis varius sagittis ac in odio. Nulla facilisi. Quisque faucibus, elit in sollicitudin tincidunt, risus diam dapibus orci, non lobortis nibh ligula eget nisl. Ut tincidunt aliquam urna, in cursus</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae est metus. Etiam nisl risus, accumsan vitae interdum rutrum, auctor vel lorem. Nunc facilisis facilisis semper. Quisque et risus est, faucibus vestibulum odio. Duis accumsan, orci consequat posuere porttitor, diam ante imperdiet purus, at hendrerit justo enim quis magna. Sed risus dolor, semper condimentum cursus nec, tristique nec magna. Ut porttitor, est at facilisis feugiat, dolor enim varius ipsum, sed lacinia ligula risus eget tellus. Proin a tellus ut sem tristique lacinia. Quisque ac dolor mi, eget congue elit. Duis lobortis odio eget nibh aliquam quis aliquam sem porttitor.</p>
 <p>Vestibulum non sapien tellus. Nulla pharetra convallis velit, vel feugiat est sollicitudin ac. Maecenas ut massa nunc, vitae bibendum purus. Aenean sed odio erat. Sed rutrum ultricies orci quis vestibulum. Etiam rhoncus est quis ante suscipit hendrerit. Fusce non neque eget dolor aliquet tempus eu pulvinar ligula. Suspendisse convallis ipsum at felis varius sagittis ac in odio. Nulla facilisi. Quisque faucibus, elit in sollicitudin tincidunt, risus diam dapibus orci, non lobortis nibh ligula eget nisl. Ut tincidunt aliquam urna, in cursus</p>
+
+<?php
+$titles = array(
+            array('value' => 'Column 1'),
+            array('value' => 'Column 2'),
+            array('value' => 'Column 3'),
+        );
+$table = array(
+            'id' => 'id_table_1',
+            'class' => 'class_table_1 data'
+        );
+echo $this->table()->startTable($titles, $table);
+$row = array(
+    array(
+        array(
+            'id' => 'id_row_1a',
+            'class' => 'class_row_1a',
+            'value' => 'aaa111'
+        ),
+        array(
+            'id' => 'id_row_1b',
+            'class' => 'class_row_1b',
+            'value' => 'aaa222'
+        ),
+        array(
+            'id' => 'id_row_1c',
+            'class' => 'class_row_1c',
+            'value' => 'aaa333'
+        )
+    ),
+    array(
+        array(
+                'id' => 'id_row_2a',
+                'class' => 'class_row_2a',
+                'value' => 'bbb111'
+            ),
+            array(
+                'id' => 'id_row_2b',
+                'class' => 'class_row_2b',
+                'value' => 'bbb222'
+            ),
+            array(
+                'id' => 'id_row_2c',
+                'class' => 'class_row_2c',
+                'value' => 'bbb333'
+            )
+        )
+);
+echo $this->table()->addRow($row);
+echo $this->table()->endTable();

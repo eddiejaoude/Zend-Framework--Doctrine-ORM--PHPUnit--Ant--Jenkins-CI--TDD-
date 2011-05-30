@@ -47,19 +47,5 @@ class IndexController extends BaseController
         
     }
 
-    /**
-     * table method
-     *
-     * @author          Eddie Jaoude
-     * @param           void
-     * @return           void
-     *
-     */
-    public function tableAction() {
-        
-    }
-    
-
-
 }
 
