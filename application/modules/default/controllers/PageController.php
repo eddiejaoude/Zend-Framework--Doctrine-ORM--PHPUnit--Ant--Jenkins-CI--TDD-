@@ -47,7 +47,7 @@ class PageController extends BaseController
     {
     		
     		//Zend_Debug::dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName()); die;
-    		Zend_Debug::dump($this->_helper->templateSelector()); die;
+    		//Zend_Debug::dump($this->_helper->templateSelector()); die;
     	$this->_helper->layout->disableLayout();
     	
     	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
