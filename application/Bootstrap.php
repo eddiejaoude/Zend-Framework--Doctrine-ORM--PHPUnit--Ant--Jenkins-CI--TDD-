@@ -24,6 +24,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     /**
+     * Default  View helpers
+     *
+     * @TODO: This needs to be updated to be dynamic for current module or moved to each module
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _initDefaultHelpers() {
+        $this->bootstrap('view');
+        $view = $this->getResource('view');
+        $view->addHelperPath( APPLICATION_PATH . '/modules/default/views/helpers', 'Default_View_Helper');
+    }
+
+    /**
      * Application  Base Controller & model
      *
      * @author          Eddie Jaoude
@@ -34,7 +50,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     protected function _initApplicationBase() {
         include_once(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'BaseController.php');
     }
-
+    
     /**
      * Configuration
      *
