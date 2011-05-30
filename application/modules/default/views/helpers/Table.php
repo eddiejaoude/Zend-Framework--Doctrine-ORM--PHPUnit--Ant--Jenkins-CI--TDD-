@@ -35,16 +35,28 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           void
      *
      */
-    public function table($titles, $table=array()) {
-        $this->table = '';
-        $this->table .= '<table' . $this->attribute('id', !empty($table['id']) ? $table['id'] : null) . $this->attribute('class', !empty($table['class']) ? $table['class'] : null) . '>';
-        $this->table .= '<thead><tr>';
+    public function table() {
+        return $this;
+    }
+
+    /**
+     * Start table
+     *
+     * @author          Eddie Jaoude
+     * @param           string $titles
+     * @param           array $table
+     * @return           void
+     *
+     */
+    public function startTable($titles, $table=array()) {
+        $table = '<table' . $this->attribute('id', !empty($table['id']) ? $table['id'] : null) . $this->attribute('class', !empty($table['class']) ? $table['class'] : null) . '>';
+        $table .= '<thead><tr>';
         foreach ($titles as $k=>$v) {
-            $this->table .= '<td' . $this->attribute('id', !empty($v['id']) ? $v['id'] : null) . $this->attribute('class', !empty($v['class']) ? $v['class'] : null) . '>' . $v['value'] . '</td>';
+            $table .= '<td' . $this->attribute('id', !empty($v['id']) ? $v['id'] : null) . $this->attribute('class', !empty($v['class']) ? $v['class'] : null) . '>' . $v['value'] . '</td>';
         }
-        $this->table .= '</tr></thead>';
-        $this->table .= '<body>';
-        return $this->table;
+        $table .= '</tr></thead>';
+        $table .= '<body>';
+        return $table;
     }
 
     /**
@@ -74,12 +86,15 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      *
      */
     public function addRow($row) {
+        $rows = '';
         foreach ($row as $k=>$v) {
-            $this->rows .= '<tr>';
-            $this->rows .= '<td' . $this->attribute('id', $v['id']) . $this->attribute('class', $v['class']) . '>' . $v['value'] . '</td>';
-            $this->rows .= '</tr>';
+            $rows .= '<tr>';
+            foreach ($v as $k=>$cell) {
+                $rows .= '<td' . $this->attribute('id', $cell['id']) . $this->attribute('class', $cell['class']) . '>' . $cell['value'] . '</td>';
+            }
+            $rows .= '</tr>';
         }
-        return $this->rows;
+        return $rows;
     }
 
     /**
@@ -91,9 +106,9 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      *
      */
     public function endTable() {
-        $this->table .= '</body>';
-        $this->table .= '</table>';
-        return $this->table;
+        $table = '</body>';
+        $table .= '</table>';
+        return $table;
     }
 
 }

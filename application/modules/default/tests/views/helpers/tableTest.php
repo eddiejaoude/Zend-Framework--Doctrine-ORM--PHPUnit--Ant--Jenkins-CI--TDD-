@@ -42,10 +42,10 @@ class TableHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testTableMethodBasic()
+    public function testStartTableMethodBasic()
     {
         $expected = '<table><thead><tr><td>a</td><td>b</td></tr></thead><body>';
-        $result = $this->_helper->table(array(array('value' => 'a'), array('value' => 'b')));
+        $result = $this->_helper->startTable(array(array('value' => 'a'), array('value' => 'b')));
         $this->assertEquals($expected, $result);
     }
 
@@ -57,10 +57,10 @@ class TableHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testTableMethodFull()
+    public function testStartTableMethodFull()
     {
         $expected = '<table id="id_a" class="class_a"><thead><tr><td>100</td><td>200</td></tr></thead><body>';
-        $result = $this->_helper->table(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
+        $result = $this->_helper->startTable(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
         $this->assertEquals($expected, $result);
     }
 
@@ -75,8 +75,8 @@ class TableHelperTest extends BaseTestCase {
     public function testMultipleTables()
     {
         $expected = '<table id="id_a" class="class_a"><thead><tr><td>100</td><td>200</td></tr></thead><body>';
-        $result = $this->_helper->table(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
-        $result .= $this->_helper->table(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
+        $result = $this->_helper->startTable(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
+        $result .= $this->_helper->startTable(array(array('value' => '100'), array('value' => '200')), array('id' => 'id_a', 'class' => 'class_a'));
         $this->assertEquals($expected . $expected, $result);
     }
 
@@ -107,38 +107,25 @@ class TableHelperTest extends BaseTestCase {
      */
     public function testAddRowMethod()
     {
-        $expected = '<tr><td id="id_a" class="class_a">100</td></tr><tr><td id="id_b" class="class_b">200</td></tr>';
+        $expected = '<tr><td id="id_a" class="class_a">100</td><td id="id_b" class="class_b">200</td></tr>';
         $rows = array(
             array(
-                'id' => 'id_a',
-                'class' => 'class_a',
-                'value' => '100',
-            ),
-            array(
-                'id' => 'id_b',
-                'class' => 'class_b',
-                'value' => '200',
+                array(
+                    'id' => 'id_a',
+                    'class' => 'class_a',
+                    'value' => '100',
+                ),
+                array(
+                    'id' => 'id_b',
+                    'class' => 'class_b',
+                    'value' => '200',
+                )
             )
         );
         $result = $this->_helper->addRow($rows);
         $this->assertEquals($expected, $result);
 
-        # add another row
-        $rows = array(
-            array(
-                'id' => 'id_c',
-                'class' => 'class_c',
-                'value' => '300',
-            ),
-            array(
-                'id' => 'id_d',
-                'class' => 'class_d',
-                'value' => '400',
-            )
-        );
-        $result = $this->_helper->addRow($rows);
-        $expected2 = '<tr><td id="id_c" class="class_c">300</td></tr><tr><td id="id_d" class="class_d">400</td></tr>';
-        $this->assertEquals($expected . $expected2, $result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
