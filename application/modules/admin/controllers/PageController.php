@@ -45,19 +45,18 @@ class PageController extends BaseController
      */
     public function indexAction()
     {
-    		
-    		//Zend_Debug::dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName()); die;
     	$this->_helper->layout->disableLayout();
     	
     	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
     		'template' . DIRECTORY_SEPARATOR . 
+    		'admin' . DIRECTORY_SEPARATOR . 
     		'page-layouts' . DIRECTORY_SEPARATOR;
     	
     	$layoutPath = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
-    		'template' . DIRECTORY_SEPARATOR . 
-    		'layouts' . DIRECTORY_SEPARATOR;
+    		'admin' . DIRECTORY_SEPARATOR . 
+    		'frontend' . DIRECTORY_SEPARATOR;
     	
     	$request = $this->getRequest();
     	
@@ -68,7 +67,7 @@ class PageController extends BaseController
 	    		)
     		);
     	$this->view->content = $this->_helper->widgets($path, $page->getLayout());
-    	$this->view->page = $this->_helper->widgets($layoutPath, 'frontend.phtml');
+    	$this->view->page = $this->_helper->widgets($layoutPath, 'main.phtml');
     	$this->view->setScriptPath(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'scripts');
     }
     

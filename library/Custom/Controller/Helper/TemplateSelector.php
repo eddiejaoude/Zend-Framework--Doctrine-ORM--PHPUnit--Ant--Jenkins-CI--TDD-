@@ -35,9 +35,9 @@ class Zend_Controller_Action_Helper_TemplateSelector extends Zend_Controller_Act
     		$template = 'admin';
     	} else {
     		$userAgent = new Zend_Http_UserAgent();
-    		Zend_Debug::dump($userAgent); die;
-    		switch ($userAgent->getBrowserType) {
-    			case Zend_Http_UserAgent::TYPE_MOBILE: 
+    		$userAgent->getDevice();
+    		switch ($userAgent->getBrowserType()) {
+    			case 'Mobile': 
 	                $template = 'mobile';
 	                break;
 	            default: 

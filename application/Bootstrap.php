@@ -145,7 +145,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     protected function _initHelperPath()
     {
     	Zend_Controller_Action_HelperBroker::addPath(
-        APPLICATION_PATH. '/library/Custom/Controller/Helper');
+        APPLICATION_PATH. '/../library/Custom/Controller/Helper');
     }
     
     /**
