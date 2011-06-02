@@ -22,13 +22,34 @@ class Custom_Acl extends Zend_Acl
         
         foreach ($privileges as $privilege)
         {
+        	# Prepare to add as a resource
         	$data['module'] = $privilege->getModule();
         	$data['controller'] = $privilege->getController();
         	$data['action'] = $privilege->getAction();
         	
         	$this->addResource(new Zend_Acl_Resource(implode('.', $data)));
         }
-
-        //$this->allow(‘guest’, ‘user.login’);
+        
+        /**
+         * Really make the connection between role and privilege
+         */
+        $modelRolePrivileges = $doctrine->_em->getRepository('Default_Model_RolePrivilege');
+        $rolePrivileges = $modelRolePrivileges->findBy(array());
+        
+        foreach ($rolePrivileges as $rolePrivilege)
+        {
+        	$roleId = $rolePrivilege->getRole_Id();
+        	$privilegeId = $rolePrivilege->getPrivilege_Id();
+        	
+        	$role = $modelRoles->findOneBy(array('id' => $roleId));
+        	$privilege = $modelPrivileges->findOneBy(array('id' => $privilegeId));
+        	
+        	# Prepare to add as a resource
+        	$data['module'] = $privilege->getModule();
+        	$data['controller'] = $privilege->getController();
+        	$data['action'] = $privilege->getAction();
+        	
+        	$this->allow($role->getName(), implode('.', $data));
+        }
 	}
 }
