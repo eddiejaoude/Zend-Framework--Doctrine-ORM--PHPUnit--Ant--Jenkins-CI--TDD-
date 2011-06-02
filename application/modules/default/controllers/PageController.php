@@ -48,7 +48,6 @@ class PageController extends BaseController
     	$this->_helper->layout->disableLayout();
     	
     	$template = $this->_helper->templateSelector();
-    	Zend_Debug::dump($template); die();
     	$path = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
     		'template' . DIRECTORY_SEPARATOR . 
@@ -57,11 +56,10 @@ class PageController extends BaseController
     	
     	$layoutPath = APPLICATION_PATH . DIRECTORY_SEPARATOR .
     		'..' . DIRECTORY_SEPARATOR . 
-    		$template . DIRECTORY_SEPARATOR . 
-    		'frontend' . DIRECTORY_SEPARATOR;
+    		'template' . DIRECTORY_SEPARATOR . 
+    		$template . DIRECTORY_SEPARATOR;
     	
     	$request = $this->getRequest();
-    	
     	$page = $this->_em->getRepository('Default_Model_Page')->findOneBy(
 	    		array(
 	    			'slug' => (string) $request->getParam('slug'),

@@ -185,8 +185,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         	'admin',
         	new Zend_Controller_Router_Route('admin/:module/:controller/:action/*',
                 array(
-                	'module' =>'admin',	
-               		'controller' => 'dashboard',
+                	'module' =>'default',	
+               		'controller' => 'page',
                     'action'     => 'index'))
         );
         
