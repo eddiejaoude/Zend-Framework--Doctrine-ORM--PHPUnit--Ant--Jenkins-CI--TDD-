@@ -3,24 +3,32 @@ class Custom_Acl extends Zend_Acl
 {
 	public function __construct() {
 		$doctrine = Zend_Registry::get('doctrine');
-		$model = $doctrine->_em->getRepository('Default_Model_Role');
 		/**
 		 * Get all the roles from the database and add these to Zend_Acl
 		 */
-		$roles = $model->findBy(array());
+		$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+		$roles = $modelRoles->findBy(array());
+		
         foreach ($roles as $role)
         {
-        	$this->addRole('guest');
+        	$this->addRole($role->getName());
         }
-
+        
         /**
          * Get all resources from the database and add these to Zend_Acl
          */
-        $this->addResource(new Zend_Acl_Resource('user.login'));
-        $this->addResource(new Zend_Acl_Resource('user.add'));
-        $this->addResource(new Zend_Acl_Resource('user.delete'));
-        $this->addResource(new Zend_Acl_Resource('user.list'));
+        $modelPrivileges = $doctrine->_em->getRepository('Default_Model_Privilege');
+        $privileges = $modelPrivileges->findBy(array());
+        
+        foreach ($privileges as $privilege)
+        {
+        	$data['module'] = $privilege->getModule();
+        	$data['controller'] = $privilege->getController();
+        	$data['action'] = $privilege->getAction();
+        	
+        	$this->addResource(new Zend_Acl_Resource(implode('.', $data)));
+        }
 
-        $this->allow(‘guest’, ‘user.login’);
+        //$this->allow(‘guest’, ‘user.login’);
 	}
 }

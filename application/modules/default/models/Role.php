@@ -22,5 +22,49 @@ class Default_Model_Role {
      * @Column(type="string")
      */
     private $description;
+    
+	/**
+	 * @return the $id
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @return the $name
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * @return the $description
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @param integer $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+
+	/**
+	 * @param string $name
+	 */
+	public function setName($name) {
+		$this->name = $name;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
+	}
+
 	
+    
 }
