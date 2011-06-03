@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 02 Jun 2011 om 22:36
+-- Genereertijd: 03 Jun 2011 om 22:34
 -- Serverversie: 5.1.44
 -- PHP-Versie: 5.3.2
 
@@ -25,3 +25,4 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 INSERT INTO `acl_roles` VALUES(1, 'admin', 'Administrators');
 INSERT INTO `acl_roles` VALUES(2, 'user', 'Registered visitors');
+INSERT INTO `acl_roles` VALUES(3, 'guest', 'Anonymous Visitors');
