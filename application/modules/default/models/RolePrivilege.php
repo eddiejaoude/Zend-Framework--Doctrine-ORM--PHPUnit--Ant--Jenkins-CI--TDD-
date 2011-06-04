@@ -1,6 +1,6 @@
 <?php
 /**
- * @Table(name="acl_rolePrivileges")
+ * @Table(name="acl_role_privileges")
  * @Entity(repositoryClass="Default_Model_RolePrivilegeRepository")
  */
 class Default_Model_RolePrivilege {
