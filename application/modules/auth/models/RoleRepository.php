@@ -1,6 +1,6 @@
 <?php
 /**
- * Role Privilege Repository
+ * Role Repository
  *
  *
  * @author        Koen Huybrechts
@@ -9,7 +9,7 @@
  */
 
 use Doctrine\ORM\EntityRepository;
-class Default_Model_RolePrivilegeRepository extends EntityRepository
+class Auth_Model_RoleRepository extends EntityRepository
 {
 	
 }

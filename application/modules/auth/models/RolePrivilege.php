@@ -1,9 +1,9 @@
 <?php
 /**
  * @Table(name="acl_role_privileges")
- * @Entity(repositoryClass="Default_Model_RolePrivilegeRepository")
+ * @Entity(repositoryClass="Auth_Model_RolePrivilegeRepository")
  */
-class Default_Model_RolePrivilege {
+class Auth_Model_RolePrivilege {
     /**
      * @var integer $id
      * @Id @Column(type="integer") 

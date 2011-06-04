@@ -1,5 +1,5 @@
 <?php
-class Custom_Plugins_Acl extends Zend_Controller_Plugin_Abstract
+class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 {
 
     /**
@@ -29,7 +29,7 @@ class Custom_Plugins_Acl extends Zend_Controller_Plugin_Abstract
 			$allowed = false;
 			foreach ($roles as $role)
 			{
-				$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+				$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
 				$roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
 				if($acl->has($resource) && $acl->isAllowed($roleData->getName(), $resource)) {
 					$allowed = true;
@@ -40,7 +40,7 @@ class Custom_Plugins_Acl extends Zend_Controller_Plugin_Abstract
 			 //die();
 		} else {
 			$allowed = false;
-			$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+			$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
 			if($acl->has($resource) && $acl->isAllowed('guest', $resource)) {
 				$allowed = true;
 			}

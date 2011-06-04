@@ -73,7 +73,7 @@ class Default_View_Helper_Href extends Zend_View_Helper_Url
 			$allowed = false;
 			foreach ($roles as $role)
 			{
-				$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+				$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
 				$roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
 				if($acl->has($resource) && $acl->isAllowed($roleData->getName(), $resource)) {
 					$allowed = true;
@@ -82,7 +82,7 @@ class Default_View_Helper_Href extends Zend_View_Helper_Url
 			}
 		} else {
 			$allowed = false;
-			$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+			$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
 			if($acl->has($resource) && $acl->isAllowed('guest', $resource)) {
 				$allowed = true;
 			}

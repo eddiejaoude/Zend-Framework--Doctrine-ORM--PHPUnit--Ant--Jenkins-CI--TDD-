@@ -6,7 +6,7 @@ class Custom_Acl extends Zend_Acl
 		/**
 		 * Get all the roles from the database and add these to Zend_Acl
 		 */
-		$modelRoles = $doctrine->_em->getRepository('Default_Model_Role');
+		$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
 		$roles = $modelRoles->findBy(array());
 		
         foreach ($roles as $role)
@@ -17,7 +17,7 @@ class Custom_Acl extends Zend_Acl
         /**
          * Get all resources from the database and add these to Zend_Acl
          */
-        $modelPrivileges = $doctrine->_em->getRepository('Default_Model_Privilege');
+        $modelPrivileges = $doctrine->_em->getRepository('Auth_Model_Privilege');
         $privileges = $modelPrivileges->findBy(array());
         
         foreach ($privileges as $privilege)
@@ -33,7 +33,7 @@ class Custom_Acl extends Zend_Acl
         /**
          * Really make the connection between role and privilege
          */
-        $modelRolePrivileges = $doctrine->_em->getRepository('Default_Model_RolePrivilege');
+        $modelRolePrivileges = $doctrine->_em->getRepository('Auth_Model_RolePrivilege');
         $rolePrivileges = $modelRolePrivileges->findBy(array());
         
         foreach ($rolePrivileges as $rolePrivilege)

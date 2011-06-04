@@ -9,7 +9,7 @@
  */
 
 use Doctrine\ORM\EntityRepository;
-class Default_Model_PrivilegeRepository extends EntityRepository
+class Auth_Model_PrivilegeRepository extends EntityRepository
 {
 	
 }
