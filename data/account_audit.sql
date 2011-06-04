@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS `account_events`;
 CREATE TABLE `account_events` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(10) unsigned NOT NULL,
