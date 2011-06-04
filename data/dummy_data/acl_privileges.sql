@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 04 Jun 2011 om 13:24
+-- Genereertijd: 04 Jun 2011 om 18:18
 -- Serverversie: 5.1.44
 -- PHP-Versie: 5.3.2
 

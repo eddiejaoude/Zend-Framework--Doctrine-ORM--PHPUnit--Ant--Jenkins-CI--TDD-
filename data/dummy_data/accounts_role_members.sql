@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 04 Jun 2011 om 18:19
+-- Genereertijd: 04 Jun 2011 om 18:18
 -- Serverversie: 5.1.44
 -- PHP-Versie: 5.3.2
 
@@ -20,9 +20,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 --
--- Gegevens worden uitgevoerd voor tabel `acl_roles`
+-- Gegevens worden uitgevoerd voor tabel `accounts_role_members`
 --
 
-INSERT INTO `acl_roles` VALUES(1, 'admin', 'Administrators');
-INSERT INTO `acl_roles` VALUES(2, 'user', 'Registered visitors');
-INSERT INTO `acl_roles` VALUES(3, 'guest', 'Anonymous Visitors');
+INSERT INTO `accounts_role_members` VALUES(1, 5, 2);
+INSERT INTO `accounts_role_members` VALUES(2, 5, 1);
