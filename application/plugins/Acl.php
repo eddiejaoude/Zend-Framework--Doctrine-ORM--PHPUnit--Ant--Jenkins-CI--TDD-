@@ -21,8 +21,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 	    if (Zend_Auth::getInstance()->hasIdentity()) {
 	    	$accountId = Zend_Auth::getInstance()->getIdentity()
 		                                      ->getId();
-		    
-			
+		    	
 			$modelRoleMembers = $doctrine->_em->getRepository('Auth_Model_RoleMember');
 			$roles = $modelRoleMembers->findBy(array('account_id' => $accountId));
 			
@@ -36,8 +35,6 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 				}
 				
 			}
-			
-			 //die();
 		} else {
 			$allowed = false;
 			$modelRoles = $doctrine->_em->getRepository('Auth_Model_Role');
