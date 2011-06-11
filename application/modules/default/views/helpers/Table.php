@@ -102,7 +102,7 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
         foreach ($row as $k=>$v) {
             $rows .= '<tr>';
             foreach ($v as $k=>$cell) {
-                $rows .= '<td' . $this->attribute('id', $cell['id']) . $this->attribute('class', $cell['class']) . '>' . $cell['value'] . '</td>';
+                $rows .= '<td' . $this->attribute('id', !empty($cell['id']) ? $cell['id'] : null) . $this->attribute('class', !empty($cell['class']) ? $cell['class'] : null) . '>' . $cell['value'] . '</td>';
             }
             $rows .= '</tr>';
         }
