@@ -4,6 +4,7 @@ $titles = array(
             array('value' => 'ID'),
             array('value' => 'Role'),
             array('value' => 'Description'),
+            array('value' => 'Access'),
         );
 $table = array(
             'id' => 'acl_list',
@@ -13,8 +14,12 @@ echo $this->table()->startTable($titles, $table);
 
 $row = array();
 foreach ($this->roles as $k => $v) {
-     $row[] =
-     array(
+    $access = array();
+    foreach ($v->getRolePrivileges() as $k2 => $v2) {
+        $access[] = $v2->getPrivilege_Id();
+    }
+    $row[] =
+    array(
             array(
                 'value' => $v->getId()
             ),
@@ -23,6 +28,9 @@ foreach ($this->roles as $k => $v) {
             ),
             array(
                 'value' => $v->getDescription()
+            ),
+            array(
+                'value' => implode(',', $access)
             )
         );
 }

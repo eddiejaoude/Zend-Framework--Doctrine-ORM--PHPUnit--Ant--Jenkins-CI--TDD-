@@ -70,8 +70,8 @@ class Auth_AclController extends Auth_BaseController
      *
      */
     public function roleAction() {
-        $modelRoles = $this->_em->getRepository('Auth_Model_Role');
-        $roles = $modelRoles->findBy(array());
+        $modelRoles = $this->_em->createQuery('SELECT r, p FROM Auth_Model_Role r JOIN r.rolePrivileges p');
+        $roles = $modelRoles->getResult();
 
         $this->view->roles = $roles;
     }
