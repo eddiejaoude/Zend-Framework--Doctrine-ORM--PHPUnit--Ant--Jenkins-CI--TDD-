@@ -1,0 +1,30 @@
+<h2>Roles</h2>
+<?php
+$titles = array(
+            array('value' => 'ID'),
+            array('value' => 'Role'),
+            array('value' => 'Description'),
+        );
+$table = array(
+            'id' => 'acl_list',
+            'class' => 'data'
+        );
+echo $this->table()->startTable($titles, $table);
+
+$row = array();
+foreach ($this->roles as $k => $v) {
+     $row[] =
+     array(
+            array(
+                'value' => $v->getId()
+            ),
+            array(
+                'value' => $v->getName()
+            ),
+            array(
+                'value' => $v->getDescription()
+            )
+        );
+}
+echo $this->table()->addRow($row);
+echo $this->table()->endTable();
