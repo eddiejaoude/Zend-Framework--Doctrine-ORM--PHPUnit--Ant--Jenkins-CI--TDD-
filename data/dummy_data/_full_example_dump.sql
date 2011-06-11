@@ -107,7 +107,7 @@ CREATE TABLE `acl_privileges` (
   `action` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +116,7 @@ CREATE TABLE `acl_privileges` (
 
 LOCK TABLES `acl_privileges` WRITE;
 /*!40000 ALTER TABLE `acl_privileges` DISABLE KEYS */;
-INSERT INTO `acl_privileges` VALUES (1,'auth','account','index','Watch Profile Information'),(2,'auth','account','update','Update Profile Information'),(3,'default','index','index','Homepage');
+INSERT INTO `acl_privileges` VALUES (1,'auth','account','index','Watch Profile Information'),(2,'auth','account','update','Update Profile Information'),(3,'default','index','index','Homepage'),(4,'auth','login','index','Login page');
 /*!40000 ALTER TABLE `acl_privileges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `acl_role_privileges` (
   `role_id` int(10) NOT NULL,
   `privilege_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `acl_role_privileges` (
 
 LOCK TABLES `acl_role_privileges` WRITE;
 /*!40000 ALTER TABLE `acl_role_privileges` DISABLE KEYS */;
-INSERT INTO `acl_role_privileges` VALUES (1,1,1),(2,3,3),(9,2,1);
+INSERT INTO `acl_role_privileges` VALUES (1,1,1),(2,3,3),(9,2,1),(10,3,4);
 /*!40000 ALTER TABLE `acl_role_privileges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-06-05 11:54:16
+-- Dump completed on 2011-06-11  7:29:19
