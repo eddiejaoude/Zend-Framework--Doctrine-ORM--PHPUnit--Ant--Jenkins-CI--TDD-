@@ -21,11 +21,12 @@ FEATURES include
     - register (inc. captcha)
   - custom controller plugin helpers
   - custom controller action helpers
-  - flash message (flashMessenger) helper useable from any controller action
+  - flash message (flashMessenger) helper usable from any controller action
+  - ACL (in acl branch)
 - jQuery
 - Unit testing
   - setup & configured
-  - 100% code coverage
+  - high code coverage
 - Best practice php tools
   - phploc
   - phpcpd
@@ -36,6 +37,7 @@ FEATURES include
   - php_codebrowser 
   - phpdocs
 - Ant build scripts for Continuous Integration
+- Selenium rc tests driven by phpunit (coming soon)
 - Ant deploy script including 'dry run' mode (coming soon)
 
 --------------------------------------------------------
