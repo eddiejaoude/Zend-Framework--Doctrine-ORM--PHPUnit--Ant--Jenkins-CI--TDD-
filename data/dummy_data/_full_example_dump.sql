@@ -28,7 +28,7 @@ CREATE TABLE `account_events` (
   `event` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `account_events` (
 
 LOCK TABLES `account_events` WRITE;
 /*!40000 ALTER TABLE `account_events` DISABLE KEYS */;
-INSERT INTO `account_events` VALUES (1,1,'logged in','2011-06-05 11:15:50'),(2,1,'logged in','2011-06-05 11:15:50'),(3,1,'logged in','2011-06-05 11:53:04'),(4,1,'logged in','2011-06-05 11:53:04');
+INSERT INTO `account_events` VALUES (1,1,'logged in','2011-06-05 11:15:50'),(2,1,'logged in','2011-06-05 11:15:50'),(3,1,'logged in','2011-06-05 11:53:04'),(4,1,'logged in','2011-06-05 11:53:04'),(5,3,'logged in','2011-06-11 08:25:28'),(6,3,'logged out','2011-06-11 08:58:30'),(7,1,'logged in','2011-06-11 08:58:40'),(8,1,'logged in','2011-06-11 15:14:16'),(9,1,'logged in','2011-06-11 15:14:18'),(10,1,'logged in','2011-06-14 06:27:22'),(11,1,'logged in','2011-06-14 06:27:24'),(12,1,'logged in','2011-06-14 06:33:14'),(13,1,'logged in','2011-06-14 06:33:16'),(14,1,'logged in','2011-06-14 06:35:49'),(15,1,'logged in','2011-06-14 06:35:51'),(16,1,'logged in','2011-06-14 06:40:13'),(17,1,'logged in','2011-06-14 06:40:15');
 /*!40000 ALTER TABLE `account_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `accounts` (
   `password` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-05 11:14:25'),(3,'admin','admin@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2010-01-01 00:00:00'),(4,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-05 11:53:04');
+INSERT INTO `accounts` VALUES (1,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-05 11:14:25'),(3,'admin','admin@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2010-01-01 00:00:00'),(4,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-05 11:53:04'),(5,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-11 15:14:15'),(6,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-14 06:27:21'),(7,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-14 06:33:13'),(8,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-14 06:35:48'),(9,'test','test@test.com','d2ba838e6629500eceefd5fabc1916e5acba3e8c2a379234297d7eba45995c7a','2011-06-14 06:40:12');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,7 @@ CREATE TABLE `acl_privileges` (
   `action` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +116,7 @@ CREATE TABLE `acl_privileges` (
 
 LOCK TABLES `acl_privileges` WRITE;
 /*!40000 ALTER TABLE `acl_privileges` DISABLE KEYS */;
-INSERT INTO `acl_privileges` VALUES (1,'auth','account','index','Watch Profile Information'),(2,'auth','account','update','Update Profile Information'),(3,'default','index','index','Homepage'),(4,'auth','login','index','Login page');
+INSERT INTO `acl_privileges` VALUES (1,'auth','account','index','Watch Profile Information'),(2,'auth','account','update','Update Profile Information'),(3,'default','index','index','Homepage'),(4,'auth','login','index','Login page'),(5,'auth','acl','roles',NULL),(6,'auth','register','index','Registration'),(7,'default','error','index','Standard error page'),(8,'default','error','error','Page not found');
 /*!40000 ALTER TABLE `acl_privileges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `acl_role_privileges` (
   `role_id` int(10) NOT NULL,
   `privilege_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `acl_role_privileges` (
 
 LOCK TABLES `acl_role_privileges` WRITE;
 /*!40000 ALTER TABLE `acl_role_privileges` DISABLE KEYS */;
-INSERT INTO `acl_role_privileges` VALUES (1,1,1),(2,3,3),(9,2,1),(10,3,4);
+INSERT INTO `acl_role_privileges` VALUES (1,1,1),(2,3,3),(9,2,1),(11,3,6),(12,3,4),(13,3,7),(14,3,8);
 /*!40000 ALTER TABLE `acl_role_privileges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-06-11  7:29:19
+-- Dump completed on 2011-06-14  6:46:04

@@ -28,7 +28,7 @@ class ErrorPageTest extends BaseTestCase {
     }
 
     /**
-     * Test homepage
+     * Test error page
      *
      * @author 	Eddie Jaoude
      * @param 	null
@@ -49,7 +49,7 @@ class ErrorPageTest extends BaseTestCase {
     }
     
     /**
-     * Test homepage
+     * Test non existing page
      *
      * @author 	Eddie Jaoude
      * @param 	null
@@ -68,6 +68,25 @@ class ErrorPageTest extends BaseTestCase {
         $this->assertQueryContentContains('div#main h1', 'An error occurred');
         $this->assertQueryContentContains('div#main h2', 'Page not found');
         $this->assertQueryCountMax('div#main h3', 0);
+    }
+
+    /**
+     * Test invalid page
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
+    public function testErrorInvalidPage()
+    {
+        $this->dispatch('/aaa/bbb');
+
+        $this->assertQueryCountMax('div.error', 1);
+        $this->assertQueryContentContains('div.error', 'Error: Access denied, you must be logged in to do that');
+        $this->assertQueryContentContains('div#main h2', 'Error');
+        $this->assertQueryCountMax('div#main p', 1);
+        $this->assertQueryContentContains('div#main p', 'You are try to access a secure area.');
     }
 
 }
