@@ -13,11 +13,11 @@
             </logging>
         </testsuite>
 
-        <!--
+        <!-- Remove lines below to ignore selenium tests -->
         <testsuite name="Suite for Selenium">
-                <directory>../plugins/index/tests/selenium</directory>
+                <directory>./selenium</directory>
         </testsuite>
-        -->
+        
 
     </testsuites>
 </phpunit>

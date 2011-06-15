@@ -58,7 +58,9 @@ OTHER TECHNOLOGIES REQUIRED
 - MySQL 5.x
 - Ant
 - Jenkins (formally Hudson)
-
+[selenium: optional]
+- Pear: Testing_Selenium-0.4.4
+- Selenium rc (included in test directory)
 
 --------------------------------------------------------
 ADVANTAGES of TTD (Test Driven Developement)
@@ -73,7 +75,16 @@ ADVANTAGES of TTD (Test Driven Developement)
 RUNNING TESTS
 --------------------------------------------------------
 > cd tests/
-> phpunit OR > ant 
+[unit tests only]
+Comment out selenium lines in tests/phpunit.xml
+> phpunit
+[selenium tests only]
+> java -jar selenium-server-standalone-2.0rc2.jar
+> phpunit --filter Selenium
+[all tests]
+> phpunit
+OR
+> ant
 
 --------------------------------------------------------
 INSTALLATION (linux)
@@ -137,3 +148,5 @@ Jenkins monitors executions of repeated jobs, such as building a software projec
 - PHPDocumentor
 phpDocumentor uses an extensive templating system to change your source code comments into human readable, and hence useful, formats. This system allows the creation of easy to read documentation in 15 different pre-designed HTML versions, PDF format, Windows Helpfile CHM format, and in Docbook XML. You can also create your own templates to match the look and feel of your project.
 
+- Selenium
+Selenium Remote Control (RC) is a test tool that allows you to write automated web application UI tests in any programming language against any HTTP website using any mainstream JavaScript-enabled browser.

@@ -24,6 +24,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     /**
+     * Title
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _initDoctitle() {
+        $view = new Zend_View($this->getOptions());
+        $view->headTitle('Zend Framework (ZF) & Doctrine2 Skeleton/Baseline');
+    }
+
+    /**
      * Default  View helpers
      *
      * @TODO: This needs to be updated to be dynamic for current module or moved to each module
