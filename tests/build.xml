@@ -14,7 +14,7 @@
     </target>
 
     <target name="phpunit">
-        <exec dir="${basedir}" executable="phpunit" failonerror="false">
+        <exec dir="${basedir}" executable="phpunit" failonerror="true">
             <arg line="--configuration phpunit.xml
               --log-junit ${basedir}/build/logs/phpunit.xml
               --coverage-html ${basedir}/build/coverage
