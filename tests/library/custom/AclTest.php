@@ -30,8 +30,11 @@ class LibraryCustomAclTest extends BaseTestCase
         'email' => 'test@test.com',
         'password' => 'test',
         'role' => 'user',
-    	'resource' => 'auth.account.index',
-    	'resourcenot' => 'auth.no.access'
+    	'roleNotLoggedIn' => 'guest',
+    	'resourceUser' => 'auth.account.index',
+    	'resourceUserNot' => 'auth.no.access',
+    	'resourceGuest' => 'default.index.index',
+    	'resourceGuestNot' => 'default.no.access',
     );
 
     /**
@@ -77,7 +80,7 @@ class LibraryCustomAclTest extends BaseTestCase
         foreach ($roles as $role) {
             $modelRoles = $this->_em->getRepository('Auth_Model_Role');
             $roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
-            if ($this->object->has($this->data['resource']) && $this->object->isAllowed($roleData->getName(), $this->data['resource'])) {
+            if ($this->object->has($this->data['resourceUser']) && $this->object->isAllowed($roleData->getName(), $this->data['resourceUser'])) {
                 $allowed = true;
             }
         }
@@ -98,12 +101,36 @@ class LibraryCustomAclTest extends BaseTestCase
         foreach ($roles as $role) {
             $modelRoles = $this->_em->getRepository('Auth_Model_Role');
             $roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
-            if ($this->object->has($this->data['resourcenot']) && $this->object->isAllowed($roleData->getName(), $this->data['resourcenot'])) {
+            if ($this->object->has($this->data['resourceUserNot']) && $this->object->isAllowed($roleData->getName(), $this->data['resourceUserNot'])) {
                 $allowed = true;
             }
         }
         $this->assertTrue(!$allowed);
         $this->assertTrue(is_array($roles));
+    }
+    
+    /**
+     * Test if user is not logged in
+     */
+    public function testGuestAccess()
+    {
+        $allowed = false;
+        if ($this->object->has($this->data['resourceGuest']) && $this->object->isAllowed($this->data['roleNotLoggedIn'], $this->data['resourceGuest'])) {
+            $allowed = true;
+        }
+        $this->assertTrue($allowed);
+    }
+    
+    /**
+     * Test if user is not logged in
+     */
+    public function testGuestNoAccess()
+    {
+        $allowed = false;
+        if ($this->object->has($this->data['resourceGuestNot']) && $this->object->isAllowed($this->data['roleNotLoggedIn'], $this->data['resourceGuestNot'])) {
+            $allowed = true;
+        }
+        $this->assertTrue(!$allowed);
     }
     
 
