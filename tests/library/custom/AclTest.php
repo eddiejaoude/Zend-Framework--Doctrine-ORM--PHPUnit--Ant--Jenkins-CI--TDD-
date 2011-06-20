@@ -29,7 +29,9 @@ class LibraryCustomAclTest extends BaseTestCase
         'name' => 'test',
         'email' => 'test@test.com',
         'password' => 'test',
-        'role' => 'user'
+        'role' => 'user',
+    	'resource' => 'auth.account.index',
+    	'resourcenot' => 'auth.no.access'
     );
 
     /**
@@ -63,12 +65,45 @@ class LibraryCustomAclTest extends BaseTestCase
     }
     
     /**
-     * Test the role of the user
+     * Test the role of the user with access
      */
     public function testUserRole()
     {
-        $result = $this->model->authenticate($this->appConfigAuth->hash, $this->data);
-    	$this->assertEquals($this->data['role'], $result->getRole());
+        $account = $this->model->authenticate($this->appConfigAuth->hash, $this->data);
+        $modelRoleMembers = $this->_em->getRepository('Auth_Model_RoleMember');
+        $roles = $modelRoleMembers->findBy(array('account_id' => $account->getId()));
+        
+    	$allowed = false;    	
+        foreach ($roles as $role) {
+            $modelRoles = $this->_em->getRepository('Auth_Model_Role');
+            $roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
+            if ($this->object->has($this->data['resource']) && $this->object->isAllowed($roleData->getName(), $this->data['resource'])) {
+                $allowed = true;
+            }
+        }
+        $this->assertTrue($allowed);
+        $this->assertTrue(is_array($roles));
+    }
+    
+    /**
+     * Test the role of the user with no access
+     */
+    public function testUserNoAccess()
+    {
+        $account = $this->model->authenticate($this->appConfigAuth->hash, $this->data);
+        $modelRoleMembers = $this->_em->getRepository('Auth_Model_RoleMember');
+        $roles = $modelRoleMembers->findBy(array('account_id' => $account->getId()));
+        
+    	$allowed = false;    	
+        foreach ($roles as $role) {
+            $modelRoles = $this->_em->getRepository('Auth_Model_Role');
+            $roleData = $modelRoles->findOneBy(array('id' => $role->getRole_id()));
+            if ($this->object->has($this->data['resourcenot']) && $this->object->isAllowed($roleData->getName(), $this->data['resourcenot'])) {
+                $allowed = true;
+            }
+        }
+        $this->assertTrue(!$allowed);
+        $this->assertTrue(is_array($roles));
     }
     
 
