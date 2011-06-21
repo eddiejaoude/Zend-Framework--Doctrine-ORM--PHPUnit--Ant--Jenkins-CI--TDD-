@@ -58,18 +58,17 @@ class HrefHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testHrefNoOptions()
+    public function testHrefWithOptions()
     {
         $this->markTestIncomplete('This test has not been implemented yet.' );
-        /*$result = $this->_helper->href(array(
-            'module' => 'testModule',
-            'controller' => 'testController',
-            'action' => 'testAction',
-            'content' => 'Test Link',
-        ));
+        $result = $this->_helper->href(array(
+        	'module' => 'auth',
+        	'controller' => 'login',
+        	'action' => 'index',
+        	'content' => 'Login'));
         $expected = '<a href="'. $result['module'] .' / '. $result['controller'] .'/'. $result['action'] .'">'. $result['content'] .'</a>';
-        echo $result . '############';*/
-        #$this->assertEquals($expected, $result);
+        
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -80,7 +79,7 @@ class HrefHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testHrefWithOptions()
+    public function testHrefNoOptions()
     {
         $this->markTestIncomplete('This test has not been implemented yet.' );
         #$expected = '';

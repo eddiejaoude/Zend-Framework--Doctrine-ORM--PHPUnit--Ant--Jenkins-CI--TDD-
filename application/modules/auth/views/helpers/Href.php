@@ -45,8 +45,8 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
                 }
             }
             $router = Zend_Controller_Front::getInstance()->getRouter();
+            //Zend_Debug::dump($router); die;
             $url = $router->assemble($urlOptions, $name, $reset, $encode);
-
             $return = "<a href='" . $url . "' " . $attributes . ">" . $options['content'] . "</a>";
         } else {
             $return = NULL;
