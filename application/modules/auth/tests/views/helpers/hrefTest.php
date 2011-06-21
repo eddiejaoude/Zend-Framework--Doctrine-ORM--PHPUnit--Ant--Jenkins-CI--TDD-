@@ -30,7 +30,7 @@ class HrefHelperTest extends BaseTestCase {
     public function setup() {
         parent::setUp();
 
-        $this->_helper = new Default_View_Helper_Href;
+        $this->_helper = new Auth_View_Helper_Href;
         $this->assertEquals(true, is_object($this->_helper));
     }
 

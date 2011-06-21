@@ -4,7 +4,7 @@
  * Custom URL helper
  * This helper does an ACL-check on the URL to render
  */
-class Default_View_Helper_Href extends Zend_View_Helper_Url {
+class Auth_View_Helper_Href extends Zend_View_Helper_Url {
 
     private $options = array(
         'module' => 'default', //default module
