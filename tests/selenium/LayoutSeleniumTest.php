@@ -1,13 +1,8 @@
 <?php
 
-class LayoutSeleniumTest extends PHPUnit_Extensions_SeleniumTestCase
+class LayoutSeleniumTest extends BaseSelenium
 {
-    protected function setUp()
-    {
-        $this->setBrowser('*firefox');
-        $this->setBrowserUrl('http://gh.skeleton/'); // change this url to your dev env
-    }
-
+    
     public function testTitle()
     {
         $this->open('/');

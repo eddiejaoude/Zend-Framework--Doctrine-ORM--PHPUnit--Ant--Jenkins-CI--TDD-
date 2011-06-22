@@ -10,6 +10,8 @@ defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FIL
 require_once 'Zend/Loader/Autoloader.php';
 $autoloader = Zend_Loader_Autoloader::getInstance();
 
+require_once 'selenium/BaseSelenium.php';
+
 /**
  * Base Controller Test Class
  *
