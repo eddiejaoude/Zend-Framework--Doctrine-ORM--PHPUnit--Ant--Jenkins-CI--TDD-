@@ -37,7 +37,7 @@ FEATURES include
   - php_codebrowser 
   - phpdocs
 - Ant build scripts for Continuous Integration
-- Selenium rc tests driven by phpunit (coming soon)
+- Selenium rc tests driven by phpunit
 - Ant deploy script including 'dry run' mode (coming soon)
 
 --------------------------------------------------------

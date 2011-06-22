@@ -14,9 +14,11 @@
         </testsuite>
 
         <!-- Remove lines below to ignore selenium tests -->
+        <!--
         <testsuite name="Suite for Selenium">
                 <directory>./selenium</directory>
         </testsuite>
+        -->
         
 
     </testsuites>
