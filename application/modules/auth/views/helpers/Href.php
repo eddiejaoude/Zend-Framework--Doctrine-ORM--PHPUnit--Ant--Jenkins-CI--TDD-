@@ -24,7 +24,10 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
      * @param array $options
      * @return string or bool FALSE if options are incorrect or access denied
      */
-    public function href(array $options, $name = 'default', $reset = false, $encode = NULL) {
+    public function href(array $options, $name = 'default', $reset = false, $encode = null) {
+        if (empty($options)) {
+            throw new Exception('No options supplied');
+        }
         if (!empty($options['attributes'])) {
             $attributes = '';
             foreach ($options['attributes'] as $key => $value) {
@@ -33,6 +36,7 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
         } else {
             $attributes = null;
         }
+
         if ($this->checkAcl($options)) {
 
             $urlOptions = array();
@@ -49,7 +53,7 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
             $url = $router->assemble($urlOptions, $name, $reset, $encode);
             $return = "<a href='" . $url . "' " . $attributes . ">" . $options['content'] . "</a>";
         } else {
-            $return = NULL;
+            $return = null;
         }
         return $return;
     }
@@ -64,7 +68,6 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
         if (Zend_Auth::getInstance()->hasIdentity()) {
             $accountId = Zend_Auth::getInstance()->getIdentity()
                             ->getId();
-
 
             $modelRoleMembers = $doctrine->_em->getRepository('Auth_Model_RoleMember');
             $roles = $modelRoleMembers->findBy(array('account_id' => $accountId));
