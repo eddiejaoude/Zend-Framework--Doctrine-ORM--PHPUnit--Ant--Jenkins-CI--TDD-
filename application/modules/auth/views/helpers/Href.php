@@ -34,8 +34,8 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
         if (empty($options['controller'])) {
             throw new Exception('Controller option must be supplied: $options["controller"]');
         }
-        if (empty($options['view'])) {
-            throw new Exception('View option must be supplied: $options["view"]');
+        if (empty($options['action'])) {
+            throw new Exception('Action option must be supplied: $options["action"]');
         }
         if (!empty($options['attributes'])) {
             $attributes = '';
