@@ -62,7 +62,7 @@ class HrefHelperTest extends BaseTestCase {
      */
     public function testHrefWithOptions()
     {
-        #$this->markTestIncomplete('This test has not been implemented yet.' );
+        $this->markTestIncomplete('This test has not been implemented yet.' );
         $result = $this->_helper->href(array(
         	'module' => 'auth',
         	'controller' => 'login',
