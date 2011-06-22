@@ -29,13 +29,13 @@ class Auth_View_Helper_Href extends Zend_View_Helper_Url {
             throw new Exception('No options supplied');
         }
         if (empty($options['module'])) {
-            throw new Exception('Module option must be supplied: $optionsp["module"]');
+            throw new Exception('Module option must be supplied: $options["module"]');
         }
         if (empty($options['controller'])) {
-            throw new Exception('Module option must be supplied: $optionsp["controller"]');
+            throw new Exception('Module option must be supplied: $options["controller"]');
         }
         if (empty($options['view'])) {
-            throw new Exception('Module option must be supplied: $optionsp["view"]');
+            throw new Exception('Module option must be supplied: $options["view"]');
         }
         if (!empty($options['attributes'])) {
             $attributes = '';
