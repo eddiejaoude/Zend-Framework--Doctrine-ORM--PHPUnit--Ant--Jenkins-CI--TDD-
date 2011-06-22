@@ -1,8 +1,22 @@
 <?php
-
+/**
+ * Login selenium tests
+ *
+ * @author        Eddie Jaoude
+ * @package     Application
+ *
+ */
 class LoginSeleniumTest extends BaseSelenium
 {
 
+    /**
+     * Successful login
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
     public function testSuccessful()
     {
         $this->open('/auth/login');
@@ -19,6 +33,14 @@ class LoginSeleniumTest extends BaseSelenium
         $this->assertTextPresent("Logged in successfully");
     }
 
+    /**
+     * Failed login
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
     public function testIncorrect()
     {
         $this->open('/auth/login');
@@ -32,6 +54,14 @@ class LoginSeleniumTest extends BaseSelenium
         $this->assertTextPresent("Logged in failed");
     }
 
+    /**
+     * Unauthorised access attempted
+     *
+     * @author 	Eddie Jaoude
+     * @param 	null
+     * @return 	null
+     *
+     */
     public function testUnAuthorised()
     {
         $this->open('/auth/account');
