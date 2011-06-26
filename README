@@ -80,6 +80,13 @@ INSTALLATION (linux)
 - Update application/config/application.ini file with your database credentials
 
 --------------------------------------------------------
+ENTITY GENERATION
+--------------------------------------------------------
+> cd library/
+> php -f doctrine.php orm:generate-entities /tmp
+
+
+--------------------------------------------------------
 SCREEN SHOTS
 --------------------------------------------------------
 See Wiki
