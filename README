@@ -80,6 +80,10 @@ INSTALLATION (linux)
 - Create the database with the following command
 > mysql -u[username] -p[password] [database] < data/accounts.sql
 > mysql -u[username] -p[password] [database] < data/account_audit.sql
+> mysql -u[username] -p[password] [database] < data/accounts_role_members.sql
+> mysql -u[username] -p[password] [database] < data/acl_privileges.sql
+> mysql -u[username] -p[password] [database] < data/acl_role_privileges.sql
+> mysql -u[username] -p[password] [database] < data/acl_roles.sql
 - Create apache vhost, with config:
 <VirtualHost *:80>
         DocumentRoot /var/www/vhosts/js.skeleton/httpdocs/public
