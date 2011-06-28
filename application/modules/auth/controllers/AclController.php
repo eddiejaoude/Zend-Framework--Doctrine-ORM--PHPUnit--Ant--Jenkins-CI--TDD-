@@ -72,10 +72,13 @@ class Auth_AclController extends Auth_BaseController
     public function roleAction() {
         #$modelRoles = $this->_em->createQuery('SELECT r, p FROM Auth_Model_Role r JOIN r.rolePrivileges p');
         $qb = $this->_em->createQueryBuilder()
-               ->select('r')
-               ->from('Auth_Model_Role', 'r');
-               #->join('r.Auth_Model_RolePrivilege', 'p');
+               ->select('r', 'rp')
+               ->from('Auth_Model_Role', 'r')
+               ->join('r.privileges', 'rp');
+               #->groupBy('r.id');
+               #->join('rp.Auth_Model_Privilege', 'p');
         $query = $qb->getQuery();
+#var_dump($qb->getDql());exit;
         $roles = $query->getResult();
 
         $this->view->roles = $roles;

@@ -1,10 +1,15 @@
 <?php
 
 /**
- * @Table(name="acl_role_privileges")
+ * @Table(name="acl_roles_privileges")
  * @Entity(repositoryClass="Auth_Model_RolePrivilegeRepository")
  */
 class Auth_Model_RolePrivilege {
+
+    public function __construct()
+    {
+        $this->role = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @var integer $id
@@ -22,12 +27,15 @@ class Auth_Model_RolePrivilege {
      * @Column(type="integer")
      */
     private $privilege_Id;
-    
+
     /**
-     * @ManyToOne(targetEntity="Auth_Model_Role", inversedBy="rolePrivileges")
+     * @ManyToOne(targetEntity="Auth_Model_Role")
      * @JoinColumn(name="role_id", referencedColumnName="id")
      */
     private $role;
+    public function getRole() {
+        return $this->role;
+    }
 
     /**
      * @return the $id

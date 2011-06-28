@@ -8,7 +8,7 @@ class Auth_Model_Role {
 
     public function __construct()
     {
-        $this->rolePrivileges = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->privileges = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -29,16 +29,15 @@ class Auth_Model_Role {
     private $description;
 
     /**
-     * @var rolePrivileges $rolePrivileges
      * @OneToMany(targetEntity="Auth_Model_RolePrivilege", mappedBy="role")
      */
-    private $rolePrivileges;
+    private $privileges;
 
     /**
-     * @return the $rolePrivileges
+     *
      */
-    public function getRolePrivileges() {
-        return $this->rolePrivileges;
+    public function getPrivileges() {
+        return $this->privileges;
     }
 
     /**
