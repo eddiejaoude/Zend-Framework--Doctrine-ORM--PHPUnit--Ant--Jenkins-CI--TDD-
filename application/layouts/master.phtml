@@ -28,14 +28,14 @@
                 <?php
                 if (Zend_Auth::getInstance()->hasIdentity()) {
                     echo '<li class="details">Welcome ' . Zend_Auth::getInstance()->getIdentity()->getName() . ' </li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'account', 'action' => 'event')) . '">History</a></li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'update')) . '">Update Password</a></li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'logout', 'action' => 'index')) . '">Logout</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'account', 'action' => 'event'), null, true) . '">History</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'update'), null, true) . '">Update Password</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'logout', 'action' => 'index'), null, true) . '">Logout</a></li>';
                 }
                 else {
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'login', 'action' => 'index')) . '">Login</a></li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'forgot')) . '">Forgot password</a></li>';
-                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'register', 'action' => 'index')) . '">Register</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'login', 'action' => 'index'), null, true) . '">Login</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'password', 'action' => 'forgot'), null, true) . '">Forgot password</a></li>';
+                    echo '<li><a href="' . $this->url(array('module' => 'auth', 'controller' => 'register', 'action' => 'index'), null, true) . '">Register</a></li>';
                 }
                 ?>
             </ul>
