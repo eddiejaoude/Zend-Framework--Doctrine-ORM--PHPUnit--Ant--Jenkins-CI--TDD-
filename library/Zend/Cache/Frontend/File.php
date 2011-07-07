@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 23330 2010-11-14 20:08:09Z mabe $
+ * @version    $Id: File.php 23793 2011-03-02 22:31:05Z mabe $
  */
 
 
@@ -30,7 +30,7 @@ require_once 'Zend/Cache/Core.php';
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Frontend_File extends Zend_Cache_Core
@@ -110,7 +110,11 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
         clearstatcache();
         $i = 0;
         foreach ($masterFiles as $masterFile) {
-            $mtime = @filemtime($masterFile);
+            if (file_exists($masterFile)) {
+                $mtime = filemtime($masterFile);
+            } else {
+                $mtime = false;
+            }
 
             if (!$this->_specificOptions['ignore_missing_master_files'] && !$mtime) {
                 Zend_Cache::throwException('Unable to read master_file : ' . $masterFile);

@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Amf
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Server.php 23256 2010-10-26 12:51:54Z alexander $
+ * @version    $Id: Server.php 23897 2011-04-30 02:07:57Z yoshida@zend.co.jp $
  */
 
 /** @see Zend_Server_Interface */
@@ -52,7 +52,7 @@ require_once 'Zend/Auth.php';
  * @todo       Make the reflection methods cache and autoload.
  * @package    Zend_Amf
  * @subpackage Server
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Amf_Server implements Zend_Server_Interface
@@ -510,6 +510,7 @@ class Zend_Amf_Server implements Zend_Server_Interface
         {
             try {
                 if ($handleAuth) {
+                    $message = '';
                     if ($this->_handleAuth(
                         $headers[Zend_Amf_Constants::CREDENTIALS_HEADER]->userid,
                         $headers[Zend_Amf_Constants::CREDENTIALS_HEADER]->password)) {
