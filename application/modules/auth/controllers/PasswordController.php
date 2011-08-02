@@ -109,7 +109,8 @@ class Auth_PasswordController extends Auth_BaseController {
                     // @ToDo Create a view file with an email template
                     $emailReset->setBodyText('New Password: ' . $password);
 
-                    $emailReset->setFrom($this->_config->system->email->address, $this->_config->system->email->name);
+                    $emailReset->setFrom($this->_registry->config->application->system->email->address, 
+                                            $this->_registry->config->application->system->email->name);
                     if ($emailReset->send()) {
                         # Record event
                         $this->_helper->event->record('reset password', $user->getId());
