@@ -111,7 +111,7 @@ class Auth_RegisterController extends Auth_BaseController
                     # send to login page
                     $this->_helper->redirector('successful', 'register', 'auth');
                 } else {
-                    $alert = 'Registration Failed: Email already exists'; // move to view
+                    $alert = array('Registration Failed: Email already exists'); // move to view
                 }
             }
             # populate form
