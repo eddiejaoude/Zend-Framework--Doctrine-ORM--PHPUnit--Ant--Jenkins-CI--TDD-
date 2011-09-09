@@ -8,7 +8,8 @@
  *
  */
 
-class Auth_Register_IndexViewTest extends BaseTestCase {
+class Auth_Register_IndexViewTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,15 +19,17 @@ class Auth_Register_IndexViewTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
 
-    public function testNavigation() {
+    public function testNavigation()
+    {
         $this->dispatch('/auth/register');
         $this->mainNavigationCheck();
     }
-    
+
     public function testForm()
     {
         $this->dispatch('/auth/register');
@@ -49,22 +52,9 @@ class Auth_Register_IndexViewTest extends BaseTestCase {
         $this->assertQueryCount('ul.errors', 4);
     }
 
-    public function testSuccessfulRegistration()
+    /*    public function testSuccessfulRegistration()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-        /*
-        $this->request->setMethod('POST')
-              ->setPost(array(
-                  'name' => 'test',
-                  'email' => 'test@email.com',
-                  'password' => 'test',
-              ));
 
-        $this->dispatch('/auth/register');
-        $this->assertModule('auth');
-        $this->assertController('register');
-        $this->assertAction('index');
-        */
-    }
+    }*/
 
 }

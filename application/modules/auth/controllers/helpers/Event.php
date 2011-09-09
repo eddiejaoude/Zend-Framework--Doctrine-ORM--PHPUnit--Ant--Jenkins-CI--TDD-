@@ -12,7 +12,7 @@ class Auth_Controller_Helper_Event extends Zend_Controller_Action_Helper_Abstrac
 
     /**
      * The default entity manager to use when one is not set
-     * 
+     *
      * @var \Doctrine\ORM\EntityManager
      */
     public static $defaultEntityManager;
@@ -22,7 +22,7 @@ class Auth_Controller_Helper_Event extends Zend_Controller_Action_Helper_Abstrac
      * @var \Doctrine\ORM\EntityManager
      */
     protected $_em;
-    
+
     /**
      * Record event
      *
@@ -33,14 +33,15 @@ class Auth_Controller_Helper_Event extends Zend_Controller_Action_Helper_Abstrac
      * @return           void
      *
      */
-    public function record($event, $user_id, $em = null) {
+    public function record($event, $user_id, $em = NULL)
+    {
         $account_event = new Auth_Model_AccountEvent;
         $account_event->setAccount_id($user_id);
         $account_event->setEvent($event);
         $date = new Zend_Date;
         $account_event->setCreated_at($date->toString('YYYY-MM-dd HH:mm:ss'));
 
-        if (null === $em){
+        if (NULL === $em){
             $em = $this->getEntityManager();
         }
 
@@ -56,11 +57,11 @@ class Auth_Controller_Helper_Event extends Zend_Controller_Action_Helper_Abstrac
      */
     public function getEntityManager()
     {
-        if (null === $this->_em){
+        if (NULL === $this->_em){
             if (Zend_Registry::isRegistered('EntityManager')){
                 $this->_em = Zend_Registry::get('EntityManager');
             } else {
-                if (null !== self::$defaultEntityManager){
+                if (NULL !== self::$defaultEntityManager){
                     $this->_em = self::$defaultEntityManager;
                 } else {
                     throw new Exception('Entity manager not found');

@@ -53,8 +53,8 @@ class LibraryCustomAuthValidateTest extends BaseTestCase
      * @return 	null
      *
      */
-    public function testNotIdentical() {
-       $this->markTestIncomplete('This test has not been implemented yet.');
-    }
+/*    public function testNotIdentical() {
+
+    }*/
 
 }

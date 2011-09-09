@@ -2,7 +2,7 @@
 
 /**
  * Auth password reset form
- * 
+ *
  * @author koen Huybrechts
  *
  */
@@ -21,7 +21,7 @@ class Auth_Form_PasswordReset extends Zend_Form
         # Email
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addFilter('StringToLower')

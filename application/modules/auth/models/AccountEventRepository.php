@@ -11,5 +11,5 @@
 use Doctrine\ORM\EntityRepository;
 class Auth_Model_AccountEventRepository extends EntityRepository
 {
-  
+
 }
