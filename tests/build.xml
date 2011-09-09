@@ -1,36 +1,44 @@
-<project name="Zend Framework Best Practice" default="build">
-    <target name="clean">
+<project name="Zend Framework Best Practice" default="build" basedir=".">
+   <property name="source" value="${basedir}/../application"/>
+    
+    <target name="clean" 
+        description="Clean up artifact directories">
         <delete dir="${basedir}/build"/>
     </target>
 
-    <target name="prepare">
+    <target name="prepare" 
+        description="Create artifact directories">
         <mkdir dir="${basedir}/build"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/docs"/>
         <mkdir dir="${basedir}/build/api"/>
         <mkdir dir="${basedir}/build/code-browser"/>
         <mkdir dir="${basedir}/build/coverage"/>
-        <mkdir dir="${basedir}/build/pdepend"/>
+        <mkdir dir="${basedir}/build/pdepend"/>       
     </target>
 
     <target name="phpunit" 
         description="Run unit tests using PHPUnit and generates reports">
-        <exec dir="${basedir}" executable="phpunit" failonerror="false"/>
+        <exec dir="${basedir}" executable="phpunit" failonerror="false" />
     </target>
 
-    <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
-    <target name="parallelTasks">
-    <parallel>
-    <antcall target="pdepend"/>
-    <antcall target="phpmd"/>
-    <antcall target="phpcpd"/>
-    <antcall target="phpcs"/>
-    <!--<antcall target="phpdoc"/>-->
+    <target name="parallelTasks" 
+        description="Run the pdepend, phpmd, phpcpd, phpcs, phpdoc / docblox and phploc tasks in parallel using a maximum of 2 threads.">    
+    <parallel threadCount="2">
+        <sequential>
+            <antcall target="pdepend"/>
+            <antcall target="phpmd"/>
+        </sequential>
+        <antcall target="phpcpd"/>
+        <antcall target="phpcs"/>
+        <antcall target="phpdoc"/>
+        <!-- <antcall target="docblox"/>  -->
+        <antcall target="phploc"/>
     </parallel>
     </target>
 
-    <!-- Generate jdepend.xml and software metrics charts -->
-    <target name="pdepend">
+    <target name="pdepend"
+        description="Generate jdepend.xml and software metrics charts using PHP_Depend">
         <exec executable="pdepend">
             <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
               --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
@@ -39,54 +47,80 @@
         </exec>
     </target>
 
-    <!-- Generate pmd.xml -->
-    <target name="phpmd">
+    <target name="phpmd"
+        description="Generate pmd.xml using PHPMD">
     <exec executable="phpmd">
-    <arg line="${basedir} xml codesize,unusedcode
-    --reportfile ${basedir}/build/logs/pmd.xml" />
+        <arg path="${source}" />
+        <arg value="xml codesize,unusedcode" />
+        <arg value="${basedir}/build/phpmd.xml" />
+        <arg value="--reportfile" />
+        <arg value="${basedir}/build/logs/pmd.xml" />
     </exec>
     </target>
 
-    <!-- Generate pmd-cpd.xml -->
-    <target name="phpcpd">
+    <target name="phpcpd"
+        description="Generate pmd-cpd.xml using PHPCPD">
     <exec executable="phpcpd">
-    <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml ${basedir}/../application" />
+        <arg value="--log-pmd" />
+        <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+        <arg path="${source}" />
     </exec>
     </target>
 
-    <target name="phploc">
+    <target name="phploc"
+        description="Generate phploc.xml">
         <exec dir="${basedir}" executable="phploc" failonerror="false">
-            <arg line="--log-xml ${basedir}/build/logs/phploc.xml
-            ${basedir}/../application" />
+            <arg value="--log-xml" />
+            <arg value="${basedir}/build/logs/phploc.xml" />
+            <arg value="--log-csv" />
+            <arg value="${basedir}/build/logs/phploc.csv" />
+            <arg path="${source}" />
         </exec>
     </target>
     
-    <!-- Generate checkstyle.xml -->
-    <target name="phpcs">
-    <exec executable="phpcs" output="/dev/null">
-    <arg line="--report=checkstyle
-    --report-file=${basedir}/build/logs/checkstyle.xml
-    --standard=Sebastian
-    ${basedir}/../application" />
+    <target name="phpcs"
+        description="Generate checkstyle.xml using PHP_CodeSniffer">
+    <exec executable="phpcs" output="/dev/null" dir="${source}/">
+        <arg value="--report=checkstyle" />
+        <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+        <arg value="--standard=Sebastian" />
+        <arg path="${source}" />    
     </exec>
     </target>
 
-    <!-- Generate API documentation -->
-    <target name="phpdoc">
-        <exec dir="${basedir}/../library/phpDocumentor" executable="./phpdoc" failonerror="false">
-            <arg line="--directory ${basedir}/../application
-                 --target    ${basedir}/build/api"/>
+    <target name="phpdoc"
+        description="Generate API documentation using phpDocumentor">
+        <exec executable="phpdoc" failonerror="false">
+            <arg value="--directory" />
+            <arg path="${source}" />
+            <arg value="--target" />
+            <arg path="${basedir}/build/api" />     
+        </exec>
+    </target>   
+
+    <target name="docblox"
+        description="Generate API documentation using DocBlox">
+        <exec executable="docblox" failonerror="false">
+            <arg value="-d" />
+            <arg path="${source}" />
+            <arg value="-t" />
+            <arg path="${basedir}/build/api" />
+            <arg line="--title '${ant.project.name}'" />
         </exec>
     </target>
 
-    <target name="phpcb">
+    <target name="phpcb"
+        description="Aggregate tool output with PHP_CodeBrowser">
         <exec executable="phpcb">
-            <arg line="--log ${basedir}/build/logs
-            --source ${basedir}/../application
-            --output ${basedir}/build/code-browser" />
+            <arg value="--log" />
+            <arg path="${basedir}/build/logs" />
+            <arg value="--source" />
+            <arg path="${source}" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/code-browser" />            
         </exec>
     </target>
 
-    <target name="build" depends="clean,prepare,phpunit,phpcpd,phploc,parallelTasks,phpcb"/>
+    <target name="build" depends="clean,prepare,parallelTasks,phpunit,phpcb"/>
 
 </project>
