@@ -172,9 +172,9 @@ class Auth_AccountModelTest extends BaseTestCase
      * @return 	null
      *
      */
-    /*    public function testDelete()
+    public function testDelete() 
     {
-
-    }*/
+        $this->markTestIncomplete('This test has not been implemented yet.');
+    }
 
 }

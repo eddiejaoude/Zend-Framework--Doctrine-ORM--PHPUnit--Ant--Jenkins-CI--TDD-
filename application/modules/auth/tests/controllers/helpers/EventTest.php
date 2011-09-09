@@ -55,9 +55,9 @@ class Auth_EventControllerActionHelperTest extends BaseTestCase
      * @return 	null
      *
      */
-    /* public function testRecord()
+    public function testRecord() 
     {
-
-    }*/
+        $this->markTestIncomplete('This test has not been implemented yet.');
+    }
 
 }

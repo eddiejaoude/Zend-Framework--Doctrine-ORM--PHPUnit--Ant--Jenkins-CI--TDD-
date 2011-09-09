@@ -82,11 +82,30 @@ class ForgotPasswordTest extends BaseTestCase
      * @return 	null
      *
      */
-    /*    public function testSendPassword()
+    public function testSendPassword()
     {
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+        return;
+        
+        $email = 'test@test.com';
+        $this->request->setMethod('POST')
+              ->setPost(array(
+                  'email' => $email
+              ));
 
-    }*/
+        $this->dispatch('/auth/password/forgot');
 
+        $this->assertRedirectTo('/index/index');
+        $this->assertModule('default');
+        $this->assertController('index');
+        $this->assertAction('index');
+
+        $this->assertQueryCountMin('div.error', 1);
+        $this->assertQueryContentContains('div.error', 'A new password has been sent to ' . $email);
+    }
+    
     /**
      * Test unregistered
      *
@@ -95,11 +114,28 @@ class ForgotPasswordTest extends BaseTestCase
      * @return 	null
      *
      */
-    /*    public function testUnregisteredEmail()
+    public function testUnregisteredEmail()
     {
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+        return;
+        
+        $email = 'abcdef@test.com';
+        $this->request->setMethod('POST')
+              ->setPost(array(
+                  'email' => $email
+              ));
 
-    }*/
-
+        $this->dispatch('/auth/password/forgot');
+        #$this->assertModule('auth');
+        $this->assertController('password');
+        $this->assertAction('forgot');
+        
+        $this->assertQueryCountMin('div.error', 1);
+        $this->assertQueryContentContains('div.error', 'Sending failed');
+    }
+    
     /**
      * Test unregistered
      *
