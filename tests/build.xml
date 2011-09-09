@@ -13,14 +13,9 @@
         <mkdir dir="${basedir}/build/pdepend"/>
     </target>
 
-    <target name="phpunit">
-        <exec dir="${basedir}" executable="phpunit" failonerror="false">
-            <arg line="--configuration phpunit.xml
-              --log-junit ${basedir}/build/logs/phpunit.xml
-              --coverage-html ${basedir}/build/coverage
-              --testdox-text ${basedir}/build/logs/testdox.txt
-              --process-isolation" />
-        </exec>
+    <target name="phpunit" 
+        description="Run unit tests using PHPUnit and generates reports">
+        <exec dir="${basedir}" executable="phpunit" failonerror="false"/>
     </target>
 
     <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
