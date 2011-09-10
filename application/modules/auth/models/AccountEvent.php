@@ -7,7 +7,7 @@ class Auth_Model_AccountEvent {
 
     /**
      * @var integer $id
-     * @Id @Column(type="integer") 
+     * @Id @Column(type="integer")
      * @GeneratedValue
      */
     private $id;
@@ -23,7 +23,7 @@ class Auth_Model_AccountEvent {
      * @Column(type="string")
      */
     private $event;
-    
+
     /**
      * @var string $created_at
      * @Column(type="string")
@@ -79,7 +79,7 @@ class Auth_Model_AccountEvent {
     {
         return $this->event;
     }
-    
+
     /**
      * Set created_at
      *

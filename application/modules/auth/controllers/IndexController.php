@@ -44,8 +44,9 @@ class Auth_IndexController extends Auth_BaseController
      * @return           void
      *
      */
-    public function indexAction() {
-        
+    public function indexAction()
+    {
+
     }
 
     /**
@@ -56,8 +57,9 @@ class Auth_IndexController extends Auth_BaseController
      * @return           void
      *
      */
-    public function deniedAction() {
-        
+    public function deniedAction()
+    {
+
     }
 
 

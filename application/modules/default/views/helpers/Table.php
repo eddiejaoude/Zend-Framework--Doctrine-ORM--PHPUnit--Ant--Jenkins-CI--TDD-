@@ -6,7 +6,8 @@
  * @package       Default Module
  *
  */
-class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
+class Default_View_Helper_Table extends Zend_View_Helper_Abstract
+{
 
     /**
      * Table
@@ -35,7 +36,8 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           void
      *
      */
-    public function table() {
+    public function table()
+    {
         return $this;
     }
 
@@ -48,17 +50,18 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           void
      *
      */
-    public function startTable($titles, $table=array()) {
+    public function startTable($titles, $table=array())
+    {
         if (!is_array($titles)) {
             throw new Exception('Titles must be an array');
         }
-        $table = '<table' . $this->attribute('id', !empty($table['id']) ? $table['id'] : null) . $this->attribute('class', !empty($table['class']) ? $table['class'] : null) . '>';
+        $table  = '<table' . $this->attribute('id', !empty($table['id']) ? $table['id'] : NULL) . $this->attribute('class', !empty($table['class']) ? $table['class'] : NULL) . '>';
         $table .= '<thead><tr>';
         foreach ($titles as $k=>$v) {
             if (!is_array($v)) {
                 throw new Exception('Each cell must be an array');
             }
-            $table .= '<td' . $this->attribute('id', !empty($v['id']) ? $v['id'] : null) . $this->attribute('class', !empty($v['class']) ? $v['class'] : null) . '>' . $v['value'] . '</td>';
+            $table .= '<td' . $this->attribute('id', !empty($v['id']) ? $v['id'] : NULL) . $this->attribute('class', !empty($v['class']) ? $v['class'] : NULL) . '>' . $v['value'] . '</td>';
         }
         $table .= '</tr></thead>';
         $table .= '<body>';
@@ -74,14 +77,15 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           string $result
      *
      */
-    public function attribute($title, $value) {
+    public function attribute($title, $value)
+    {
         if (!empty($title) && !empty($value)) {
             if (!is_string($title) || !is_string($value)) {
                 throw new Exception('Attribute & value both must be a string');
             }
             $result = ' ' . $title . '="' . $value . '"';
         } else {
-            $result = false;
+            $result = FALSE;
         }
         return $result;
     }
@@ -94,7 +98,8 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           void
      *
      */
-    public function addRow($row) {
+    public function addRow($row)
+    {
         if (!is_array($row)) {
             throw new Exception('Add row must be an array');
         }
@@ -117,8 +122,9 @@ class Default_View_Helper_Table extends Zend_View_Helper_Abstract {
      * @return           string $this->table
      *
      */
-    public function endTable() {
-        $table = '</body>';
+    public function endTable()
+    {
+        $table  = '</body>';
         $table .= '</table>';
         return $table;
     }

@@ -17,8 +17,9 @@ class Application_Plugin_Alert extends Zend_Controller_Plugin_Abstract
      * @return           void
      *
      */
-    public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        
+    public function preDispatch(Zend_Controller_Request_Abstract $request)
+    {
+
     }
 
     /**
@@ -29,8 +30,9 @@ class Application_Plugin_Alert extends Zend_Controller_Plugin_Abstract
      * @return           void
      *
      */
-    public function postDispatch(Zend_Controller_Request_Abstract $request) {
-        
+    public function postDispatch(Zend_Controller_Request_Abstract $request)
+    {
+
     }
 
 

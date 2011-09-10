@@ -29,7 +29,8 @@ class Auth_LogoutController extends Auth_BaseController
      * @param	void
      * @return	void
      */
-    public function preDispatch() {
+    public function preDispatch()
+    {
         # if the user is not logged in, they can not log out
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             # redirect login page
@@ -43,7 +44,8 @@ class Auth_LogoutController extends Auth_BaseController
      * @param	void
      * @return	void
      */
-    public function postDispatch() {
+    public function postDispatch()
+    {
         parent::postDispatch();
     }
 
@@ -55,7 +57,8 @@ class Auth_LogoutController extends Auth_BaseController
      * @return           void
      *
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         # record event
         $this->_helper->event->record('logged out', Zend_Auth::getInstance()->getIdentity()->getId());
 
@@ -68,7 +71,7 @@ class Auth_LogoutController extends Auth_BaseController
         # redirect
         $this->_helper->redirector('index', 'login', 'auth');
     }
-    
+
     /**
      * Impersonate method
      *
@@ -77,8 +80,9 @@ class Auth_LogoutController extends Auth_BaseController
      * @return           void
      *
      */
-    public function impersonateAction() {
-        
+    public function impersonateAction()
+    {
+
     }
 
 }

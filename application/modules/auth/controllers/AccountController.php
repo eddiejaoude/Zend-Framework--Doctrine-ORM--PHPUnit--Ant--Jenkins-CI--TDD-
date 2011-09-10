@@ -29,7 +29,8 @@ class Auth_AccountController extends Auth_BaseController
      * @param	void
      * @return	void
      */
-    public function preDispatch() {
+    public function preDispatch()
+    {
         # if the user is not logged in, they can not access secure pages
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             # redirect login page
@@ -45,7 +46,8 @@ class Auth_AccountController extends Auth_BaseController
      * @return           void
      *
      */
-    public function  postDispatch() {
+    public function  postDispatch()
+    {
         parent::postDispatch();
     }
 
@@ -57,8 +59,9 @@ class Auth_AccountController extends Auth_BaseController
      * @return           void
      *
      */
-    public function indexAction() {
-        
+    public function indexAction()
+    {
+
     }
 
     /**
@@ -69,14 +72,15 @@ class Auth_AccountController extends Auth_BaseController
      * @return           void
      *
      */
-    public function eventAction() {
+    public function eventAction()
+    {
         # get account events
         $events = $this->_em->getRepository('Auth_Model_AccountEvent')->findBy(array('account_id' => Zend_Auth::getInstance()->getIdentity()->getId()));
 
         # send to view
         $this->view->events = $events;
     }
-    
+
 
 
 }

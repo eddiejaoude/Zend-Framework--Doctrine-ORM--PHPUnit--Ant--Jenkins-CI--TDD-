@@ -31,27 +31,27 @@ class Auth_Model_AccountRepository extends EntityRepository
 
         # get data
         $result = $this->findOneBy(array(
-                            'email' => (string) $data['email'],
-                            'password' => (string) hash('SHA256', $hash . $data['password']) 
+                            'email' => (string)$data['email'],
+                            'password' => (string)hash('SHA256', $hash . $data['password'])
                          ));
 
         return $result;
     }
-    
 
-    
+
+
     /**
      * One place to generate a new password
      * The length of the password is pass from the configuration of the module.
-     * 
+     *
      * @author Koen Huybrechts
      * @param int $length The length of the new password
      * @return string $password
      */
-    
+
     public function generatePassword($length)
     {
-    	return substr(md5(rand().rand()), 0, $length);
+        return substr(md5(rand().rand()), 0, $length);
     }
 
 }

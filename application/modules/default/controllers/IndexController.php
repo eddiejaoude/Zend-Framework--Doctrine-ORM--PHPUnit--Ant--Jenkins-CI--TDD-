@@ -43,8 +43,9 @@ class IndexController extends BaseController
      * @return           void
      *
      */
-    public function indexAction() {
-        
+    public function indexAction()
+    {
+
     }
 
 }

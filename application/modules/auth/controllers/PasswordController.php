@@ -2,11 +2,12 @@
 
 /**
  * PasswordController
- * 
+ *
  * @author Koen Huybrechts
- * @package Auth Module 
+ * @package Auth Module
  */
-class Auth_PasswordController extends Auth_BaseController {
+class Auth_PasswordController extends Auth_BaseController
+{
 
     /**
      * Initialisation method
@@ -16,7 +17,8 @@ class Auth_PasswordController extends Auth_BaseController {
      * @return           void
      *
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
     }
 
@@ -26,25 +28,28 @@ class Auth_PasswordController extends Auth_BaseController {
      * @param	void
      * @return	void
      */
-    public function preDispatch() {
-        
+    public function preDispatch()
+    {
+
     }
 
     /**
      * The default method
      */
-    public function indexAction() {
-        
+    public function indexAction()
+    {
+
     }
 
     /**
      * Send a new password to the emailaddress of the user
-     * 
+     *
      * @author	Koen Huybrechts
      * @param	void
      * @return	void
      */
-    public function forgotAction() {
+    public function forgotAction()
+    {
         # if the user is logged in, they can not reset the password
         if (Zend_Auth::getInstance()->hasIdentity()) {
             # redirect password update page
@@ -62,12 +67,13 @@ class Auth_PasswordController extends Auth_BaseController {
 
     /**
      * The user can change his password
-     * 
+     *
      * @author	Koen Huybrechts
      * @param	void
      * @return	void
      */
-    public function updateAction() {
+    public function updateAction()
+    {
         # if the user is NOT logged in, they can not update the password
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             # redirect password update page
@@ -83,7 +89,8 @@ class Auth_PasswordController extends Auth_BaseController {
         $this->view->updateForm = $send;
     }
 
-    public function sendPassword() {
+    public function sendPassword()
+    {
         #get form
         $form = $this->passwordForm;
 
@@ -94,7 +101,7 @@ class Auth_PasswordController extends Auth_BaseController {
             # check validate form
             if ($form->isValid($data)) {
                 # attempt to resend password
-                $user = $this->_em->getRepository('Auth_Model_Account')->findOneBy(array('email' => (string) $data['email']));
+                $user = $this->_em->getRepository('Auth_Model_Account')->findOneBy(array('email' => (string)$data['email']));
 
                 if (count($user) === 1) {
                     $password = $this->_em->getRepository('Auth_Model_Account')->generatePassword($this->_registry->config->auth->password->length);
@@ -109,7 +116,7 @@ class Auth_PasswordController extends Auth_BaseController {
                     // @ToDo Create a view file with an email template
                     $emailReset->setBodyText('New Password: ' . $password);
 
-                    $emailReset->setFrom($this->_registry->config->application->system->email->address, 
+                    $emailReset->setFrom($this->_registry->config->application->system->email->address,
                                             $this->_registry->config->application->system->email->name);
                     if ($emailReset->send()) {
                         # Record event
@@ -120,7 +127,7 @@ class Auth_PasswordController extends Auth_BaseController {
                 } else {
                     # Record event
                     // $this->_helper->event->record('reset password failed'); // removed because no account to log against
-                    $this->_flashMessenger->addMessage('Sending failed'); 
+                    $this->_flashMessenger->addMessage('Sending failed');
                     $this->_helper->redirector('forgot', 'password', 'auth');
                 }
             } else {
@@ -131,7 +138,8 @@ class Auth_PasswordController extends Auth_BaseController {
         return $form;
     }
 
-    public function updatePassword() {
+    public function updatePassword()
+    {
         #Get Form
         $form = $this->updateForm;
 
@@ -140,10 +148,10 @@ class Auth_PasswordController extends Auth_BaseController {
             $data = $this->_request->getPost();
 
             $form->getElement('newPassword')
-                    ->addValidator('NotIdentical', false, array('token' => $data['currentPassword']))
-                    ->addValidator('stringLength', false, array($this->_registry->config->auth->password->length, 100));
+                    ->addValidator('NotIdentical', FALSE, array('token' => $data['currentPassword']))
+                    ->addValidator('stringLength', FALSE, array($this->_registry->config->auth->password->length, 100));
             $form->getElement('confirmPassword')
-                    ->addValidator('Identical', false, array('token' => $data['newPassword']));
+                    ->addValidator('Identical', FALSE, array('token' => $data['newPassword']));
 
             # check validate form
             if ($form->isValid($data)) {

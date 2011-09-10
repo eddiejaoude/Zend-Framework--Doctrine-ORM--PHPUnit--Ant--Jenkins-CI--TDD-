@@ -8,7 +8,8 @@
  */
 use Doctrine\ORM\EntityManager,
     Doctrine\ORM\Configuration;
-class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
+class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
+{
 
     /**
      * Doctype
@@ -18,7 +19,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initDoctype() {
+    protected function _initDoctype()
+    {
         $doctypeHelper = new Zend_View_Helper_Doctype();
         $doctypeHelper->doctype('XHTML1_STRICT');
     }
@@ -31,7 +33,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initDoctitle() {
+    protected function _initDoctitle()
+    {
         $view = new Zend_View($this->getOptions());
         $view->headTitle('Zend Framework (ZF) & Doctrine2 Skeleton/Baseline');
     }
@@ -46,7 +49,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initDefaultHelpers() {
+    protected function _initDefaultHelpers()
+    {
         $this->bootstrap('view');
         $view = $this->getResource('view');
         $view->addHelperPath( APPLICATION_PATH . '/modules/default/views/helpers', 'Default_View_Helper');
@@ -60,10 +64,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initApplicationBase() {
+    protected function _initApplicationBase()
+    {
         include_once(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'BaseController.php');
     }
-    
+
     /**
      * Configuration
      *
@@ -72,9 +77,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initConfig() {
+    protected function _initConfig()
+    {
         # get config
-        $config = new Zend_Config_Ini(APPLICATION_PATH . 
+        $config = new Zend_Config_Ini(APPLICATION_PATH .
                 DIRECTORY_SEPARATOR . 'configs' .
                 DIRECTORY_SEPARATOR . 'application.ini', APPLICATION_ENV);
 
@@ -82,7 +88,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->_registry = Zend_Registry::getInstance();
 
         # save new database adapter to registry
-        $this->_registry->config = new stdClass();
+        $this->_registry->config              = new stdClass();
         $this->_registry->config->application = $config;
     }
 
@@ -94,7 +100,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initTmpDirectory() {
+    protected function _initTmpDirectory()
+    {
         # check tmp directory is writable
         if (!is_writable($this->_registry->config->application->logs->tmpDir)) {
             throw new Exception('Error: tmp dir is not writable ( ' . $this->_registry->config->application->logs->tmpDir . '), check folder/file permissions');
@@ -109,12 +116,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      * @return          void
      *
      */
-    protected function _initLogger() {
+    protected function _initLogger()
+    {
         # log file
         $error_log = $this->_registry->config->application->logs->tmpDir . DIRECTORY_SEPARATOR . $this->_registry->config->application->logs->error;
 
         # create log file if does not exist
-        if (!file_exists($error_log)) { 
+        if (!file_exists($error_log)) {
             $date = new Zend_Date;
             file_put_contents($error_log, 'Error log file created on: ' . $date->toString('YYYY-MM-dd HH:mm:ss') .  "\n\n");
         }
@@ -130,7 +138,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         $this->_registry->logger = $logger;
     }
-    
+
     /**
      * Initializes and returns Doctrine ORM entity manager
      *
@@ -152,9 +160,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                 DIRECTORY_SEPARATOR . 'library'
         );
         $doctrineAutoloader->register();
-        
+
         # configure doctrine
-        $cache = new Doctrine\Common\Cache\ArrayCache;
+        $cache  = new Doctrine\Common\Cache\ArrayCache;
         $config = new Configuration;
         $config->setMetadataCacheImpl($cache);
         $driverImpl = $config->newDefaultAnnotationDriver( APPLICATION_PATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'auth' . DIRECTORY_SEPARATOR . 'models' );
@@ -162,10 +170,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $config->setQueryCacheImpl($cache);
         $config->setProxyDir( APPLICATION_PATH );
         $config->setProxyNamespace('Proxies');
-        $config->setAutoGenerateProxyClasses(true);
+        $config->setAutoGenerateProxyClasses(TRUE);
 
         # database connection
-        $this->_registry->doctrine = new stdClass();
+        $this->_registry->doctrine      = new stdClass();
         $this->_registry->doctrine->_em = EntityManager::create($this->_registry->config->application->doctrine->connection->toArray(), $config);
     }
 

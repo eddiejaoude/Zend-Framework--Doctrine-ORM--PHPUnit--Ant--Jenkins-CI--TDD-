@@ -1,0 +1,36 @@
+The build / test process requires a number of PHP tools. 
+This is a list of the tools and some quick instructions on how to install them.
+  
+* PHPUnit - http://goo.gl/e0ZAD
+* phpLOC - http://goo.gl/6Evom
+* PhpCodeSniffer - http://goo.gl/UyS04
+* PHP_CodeSniffer: phpcs-sebastian - http://goo.gl/nDqrU
+* phpMD - http://goo.gl/L8PLx
+* phpCPD - http://goo.gl/8SAeF
+* PHPDepend - http://goo.gl/GT6YF
+
+* Install phpXXX Tools
+$ yum install ImageMagick ImageMagick-devel
+
+pear channel-discover pear.phpunit.de
+pear channel-discover pear.symfony-project.com
+pear channel-discover components.ez.no
+pear channel-discover pear.phpmd.org
+pear channel-discover pear.pdepend.org
+pear install --alldeps phpunit/PHPUnit
+pear install phpunit/PHP_CodeBrowser
+pear install phpunit/phpdcd-beta
+pear install --alldeps phpunit/phploc
+pear install PHP_Codesniffer
+pear install --alldeps phpmd/PHP_PMD
+pear install phpunit/phpcpd
+
+* phpDocumentor - http://goo.gl/ss455
+pear install PhpDocumentor
+
+* DocBlox - http://goo.gl/m81SR and http://goo.gl/rFIwh
+$ yum install graphviz
+
+pear channel-discover pear.michelf.com
+pear channel-discover pear.docblox-project.org
+pear install --alldeps docblox/DocBlox-beta

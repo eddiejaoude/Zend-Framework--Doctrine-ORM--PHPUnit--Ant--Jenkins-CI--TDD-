@@ -36,7 +36,7 @@ class Auth_Form_Login extends Zend_Form
         # Email
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addFilter('StringToLower')
@@ -46,7 +46,7 @@ class Auth_Form_Login extends Zend_Form
         # Password
         $password = new Zend_Form_Element_Password('password');
         $password->setLabel('Password')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty');

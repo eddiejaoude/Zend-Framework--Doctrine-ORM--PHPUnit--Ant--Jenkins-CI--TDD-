@@ -8,7 +8,8 @@
  *
  */
 
-class ErrorPageTest extends BaseTestCase {
+class ErrorPageTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,11 +19,13 @@ class ErrorPageTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
-    
-    public function testNavigation() {
+
+    public function testNavigation()
+    {
         $this->dispatch('/error/error');
         $this->mainNavigationCheck();
     }
@@ -36,18 +39,18 @@ class ErrorPageTest extends BaseTestCase {
      *
      */
     public function testErrorPage()
-    { 
+    {
         $this->dispatch('/error/error');
         $this->assertModule('default');
         $this->assertController('error');
         $this->assertAction('error');
-        
+
         $this->assertQueryCountMin('div#main h1', 1);
         $this->assertQueryCountMax('div.error', 0);
         $this->assertQueryContentContains('div#main h1', 'An error occurred');
         $this->assertQueryContentContains('div#main h2', 'You have reached the error page');
     }
-    
+
     /**
      * Test homepage
      *
@@ -57,12 +60,12 @@ class ErrorPageTest extends BaseTestCase {
      *
      */
     public function testErrorByNonExistingPage()
-    { 
+    {
         $this->dispatch('/error');
         $this->assertModule('default');
         $this->assertController('error');
         $this->assertAction('error');
-        
+
         $this->assertQueryCountMin('div#main h1', 1);
         $this->assertQueryCountMax('div.error', 0);
         $this->assertQueryContentContains('div#main h1', 'An error occurred');
