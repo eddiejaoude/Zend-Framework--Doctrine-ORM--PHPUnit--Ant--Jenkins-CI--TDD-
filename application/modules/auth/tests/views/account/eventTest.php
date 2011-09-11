@@ -8,7 +8,8 @@
  *
  */
 
-class HistoryViewTest extends BaseTestCase {
+class HistoryViewTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,7 +19,8 @@ class HistoryViewTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
 
@@ -60,7 +62,7 @@ class HistoryViewTest extends BaseTestCase {
 
         $this->assertQueryCountMin('table.data', 1);
         $this->assertQueryCountMin('table.data tbody tr', 1);
-        
+
         $this->mainNavigationCheck();
     }
 

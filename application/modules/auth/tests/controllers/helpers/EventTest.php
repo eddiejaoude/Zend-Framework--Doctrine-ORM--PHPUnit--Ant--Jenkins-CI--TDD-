@@ -7,7 +7,8 @@
  * @package     Auth
  *
  */
-class Auth_EventControllerActionHelperTest extends BaseTestCase {
+class Auth_EventControllerActionHelperTest extends BaseTestCase
+{
 
     /**
      * Model object
@@ -26,9 +27,10 @@ class Auth_EventControllerActionHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
-        $this->assertEquals(true, is_object($this->_em));
+        $this->assertEquals(TRUE, is_object($this->_em));
         $this->model = $this->_em->getRepository('Auth_Model_AccountEvent');
     }
 
@@ -40,8 +42,9 @@ class Auth_EventControllerActionHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testObjectInstance() {
-        $this->assertEquals(true, is_object($this->model));
+    public function testObjectInstance()
+    {
+        $this->assertEquals(TRUE, is_object($this->model));
     }
 
     /**
@@ -52,7 +55,8 @@ class Auth_EventControllerActionHelperTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testRecord() {
+    public function testRecord() 
+    {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 

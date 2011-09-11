@@ -6,7 +6,8 @@
  * @package       Default Module
  *
  */
-class Default_Bootstrap extends Zend_Application_Module_Bootstrap {
+class Default_Bootstrap extends Zend_Application_Module_Bootstrap
+{
 
     /**
      * Auto load default module classes
@@ -16,7 +17,8 @@ class Default_Bootstrap extends Zend_Application_Module_Bootstrap {
      * @return           object $moduleLoader
      *
      */
-    protected function _initAutoload() {
+    protected function _initAutoload()
+    {
         $moduleLoader = new Zend_Application_Module_Autoloader(array(
                     'namespace' => 'Default_',
                     'basePath' => APPLICATION_PATH . '/modules/default'));
@@ -31,7 +33,8 @@ class Default_Bootstrap extends Zend_Application_Module_Bootstrap {
      * @return           void
      *
      */
-    protected function _initBaseController() {
+    protected function _initBaseController()
+    {
         # base controller - can this be moved and autoloaded?
         include_once('controllers/BaseController.php');
     }

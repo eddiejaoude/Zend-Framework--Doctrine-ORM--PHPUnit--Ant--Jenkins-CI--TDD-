@@ -1,25 +1,29 @@
 <phpunit bootstrap="./bootstrap.php" colors="true" stopOnFailure="false" syntaxCheck="false" processIsolation="true">
    <testsuites>
 
-      <testsuite name="Application unit test suite">
+       <testsuite name="Application unit test suite">
            <directory>./application</directory>
            <directory>./library</directory>
-           <directory>./../application/modules/default/tests</directory>
-           <directory>./../application/modules/auth/tests</directory>
-            
-            <logging>
-                <log type="coverage-html" target="./log/coverage" charset="UTF-8"
-                     yui="true" highlight="false" lowUpperBound="60" highLowerBound="90"/>
-            </logging>
-        </testsuite>
-
+           <directory>./../application/modules</directory>         
+       </testsuite>
+    
         <!-- Remove lines below to ignore selenium tests -->
         <!--
         <testsuite name="Suite for Selenium">
                 <directory>./selenium</directory>
         </testsuite>
         -->
-        
 
     </testsuites>
+    
+    <logging>
+         <log type="coverage-html" target="./build/coverage" title="Zend Framework Best Practice" 
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+         <log type="coverage-xml" target="./build/logs/coverage.xml"/>
+         <log type="coverage-clover" target="./build/logs/clover.xml"/>
+         <log type="junit" target="./build/logs/phpunit.xml" logIncompleteSkipped="false"/>
+         <log type="testdox-text" target="./build/logs/testdox.txt"/>
+     </logging>                
+            
 </phpunit>

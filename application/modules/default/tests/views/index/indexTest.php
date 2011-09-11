@@ -8,7 +8,8 @@
  *
  */
 
-class HomePageTest extends BaseTestCase {
+class HomePageTest extends BaseTestCase
+{
 
     /**
      * Setup
@@ -18,7 +19,8 @@ class HomePageTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
 
@@ -31,12 +33,12 @@ class HomePageTest extends BaseTestCase {
      *
      */
     public function testHomepage()
-    { 
+    {
         $this->dispatch('/');
         $this->assertModule('default');
         $this->assertController('index');
         $this->assertAction('index');
-        
+
         $this->assertQueryCountMin('div#main p', 1);
         $this->assertQueryCountMax('div#error', 0);
     }

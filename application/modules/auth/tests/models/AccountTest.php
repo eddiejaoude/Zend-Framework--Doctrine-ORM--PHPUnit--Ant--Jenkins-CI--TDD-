@@ -2,19 +2,20 @@
 
 /**
  * Account Test
- * 
+ *
  * @author        Eddie Jaoude
  * @package     Auth
- * 
+ *
  */
-class Auth_AccountModelTest extends BaseTestCase {
+class Auth_AccountModelTest extends BaseTestCase
+{
 
     /**
      * Model object
-     * 
+     *
      * @author 	Eddie Jaoude
      * @param 	object $model
-     * 
+     *
      */
     protected $model;
 
@@ -39,9 +40,10 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
-        $this->assertEquals(true, is_object($this->_em));
+        $this->assertEquals(TRUE, is_object($this->_em));
         $this->model = $this->_em->getRepository('Auth_Model_Account');
 
         $this->appConfigAuth = new Zend_Config_Ini( APPLICATION_PATH . '/modules/auth/configs/auth.ini', APPLICATION_ENV);
@@ -55,19 +57,21 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testObjectInstance() {
-        $this->assertEquals(true, is_object($this->model));
+    public function testObjectInstance()
+    {
+        $this->assertEquals(TRUE, is_object($this->model));
     }
 
     /**
      * Test save password no hash exception
-     *  
+     *
      * @author 	Eddie Jaoude
      * @param 	null
      * @return 	null
      *
      */
-    public function testSavePasswordNoHashException() {
+    public function testSavePasswordNoHashException()
+    {
         # save info
         $account = new Auth_Model_Account;
         try {
@@ -77,7 +81,7 @@ class Auth_AccountModelTest extends BaseTestCase {
         }
         $this->fail('An expected exception has not been raised.');
     }
-    
+
     /**
      * Test save
      *
@@ -86,14 +90,15 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testSaveAndRetrieve() {        
+    public function testSaveAndRetrieve()
+    {
         # save info
         $account = new Auth_Model_Account;
         $account->setName($this->data['name']);
         $account->setEmail($this->data['email']);
         $account->setPassword($this->data['password'], $this->appConfigAuth->hash);
         $date = new Zend_Date;
-        $now = $date->toString('YYYY-MM-dd HH:mm:ss');
+        $now  = $date->toString('YYYY-MM-dd HH:mm:ss');
         $account->setCreated_at($now);
         $this->_em->persist($account);
         $this->_em->flush();
@@ -114,7 +119,8 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testAuthenticate() {
+    public function testAuthenticate()
+    {
         $result = $this->model->authenticate($this->appConfigAuth->hash, $this->data);
 
         $this->assertEquals($this->data['name'], $result->getName());
@@ -130,7 +136,8 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testAuthenticateNoHashException() {
+    public function testAuthenticateNoHashException()
+    {
         try {
             $result = $this->model->authenticate('', $this->data);
         } catch (Exception $expected) {
@@ -147,7 +154,8 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testAuthenticateNoDataException() {
+    public function testAuthenticateNoDataException()
+    {
         try {
             $this->model->authenticate($this->appConfig->auth->hash, '');
         } catch (Exception $expected) {
@@ -164,7 +172,8 @@ class Auth_AccountModelTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function testDelete() {
+    public function testDelete() 
+    {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 

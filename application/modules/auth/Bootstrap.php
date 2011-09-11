@@ -6,7 +6,8 @@
  * @package       Auth Module
  *
  */
-class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
+class Auth_Bootstrap extends Zend_Application_Module_Bootstrap
+{
 
     /**
      * Auto load default module classes
@@ -16,11 +17,12 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
      * @return           object $moduleLoader
      *
      */
-    protected function _initAutoload() {
+    protected function _initAutoload()
+    {
         $moduleLoader = new Zend_Application_Module_Autoloader(array(
                     'namespace' => 'Auth_',
                     'basePath' => APPLICATION_PATH . '/modules/auth'));
-        
+
         $moduleLoader->addResourceType('controllerhelper',
             'controllers/helpers', 'Controller_Helper');
 
@@ -35,7 +37,8 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
      * @return           void
      *
      */
-    protected function _initBaseController() {
+    protected function _initBaseController()
+    {
         # base controller - can this be moved and autoloaded?
         require_once('controllers/AuthBaseController.php');
     }
@@ -48,7 +51,8 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
      * @return          void
      *
      */
-    protected function _initConfig() {
+    protected function _initConfig()
+    {
         # get config
         $config = new Zend_Config_Ini( dirname(__FILE__) .
                 DIRECTORY_SEPARATOR . 'configs' .
@@ -61,7 +65,8 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap {
         $this->_registry->config->auth = $config;
     }
 
-    protected function _initActionHelpers() {
+    protected function _initActionHelpers()
+    {
 
         // path for module-specific controller helpers
         Zend_Controller_Action_HelperBroker::addPath( APPLICATION_PATH . '/modules/auth/controllers/helpers', 'Auth_Controller_Helper_');

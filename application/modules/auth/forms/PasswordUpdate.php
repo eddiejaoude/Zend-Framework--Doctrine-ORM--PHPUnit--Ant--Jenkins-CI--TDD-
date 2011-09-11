@@ -2,7 +2,7 @@
 
 /**
  * Auth password update form
- * 
+ *
  * @author koen Huybrechts
  *
  */
@@ -28,7 +28,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
         # Current password
         $currentPassword = new Zend_Form_Element_Password('currentPassword');
         $currentPassword->setLabel('Current Password')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty');
@@ -36,7 +36,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
         # New password
         $newPassword = new Zend_Form_Element_Password('newPassword');
         $newPassword->setLabel('New Password')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty');
@@ -44,7 +44,7 @@ class Auth_Form_PasswordUpdate extends Zend_Form
         # Confirm new password
         $confirmPassword = new Zend_Form_Element_Password('confirmPassword');
         $confirmPassword->setLabel('Current Password')
-            ->setRequired(true)
+            ->setRequired(TRUE)
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty');

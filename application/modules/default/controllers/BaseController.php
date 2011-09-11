@@ -37,7 +37,5 @@ abstract class BaseController extends Application_BaseController
     {
         parent::postDispatch();
     }
-    
-
 }
 ?>

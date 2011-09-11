@@ -41,7 +41,7 @@ class LineEndingTest extends BaseTestCase
     }
 
    /**
-     * Test line endings 
+     * Test line endings
      *
      * @author 	Eddie Jaoude
      * @param 	null
@@ -51,7 +51,7 @@ class LineEndingTest extends BaseTestCase
    public function testApplicationDirectory() {
         $list = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
         foreach ($list as $k=> $v) {
-            if (!stristr($v, '.git/') && !stristr($v, 'docs/') && !stristr($v, '.bat')  && !stristr($v, '.png') && !stristr($v, '.wsdl') && !stristr($v, '.xsd') && !stristr($v, '.sql') && !stristr($v, '.jar')) {
+            if (!stristr($v, '.git/') && !stristr($v, '.svn/') && !stristr($v, 'docs/') && !stristr($v, 'tests/') && !stristr($v, '.bat')  && !stristr($v, '.png') && !stristr($v, '.wsdl') && !stristr($v, '.xsd') && !stristr($v, '.sql') && !stristr($v, '.jar')) {
                 try {
                     $this->assertEquals(false, stristr(file_get_contents($v), "\r\n"));
                 } catch (Exception $e) {

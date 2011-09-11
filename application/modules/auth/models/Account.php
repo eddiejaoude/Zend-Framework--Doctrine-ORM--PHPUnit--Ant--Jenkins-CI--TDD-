@@ -7,7 +7,7 @@ class Auth_Model_Account {
 
     /**
      * @var integer $id
-     * @Id @Column(type="integer") 
+     * @Id @Column(type="integer")
      * @GeneratedValue
      */
     private $id;
@@ -17,19 +17,19 @@ class Auth_Model_Account {
      * @Column(type="string")
      */
     private $name;
-    
+
     /**
      * @var string $email
      * @Column(type="string")
      */
     private $email;
-    
+
     /**
      * @var string $password
      * @Column(type="string")
      */
     private $password;
-    
+
     /**
      * @var string $created_at
      * @Column(type="string")
@@ -65,7 +65,7 @@ class Auth_Model_Account {
     {
         return $this->name;
     }
-    
+
     /**
      * Set email
      *
@@ -85,7 +85,7 @@ class Auth_Model_Account {
     {
         return $this->email;
     }
-    
+
     /**
      * Set password
      *
@@ -96,7 +96,7 @@ class Auth_Model_Account {
         if (empty($hash)) {
             throw new Exception('Hash required (2nd argument): use $object->setPassword($password, $hash)');
         }
-        
+
         $this->password = hash('SHA256', $hash . $password);
     }
 
@@ -109,7 +109,7 @@ class Auth_Model_Account {
     {
         return $this->password;
     }
-    
+
     /**
      * Set created_at
      *

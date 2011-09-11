@@ -19,7 +19,7 @@ abstract class Application_BaseController extends Zend_Controller_Action
      * @param           object $_flashMessenger
      *
      */
-    protected $_flashMessenger = null;
+    protected $_flashMessenger = NULL;
 
     /**
      * Initialisation method
@@ -33,9 +33,9 @@ abstract class Application_BaseController extends Zend_Controller_Action
     {
         # get application objects
         $this->_registry = Zend_Registry::getInstance();
-        
+
         # clone objects for ease of use
-        $this->_em = $this->_registry->doctrine->_em;
+        $this->_em     = $this->_registry->doctrine->_em;
         $this->_logger = $this->_registry->logger;
 
         # flash messenger
@@ -50,7 +50,8 @@ abstract class Application_BaseController extends Zend_Controller_Action
      * @return           void
      *
      */
-    public function  postDispatch() {
+    public function  postDispatch()
+    {
         parent::postDispatch();
 
         if (empty($this->view->alert))

@@ -8,7 +8,8 @@
  *
  */
 
-class ForgotPasswordTest extends BaseTestCase {
+class ForgotPasswordTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,11 +19,13 @@ class ForgotPasswordTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
-    
-    public function testNavigation() {
+
+    public function testNavigation()
+    {
         $this->dispatch('/auth/password/forgot');
         $this->mainNavigationCheck();
     }
@@ -41,12 +44,12 @@ class ForgotPasswordTest extends BaseTestCase {
         $this->assertModule('auth');
         $this->assertController('password');
         $this->assertAction('forgot');
-        
+
         $this->assertQueryCountMin('form.box dl.zend_form dd#email-element input#email', 1);
         $this->assertQueryCountMin('html body div#page div#main form.box dl.zend_form dd#sendPassword-element input#sendPassword', 1);
     }
-    
-    
+
+
     /**
      * Test invalid email
      *
@@ -66,11 +69,11 @@ class ForgotPasswordTest extends BaseTestCase {
         $this->assertModule('auth');
         $this->assertController('password');
         $this->assertAction('forgot');
-        
+
         $this->assertQueryCountMin('form.box dl.zend_form dd#email-element ul.errors li', 1);
         $this->assertQueryContentContains('form.box dl.zend_form dd#email-element ul.errors li', 'is no valid email address');
     }
-    
+
     /**
      * Test send password
      *
@@ -153,7 +156,7 @@ class ForgotPasswordTest extends BaseTestCase {
         #$this->assertModule('auth');
         $this->assertController('password');
         $this->assertAction('forgot');
-        
+
         $this->assertQueryCountMin('form.box dl.zend_form dd#email-element ul.errors li', 1);
         $this->assertQueryContentContains('form.box dl.zend_form dd#email-element ul.errors li', 'Value is required and can\'t be empty');
     }

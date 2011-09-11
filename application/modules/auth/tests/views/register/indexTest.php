@@ -8,7 +8,8 @@
  *
  */
 
-class Auth_Register_IndexViewTest extends BaseTestCase {
+class Auth_Register_IndexViewTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,15 +19,17 @@ class Auth_Register_IndexViewTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
 
-    public function testNavigation() {
+    public function testNavigation()
+    {
         $this->dispatch('/auth/register');
         $this->mainNavigationCheck();
     }
-    
+
     public function testForm()
     {
         $this->dispatch('/auth/register');

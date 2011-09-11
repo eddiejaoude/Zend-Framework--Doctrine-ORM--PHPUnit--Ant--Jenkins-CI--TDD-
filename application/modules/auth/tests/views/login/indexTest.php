@@ -8,7 +8,8 @@
  *
  */
 
-class LoginViewTest extends BaseTestCase {
+class LoginViewTest extends BaseTestCase
+{
 
     /**
      * Initialisation of config object
@@ -18,11 +19,13 @@ class LoginViewTest extends BaseTestCase {
      * @return 	null
      *
      */
-    public function setup() {
+    public function setup()
+    {
         parent::setUp();
     }
-    
-    public function testNavigation() {
+
+    public function testNavigation()
+    {
         $this->dispatch('/auth/login');
         $this->mainNavigationCheck();
     }
@@ -41,7 +44,7 @@ class LoginViewTest extends BaseTestCase {
         $this->assertModule('auth');
         $this->assertController('login');
         $this->assertAction('index');
-        
+
         $this->assertQueryCount('form#Login', 1);
         $this->assertQueryCount('input#email', 1);
         $this->assertQueryCount('input#password', 1);
@@ -126,7 +129,7 @@ class LoginViewTest extends BaseTestCase {
         $this->assertModule('auth');
         $this->assertController('login');
         $this->assertAction('index');
-        
+
         $this->assertRedirectTo('/auth/account');
     }
 
