@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+<version>1003001</version>
+<userDir/>
+<connection>
+		<proxyChain>
+			<hostName/>
+			<port>8080</port>
+			<skipName/>
+			<realm/>
+			<userName/>
+			<password/>		
+			<prompt>false</prompt>
+		</proxyChain>
+		<auth/>
+	<timeoutInSecs>20</timeoutInSecs>
+</connection>
+<proxy>
+		<ip>localhost</ip>
+		<port>8090</port>
+		<reverseProxy>
+			<use>0</use>	
+			<ip>192.168.0.2</ip>
+			<httpPort>80</httpPort>
+			<httpsPort>443</httpsPort>
+		</reverseProxy>		
+	</proxy>
+<view>
+		<processImages>0</processImages>
+		<editorView>2</editorView>
+		<brkPanelView>0</brkPanelView>
+		<showMainToolbar>1</showMainToolbar>
+	<locale>en_GB</locale>
+<displayOption>0</displayOption>
+<advancedview>0</advancedview>
+<askOnExit>1</askOnExit>
+<uiWmHandling>0</uiWmHandling>
+</view>
+<start>
+        <checkForUpdates>0</checkForUpdates>
+    <dayLastChecked>Never</dayLastChecked>
+</start>
+<certificate>
+		<use>0</use>
+		<clientCertLocation/>
+		<experimentalSlotListIndex>false</experimentalSlotListIndex>
+	</certificate>
+<spider>
+		<thread>2</thread>
+		<maxDepth>5</maxDepth>
+		<scope/>
+		<postform>1</postform>
+		<skipurl/>
+	</spider>
+<trap>
+		<inclusiveFilter/>
+		<exclusiveFilter/>
+	</trap>
+<scanner>
+		<hostPerScan>2</hostPerScan>
+		<threadPerHost>2</threadPerHost>
+	<delayInMs>0</delayInMs>
+<antiCSFR>false</antiCSFR>
+</scanner>
+<portscan>
+		<threadPerHost>5</threadPerHost>
+		<maxPort>10240</maxPort>
+	<timeoutInMs>100</timeoutInMs>
+</portscan>
+<bruteforce>
+		<threadPerHost>10</threadPerHost>
+	</bruteforce>
+<pscans>
+		<names>html_tag_form</names>
+		<names>html_tag_password</names>
+		<names>html_type_password</names>
+		<names>html_type_hidden</names>
+		<names>html_type_upload</names>
+		<names>html_tag_object</names>
+		<names>html_tag_script</names>
+		<names>html_mailto</names>
+		<html_tag_form>
+			<type>TAG</type>
+			<config>Form</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>&lt;form</resBodyRegex>
+			<enabled>true</enabled>
+		</html_tag_form>
+		<html_tag_password>
+			<type>TAG</type>
+			<config>Password</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>&lt;password\s</resBodyRegex>
+			<enabled>true</enabled>
+		</html_tag_password>
+		<html_type_password>
+			<type>TAG</type>
+			<config>Password</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>type\s*=\s*['"]?password['"]?</resBodyRegex>
+			<enabled>true</enabled>
+		</html_type_password>
+		<html_type_hidden>
+			<type>TAG</type>
+			<config>Hidden</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>type\s*=\s*['"]?hidden['"]?</resBodyRegex>
+			<enabled>true</enabled>
+		</html_type_hidden>
+		<html_type_upload>
+			<type>TAG</type>
+			<config>Upload</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>type\s*=\s*['"]?file['"]?</resBodyRegex>
+			<enabled>true</enabled>
+		</html_type_upload>
+		<html_tag_object>
+			<type>TAG</type>
+			<config>Object</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>&lt;object\s</resBodyRegex>
+			<enabled>true</enabled>
+		</html_tag_object>
+		<html_tag_script>
+			<type>TAG</type>
+			<config>Script</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>&lt;script</resBodyRegex>
+			<enabled>true</enabled>
+		</html_tag_script>
+		<html_mailto>
+			<type>TAG</type>
+			<config>MailTo</config>
+			<reqUrlRegex/>
+			<reqHeadRegex/>
+			<resHeadRegex/>
+			<resBodyRegex>&lt;.*href\s*['"]?mailto:</resBodyRegex>
+			<enabled>true</enabled>
+		</html_mailto>
+	</pscans>
+<anticsrf>
+		<tokens>CSRFToken</tokens>
+		<tokens>__RequestVerificationToken</tokens>
+		<tokens>anticsrf</tokens>
+	</anticsrf>
+<plugins>
+<p10000>
+<enabled>1</enabled>
+</p10000>
+<p10001>
+<enabled>1</enabled>
+</p10001>
+<p40000>
+<enabled>1</enabled>
+</p40000>
+<p40001>
+<enabled>1</enabled>
+</p40001>
+<p40002>
+<enabled>1</enabled>
+</p40002>
+<p20000>
+<enabled>1</enabled>
+</p20000>
+<p20001>
+<enabled>1</enabled>
+</p20001>
+<p20002>
+<enabled>1</enabled>
+</p20002>
+<p20003>
+<enabled>1</enabled>
+</p20003>
+<p20004>
+<enabled>1</enabled>
+</p20004>
+<p20005>
+<enabled>1</enabled>
+</p20005>
+<p20006>
+<enabled>1</enabled>
+</p20006>
+<p0>
+<enabled>1</enabled>
+</p0>
+<p30000>
+<enabled>1</enabled>
+</p30000>
+<p1>
+<enabled>1</enabled>
+</p1>
+<p2>
+<enabled>1</enabled>
+</p2>
+<p3>
+<enabled>1</enabled>
+</p3>
+<p40003>
+<enabled>1</enabled>
+</p40003>
+<p40006>
+<enabled>1</enabled>
+</p40006>
+<p40007>
+<enabled>1</enabled>
+</p40007>
+<p40005>
+<enabled>1</enabled>
+</p40005>
+<p40004>
+<enabled>1</enabled>
+</p40004>
+<p4>
+<enabled>1</enabled>
+</p4>
+<p5>
+<enabled>1</enabled>
+</p5>
+<p40008>
+<enabled>1</enabled>
+</p40008>
+<p40009>
+<enabled>1</enabled>
+</p40009>
+</plugins>
+<fuzzer>
+<threadPerScan>1</threadPerScan>
+<defaultCategory>XSS</defaultCategory>
+<delayInMs>0</delayInMs>
+</fuzzer>
+<api>
+<enabled>false</enabled>
+</api>
+<dynssl>
+<param>
+<rootca>_u3-7QAAAAIAAAABAAAAAQARb3dhc3BfemFwX3Jvb3RfY2EAAAExmYPZawAABQEwggT9MA4GCisGAQQBKgIRAQEFAASCBOlBp37CEqNx6GzN-UVqoootmyVcVEruarX9hadep-F8s4juNG9TvSzIxkW1N-F1bTUbbdSFYsJ7ozQ14Y2rgOpSmUqX1lZQWxJDyzjL97ostbGr4Dr9-U7ePENWmRafEoAwx9OLD6slglPnXqSCBY4vRiD7OHrRiMpgQVaT0DOdtcAa1ydh6CXtIdDkYvlObUshiO0Qm6p0ulicC_Rydg-qnFIIBaehxIzpxDMRmJK17pncRiPYpCeKz4aWkp65qKBXIyvNpPhjw2n0t-CIaxO6sYrQ3_4qU6by62o09p0whgrh_lar0KquBhA_bvxnxYsCmav_5pFwB4M2O9eexTYYn0KuXuBQZ1x0F-jaoWDmQcJdeoVztjnTC1Y4OUZCtMcAgrWZTKUMQpai4TBENTg7M6jefCkeByjZpl3oUlFN4B1peUp3OvPudW6UYER3jivMal8nSkG3Lm3km_KkqTvUvF82SfjrGXIq4XpeW6DeuLgRCP9DKSO0Kal4jzbbKRFcGKIEDFwrbaKnxqI5eKiphcmAkzt7re5QRGdY0TuPSLRlYOmA41DjhS-s5Ln2AwBB5ge3JntlMk8DdxTg5qzSYQNJFman1Su--vVBwAY9j3TVdfkVEfKVKtR4FHUig8sM3jOys7sCz29MVtx1DgWpGbNJEtXH83wT19prXh6uOOyyjTam8feWsOefSK3Ux0vmG2YgCwf0f3lhY-Iib7vLZEZOYJTkfLwSY4IRewPOmJv1HI6jvQ0RKkDKDTWGCs5Yv9FJBJ4fp2etOWATtUl7pMyj4I2ps3jQK8qTHRl-3kxHBhX6ZzUGR4rqL8BltBbknouGoYX-cuDlYIUSDXzvSfFkTY6y3yvrij3Zt8XgH79-KO5tTvtesBmbSAqtPsZMr9NUX6ek4mR5ZK0QKQkMx60C8kl8aUiLZTUf81ZFfbnpsu5f3Vvgtej55yxPI9TlhqkRHuPcaoomnbg8UpfBM2XlOkNLQ-j7pMAnt1FpW5y3D4tqPtRuVpDisL1IOfZEkl4HWpO6-Cz0VifNFR6j75-_mi2bdz5ySNaamPh5GQF0hSfL46rdrJrxwGDHzhsTw7Jlpyvr73gr6LF8-4uAc_jOZtcT1FTHfZRtrUv70VzcyvTeqTLUpgZKjVMb205d8MFdctUn1LDAH8jIeBc9Y7ukUKltELewqfxyJPys00ZztKLl5rSrZTR3DOxzGMlM8hGG5OxMgQiVpNsySiuOsSgGD9xq0FZnmtwEShxTQWdH2OlIZ8bY85JWPhy1K84OZfuZ3TzLyfczbQlqWjRTHU0onbKDvSq2hgIgniBg8PUvCn7DoorGxa4eY_UqGx_7zqzjpopSLGqwCg_TAek4bviAseKeHLisNy3dc6aZsEy47ZhDX29Zb42bqWJajwqlwyTMpSETAZli2-kuuuagfzXvrk1-YBTySvcdJKzgp8JGMTMq-hrbEH4HAEp3d3Q5M6CGwXoKbFc-X8maiXrYBqi58edmcXTWTyBE3MANmnZDJyDgJxEqRPf1oI095zQXYu_ke_PYy0sz2dLJVbxZI7PiC3UVfwHvNob90VFGtFmPqvHwgkKCrNVB7s16EGsAvLzFP8_NC1CL781FhoEbRLx41KUDK5NOO3GNiKYy3dkp03e-zHQiYiCD3m1y51cCs47uTqTxT6kAAAABAAVYLjUwOQAAA7gwggO0MIICnKADAgECAgEBMA0GCSqGSIb3DQEBBQUAMIGEMQswCQYDVQQGEwJYWDEaMBgGA1UECxMRT1dBU1AgWkFQIFJvb3QgQ0ExFjAUBgNVBAoTDU9XQVNQIFJvb3QgQ0ExGDAWBgNVBAcTDzRjMzAwZDYyMTNmYjk1MzEnMCUGA1UEAxMeT1dBU1AgWmVkIEF0dGFjayBQcm94eSBSb290IENBMB4XDTExMDgwNTEwMzYxN1oXDTEyMDgwNDEwMzYxN1owgYQxCzAJBgNVBAYTAlhYMRowGAYDVQQLExFPV0FTUCBaQVAgUm9vdCBDQTEWMBQGA1UEChMNT1dBU1AgUm9vdCBDQTEYMBYGA1UEBxMPNGMzMDBkNjIxM2ZiOTUzMScwJQYDVQQDEx5PV0FTUCBaZWQgQXR0YWNrIFByb3h5IFJvb3QgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSdb3UMvQqqFxnVb1yzYs_WcDrhSxBJt41CkAElPFqm9HY9039MIrPRyWF4FO4AVz5w4UPKU6QyCCQw1A_4HGijVbuKXoLnah-7uNAQuUVp6Vbl0WpkpYUYDk5mSvd33A2yDrMUm8OifnJlv4iU_hWuOqsjqhNHr0r6-vKQirreyrurI9BNIUYvOMoYT7aaiivOS0tVTwiktUojBzGLilZ65mWfcKnsr4OIkqZXzjPMCusVM2DuwMzWDtT_skxUJjOWj95A3vRRm_a00JZ-zglVIuLBsUZHFw1yLAd5vVB1vTt-egl3RuHHNJHPZ2vQExoIibThQyF78g5H29JI2N5AgMBAAGjLzAtMB0GA1UdDgQWBBS-QPCuw_OItrT_dYnffyL_ZyQBNTAMBgNVHRMEBTADAQH_MA0GCSqGSIb3DQEBBQUAA4IBAQBa4bBV0kx5VUw3WBJToUUzYTvl2bZtKIw08m6zMoBJxGneWix-f2rbakhARGhjrBPsCaQnNQakPw-s6fbosytno5lsTDh94BJBLqVSENt1lcCz-pX0r6W37WGXx88RItQKMrZaLw8vKVmyWbj8T5kGS8Wc3O9FLrI5u1WfNhBvjruxnPh8U-AGmUrT_6A9ECfodsusGs_-Pcz2DDKwTYZNBxSHRmnZ4WY-13ektyK5Hilh6s72DW1Hph5ODIDQK4DTU83-Ix-umI3i-XCg-cwJ5WH_0XPRMTRT-M28vZZXZlh6FUoH8Cn62SkKbyAqwQp_RwRTYwAMBQXUDVJG6P4mbGlXD-HYVO2S7xMb02vQ8NSOzGg</rootca>
+</param>
+</dynssl>
+</config>
