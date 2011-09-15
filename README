@@ -77,13 +77,13 @@ ADVANTAGES of TTD (Test Driven Developement)
 RUNNING TESTS
 --------------------------------------------------------
 > cd tests/
-[unit tests only]
+[unit tests only - comment out selenium lines in /tests/phpunit.xml]
 Comment out selenium lines in tests/phpunit.xml
 > phpunit
-[selenium tests only]
+[selenium tests only - uncomment selenium lines in /tests/phpunit.xml]
 > sh selenium_only.sh 
 > phpunit --filter Selenium
-[selenium tests with Penetration testing by Zap proxy]
+[selenium tests with Penetration testing by Zap proxy - uncomment selenium lines in /tests/phpunit.xml]
 > sh selenium_with_zap.sh 
 > phpunit --filter Selenium
 [all tests - with/without pen test (zap proxy)]
