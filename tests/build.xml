@@ -12,8 +12,8 @@
         description="Create artifact directories">
         <mkdir dir="${basedir}/build"/>
         <mkdir dir="${basedir}/build/logs"/>
-        <mkdir dir="${basedir}/build/docs"/>
-        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/phpdoc"/>
+        <mkdir dir="${basedir}/build/docblox"/>
         <mkdir dir="${basedir}/build/code-browser"/>
         <mkdir dir="${basedir}/build/coverage"/>
         <mkdir dir="${basedir}/build/pdepend"/>       
@@ -33,8 +33,8 @@
             </sequential>
             <antcall target="phpcpd"/>
             <antcall target="phpcs"/>
-            <!-- <antcall target="phpdoc"/> --> 
-            <!-- <antcall target="docblox"/> --> 
+            <antcall target="phpdoc"/> 
+             <antcall target="docblox"/> 
             <antcall target="phploc"/>
         </parallel>
     </target>
@@ -98,7 +98,7 @@
         <exec executable="phpdoc" failonerror="false">
             <arg line="--directory ${appsource},${libsource}/Custom
                 --ignore tests
-                --target ${basedir}/build/api" />     
+                --target ${basedir}/build/phpdoc" />     
         </exec>
     </target>   
 
@@ -107,7 +107,7 @@
         <exec executable="docblox" failonerror="false">
             <arg line="--directory ${appsource},${libsource}/Custom
                 --ignore tests
-                --target ${basedir}/build/api
+                --target ${basedir}/build/docblox
                 --title '${ant.project.name}'" />
         </exec>
     </target>
