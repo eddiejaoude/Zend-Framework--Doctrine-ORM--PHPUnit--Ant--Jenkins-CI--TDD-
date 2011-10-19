@@ -33,7 +33,7 @@
             </sequential>
             <antcall target="phpcpd"/>
             <antcall target="phpcs"/>
-            <antcall target="phpdoc"/> 
+            <!--<antcall target="phpdoc"/>-->
              <antcall target="docblox"/> 
             <antcall target="phploc"/>
         </parallel>

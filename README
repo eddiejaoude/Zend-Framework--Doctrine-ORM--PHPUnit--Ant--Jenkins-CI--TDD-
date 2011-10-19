@@ -48,7 +48,8 @@ TECHNOLOGIES USED
 - Zend Framework 2.0.0.beta1
 - Doctrine 2+
 - PHPUnit 3.5+
-- PHP Documentor
+- PHP Documentor (deprecated)
+- DocBlox
 - jQuery
 
 
