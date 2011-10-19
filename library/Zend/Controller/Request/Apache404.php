@@ -16,14 +16,12 @@
  * @package    Zend_Controller
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Apache404.php 23988 2011-05-04 02:39:04Z ralph $
  */
 
-/** Zend_Controller_Request_Http */
-require_once 'Zend/Controller/Request/Http.php';
-
-/** Zend_Uri */
-require_once 'Zend/Uri.php';
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Request;
 
 /**
  * Zend_Controller_Request_Apache404
@@ -36,11 +34,10 @@ require_once 'Zend/Uri.php';
  * In each case, the URL to check against is found in REDIRECT_URL, not
  * REQUEST_URI.
  *
- * @uses       Zend_Controller_Request_Http
  * @package    Zend_Controller
  * @subpackage Request
  */
-class Zend_Controller_Request_Apache404 extends Zend_Controller_Request_Http
+class Apache404 extends Http
 {
     public function setRequestUri($requestUri = null)
     {
@@ -50,8 +47,8 @@ class Zend_Controller_Request_Apache404 extends Zend_Controller_Request_Http
                 $requestUri = $_SERVER['HTTP_X_REWRITE_URL'];
             } elseif (isset($_SERVER['REDIRECT_URL'])) {  // Check if using mod_rewrite
                 $requestUri = $_SERVER['REDIRECT_URL'];
-                if (isset($_SERVER['REDIRECT_QUERY_STRING'])) {
-                    $parseUriGetVars = $_SERVER['REDIRECT_QUERY_STRING'];
+                if (isset($_SERVER['REDIRECT_QUERYSTRING'])) {
+                    $parseUriGetVars = $_SERVER['REDIRECT_QUERYSTRING'];
                 }
             } elseif (isset($_SERVER['REQUEST_URI'])) {
                 $requestUri = $_SERVER['REQUEST_URI'];

@@ -17,19 +17,15 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CosmosResultSet.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-
-/**
- * @see Zend_Service_Technorati_ResultSet
- */
-require_once 'Zend/Service/Technorati/ResultSet.php';
-
 
 /**
  * Represents a Technorati Cosmos query result set.
  *
+ * @uses       Zend_Service_Technorati_CosmosResult
+ * @uses       Zend_Service_Technorati_ResultSet
+ * @uses       Zend_Service_Technorati_Utils
+ * @uses       Zend_Service_Technorati_Weblog
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -88,10 +84,6 @@ class Zend_Service_Technorati_CosmosResultSet extends Zend_Service_Technorati_Re
 
         $result = $this->_xpath->query('/tapi/document/result/weblog');
         if ($result->length == 1) {
-            /**
-             * @see Zend_Service_Technorati_Weblog
-             */
-            require_once 'Zend/Service/Technorati/Weblog.php';
             $this->_weblog = new Zend_Service_Technorati_Weblog($result->item(0));
         }
 
@@ -167,10 +159,6 @@ class Zend_Service_Technorati_CosmosResultSet extends Zend_Service_Technorati_Re
      */
     public function current()
     {
-        /**
-         * @see Zend_Service_Technorati_CosmosResult
-         */
-        require_once 'Zend/Service/Technorati/CosmosResult.php';
         return new Zend_Service_Technorati_CosmosResult($this->_results->item($this->_currentIndex));
     }
 }

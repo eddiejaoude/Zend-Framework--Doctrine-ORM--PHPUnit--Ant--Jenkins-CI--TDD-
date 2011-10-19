@@ -16,26 +16,27 @@
  * @package    Zend_Mime
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Part.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * Zend_Mime
+ * @namespace
  */
-require_once 'Zend/Mime.php';
+namespace Zend\Mime;
 
 /**
  * Class representing a MIME part.
  *
+ * @uses       \Zend\Mime\Mime
+ * @uses       \Zend\Mime\Exception
  * @category   Zend
  * @package    Zend_Mime
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Mime_Part {
+class Part {
 
-    public $type = Zend_Mime::TYPE_OCTETSTREAM;
-    public $encoding = Zend_Mime::ENCODING_8BIT;
+    public $type = Mime::TYPE_OCTETSTREAM;
+    public $encoding = Mime::ENCODING_8BIT;
     public $id;
     public $disposition;
     public $filename;
@@ -87,45 +88,42 @@ class Zend_Mime_Part {
      * reading the content. very useful for large file attachments.
      *
      * @return stream
-     * @throws Zend_Mime_Exception if not a stream or unable to append filter
+     * @throws \Zend\Mime\Exception if not a stream or unable to append filter
      */
     public function getEncodedStream()
     {
         if (!$this->_isStream) {
-            require_once 'Zend/Mime/Exception.php';
-            throw new Zend_Mime_Exception('Attempt to get a stream from a string part');
+            throw new Exception\RuntimeException('Attempt to get a stream from a string part');
         }
 
         //stream_filter_remove(); // ??? is that right?
         switch ($this->encoding) {
-            case Zend_Mime::ENCODING_QUOTEDPRINTABLE:
+            case Mime::ENCODING_QUOTEDPRINTABLE:
                 $filter = stream_filter_append(
                     $this->_content,
                     'convert.quoted-printable-encode',
                     STREAM_FILTER_READ,
                     array(
                         'line-length'      => 76,
-                        'line-break-chars' => Zend_Mime::LINEEND
+                        'line-break-chars' => Mime::LINEEND
                     )
                 );
                 if (!is_resource($filter)) {
-                    require_once 'Zend/Mime/Exception.php';
-                    throw new Zend_Mime_Exception('Failed to append quoted-printable filter');
+                    throw new Exception\RuntimeException('Failed to append quoted-printable filter');
                 }
                 break;
-            case Zend_Mime::ENCODING_BASE64:
+            case Mime::ENCODING_BASE64:
                 $filter = stream_filter_append(
                     $this->_content,
                     'convert.base64-encode',
                     STREAM_FILTER_READ,
                     array(
                         'line-length'      => 76,
-                        'line-break-chars' => Zend_Mime::LINEEND
+                        'line-break-chars' => Mime::LINEEND
                     )
                 );
                 if (!is_resource($filter)) {
-                    require_once 'Zend/Mime/Exception.php';
-                    throw new Zend_Mime_Exception('Failed to append base64 filter');
+                    throw new Exception\RuntimeException('Failed to append base64 filter');
                 }
                 break;
             default:
@@ -138,15 +136,15 @@ class Zend_Mime_Part {
      *
      * @return String
      */
-    public function getContent($EOL = Zend_Mime::LINEEND)
+    public function getContent($EOL = Mime::LINEEND)
     {
         if ($this->_isStream) {
             return stream_get_contents($this->getEncodedStream());
         } else {
-            return Zend_Mime::encode($this->_content, $this->encoding, $EOL);
+            return Mime::encode($this->_content, $this->encoding, $EOL);
         }
     }
-    
+
     /**
      * Get the RAW unencoded content from this part
      * @return string
@@ -166,7 +164,7 @@ class Zend_Mime_Part {
      * @access public
      * @return array
      */
-    public function getHeadersArray($EOL = Zend_Mime::LINEEND)
+    public function getHeadersArray($EOL = Mime::LINEEND)
     {
         $headers = array();
 
@@ -218,7 +216,7 @@ class Zend_Mime_Part {
      *
      * @return String
      */
-    public function getHeaders($EOL = Zend_Mime::LINEEND)
+    public function getHeaders($EOL = Mime::LINEEND)
     {
         $res = '';
         foreach ($this->getHeadersArray($EOL) as $header) {

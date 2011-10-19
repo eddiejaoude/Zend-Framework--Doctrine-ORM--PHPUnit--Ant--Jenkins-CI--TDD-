@@ -17,15 +17,10 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: LocalSearchRequest.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Service_DeveloperGarden_RequestAbstract
- */
-require_once 'Zend/Service/DeveloperGarden/Request/RequestAbstract.php';
-
-/**
+ * @uses       Zend_Service_DeveloperGarden_Request_AbstractRequest
  * @category   Zend
  * @package    Zend_Service
  * @subpackage DeveloperGarden
@@ -34,7 +29,7 @@ require_once 'Zend/Service/DeveloperGarden/Request/RequestAbstract.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_DeveloperGarden_Request_LocalSearch_LocalSearchRequest
-    extends Zend_Service_DeveloperGarden_Request_RequestAbstract
+    extends Zend_Service_DeveloperGarden_Request_AbstractRequest
 {
     /**
      * array of search parameters
@@ -63,10 +58,10 @@ class Zend_Service_DeveloperGarden_Request_LocalSearch_LocalSearchRequest
      * @param integer $environment
      * @param Zend_Service_DeveloperGarden_LocalSearch_SearchParameters $searchParameters
      * @param integer $account
-     * @return Zend_Service_DeveloperGarden_Request_RequestAbstract
+     * @return Zend_Service_DeveloperGarden_Request_AbstractRequest
      */
-    public function __construct($environment,
-        Zend_Service_DeveloperGarden_LocalSearch_SearchParameters $searchParameters,
+    public function __construct($environment, 
+        Zend_Service_DeveloperGarden_LocalSearch_SearchParameters $searchParameters, 
         $account = null
     ) {
         parent::__construct($environment);

@@ -17,8 +17,12 @@
  * @subpackage Value
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AbstractMessage.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Amf\Value\Messaging;
 
 /**
  * This is the default Implementation of Message, which provides
@@ -29,7 +33,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Amf_Value_Messaging_AbstractMessage
+class AbstractMessage
 {
     /**
      * @var string Client identifier

@@ -19,20 +19,22 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Element_Multi */
-require_once 'Zend/Form/Element/Multi.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Element;
 
 /**
  * Radio form element
  *
+ * @uses       \Zend\Form\Element\Multi
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Radio.php 23871 2011-04-23 22:40:16Z ramon $
  */
-class Zend_Form_Element_Radio extends Zend_Form_Element_Multi
+class Radio extends Multi
 {
     /**
      * Use formRadio view helper by default
@@ -45,7 +47,7 @@ class Zend_Form_Element_Radio extends Zend_Form_Element_Multi
      *
      * Disables "for" attribute of label if label decorator enabled.
      *
-     * @return Zend_Form_Element_Radio
+     * @return \Zend\Form\Element\Radio
      */
     public function loadDefaultDecorators()
     {

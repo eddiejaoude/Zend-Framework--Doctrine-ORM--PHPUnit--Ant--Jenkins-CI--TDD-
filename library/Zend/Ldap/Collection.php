@@ -16,23 +16,29 @@
  * @package    Zend_Ldap
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Collection.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Ldap;
 
 /**
  * Zend_Ldap_Collection wraps a list of LDAP entries.
  *
+ * @uses       Countable
+ * @uses       Iterator
  * @category   Zend
  * @package    Zend_Ldap
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Collection implements Iterator, Countable
+class Collection implements \Iterator, \Countable
 {
     /**
      * Iterator
      *
-     * @var Zend_Ldap_Collection_Iterator_Default
+     * @var \Zend\Ldap\Collection\DefaultIterator
      */
     protected $_iterator = null;
 
@@ -53,9 +59,9 @@ class Zend_Ldap_Collection implements Iterator, Countable
     /**
      * Constructor.
      *
-     * @param Zend_Ldap_Collection_Iterator_Default $iterator
+     * @param \Zend\Ldap\Collection\DefaultIterator $iterator
      */
-    public function __construct(Zend_Ldap_Collection_Iterator_Default $iterator)
+    public function __construct(Collection\DefaultIterator $iterator)
     {
         $this->_iterator = $iterator;
     }
@@ -107,7 +113,7 @@ class Zend_Ldap_Collection implements Iterator, Countable
     /**
      * Returns the underlying iterator
      *
-     * @return Zend_Ldap_Collection_Iterator_Default
+     * @return \Zend\Ldap\Collection\DefaultIterator
      */
     public function getInnerIterator()
     {
@@ -130,7 +136,7 @@ class Zend_Ldap_Collection implements Iterator, Countable
      * Implements Iterator
      *
      * @return array|null
-     * @throws Zend_Ldap_Exception
+     * @throws \Zend\Ldap\Exception
      */
     public function current()
     {
@@ -201,7 +207,7 @@ class Zend_Ldap_Collection implements Iterator, Countable
      * Move forward to next result item
      * Implements Iterator
      *
-     * @throws Zend_Ldap_Exception
+     * @throws \Zend\Ldap\Exception
      */
     public function next()
     {
@@ -213,7 +219,7 @@ class Zend_Ldap_Collection implements Iterator, Countable
      * Rewind the Iterator to the first result item
      * Implements Iterator
      *
-     * @throws Zend_Ldap_Exception
+     * @throws \Zend\Ldap\Exception
      */
     public function rewind()
     {

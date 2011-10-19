@@ -17,28 +17,34 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StreamWriter.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Search_Lucene_Index_SegmentWriter */
-require_once 'Zend/Search/Lucene/Index/SegmentWriter.php';
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Index\SegmentWriter;
+use Zend\Search\Lucene\Storage\Directory;
+use Zend\Search\Lucene\Index as LuceneIndex;
 
 /**
+ * @uses       \Zend\Search\Lucene\Index\SegmentInfo
+ * @uses       \Zend\Search\Lucene\Index\SegmentWriter\AbstractSegmentWriter
+ * @uses       \Zend\Search\Lucene\Storage\Directory
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lucene_Index_SegmentWriter
+class StreamWriter extends AbstractSegmentWriter
 {
     /**
      * Object constructor.
      *
-     * @param Zend_Search_Lucene_Storage_Directory $directory
+     * @param \Zend\Search\Lucene\Storage\Directory $directory
      * @param string $name
      */
-    public function __construct(Zend_Search_Lucene_Storage_Directory $directory, $name)
+    public function __construct(Directory $directory, $name)
     {
         parent::__construct($directory, $name);
     }
@@ -68,7 +74,7 @@ class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lu
     /**
      * Close segment, write it to disk and return segment info
      *
-     * @return Zend_Search_Lucene_Index_SegmentInfo
+     * @return \Zend\Search\Lucene\Index\SegmentInfo
      */
     public function close()
     {
@@ -79,16 +85,13 @@ class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lu
         $this->_dumpFNM();
         $this->_generateCFS();
 
-        /** Zend_Search_Lucene_Index_SegmentInfo */
-        require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
-
-        return new Zend_Search_Lucene_Index_SegmentInfo($this->_directory,
-                                                        $this->_name,
-                                                        $this->_docCount,
-                                                        -1,
-                                                        null,
-                                                        true,
-                                                        true);
+        return new LuceneIndex\SegmentInfo($this->_directory,
+                                           $this->_name,
+                                           $this->_docCount,
+                                           -1,
+                                           null,
+                                           true,
+                                           true);
     }
 }
 

@@ -16,8 +16,12 @@
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Colorizer.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Tool\Framework\Client\Console\ResponseDecorator;
 
 /**
  * @category   Zend
@@ -25,8 +29,8 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Client_Console_ResponseDecorator_Colorizer
-    implements Zend_Tool_Framework_Client_Response_ContentDecorator_Interface
+class Colorizer
+    implements \Zend\Tool\Framework\Client\Response\ContentDecorator
 {
 
     protected $_colorOptions = array(

@@ -18,24 +18,26 @@
  * @subpackage Zend_OpenId_Provider
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_OpenId_Provider_Storage
+ * @namespace
  */
-require_once "Zend/OpenId/Provider/Storage.php";
+namespace Zend\OpenId\Provider\Storage;
+use Zend\OpenId;
 
 /**
  * External storage implemmentation using serialized files
  *
+ * @uses       Zend\OpenId\Exception
+ * @uses       Zend\OpenId\Provider\Storage
  * @category   Zend
  * @package    Zend_OpenId
  * @subpackage Zend_OpenId_Provider
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
+class File extends AbstractStorage
 {
 
     /**
@@ -49,7 +51,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
      * Constructs storage object and creates storage directory
      *
      * @param string $dir directory name to store data files in
-     * @throws Zend_OpenId_Exception
+     * @throws Zend\OpenId\Exception
      */
     public function __construct($dir = null)
     {
@@ -70,21 +72,21 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
         $this->_dir = $dir;
         if (!is_dir($this->_dir)) {
             if (!@mkdir($this->_dir, 0700, 1)) {
-                throw new Zend_OpenId_Exception(
+                throw new OpenId\Exception(
                     "Cannot access storage directory $dir",
-                    Zend_OpenId_Exception::ERROR_STORAGE);
+                    OpenId\Exception::ERROR_STORAGE);
             }
         }
         if (($f = fopen($this->_dir.'/assoc.lock', 'w+')) === null) {
-            throw new Zend_OpenId_Exception(
+            throw new OpenId\Exception(
                 'Cannot create a lock file in the directory ' . $dir,
-                Zend_OpenId_Exception::ERROR_STORAGE);
+                OpenId\Exception::ERROR_STORAGE);
         }
         fclose($f);
         if (($f = fopen($this->_dir.'/user.lock', 'w+')) === null) {
-            throw new Zend_OpenId_Exception(
+            throw new OpenId\Exception(
                 'Cannot create a lock file in the directory ' . $dir,
-                Zend_OpenId_Exception::ERROR_STORAGE);
+                OpenId\Exception::ERROR_STORAGE);
         }
         fclose($f);
     }
@@ -120,7 +122,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -170,7 +172,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return $ret;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -197,7 +199,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             @unlink($name);
             fclose($lock);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -234,7 +236,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -257,7 +259,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($lock);
             return false;
         }
-        try {
+        try { 
             $f = @fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
@@ -274,7 +276,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return $ret;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -315,7 +317,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return $ret;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -342,7 +344,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             @unlink($name);
             fclose($lock);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -383,7 +385,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return $ret;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }
@@ -434,7 +436,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             fclose($f);
             fclose($lock);
             return $ret;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             fclose($lock);
             throw $e;
         }

@@ -17,25 +17,26 @@
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Modules.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Application_Resource_ResourceAbstract
+ * @namespace
  */
-require_once 'Zend/Application/Resource/ResourceAbstract.php';
-
+namespace Zend\Application\Resource;
 
 /**
  * Module bootstrapping resource
  *
+ * @uses       ArrayObject
+ * @uses       \Zend\Application\ResourceException
+ * @uses       \Zend\Application\Resource\AbstractResource
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Resource_Modules extends Zend_Application_Resource_ResourceAbstract
+class Modules extends AbstractResource
 {
     /**
      * @var ArrayObject
@@ -50,7 +51,7 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
      */
     public function __construct($options = null)
     {
-        $this->_bootstraps = new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
+        $this->_bootstraps = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
         parent::__construct($options);
     }
 
@@ -58,19 +59,19 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
      * Initialize modules
      *
      * @return array
-     * @throws Zend_Application_Resource_Exception When bootstrap class was not found
+     * @throws \Zend\Application\ResourceException When bootstrap class was not found
      */
     public function init()
     {
         $bootstrap = $this->getBootstrap();
-        $bootstrap->bootstrap('FrontController');
-        $front = $bootstrap->getResource('FrontController');
+        $bootstrap->bootstrap('frontcontroller');
+        $front = $bootstrap->getResource('frontcontroller');
 
         $modules = $front->getControllerDirectory();
         $default = $front->getDefaultModule();
         $curBootstrapClass = get_class($bootstrap);
         foreach ($modules as $module => $moduleDirectory) {
-            $bootstrapClass = $this->_formatModuleName($module) . '_Bootstrap';
+            $bootstrapClass = $this->_formatModuleName($module) . '\Bootstrap';
             if (!class_exists($bootstrapClass, false)) {
                 $bootstrapPath  = dirname($moduleDirectory) . '/Bootstrap.php';
                 if (file_exists($bootstrapPath)) {
@@ -79,14 +80,14 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
                     if (($default != $module)
                         && !class_exists($bootstrapClass, false)
                     ) {
-                        throw new Zend_Application_Resource_Exception(sprintf(
+                        throw new Exception\InitializationException(sprintf(
                             $eMsgTpl, $module, $bootstrapClass
                         ));
                     } elseif ($default == $module) {
                         if (!class_exists($bootstrapClass, false)) {
                             $bootstrapClass = 'Bootstrap';
                             if (!class_exists($bootstrapClass, false)) {
-                                throw new Zend_Application_Resource_Exception(sprintf(
+                                throw new Exception\InitializationException(sprintf(
                                     $eMsgTpl, $module, $bootstrapClass
                                 ));
                             }

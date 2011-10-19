@@ -17,18 +17,24 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ContextFilter.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Tool\Project\Profile\Iterator;
 
 /**
  * This class is an iterator that will iterate only over enabled resources
  *
+ * @uses       RecursiveFilterIterator
+ * @uses       ReflectionClass
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIterator
+class ContextFilter extends \RecursiveFilterIterator
 {
 
     /**
@@ -62,7 +68,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
      * @param RecursiveIterator $iterator
      * @param array $options
      */
-    public function __construct(RecursiveIterator $iterator, $options = array())
+    public function __construct(\RecursiveIterator $iterator, $options = array())
     {
         parent::__construct($iterator);
         $this->_rawOptions = $options;
@@ -92,7 +98,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
      * setAcceptTypes()
      *
      * @param array|string $acceptTypes
-     * @return Zend_Tool_Project_Profile_Iterator_ContextFilter
+     * @return \Zend\Tool\Project\Profile\Iterator\ContextFilter
      */
     public function setAcceptTypes($acceptTypes)
     {
@@ -108,7 +114,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
      * setDenyTypes()
      *
      * @param array|string $denyTypes
-     * @return Zend_Tool_Project_Profile_Iterator_ContextFilter
+     * @return \Zend\Tool\Project\Profile\Iterator\ContextFilter
      */
     public function setDenyTypes($denyTypes)
     {
@@ -124,7 +130,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
      * setAcceptNames()
      *
      * @param array|string $acceptNames
-     * @return Zend_Tool_Project_Profile_Iterator_ContextFilter
+     * @return \Zend\Tool\Project\Profile\Iterator\ContextFilter
      */
     public function setAcceptNames($acceptNames)
     {
@@ -135,7 +141,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
         foreach ($acceptNames as $n => $v) {
             $acceptNames[$n] = strtolower($v);
         }
-
+        
         $this->_acceptNames = $acceptNames;
         return $this;
     }
@@ -144,7 +150,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
      * setDenyNames()
      *
      * @param array|string $denyNames
-     * @return Zend_Tool_Project_Profile_Iterator_ContextFilter
+     * @return \Zend\Tool\Project\Profile\Iterator\ContextFilter
      */
     public function setDenyNames($denyNames)
     {
@@ -155,7 +161,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
         foreach ($denyNames as $n => $v) {
             $denyNames[$n] = strtolower($v);
         }
-
+        
         $this->_denyNames = $denyNames;
         return $this;
     }
@@ -202,7 +208,7 @@ class Zend_Tool_Project_Profile_Iterator_ContextFilter extends RecursiveFilterIt
     {
 
         if (empty($this->ref)) {
-            $this->ref = new ReflectionClass($this);
+            $this->ref = new \ReflectionClass($this);
         }
 
         return $this->ref->newInstance($this->getInnerIterator()->getChildren(), $this->_rawOptions);

@@ -17,27 +17,29 @@
  * @subpackage Parser
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Bbcode.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Markup_TokenList
+ * @namespace
  */
-require_once 'Zend/Markup/TokenList.php';
+namespace Zend\Markup\Parser;
+use Zend\Markup\Parser,
+    Zend\Markup\Token,
+    Zend\Markup\TokenList,
+    Zend\Config\Config;
 
 /**
- * @see Zend_Markup_Parser_ParserInterface
- */
-require_once 'Zend/Markup/Parser/ParserInterface.php';
-
-/**
+ * @uses       \Zend\Markup\Parser\Exception
+ * @uses       \Zend\Markup\Parser\ParserInterface
+ * @uses       \Zend\Markup\Token
+ * @uses       \Zend\Markup\TokenList
  * @category   Zend
  * @package    Zend_Markup
  * @subpackage Parser
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
+class Bbcode implements Parser
 {
     const NEWLINE   = "[newline\0]";
 
@@ -47,58 +49,19 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
 
     const NAME_CHARSET = '^\[\]=\s';
 
-    const STATE_SCAN       = 0;
-    const STATE_SCANATTRS  = 1;
-    const STATE_PARSEVALUE = 2;
-
     /**
      * Token tree
      *
-     * @var Zend_Markup_TokenList
+     * @var TokenList
      */
     protected $_tree;
 
     /**
      * Current token
      *
-     * @var Zend_Markup_Token
+     * @var Token
      */
     protected $_current;
-
-    /**
-     * Source to tokenize
-     *
-     * @var string
-     */
-    protected $_value = '';
-
-    /**
-     * Length of the value
-     *
-     * @var int
-     */
-    protected $_valueLen = 0;
-
-    /**
-     * Current pointer
-     *
-     * @var int
-     */
-    protected $_pointer = 0;
-
-    /**
-     * The buffer
-     *
-     * @var string
-     */
-    protected $_buffer = '';
-
-    /**
-     * Temporary tag storage
-     *
-     * @var array
-     */
-    protected $_temp;
 
     /**
      * Stoppers that we are searching for
@@ -110,25 +73,18 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     /**
      * Tag information
      *
+     * Contains the following information about every tag:
+     *
+     * - type:     single or default
+     * - stoppers: how to end this tag
+     * - group:    in which group the tag lives
+     *
      * @var array
      */
     protected $_tags = array(
         'Zend_Markup_Root' => array(
             'type'     => self::TYPE_DEFAULT,
-            'stoppers' => array(),
-        ),
-        '*' => array(
-            'type'     => self::TYPE_DEFAULT,
-            'stoppers' => array(self::NEWLINE, '[/*]', '[/]'),
-        ),
-        'hr' => array(
-            'type'     => self::TYPE_SINGLE,
-            'stoppers' => array(),
-        ),
-        'code' => array(
-            'type'         => self::TYPE_DEFAULT,
-            'stoppers'     => array('[/code]', '[/]'),
-            'parse_inside' => false
+            'stoppers' => array()
         )
     );
 
@@ -140,186 +96,517 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     protected $_tokens = array();
 
     /**
-     * State
+     * Groups configuration
      *
-     * @var int
+     * An example of the format for this array:
+     *
+     * <code>
+     * array(
+     *     'block'  => array('inline', 'block'),
+     *     'inline' => array('inline')
+     * )
+     * </code>
+     *
+     * This example shows two groups, block and inline. Elements who are in the
+     * block group, allow elements from the inline and block groups inside
+     * them. But elements from the inline group, only allow elements from the
+     * inline group inside them.
+     *
+     * @var array
      */
-    protected $_state = self::STATE_SCAN;
+    protected $_groups = array();
+
+    /**
+     * The current group
+     *
+     * @var string
+     */
+    protected $_group;
+
+    /**
+     * Default group for unknown tags
+     *
+     * @var string
+     */
+    protected $_defaultGroup;
 
 
     /**
-     * Prepare the parsing of a bbcode string, the real parsing is done in {@link _parse()}
+     * Constructor
+     *
+     * @param \Zend\Config\Config|array $config
+     *
+     * @return array
+     */
+    public function __construct($options = array())
+    {
+        if ($options instanceof Config) {
+            $options = $options->toArray();
+        }
+
+        if (isset($options['groups'])) {
+            $this->setGroups($options['groups']);
+        }
+        if (isset($options['default_group'])) {
+            $this->setDefaultGroup($options['default_group']);
+        }
+        if (isset($options['initial_group'])) {
+            $this->setInitialGroup($options['initial_group']);
+        }
+        if (isset($options['tags'])) {
+            $this->setTags($options['tags']);
+        }
+    }
+
+    /**
+     * Allow a group inside another group
+     *
+     * @param string $group
+     * @param string $inside
+     *
+     * @return Bbcode
+     */
+    public function allowInside($group, $inside)
+    {
+        if (!isset($this->_groups[$group])) {
+            throw new Exception\InvalidArgumentException("There is no group with the name '$group'.");
+        }
+        if (!isset($this->_groups[$inside])) {
+            throw new Exception\InvalidArgumentException("There is no group with the name '$inside'.");
+        }
+
+        $this->_groups[$inside][] = $group;
+
+        return $this;
+    }
+
+    /**
+     * Add a group.
+     *
+     * @param string $group
+     * @param array $allows
+     * @param array $allowedInside
+     *
+     * @throws Exception\InvalidArgumentException If a group in $allowedInside does not exist
+     *
+     * @return Bbcode
+     */
+    public function addGroup($group, array $allows, array $allowedInside = array())
+    {
+        $this->_groups[$group] = $allows;
+
+        foreach ($allowedInside as $inside) {
+            $this->allowedInside($group, $inside);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple groups.
+     *
+     * The groups should be defined with the group as key, and the groups
+     * allowed inside as value.
+     *
+     * An example for the $groups parameter.
+     *
+     * <code>
+     * array(
+     *     'block'  => array('block', 'inline'),
+     *     'inline' => array('inline')
+     * )
+     * </code>
+     *
+     * @param array $groups
+     *
+     * @return Bbcode
+     */
+    public function addGroups(array $groups)
+    {
+        foreach ($groups as $group => $allowed) {
+            $this->addGroup($group, $allowed);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clear the groups.
+     *
+     * @return Bbcode
+     */
+    public function clearGroups()
+    {
+        $this->_groups = array();
+
+        return $this;
+    }
+
+    /**
+     * Overwrite the current groups definitions.
+     *
+     * The groups should be defined with the group as key, and the groups
+     * allowed inside as value.
+     *
+     * An example for the $groups parameter.
+     *
+     * <code>
+     * array(
+     *     'block'  => array('block', 'inline'),
+     *     'inline' => array('inline')
+     * )
+     * </code>
+     *
+     * @param array $groups
+     *
+     * @return Bbcode
+     */
+    public function setGroups(array $groups)
+    {
+        $this->clearGroups();
+
+        $this->addGroups($groups);
+
+        return $this;
+    }
+
+    /**
+     * Set the default group for all tags.
+     *
+     * @param string $group
+     *
+     * @throws Exception\InvalidArgumentException If $group doesn't exist
+     *
+     * @return Bbcode
+     */
+    public function setDefaultGroup($group)
+    {
+        if (!isset($this->_groups[$group])) {
+            throw new Exception\InvalidArgumentException("There is no group with the name '$group'.");
+        }
+
+        $this->_defaultGroup = $group;
+
+        return $this;
+    }
+
+    /**
+     * Set the initial group.
+     *
+     * The initial group is the group that contains all elements.
+     *
+     * @param string $group
+     *
+     * @throws Exception\InvalidArgumentException If $group doesn't exist
+     *
+     * @return Bbcode
+     */
+    public function setInitialGroup($group)
+    {
+        if (!isset($this->_groups[$group])) {
+            throw new Exception\InvalidArgumentException("There is no group with the name '$group'.");
+        }
+
+        $this->_group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Add a definition for a tag
+     *
+     * @param string $name
+     * @param string $group
+     * @param string $type Either Bbcode::TYPE_DEFAULT or Bbcode::TYPE_SINGLE
+     * @param array $stoppers
+     *
+     * @throws Exception\InvalidArgumentException If the given group doesn't exist
+     * @throws Exception\InvalidArgumentException If the type isn't correct
+     * @throws Exception\InvalidArgumentException If the stoppers argument isn't correct
+     *
+     * @return Bbcode
+     */
+    public function addTag($name, $group = null, $type = self::TYPE_DEFAULT, $stoppers = null)
+    {
+        if (null === $group) {
+            $group = $this->_defaultGroup;
+        } elseif (!isset($this->_groups[$group])) {
+            throw new Exception\InvalidArgumentException("There is no group with the name '$group'.");
+        }
+        if (($type != self::TYPE_DEFAULT) && ($type != self::TYPE_SINGLE)) {
+            throw new Exception\InvalidArgumentException("You can only use the types 'default' and 'single'");
+        }
+        if (null === $stoppers) {
+            $stoppers = array(
+                '[/' . $name . ']',
+                '[/]'
+            );
+        } elseif (is_string($stoppers)) {
+            $stoppers = array($stoppers);
+        } elseif (!is_array($stoppers)) {
+            throw new Exception\InvalidArgumentException("Invalid stoppers argument provided.");
+        }
+
+        // after checking everything, add the tag
+        $this->_tags[$name] = array(
+            'type'     => $type,
+            'group'    => $group,
+            'stoppers' => $stoppers
+        );
+
+        return $this;
+    }
+
+    /**
+     * Add multiple tag definitions at once
+     *
+     * @param array $tags
+     *
+     * @return Bbcode
+     */
+    public function addTags(array $tags)
+    {
+        foreach ($tags as $name => $tag) {
+            if (!isset($tag['group'])) {
+                $tag['group'] = null;
+            }
+            if (!isset($tag['type'])) {
+                $tag['type'] = self::TYPE_DEFAULT;
+            }
+            if (!isset($tag['stoppers'])) {
+                $tag['stoppers'] = null;
+            }
+
+            $this->addTag($name, $tag['group'], $tag['type'], $tag['stoppers']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clear the tags
+     *
+     * @return Bbcode
+     */
+    public function clearTags()
+    {
+        $this->_tags = array(
+            'Zend_Markup_Root' => array(
+                'type'     => self::TYPE_DEFAULT,
+                'stoppers' => array()
+            )
+        );
+
+        return $this;
+    }
+
+    /**
+     * Override the current tags
+     *
+     * @param array $tags
+     *
+     * @return Bbcode
+     */
+    public function setTags(array $tags)
+    {
+        $this->clearTags();
+
+        $this->addTags($tags);
+
+        return $this;
+    }
+
+    /**
+     * Parse a BBCode string, this simply sources out the lexical analysis to
+     * the {@link tokenize()} method, and the syntactical analysis to the
+     * {@link buildTree()} method.
      *
      * @param  string $value
-     * @return Zend_Markup_TokenList
+     * @return \Zend\Markup\TokenList
      */
     public function parse($value)
     {
         if (!is_string($value)) {
-            /**
-             * @see Zend_Markup_Parser_Exception
-             */
-            require_once 'Zend/Markup/Parser/Exception.php';
-            throw new Zend_Markup_Parser_Exception('Value to parse should be a string.');
+            throw new Exception\InvalidArgumentException('Value to parse should be a string.');
         }
-
         if (empty($value)) {
-            /**
-             * @see Zend_Markup_Parser_Exception
-             */
-            require_once 'Zend/Markup/Parser/Exception.php';
-            throw new Zend_Markup_Parser_Exception('Value to parse cannot be left empty.');
+            throw new Exception\InvalidArgumentException('Value to parse cannot be left empty.');
         }
 
-        $this->_value = str_replace(array("\r\n", "\r", "\n"), self::NEWLINE, $value);
+        $tokens = $this->tokenize($value);
 
-        // variable initialization for tokenizer
-        $this->_valueLen         = strlen($this->_value);
-        $this->_pointer          = 0;
-        $this->_buffer           = '';
-        $this->_temp             = array();
-        $this->_state            = self::STATE_SCAN;
-        $this->_tokens           = array();
-
-        $this->_tokenize();
-
-        // variable initialization for treebuilder
-        $this->_searchedStoppers = array();
-        $this->_tree             = new Zend_Markup_TokenList();
-        $this->_current          = new Zend_Markup_Token(
-            '',
-            Zend_Markup_Token::TYPE_NONE,
-            'Zend_Markup_Root'
-        );
-
-        $this->_tree->addChild($this->_current);
-
-        $this->_createTree();
-
-        return $this->_tree;
+        return $this->buildTree($tokens);
     }
 
     /**
      * Tokenize
      *
-     * @param string $input
+     * @param string $value
      *
-     * @return void
+     * @return array
      */
-    protected function _tokenize()
+    public function tokenize($value)
     {
+        $value = str_replace(array("\r\n", "\r", "\n"), self::NEWLINE, $value);
+
         $attribute = '';
 
-        while ($this->_pointer < $this->_valueLen) {
-            switch ($this->_state) {
-                case self::STATE_SCAN:
-                    $matches = array();
-                    $regex   = '#\G(?<text>[^\[]*)(?<open>\[(?<name>[' . self::NAME_CHARSET . ']+)?)?#';
-                    preg_match($regex, $this->_value, $matches, null, $this->_pointer);
+        $valueLen = strlen($value);
+        $pointer  = 0;
+        $buffer   = '';
+        $temp     = array();
+        $tokens   = array();
 
-                    $this->_pointer += strlen($matches[0]);
+        scan: {
+            if ($valueLen <= $pointer) {
+                goto end;
+            }
 
-                    if (!empty($matches['text'])) {
-                        $this->_buffer .= $matches['text'];
-                    }
+            $matches = array();
+            $regex   = '#\G(?<text>[^\[]*)(?<open>\[(?<name>[' . self::NAME_CHARSET . ']+)?)?#';
+            if (!preg_match($regex, $value, $matches, null, $pointer)) {
+                goto end;
+            }
 
-                    if (!isset($matches['open'])) {
-                        // great, no tag, we are ending the string
-                        break;
-                    }
-                    if (!isset($matches['name'])) {
-                        $this->_buffer .= $matches['open'];
-                        break;
-                    }
+            $pointer += strlen($matches[0]);
 
-                    $this->_temp = array(
-                        'tag'        => '[' . $matches['name'],
-                        'name'       => $matches['name'],
-                        'attributes' => array()
+            if (!empty($matches['text'])) {
+                $buffer .= $matches['text'];
+            }
+
+            if (!isset($matches['open'])) {
+                // great, no tag, we are ending the string
+                goto scan;
+            }
+            if (!isset($matches['name'])) {
+                $buffer .= $matches['open'];
+                goto scan;
+            }
+
+            $temp = array(
+                'tag'        => '[' . $matches['name'],
+                'name'       => $matches['name'],
+                'attributes' => array()
+            );
+
+            if ($pointer >= $valueLen) {
+                // damn, no tag
+                $buffer .= $temp['tag'];
+                goto end;
+            }
+
+            if ($value[$pointer] == '=') {
+                $pointer++;
+
+                $temp['tag'] .= '=';
+                $attribute           = $temp['name'];
+
+                goto parsevalue;
+            }
+            goto scanattrs;
+        }
+
+        scanattrs: {
+            $matches = array();
+            $regex   = '#\G((?<end>\s*\])|\s+(?<attribute>[' . self::NAME_CHARSET . ']+)(?<eq>=?))#';
+            if (!preg_match($regex, $value, $matches, null, $pointer)) {
+                goto end;
+            }
+
+            $pointer += strlen($matches[0]);
+
+            if (!empty($matches['end'])) {
+                if (!empty($buffer)) {
+                    $tokens[] = array(
+                        'tag' => $buffer,
+                        'type' => Token::TYPE_NONE
                     );
+                    $buffer = '';
+                }
+                $temp['tag'] .= $matches['end'];
+                $temp['type'] = Token::TYPE_MARKUP;
 
-                    if ($this->_pointer >= $this->_valueLen) {
-                        // damn, no tag
-                        $this->_buffer .= $this->_temp['tag'];
-                        break 2;
-                    }
+                $tokens[] = $temp;
+                $temp     = array();
 
-                    if ($this->_value[$this->_pointer] == '=') {
-                        $this->_pointer++;
+                goto scan;
+            } else {
+                // attribute name
+                $attribute = $matches['attribute'];
 
-                        $this->_temp['tag'] .= '=';
-                        $this->_state        = self::STATE_PARSEVALUE;
-                        $attribute           = $this->_temp['name'];
-                    } else {
-                        $this->_state = self::STATE_SCANATTRS;
-                    }
-                    break;
-                case self::STATE_SCANATTRS:
-                    $matches = array();
-                    $regex   = '#\G((?<end>\s*\])|\s+(?<attribute>[' . self::NAME_CHARSET . ']+)(?<eq>=?))#';
-                    if (!preg_match($regex, $this->_value, $matches, null, $this->_pointer)) {
-                        break 2;
-                    }
+                $temp['tag'] .= $matches[0];
 
-                    $this->_pointer += strlen($matches[0]);
+                $temp['attributes'][$attribute] = '';
 
-                    if (!empty($matches['end'])) {
-                        if (!empty($this->_buffer)) {
-                            $this->_tokens[] = array(
-                                'tag' => $this->_buffer,
-                                'type' => Zend_Markup_Token::TYPE_NONE
-                            );
-                            $this->_buffer = '';
-                        }
-                        $this->_temp['tag'] .= $matches['end'];
-                        $this->_temp['type'] = Zend_Markup_Token::TYPE_TAG;
-
-                        $this->_tokens[] = $this->_temp;
-                        $this->_temp     = array();
-
-                        $this->_state = self::STATE_SCAN;
-                    } else {
-                        // attribute name
-                        $attribute = $matches['attribute'];
-
-                        $this->_temp['tag'] .= $matches[0];
-
-                        $this->_temp['attributes'][$attribute] = '';
-
-                        if (empty($matches['eq'])) {
-                            $this->_state = self::STATE_SCANATTRS;
-                        } else {
-                            $this->_state = self::STATE_PARSEVALUE;
-                        }
-                    }
-                    break;
-                case self::STATE_PARSEVALUE:
-                    $matches = array();
-                    $regex   = '#\G((?<quote>"|\')(?<valuequote>.*?)\\2|(?<value>[^\]\s]+))#';
-                    if (!preg_match($regex, $this->_value, $matches, null, $this->_pointer)) {
-                        $this->_state = self::STATE_SCANATTRS;
-                        break;
-                    }
-
-                    $this->_pointer += strlen($matches[0]);
-
-                    if (!empty($matches['quote'])) {
-                        $this->_temp['attributes'][$attribute] = $matches['valuequote'];
-                    } else {
-                        $this->_temp['attributes'][$attribute] = $matches['value'];
-                    }
-                    $this->_temp['tag'] .= $matches[0];
-
-                    $this->_state = self::STATE_SCANATTRS;
-                    break;
+                if (empty($matches['eq'])) {
+                    goto scanattrs;
+                }
+                goto parsevalue;
             }
         }
 
-        if (!empty($this->_buffer)) {
-            $this->_tokens[] = array(
-                'tag'  => $this->_buffer,
-                'type' => Zend_Markup_Token::TYPE_NONE
+        parsevalue: {
+            $matches = array();
+            $regex   = '#\G((?<quote>"|\')(?<valuequote>.*?)\\2|(?<value>[^\]\s]+))#';
+            if (!preg_match($regex, $value, $matches, null, $pointer)) {
+                goto scanattrs;
+            }
+
+            $pointer += strlen($matches[0]);
+
+            if (!empty($matches['quote'])) {
+                $temp['attributes'][$attribute] = $matches['valuequote'];
+            } else {
+                $temp['attributes'][$attribute] = $matches['value'];
+            }
+            $temp['tag'] .= $matches[0];
+
+            goto scanattrs;
+        }
+
+        end:
+
+        if (!empty($buffer)) {
+            $tokens[] = array(
+                'tag'  => $buffer,
+                'type' => Token::TYPE_NONE
             );
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Build a tree with a certain strategy
+     *
+     * @param array $tokens
+     * @param string $strategy
+     *
+     * @throws Exception\RuntimeException If there are no groups defined
+     * @throws Exception\RuntimeException If there is no initial group defined
+     * @throws Exception\RuntimeException If there is no default group defined
+     *
+     * @return \Zend\Markup\TokenList/
+     */
+    public function buildTree(array $tokens, $strategy = 'default')
+    {
+        if (empty($this->_groups)) {
+            throw new Exception\RuntimeException("There are no groups defined.");
+        }
+        if (null === $this->_groups) {
+            throw new Exception\RuntimeException("There is no initial group defined.");
+        }
+        if (null === $this->_defaultGroup) {
+            throw new Exception\RuntimeException("There is no default group defined.");
+        }
+
+        switch ($strategy) {
+            case 'default':
+                return $this->_createTree($tokens);
+                break;
+            default:
+                throw new Exception\InvalidArgumentException("There is no treebuilding strategy called '$strategy'.");
+                break;
         }
     }
 
@@ -328,11 +615,23 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
      *
      * @param array $tokens
      *
-     * @return void
+     * @return \Zend\Markup\TokenList
      */
-    public function _createTree()
+    protected function _createTree($tokens)
     {
-        foreach ($this->_tokens as $token) {
+        // variable initialization for treebuilder
+        $groupStack              = array($this->_group);
+        $this->_searchedStoppers = array();
+        $this->_tree             = new TokenList();
+        $this->_current          = new Token(
+            '',
+            Token::TYPE_NONE,
+            'Zend_Markup_Root'
+        );
+
+        $this->_tree->addChild($this->_current);
+
+        foreach ($tokens as $token) {
             // first we want to know if this tag is a stopper, or at least a searched one
             if ($this->_isStopper($token['tag'])) {
                 // find the stopper
@@ -341,55 +640,62 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                 while (!in_array($token['tag'], $this->_tags[$this->_current->getName()]['stoppers'])) {
                     $oldItems[]     = clone $this->_current;
                     $this->_current = $this->_current->getParent();
+
+                    // use a lower level group
+                    $this->_group = array_pop($groupStack);
                 }
 
                 // we found the stopper, so stop the tag
                 $this->_current->setStopper($token['tag']);
                 $this->_removeFromSearchedStoppers($this->_current);
                 $this->_current = $this->_current->getParent();
+                $this->_group   = array_pop($groupStack);
 
                 // add the old items again if there are any
                 if (!empty($oldItems)) {
                     foreach (array_reverse($oldItems) as $item) {
-                        /* @var $token Zend_Markup_Token */
+                        /* @var $token \Zend\Markup\Token */
                         $this->_current->addChild($item);
                         $item->setParent($this->_current);
                         $this->_current = $item;
+
+                        // re-add the group
+                        $groupStack[] = $this->_group;
+                        $this->_group = $this->_getGroup($item->getName());
                     }
                 }
             } else {
-                if ($token['type'] == Zend_Markup_Token::TYPE_TAG) {
+                if ($token['type'] == Token::TYPE_MARKUP) {
                     if ($token['tag'] == self::NEWLINE) {
                         // this is a newline tag, add it as a token
-                        $this->_current->addChild(new Zend_Markup_Token(
+                        $this->_current->addChild(new Token(
                             "\n",
-                            Zend_Markup_Token::TYPE_NONE,
+                            Token::TYPE_NONE,
                             '',
                             array(),
                             $this->_current
                         ));
                     } elseif (isset($token['name']) && ($token['name'][0] == '/')) {
                         // this is a stopper, add it as a empty token
-                        $this->_current->addChild(new Zend_Markup_Token(
+                        $this->_current->addChild(new Token(
                             $token['tag'],
-                            Zend_Markup_Token::TYPE_NONE,
+                            Token::TYPE_NONE,
                             '',
                             array(),
                             $this->_current
                         ));
-                    } elseif (isset($this->_tags[$this->_current->getName()]['parse_inside'])
-                        && !$this->_tags[$this->_current->getName()]['parse_inside']
-                    ) {
-                        $this->_current->addChild(new Zend_Markup_Token(
+                    } elseif (!$this->_checkTagAllowed($token)) {
+                        // TODO: expand this to using groups for the context-awareness
+                        $this->_current->addChild(new Token(
                             $token['tag'],
-                            Zend_Markup_Token::TYPE_NONE,
+                            Token::TYPE_NONE,
                             '',
                             array(),
                             $this->_current
                         ));
                     } else {
                         // add the tag
-                        $child = new Zend_Markup_Token(
+                        $child = new Token(
                             $token['tag'],
                             $token['type'],
                             $token['name'],
@@ -397,6 +703,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                             $this->_current
                         );
                         $this->_current->addChild($child);
+
+                        // set the new group
+                        $groupStack[] = $this->_group;
+                        $this->_group = $this->_getGroup($token['name']);
 
                         // add stoppers for this tag, if its has stoppers
                         if ($this->_getType($token['name']) == self::TYPE_DEFAULT) {
@@ -407,9 +717,9 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                     }
                 } else {
                     // no tag, just add it as a simple token
-                    $this->_current->addChild(new Zend_Markup_Token(
+                    $this->_current->addChild(new Token(
                         $token['tag'],
-                        Zend_Markup_Token::TYPE_NONE,
+                        Token::TYPE_NONE,
                         '',
                         array(),
                         $this->_current
@@ -417,6 +727,8 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                 }
             }
         }
+
+        return $this->_tree;
     }
 
     /**
@@ -434,10 +746,45 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                 'stoppers' => array(
                     '[/' . $name . ']',
                     '[/]'
-                )
+                ),
+                'group' => $this->_defaultGroup
             );
         }
     }
+
+    /**
+     * Get the group for a token
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function _getGroup($name)
+    {
+        $this->_checkTagDeclaration($name);
+
+        return $this->_tags[$name]['group'];
+    }
+
+    /**
+     * Check if a tag is allowed in the current context
+     *
+     * @todo Use groups to determine if tags are allowed in the current context
+     *
+     * @param array $token
+     *
+     * @return bool
+     */
+    protected function _checkTagAllowed(array $token)
+    {
+        if (in_array($this->_getGroup($token['name']), $this->_groups[$this->_group])) {
+            return true;
+        }
+
+        // fallback for not allowed
+        return false;
+    }
+
     /**
      * Check the tag's type
      *
@@ -471,10 +818,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     /**
      * Add to searched stoppers
      *
-     * @param  Zend_Markup_Token $token
+     * @param  \Zend\Markup\Token $token
      * @return void
      */
-    protected function _addToSearchedStoppers(Zend_Markup_Token $token)
+    protected function _addToSearchedStoppers(Token $token)
     {
         $this->_checkTagDeclaration($token->getName());
 
@@ -489,10 +836,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     /**
      * Remove from searched stoppers
      *
-     * @param  Zend_Markup_Token $token
+     * @param  \Zend\Markup\Token $token
      * @return void
      */
-    protected function _removeFromSearchedStoppers(Zend_Markup_Token $token)
+    protected function _removeFromSearchedStoppers(Token $token)
     {
         $this->_checkTagDeclaration($token->getName());
 

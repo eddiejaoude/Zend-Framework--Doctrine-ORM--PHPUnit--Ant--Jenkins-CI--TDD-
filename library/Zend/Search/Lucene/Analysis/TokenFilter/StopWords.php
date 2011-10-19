@@ -17,11 +17,17 @@
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StopWords.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Search_Lucene_Analysis_TokenFilter */
-require_once 'Zend/Search/Lucene/Analysis/TokenFilter.php';
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\TokenFilter;
+use Zend\Search\Lucene,
+    Zend\Search\Lucene\Analysis\TokenFilter,
+    Zend\Search\Lucene\Analysis\Token,
+    Zend\Search\Lucene\Exception\InvalidArgumentException,
+    Zend\Search\Lucene\Exception\RuntimeException;
 
 /**
  * Token filter that removes stop words. These words must be provided as array (set), example:
@@ -29,14 +35,16 @@ require_once 'Zend/Search/Lucene/Analysis/TokenFilter.php';
  *
  * We do recommend to provide all words in lowercase and concatenate this class after the lowercase filter.
  *
+ * @uses       \Zend\Search\Lucene\Analysis\TokenFilter
+ * @uses       \Zend\Search\Lucene\Exception\InvalidArgumentException
+ * @uses       \Zend\Search\Lucene\Exception\RuntimeException
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
-class Zend_Search_Lucene_Analysis_TokenFilter_StopWords extends Zend_Search_Lucene_Analysis_TokenFilter
+class StopWords implements TokenFilter
 {
     /**
      * Stop Words
@@ -56,10 +64,10 @@ class Zend_Search_Lucene_Analysis_TokenFilter_StopWords extends Zend_Search_Luce
     /**
      * Normalize Token or remove it (if null is returned)
      *
-     * @param Zend_Search_Lucene_Analysis_Token $srcToken
-     * @return Zend_Search_Lucene_Analysis_Token
+     * @param \Zend\Search\Lucene\Analysis\Token $srcToken
+     * @return \Zend\Search\Lucene\Analysis\Token
      */
-    public function normalize(Zend_Search_Lucene_Analysis_Token $srcToken) {
+    public function normalize(Token $srcToken) {
         if (array_key_exists($srcToken->getTermText(), $this->_stopSet)) {
             return null;
         } else {
@@ -74,17 +82,16 @@ class Zend_Search_Lucene_Analysis_TokenFilter_StopWords extends Zend_Search_Luce
      * You can call this method one or more times. New stopwords are always added to current set.
      *
      * @param string $filepath full path for text file with stopwords
-     * @throws Zend_Search_Exception When the file doesn`t exists or is not readable.
+     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \Zend\Search\Lucene\Exception\RuntimeException
      */
     public function loadFromFile($filepath = null) {
         if (! $filepath || ! file_exists($filepath)) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('You have to provide valid file path');
+            throw new InvalidArgumentException('You have to provide valid file path');
         }
         $fd = fopen($filepath, "r");
         if (! $fd) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Cannot open file ' . $filepath);
+            throw new RuntimeException('Cannot open file ' . $filepath);
         }
         while (!feof ($fd)) {
             $buffer = trim(fgets($fd));
@@ -93,9 +100,7 @@ class Zend_Search_Lucene_Analysis_TokenFilter_StopWords extends Zend_Search_Luce
             }
         }
         if (!fclose($fd)) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Cannot close file ' . $filepath);
+            throw new RuntimeException('Cannot close file ' . $filepath);
         }
     }
 }
-

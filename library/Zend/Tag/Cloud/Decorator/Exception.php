@@ -17,23 +17,21 @@
  * @subpackage Cloud
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * Zend_Tag_Cloud_Exception
+ * @namespace
  */
-require_once 'Zend/Tag/Cloud/Exception.php';
+namespace Zend\Tag\Cloud\Decorator;
 
 /**
  * Exception class for Zend_Tag_Cloud_Decorator
  *
  * @category  Zend
  * @package   Zend_Tag
- * @uses      Zend_Tag_Cloud_Exception
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tag_Cloud_Decorator_Exception extends Zend_Tag_Cloud_Exception
+interface Exception extends \Zend\Tag\Exception
 {
 }

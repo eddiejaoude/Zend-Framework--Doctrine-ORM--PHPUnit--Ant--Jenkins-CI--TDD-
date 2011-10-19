@@ -17,46 +17,42 @@
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbRowset.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Db_Table_Rowset_Abstract
+ * @namespace
  */
-require_once "Zend/Db/Table/Rowset/Abstract.php";
-
-/**
- * @see PHPUnit_Extensions_Database_DataSet_AbstractTable
- */
-require_once "PHPUnit/Extensions/Database/DataSet/AbstractTable.php";
+namespace Zend\Test\PHPUnit\Db\DataSet;
 
 /**
  * Use a Zend_Db Rowset as a datatable for assertions with other PHPUnit Database extension tables.
  *
  * @uses       PHPUnit_Extensions_Database_DataSet_AbstractTable
+ * @uses       PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData
+ * @uses       \Zend\Db\Table\AbstractRowset
+ * @uses       \Zend\Test\PHPUnit\Db\Exception\InvalidArgumentException
  * @category   Zend
  * @package    Zend_Test
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Test_PHPUnit_Db_DataSet_DbRowset extends PHPUnit_Extensions_Database_DataSet_AbstractTable
+class DbRowset extends \PHPUnit_Extensions_Database_DataSet_AbstractTable
 {
     /**
      * Construct Table object from a Zend_Db_Table_Rowset
      *
-     * @param Zend_Db_Table_Rowset_Abstract $rowset
+     * @param \Zend\Db\Table\AbstractRowset $rowset
      * @param string $tableName
      */
-    public function __construct(Zend_Db_Table_Rowset_Abstract $rowset, $tableName = null)
+    public function __construct(\Zend\Db\Table\AbstractRowset $rowset, $tableName = null)
     {
         if($tableName == null) {
             $table = $rowset->getTable();
             if($table !== null) {
                 $tableName = $table->info('name');
             } else {
-                require_once "Zend/Test/PHPUnit/Db/Exception.php";
-                throw new Zend_Test_PHPUnit_Db_Exception(
+                throw new \Zend\Test\PHPUnit\Db\Exception\InvalidArgumentException(
                     'No table name was given to Rowset Table and table name cannot be infered from the table, '.
                     'because the rowset is disconnected from database.'
                 );
@@ -73,6 +69,6 @@ class Zend_Test_PHPUnit_Db_DataSet_DbRowset extends PHPUnit_Extensions_Database_
         }
 
         $this->tableName = $tableName;
-        $this->tableMetaData = new PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData($this->tableName, $columns);
+        $this->tableMetaData = new \PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData($this->tableName, $columns);
     }
 }

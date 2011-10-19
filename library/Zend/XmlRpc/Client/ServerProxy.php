@@ -17,9 +17,14 @@
  * @subpackage Client
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ServerProxy.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\XmlRpc\Client;
+
+use Zend\XmlRpc\Client as XMLRPCClient;
 
 /**
  * The namespace decorator enables object chaining to permit
@@ -32,10 +37,10 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_XmlRpc_Client_ServerProxy
+class ServerProxy
 {
     /**
-     * @var Zend_XmlRpc_Client
+     * @var \Zend\XmlRpc\Client
      */
     private $_client = null;
 
@@ -46,7 +51,7 @@ class Zend_XmlRpc_Client_ServerProxy
 
 
     /**
-     * @var array of Zend_XmlRpc_Client_ServerProxy
+     * @var array of \Zend\XmlRpc\Client\ServerProxy
      */
     private $_cache = array();
 
@@ -54,13 +59,13 @@ class Zend_XmlRpc_Client_ServerProxy
     /**
      * Class constructor
      *
+     * @param \Zend\XmlRpc\Client $client
      * @param string             $namespace
-     * @param Zend_XmlRpc_Client $client
      */
-    public function __construct($client, $namespace = '')
+    public function __construct(XMLRPCClient $client, $namespace = '')
     {
-        $this->_namespace = $namespace;
         $this->_client    = $client;
+        $this->_namespace = $namespace;
     }
 
 
@@ -68,7 +73,7 @@ class Zend_XmlRpc_Client_ServerProxy
      * Get the next successive namespace
      *
      * @param string $name
-     * @return Zend_XmlRpc_Client_ServerProxy
+     * @return \Zend\XmlRpc\Client\ServerProxy
      */
     public function __get($namespace)
     {

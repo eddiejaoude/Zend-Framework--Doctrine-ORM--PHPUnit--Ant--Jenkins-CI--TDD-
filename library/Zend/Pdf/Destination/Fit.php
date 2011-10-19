@@ -13,25 +13,22 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Fit.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Array.php';
-require_once 'Zend/Pdf/Element/Name.php';
-require_once 'Zend/Pdf/Element/Numeric.php';
-
-
-/** Zend_Pdf_Destination_Explicit */
-require_once 'Zend/Pdf/Destination/Explicit.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Destination;
+use Zend\Pdf\Exception;
+use Zend\Pdf\InternalType;
+use Zend\Pdf;
 
 /**
- * Zend_Pdf_Destination_Fit explicit detination
+ * \Zend\Pdf\Destination\Fit explicit detination
  *
  * Destination array: [page /Fit]
  *
@@ -41,35 +38,39 @@ require_once 'Zend/Pdf/Destination/Explicit.php';
  * the smaller of the two, centering the page within the window in the other
  * dimension.
  *
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @uses       \Zend\Pdf\Destination\Explicit
+ * @uses       \Zend\Pdf\InternalType\ArrayObject
+ * @uses       \Zend\Pdf\InternalType\NameObject
+ * @uses       \Zend\Pdf\InternalType\NumericObject
+ * @uses       \Zend\Pdf\Exception
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Destination_Fit extends Zend_Pdf_Destination_Explicit
+class Fit extends Explicit
 {
     /**
      * Create destination object
      *
-     * @param Zend_Pdf_Page|integer $page  Page object or page number
-     * @return Zend_Pdf_Destination_Fit
-     * @throws Zend_Pdf_Exception
+     * @param \Zend\Pdf\Page|integer $page  Page object or page number
+     * @return \Zend\Pdf\Destination\Fit
+     * @throws \Zend\Pdf\Exception
      */
     public static function create($page)
     {
-        $destinationArray = new Zend_Pdf_Element_Array();
+        $destinationArray = new InternalType\ArrayObject();
 
-        if ($page instanceof Zend_Pdf_Page) {
+        if ($page instanceof Pdf\Page) {
             $destinationArray->items[] = $page->getPageDictionary();
         } else if (is_integer($page)) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($page);
+            $destinationArray->items[] = new InternalType\NumericObject($page);
         } else {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('Page entry must be a Zend_Pdf_Page object or a page number.');
+            throw new Exception\InvalidArgumentException('$page parametr must be a \Zend\Pdf\Page object or a page number.');
         }
 
-        $destinationArray->items[] = new Zend_Pdf_Element_Name('Fit');
+        $destinationArray->items[] = new InternalType\NameObject('Fit');
 
-        return new Zend_Pdf_Destination_Fit($destinationArray);
+        return new self($destinationArray);
     }
 }

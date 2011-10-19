@@ -17,9 +17,13 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Term.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Index;
+use Zend\Search\Lucene;
 
 /**
  * A Term represents a word from text.  This is the unit of search.  It is
@@ -29,13 +33,14 @@
  * Note that terms may represent more than words from text fields, but also
  * things like dates, email addresses, urls, etc.
  *
+ * @uses       \Zend\Search\Lucene;
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Index_Term
+class Term
 {
     /**
      * Field name or field number (depending from context)
@@ -57,7 +62,7 @@ class Zend_Search_Lucene_Index_Term
      */
     public function __construct($text, $field = null)
     {
-        $this->field = ($field === null)?  Zend_Search_Lucene::getDefaultSearchField() : $field;
+        $this->field = ($field === null)?  Lucene\Lucene::getDefaultSearchField() : $field;
         $this->text  = $text;
     }
 
@@ -81,6 +86,9 @@ class Zend_Search_Lucene_Index_Term
      */
     public static function getPrefix($str, $length)
     {
+        /**
+         * @todo !!!!!!! use mb_string or iconv functions if they are available
+         */
         $prefixBytes = 0;
         $prefixChars = 0;
         while ($prefixBytes < strlen($str)  &&  $prefixChars < $length) {
@@ -141,4 +149,3 @@ class Zend_Search_Lucene_Index_Term
         return $chars;
     }
 }
-

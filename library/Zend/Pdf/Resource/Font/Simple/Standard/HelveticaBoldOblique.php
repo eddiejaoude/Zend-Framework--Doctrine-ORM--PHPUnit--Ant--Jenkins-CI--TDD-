@@ -13,20 +13,18 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HelveticaBoldOblique.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Name.php';
-
-
-/** Zend_Pdf_Resource_Font_Simple_Standard */
-require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Resource\Font\Simple\Standard;
+use Zend\Pdf;
+use Zend\Pdf\Cmap;
 
 /**
  * Implementation for the standard PDF font Helvetica-BoldOblique.
@@ -41,17 +39,21 @@ require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
  * standard fonts. You should modify the script and regenerate the classes
  * instead of changing this class file by hand.
  *
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @uses       \Zend\Pdf\Cmap\AbstractCmap
+ * @uses       \Zend\Pdf\InternalType\NameObject
+ * @uses       \Zend\Pdf\Font
+ * @uses       \Zend\Pdf\Resource\Font\Simple\Standard\AbstractStandard
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBoldOblique extends Zend_Pdf_Resource_Font_Simple_Standard
+class HelveticaBoldOblique extends AbstractStandard
 {
-  /**** Public Interface ****/
+    /**** Public Interface ****/
 
 
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor
@@ -67,7 +69,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBoldOblique extends Zend_P
          * strings. Since this information is static, save unnecessary trips
          * through iconv() and just use pre-encoded hexidecimal strings.
          */
-        $this->_fontNames[Zend_Pdf_Font::NAME_COPYRIGHT]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_COPYRIGHT]['en'] =
           "\x00\x43\x00\x6f\x00\x70\x00\x79\x00\x72\x00\x69\x00\x67\x00\x68\x00"
           . "\x74\x00\x20\x00\x28\x00\x63\x00\x29\x00\x20\x00\x31\x00\x39\x00"
           . "\x38\x00\x35\x00\x2c\x00\x20\x00\x31\x00\x39\x00\x38\x00\x37\x00"
@@ -89,21 +91,21 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBoldOblique extends Zend_P
           . "\x69\x00\x74\x00\x73\x00\x20\x00\x73\x00\x75\x00\x62\x00\x73\x00"
           . "\x69\x00\x64\x00\x69\x00\x61\x00\x72\x00\x69\x00\x65\x00\x73\x00"
           . "\x2e";
-        $this->_fontNames[Zend_Pdf_Font::NAME_FAMILY]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_FAMILY]['en'] =
           "\x00\x48\x00\x65\x00\x6c\x00\x76\x00\x65\x00\x74\x00\x69\x00\x63\x00"
           . "\x61";
-        $this->_fontNames[Zend_Pdf_Font::NAME_STYLE]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_STYLE]['en'] =
           "\x00\x42\x00\x6f\x00\x6c\x00\x64";
-        $this->_fontNames[Zend_Pdf_Font::NAME_ID]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_ID]['en'] =
           "\x00\x34\x00\x33\x00\x30\x00\x35\x00\x33";
-        $this->_fontNames[Zend_Pdf_Font::NAME_FULL]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_FULL]['en'] =
           "\x00\x48\x00\x65\x00\x6c\x00\x76\x00\x65\x00\x74\x00\x69\x00\x63\x00"
           . "\x61\x00\x2d\x00\x42\x00\x6f\x00\x6c\x00\x64\x00\x4f\x00\x62\x00"
           . "\x6c\x00\x69\x00\x71\x00\x75\x00\x65\x00\x20\x00\x42\x00\x6f\x00"
           . "\x6c\x00\x64";
-        $this->_fontNames[Zend_Pdf_Font::NAME_VERSION]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_VERSION]['en'] =
           "\x00\x30\x00\x30\x00\x32\x00\x2e\x00\x30\x00\x30\x00\x30";
-        $this->_fontNames[Zend_Pdf_Font::NAME_POSTSCRIPT]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_POSTSCRIPT]['en'] =
           "\x00\x48\x00\x65\x00\x6c\x00\x76\x00\x65\x00\x74\x00\x69\x00\x63\x00"
           . "\x61\x00\x2d\x00\x42\x00\x6f\x00\x6c\x00\x64\x00\x4f\x00\x62\x00"
           . "\x6c\x00\x69\x00\x71\x00\x75\x00\x65";
@@ -292,9 +294,8 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBoldOblique extends Zend_P
             0xac => 0x0131,   0xf6 => 0x0132,   0xfc => 0x0133, 0x2260 => 0x0134,
           0x0123 => 0x0135,   0xf0 => 0x0136, 0x017e => 0x0137, 0x0146 => 0x0138,
             0xb9 => 0x0139, 0x012b => 0x013a, 0x20ac => 0x013b);
-        require_once 'Zend/Pdf/Cmap.php';
-        $this->_cmap = Zend_Pdf_Cmap::cmapWithTypeData(
-            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
+        $this->_cmap = Cmap\AbstractCmap::cmapWithTypeData(
+            Cmap\AbstractCmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
 
 
         /* Resource dictionary */
@@ -303,6 +304,6 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBoldOblique extends Zend_P
          * viewers already have all of the metrics data. We only need to provide
          * the font name and encoding method.
          */
-        $this->_resource->BaseFont = new Zend_Pdf_Element_Name('Helvetica-BoldOblique');
+        $this->_resource->BaseFont = new Pdf\InternalType\NameObject('Helvetica-BoldOblique');
     }
 }

@@ -17,8 +17,12 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Request.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Tool\Framework\Client;
 
 /**
  * @category   Zend
@@ -26,7 +30,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Client_Request
+class Request
 {
 
     /**
@@ -78,7 +82,7 @@ class Zend_Tool_Framework_Client_Request
      * setProviderName()
      *
      * @param string $providerName
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setProviderName($providerName)
     {
@@ -100,7 +104,7 @@ class Zend_Tool_Framework_Client_Request
      * setSpecialtyName()
      *
      * @param string $specialtyName
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setSpecialtyName($specialtyName)
     {
@@ -122,7 +126,7 @@ class Zend_Tool_Framework_Client_Request
      * setActionName()
      *
      * @param string $actionName
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setActionName($actionName)
     {
@@ -145,7 +149,7 @@ class Zend_Tool_Framework_Client_Request
      *
      * @param string $parameterName
      * @param string $parameterValue
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setActionParameter($parameterName, $parameterValue)
     {
@@ -179,7 +183,7 @@ class Zend_Tool_Framework_Client_Request
      *
      * @param string $parameterName
      * @param string $parameterValue
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setProviderParameter($parameterName, $parameterValue)
     {
@@ -212,7 +216,7 @@ class Zend_Tool_Framework_Client_Request
      * setPretend()
      *
      * @param bool $pretend
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setPretend($pretend)
     {
@@ -234,7 +238,7 @@ class Zend_Tool_Framework_Client_Request
      * setDebug()
      *
      * @param bool $pretend
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setDebug($debug)
     {
@@ -256,7 +260,7 @@ class Zend_Tool_Framework_Client_Request
      * setVerbose()
      *
      * @param bool $verbose
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setVerbose($verbose)
     {
@@ -278,7 +282,7 @@ class Zend_Tool_Framework_Client_Request
      * setDispatchable()
      *
      * @param bool $dispatchable
-     * @return Zend_Tool_Framework_Client_Request
+     * @return \Zend\Tool\Framework\Client\Request
      */
     public function setDispatchable($dispatchable)
     {

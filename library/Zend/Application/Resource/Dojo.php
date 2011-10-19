@@ -17,37 +17,37 @@
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Dojo.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Application_Resource_ResourceAbstract
+ * @namespace
  */
-require_once 'Zend/Application/Resource/ResourceAbstract.php';
+namespace Zend\Application\Resource;
 
+use Zend\Dojo\Dojo as DojoConfigurator;
 
 /**
  * Resource for settings Dojo options
  *
- * @uses       Zend_Application_Resource_ResourceAbstract
+ * @uses       \Zend\Application\Resource\AbstractResource
+ * @uses       \Zend\Dojo\Dojo
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Resource_Dojo
-    extends Zend_Application_Resource_ResourceAbstract
+class Dojo extends AbstractResource
 {
     /**
-     * @var Zend_Dojo_View_Helper_Dojo_Container
+     * @var \Zend\Dojo\View\Helper\Dojo\Container
      */
     protected $_dojo;
 
     /**
      * Defined by Zend_Application_Resource_Resource
      *
-     * @return Zend_Dojo_View_Helper_Dojo_Container
+     * @return \Zend\Dojo\View\Helper\Dojo\Container
      */
     public function init()
     {
@@ -65,10 +65,12 @@ class Zend_Application_Resource_Dojo
             $this->getBootstrap()->bootstrap('view');
             $view = $this->getBootstrap()->view;
 
-            Zend_Dojo::enableView($view);
-            $view->dojo()->setOptions($this->getOptions());
+            DojoConfigurator::enableView($view);
+            $dojo          = $view->plugin('dojo');
+            $dojoContainer = $dojo();
+            $dojoContainer->setOptions($this->getOptions());
 
-            $this->_dojo = $view->dojo();
+            $this->_dojo = $dojoContainer;
         }
 
         return $this->_dojo;

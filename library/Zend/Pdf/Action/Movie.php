@@ -13,26 +13,27 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Actions
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Action
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Movie.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Pdf_Action */
-require_once 'Zend/Pdf/Action.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Action;
 
 /**
  * PDF 'Play a movie' action
  * PDF 1.2+ feature
  *
- * @package    Zend_Pdf
- * @subpackage Actions
+ * @uses       \Zend\Pdf\Action\AbstractAction
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Action
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Action_Movie extends Zend_Pdf_Action
+class Movie extends AbstractAction
 {
 }

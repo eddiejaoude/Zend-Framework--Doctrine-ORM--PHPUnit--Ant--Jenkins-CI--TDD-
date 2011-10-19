@@ -19,20 +19,22 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Element_Xhtml */
-require_once 'Zend/Form/Element/Xhtml.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Element;
 
 /**
  * Image form element
  *
+ * @uses       \Zend\Form\Element\Xhtml
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Image.php 23871 2011-04-23 22:40:16Z ramon $
  */
-class Zend_Form_Element_Image extends Zend_Form_Element_Xhtml
+class Image extends Xhtml
 {
     /**
      * What view helper to use when using view helper decorator
@@ -55,7 +57,7 @@ class Zend_Form_Element_Image extends Zend_Form_Element_Xhtml
     /**
      * Load default decorators
      *
-     * @return Zend_Form_Element_Image
+     * @return \Zend\Form\Element\Image
      */
     public function loadDefaultDecorators()
     {
@@ -78,7 +80,7 @@ class Zend_Form_Element_Image extends Zend_Form_Element_Xhtml
      * Set image path
      *
      * @param  string $path
-     * @return Zend_Form_Element_Image
+     * @return \Zend\Form\Element\Image
      */
     public function setImage($path)
     {
@@ -100,7 +102,7 @@ class Zend_Form_Element_Image extends Zend_Form_Element_Xhtml
      * Set image value to use when submitted
      *
      * @param  mixed $value
-     * @return Zend_Form_Element_Image
+     * @return \Zend\Form\Element\Image
      */
     public function setImageValue($value)
     {

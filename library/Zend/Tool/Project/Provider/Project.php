@@ -17,23 +17,27 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Project.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Provider_Abstract
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Provider/Abstract.php';
+namespace Zend\Tool\Project\Provider;
+
+use Zend\Tool\Framework\Client,
+    Zend\Tool\Project\Profile\Profile as ProjectProfile;
 
 /**
+ * @uses       \Zend\Tool\Framework\Client\Exception
+ * @uses       \Zend\Tool\Project\Profile\Profile
+ * @uses       \Zend\Tool\Project\Provider\AbstractProvider
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_Project
-    extends Zend_Tool_Project_Provider_Abstract
-    //implements Zend_Tool_Framework_Provider_DocblockManifestInterface
+class Project
+    extends AbstractProvider
 {
 
     protected $_specialties = array('Info');
@@ -54,8 +58,10 @@ class Zend_Tool_Project_Provider_Project
             if (!file_exists($path)) {
                 $created = mkdir($path);
                 if (!$created) {
-                    require_once 'Zend/Tool/Framework/Client/Exception.php';
-                    throw new Zend_Tool_Framework_Client_Exception('Could not create requested project directory \'' . $path . '\'');
+                    throw new Exception\RuntimeException(sprintf(
+                        'Could not create requested project directory "%s"',
+                        $path
+                    ));
                 }
             }
             $path = str_replace('\\', '/', realpath($path));
@@ -64,8 +70,7 @@ class Zend_Tool_Project_Provider_Project
         $profile = $this->_loadProfile(self::NO_PROFILE_RETURN_FALSE, $path);
 
         if ($profile !== false) {
-            require_once 'Zend/Tool/Framework/Client/Exception.php';
-            throw new Zend_Tool_Framework_Client_Exception('A project already exists here');
+            throw new Exception\RuntimeException('A project already exists here');
         }
 
         $profileData = null;
@@ -83,7 +88,7 @@ class Zend_Tool_Project_Provider_Project
             $profileData = $this->_getDefaultProfile();
         }
 
-        $newProfile = new Zend_Tool_Project_Profile(array(
+        $newProfile = new ProjectProfile(array(
             'projectDirectory' => $path,
             'profileData' => $profileData
             ));
@@ -91,18 +96,13 @@ class Zend_Tool_Project_Provider_Project
         $newProfile->loadFromData();
 
         $response = $this->_registry->getResponse();
-
+        
         $response->appendContent('Creating project at ' . $path);
         $response->appendContent('Note: ', array('separator' => false, 'color' => 'yellow'));
         $response->appendContent(
             'This command created a web project, '
             . 'for more information setting up your VHOST, please see docs/README');
 
-        if (!Zend_Tool_Project_Provider_Test::isPHPUnitAvailable()) {
-            $response->appendContent('Testing Note: ', array('separator' => false, 'color' => 'yellow'));
-            $response->appendContent('PHPUnit was not found in your include_path, therefore no testing actions will be created.');
-        }
-            
         foreach ($newProfile->getIterator() as $resource) {
             $resource->create();
         }
@@ -125,16 +125,9 @@ class Zend_Tool_Project_Provider_Project
 
     protected function _getDefaultProfile()
     {
-        $testAction = '';
-        if (Zend_Tool_Project_Provider_Test::isPHPUnitAvailable()) {
-            $testAction = '                    	<testApplicationActionMethod forActionName="index" />';
-        }
-        
-        $version = Zend_Version::VERSION;
-
-        $data = <<<EOS
+        $data = <<<'EOS'
 <?xml version="1.0" encoding="UTF-8"?>
-<projectProfile type="default" version="$version">
+<projectProfile type="default" version="1.10">
     <projectDirectory>
         <projectProfileFile />
         <applicationDirectory>
@@ -175,7 +168,7 @@ class Zend_Tool_Project_Provider_Project
             <uploadsDirectory enabled="false" />
         </dataDirectory>
         <docsDirectory>
-            <file filesystemName="README.txt" defaultContentCallback="Zend_Tool_Project_Provider_Project::getDefaultReadmeContents"/>
+            <file filesystemName="README.txt" defaultContentCallback="Zend\Tool\Project\Provider\Project::getDefaultReadmeContents"/>
         </docsDirectory>
         <libraryDirectory>
             <zfStandardLibraryDirectory enabled="false" />
@@ -191,22 +184,19 @@ class Zend_Tool_Project_Provider_Project
         <temporaryDirectory enabled="false" />
         <testsDirectory>
             <testPHPUnitConfigFile />
-            <testPHPUnitBootstrapFile />
             <testApplicationDirectory>
-                <testApplicationControllerDirectory>
-                    <testApplicationControllerFile filesystemName="IndexControllerTest.php" forControllerName="Index">
-$testAction
-                    </testApplicationControllerFile>
-                </testApplicationControllerDirectory>
-      	    </testApplicationDirectory>
-            <testLibraryDirectory />
+                <testApplicationBootstrapFile />
+            </testApplicationDirectory>
+            <testLibraryDirectory>
+                <testLibraryBootstrapFile />
+            </testLibraryDirectory>
         </testsDirectory>
     </projectDirectory>
 </projectProfile>
 EOS;
         return $data;
     }
-
+    
     public static function getDefaultReadmeContents($caller = null)
     {
         $projectDirResource = $caller->getResource()->getProfile()->search('projectDirectory');
@@ -216,13 +206,13 @@ EOS;
         } else {
             $path = '/path/to/public';
         }
-
+        
         return <<< EOS
 README
 ======
 
 This directory should be used to place project specfic documentation including
-but not limited to project notes, generated API/phpdoc documentation, or
+but not limited to project notes, generated API/phpdoc documentation, or 
 manual files generated or hand written.  Ideally, this directory would remain
 in your development environment only and should not be deployed with your
 application to it's final production location.
@@ -239,14 +229,14 @@ The following is a sample VHOST you might want to consider for your project.
 
    # This should be omitted in the production environment
    SetEnv APPLICATION_ENV development
-
+    
    <Directory "$path">
        Options Indexes MultiViews FollowSymLinks
        AllowOverride All
        Order allow,deny
        Allow from all
    </Directory>
-
+    
 </VirtualHost>
 
 EOS;

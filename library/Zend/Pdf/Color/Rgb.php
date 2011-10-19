@@ -13,35 +13,37 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rgb.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Color;
 
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Numeric.php';
-
-
-/** Zend_Pdf_Color */
-require_once 'Zend/Pdf/Color.php';
+use Zend\Pdf\Color,
+    Zend\Pdf\InternalType;
 
 /**
  * RGB color implementation
  *
+ * @uses       \Zend\Pdf\Color
+ * @uses       \Zend\Pdf\InternalType\NumericObject
  * @category   Zend
- * @package    Zend_Pdf
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
+class Rgb implements Color
 {
     /**
      * Red level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_r;
 
@@ -49,7 +51,7 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * Green level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_g;
 
@@ -57,7 +59,7 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * Blue level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_b;
 
@@ -81,9 +83,9 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
         if ($b < 0) { $b = 0; }
         if ($b > 1) { $b = 1; }
 
-        $this->_r = new Zend_Pdf_Element_Numeric($r);
-        $this->_g = new Zend_Pdf_Element_Numeric($g);
-        $this->_b = new Zend_Pdf_Element_Numeric($b);
+        $this->_r = new InternalType\NumericObject($r);
+        $this->_g = new InternalType\NumericObject($g);
+        $this->_b = new InternalType\NumericObject($b);
     }
 
     /**
@@ -111,4 +113,3 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
         return array($this->_r->value, $this->_g->value, $this->_b->value);
     }
 }
-

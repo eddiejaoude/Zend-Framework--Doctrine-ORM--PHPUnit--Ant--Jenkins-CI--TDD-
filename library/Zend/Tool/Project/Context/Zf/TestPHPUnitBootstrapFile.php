@@ -17,28 +17,26 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestApplicationBootstrapFile.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_File
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
+namespace Zend\Tool\Project\Context\Zf;
+
+use Zend\CodeGenerator\Php\PhpFile,
+    Zend\Tool\Project\Context\Filesystem\File as FileContext;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
- *
- * A profile is a hierarchical set of resources that keep track of
- * items within a specific project.
+ * Generates and manages PHPUnit test bootstrap files
  *
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_TestPHPUnitBootstrapFile extends Zend_Tool_Project_Context_Filesystem_File
+class TestPHPUnitBootstrapFile extends FileContext
 {
-
     /**
      * @var string
      */
@@ -53,7 +51,7 @@ class Zend_Tool_Project_Context_Zf_TestPHPUnitBootstrapFile extends Zend_Tool_Pr
     {
         return 'TestPHPUnitBootstrapFile';
     }
-    
+   
     /**
      * getContents()
      *
@@ -61,7 +59,7 @@ class Zend_Tool_Project_Context_Zf_TestPHPUnitBootstrapFile extends Zend_Tool_Pr
      */
     public function getContents()
     {
-        $codeGenerator = new Zend_CodeGenerator_Php_File(array(
+        $codeGenerator = new PhpFile(array(
             'body' => <<<EOS
 // Define path to application directory
 defined('APPLICATION_PATH')
@@ -77,8 +75,11 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance();
+require_once 'Zend/Loader/StandardAutoloader.php';
+\$loader = new Zend\Loader\StandardAutoloader(array(
+    'fallback_autoloader' => true,
+))
+\$loader->register();
 
 EOS
             ));

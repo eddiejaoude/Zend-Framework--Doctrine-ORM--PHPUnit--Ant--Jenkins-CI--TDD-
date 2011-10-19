@@ -17,31 +17,29 @@
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CaseInsensitive.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Zend_Search_Lucene_Analysis_Analyzer_Common_Text */
-require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Text.php';
-
-/** Zend_Search_Lucene_Analysis_TokenFilter_LowerCase */
-require_once 'Zend/Search/Lucene/Analysis/TokenFilter/LowerCase.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\Analyzer\Common\Text;
+use Zend\Search\Lucene\Analysis\Analyzer\Common;
+use Zend\Search\Lucene\Analysis\TokenFilter;
 
 /**
+ * @uses       \Zend\Search\Lucene\Analysis\Analyzer\Common\Text\Text
+ * @uses       \Zend\Search\Lucene\Analysis\TokenFilter\LowerCase
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
-
-class Zend_Search_Lucene_Analysis_Analyzer_Common_Text_CaseInsensitive extends Zend_Search_Lucene_Analysis_Analyzer_Common_Text
+class CaseInsensitive extends Common\Text
 {
     public function __construct()
     {
-        $this->addFilter(new Zend_Search_Lucene_Analysis_TokenFilter_LowerCase());
+        $this->addFilter(new TokenFilter\LowerCase());
     }
 }
 

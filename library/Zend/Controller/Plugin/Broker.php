@@ -17,20 +17,26 @@
  * @subpackage Plugins
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Broker.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Controller_Plugin_Abstract */
-require_once 'Zend/Controller/Plugin/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Plugin;
+use Zend\Controller;
+use Zend\Controller\Request;
 
 /**
+ * @uses       \Zend\Controller\Exception
+ * @uses       \Zend\Controller\Front
+ * @uses       \Zend\Controller\Plugin\AbstractPlugin
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Plugins
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
+class Broker extends AbstractPlugin
 {
 
     /**
@@ -44,23 +50,21 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Register a plugin.
      *
-     * @param  Zend_Controller_Plugin_Abstract $plugin
+     * @param  \Zend\Controller\Plugin\AbstractPlugin $plugin
      * @param  int $stackIndex
-     * @return Zend_Controller_Plugin_Broker
+     * @return \Zend\Controller\Plugin\Broker
      */
-    public function registerPlugin(Zend_Controller_Plugin_Abstract $plugin, $stackIndex = null)
+    public function registerPlugin(AbstractPlugin $plugin, $stackIndex = null)
     {
         if (false !== array_search($plugin, $this->_plugins, true)) {
-            require_once 'Zend/Controller/Exception.php';
-            throw new Zend_Controller_Exception('Plugin already registered');
+            throw new Controller\Exception('Plugin already registered');
         }
 
         $stackIndex = (int) $stackIndex;
 
         if ($stackIndex) {
             if (isset($this->_plugins[$stackIndex])) {
-                require_once 'Zend/Controller/Exception.php';
-                throw new Zend_Controller_Exception('Plugin with stackIndex "' . $stackIndex . '" already registered');
+                throw new Controller\Exception('Plugin with stackIndex "' . $stackIndex . '" already registered');
             }
             $this->_plugins[$stackIndex] = $plugin;
         } else {
@@ -88,17 +92,16 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Unregister a plugin.
      *
-     * @param string|Zend_Controller_Plugin_Abstract $plugin Plugin object or class name
-     * @return Zend_Controller_Plugin_Broker
+     * @param string|\Zend\Controller\Plugin\AbstractPlugin $plugin Plugin object or class name
+     * @return \Zend\Controller\Plugin\Broker
      */
     public function unregisterPlugin($plugin)
     {
-        if ($plugin instanceof Zend_Controller_Plugin_Abstract) {
+        if ($plugin instanceof AbstractPlugin) {
             // Given a plugin object, find it in the array
             $key = array_search($plugin, $this->_plugins, true);
             if (false === $key) {
-                require_once 'Zend/Controller/Exception.php';
-                throw new Zend_Controller_Exception('Plugin never registered.');
+                throw new Controller\Exception('Plugin never registered.');
             }
             unset($this->_plugins[$key]);
         } elseif (is_string($plugin)) {
@@ -121,6 +124,7 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
      */
     public function hasPlugin($class)
     {
+        $class = ltrim($class, '\\');
         foreach ($this->_plugins as $plugin) {
             $type = get_class($plugin);
             if ($class == $type) {
@@ -135,7 +139,7 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
      * Retrieve a plugin or plugins by class
      *
      * @param  string $class Class name of plugin(s) desired
-     * @return false|Zend_Controller_Plugin_Abstract|array Returns false if none found, plugin if only one found, and array of plugins if multiple plugins of same class found
+     * @return false|\Zend\Controller\Plugin\AbstractPlugin|array Returns false if none found, plugin if only one found, and array of plugins if multiple plugins of same class found
      */
     public function getPlugin($class)
     {
@@ -170,10 +174,10 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Set request object, and register with each plugin
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @return Zend_Controller_Plugin_Broker
+     * @param \Zend\Controller\Request\AbstractRequest $request
+     * @return \Zend\Controller\Plugin\Broker
      */
-    public function setRequest(Zend_Controller_Request_Abstract $request)
+    public function setRequest(Request\AbstractRequest $request)
     {
         $this->_request = $request;
 
@@ -187,7 +191,7 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Get request object
      *
-     * @return Zend_Controller_Request_Abstract $request
+     * @return \Zend\Controller\Request\AbstractRequest $request
      */
     public function getRequest()
     {
@@ -197,10 +201,10 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Set response object
      *
-     * @param Zend_Controller_Response_Abstract $response
-     * @return Zend_Controller_Plugin_Broker
+     * @param \Zend\Controller\Response\AbstractResponse $response
+     * @return \Zend\Controller\Plugin\Broker
      */
-    public function setResponse(Zend_Controller_Response_Abstract $response)
+    public function setResponse(Controller\Response\AbstractResponse $response)
     {
         $this->_response = $response;
 
@@ -215,7 +219,7 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Get response object
      *
-     * @return Zend_Controller_Response_Abstract $response
+     * @return \Zend\Controller\Response\AbstractResponse $response
      */
     public function getResponse()
     {
@@ -227,16 +231,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
      * Called before Zend_Controller_Front begins evaluating the
      * request against its routes.
      *
-     * @param Zend_Controller_Request_Abstract $request
+     * @param \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function routeStartup(Zend_Controller_Request_Abstract $request)
+    public function routeStartup(Request\AbstractRequest $request)
     {
+        $broker = $this->getHelperBroker();
         foreach ($this->_plugins as $plugin) {
             try {
+                $plugin->setHelperBroker($broker);
                 $plugin->routeStartup($request);
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);
@@ -250,16 +256,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
      * Called before Zend_Controller_Front exits its iterations over
      * the route set.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function routeShutdown(Zend_Controller_Request_Abstract $request)
+    public function routeShutdown(Request\AbstractRequest $request)
     {
+        $broker = $this->getHelperBroker();
         foreach ($this->_plugins as $plugin) {
             try {
+                $plugin->setHelperBroker($broker);
                 $plugin->routeShutdown($request);
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);
@@ -277,16 +285,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
      * Zend_Controller_Dispatcher to dispatch the
      * Zend_Controller_Request_Abstract object to controllers/actions.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    public function dispatchLoopStartup(Request\AbstractRequest $request)
     {
+        $broker = $this->getHelperBroker();
         foreach ($this->_plugins as $plugin) {
             try {
+                $plugin->setHelperBroker($broker);
                 $plugin->dispatchLoopStartup($request);
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);
@@ -299,16 +309,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Called before an action is dispatched by Zend_Controller_Dispatcher.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function preDispatch(Zend_Controller_Request_Abstract $request)
+    public function preDispatch(Request\AbstractRequest $request)
     {
+        $broker = $this->getHelperBroker();
         foreach ($this->_plugins as $plugin) {
             try {
+                $plugin->setHelperBroker($broker);
                 $plugin->preDispatch($request);
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);
@@ -321,16 +333,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Called after an action is dispatched by Zend_Controller_Dispatcher.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function postDispatch(Zend_Controller_Request_Abstract $request)
+    public function postDispatch(Request\AbstractRequest $request)
     {
+        $broker = $this->getHelperBroker();
         foreach ($this->_plugins as $plugin) {
             try {
+                $plugin->setHelperBroker($broker);
                 $plugin->postDispatch($request);
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);
@@ -343,16 +357,18 @@ class Zend_Controller_Plugin_Broker extends Zend_Controller_Plugin_Abstract
     /**
      * Called before Zend_Controller_Front exits its dispatch loop.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
     public function dispatchLoopShutdown()
     {
+        $broker = $this->getHelperBroker();
        foreach ($this->_plugins as $plugin) {
            try {
+                $plugin->setHelperBroker($broker);
                 $plugin->dispatchLoopShutdown();
-            } catch (Exception $e) {
-                if (Zend_Controller_Front::getInstance()->throwExceptions()) {
+            } catch (\Exception $e) {
+                if (Controller\Front::getInstance()->throwExceptions()) {
                     throw $e;
                 } else {
                     $this->getResponse()->setException($e);

@@ -18,19 +18,21 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form */
-require_once 'Zend/Form.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form;
 
 /**
- * Zend_Form_SubForm
+ * Zend\Form\SubForm
  *
+ * @uses       \Zend\Form\Form
  * @category   Zend
  * @package    Zend_Form
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SubForm.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Form_SubForm extends Zend_Form
+class SubForm extends Form
 {
     /**
      * Whether or not form elements are members of an array
@@ -41,7 +43,7 @@ class Zend_Form_SubForm extends Zend_Form
     /**
      * Load the default decorators
      *
-     * @return Zend_Form_SubForm
+     * @return Zend\Form\SubForm
      */
     public function loadDefaultDecorators()
     {

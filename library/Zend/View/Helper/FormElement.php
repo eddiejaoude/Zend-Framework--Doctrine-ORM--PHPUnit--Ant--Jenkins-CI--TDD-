@@ -17,34 +17,35 @@
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormElement.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_View_Helper_HtmlElement
+ * @namespace
  */
-require_once 'Zend/View/Helper/HtmlElement.php';
+namespace Zend\View\Helper;
 
 /**
  * Base helper for form elements.  Extend this, don't use it on its own.
  *
+ * @uses       \Zend\View\Exception
+ * @uses       \Zend\View\Helper\HtmlElement
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_View_Helper_FormElement extends Zend_View_Helper_HtmlElement
+abstract class FormElement extends HtmlElement
 {
     /**
-     * @var Zend_Translate
+     * @var \Zend\Translator\Translator
      */
     protected $_translator;
 
     /**
      * Get translator
      *
-     * @return Zend_Translate
+     * @return \Zend\Translator\Translator
      */
     public function getTranslator()
     {
@@ -54,20 +55,19 @@ abstract class Zend_View_Helper_FormElement extends Zend_View_Helper_HtmlElement
     /**
      * Set translator
      *
-     * @param  Zend_Translate $translator
-     * @return Zend_View_Helper_FormElement
+     * @param  $translator|null \Zend\Translator\Translator
+     * @return \Zend\View\Helper\FormElement
      */
     public function setTranslator($translator = null)
     {
         if (null === $translator) {
             $this->_translator = null;
-        } elseif ($translator instanceof Zend_Translate_Adapter) {
+        } elseif ($translator instanceof \Zend\Translator\Adapter\AbstractAdapter) {
             $this->_translator = $translator;
-        } elseif ($translator instanceof Zend_Translate) {
+        } elseif ($translator instanceof \Zend\Translator\Translator) {
             $this->_translator = $translator->getAdapter();
         } else {
-            require_once 'Zend/View/Exception.php';
-            $e = new Zend_View_Exception('Invalid translator specified');
+            $e = new \Zend\View\Exception('Invalid translator specified');
             $e->setView($this->view);
             throw $e;
         }
@@ -178,17 +178,19 @@ abstract class Zend_View_Helper_FormElement extends Zend_View_Helper_HtmlElement
      *
      * @access protected
      *
-     * @param string $name The element name.
-     * @param string $value The element value.
-     * @param array  $attribs Attributes for the element.
+     * @param $name The element name.
+     *
+     * @param $value The element value.
+     *
+     * @param $attribs Attributes for the element.
      *
      * @return string A hidden element.
      */
     protected function _hidden($name, $value = null, $attribs = null)
     {
         return '<input type="hidden"'
-             . ' name="' . $this->view->escape($name) . '"'
-             . ' value="' . $this->view->escape($value) . '"'
+             . ' name="' . $this->view->vars()->escape($name) . '"'
+             . ' value="' . $this->view->vars()->escape($value) . '"'
              . $this->_htmlAttribs($attribs) . $this->getClosingBracket();
     }
 }

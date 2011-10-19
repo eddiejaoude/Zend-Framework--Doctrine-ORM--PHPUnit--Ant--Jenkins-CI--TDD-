@@ -16,20 +16,22 @@
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** @see Zend_Barcode_Exception */
-require_once 'Zend/Barcode/Exception.php';
+/**
+ * @namespace
+ */
+namespace Zend\Barcode\Renderer;
 
 /**
- * Zend_Barcode_Renderer_Exception
+ * \Zend\Barcode\Renderer\Exception
  *
+ * @uses       \Zend\Barcode\Exception
  * @category   Zend
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Barcode_Renderer_Exception extends Zend_Barcode_Exception
+interface Exception extends \Zend\Barcode\Exception
 {
 }

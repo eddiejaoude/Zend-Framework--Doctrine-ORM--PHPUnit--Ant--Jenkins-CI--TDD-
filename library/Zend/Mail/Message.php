@@ -16,27 +16,24 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Message.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
 /**
- * Zend_Mail_Part
+ * @namespace
  */
-require_once 'Zend/Mail/Part.php';
+namespace Zend\Mail;
+use Zend\Mail\Exception;
 
 /**
- * Zend_Mail_Message_Interface
- */
-require_once 'Zend/Mail/Message/Interface.php';
-
-/**
+ * @uses       \Zend\Mail\Exception
+ * @uses       \Zend\Mail\Message\MessageInterface
+ * @uses       \Zend\Mail\Part
  * @category   Zend
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Interface
+class Message extends Part implements MailMessage
 {
     /**
      * flags for this message
@@ -52,7 +49,7 @@ class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Inte
      * - flags array with flags for message, keys are ignored, use constants defined in Zend_Mail_Storage
      *
      * @param  string $rawMessage  full message with or without headers
-     * @throws Zend_Mail_Exception
+     * @throws \Zend\Mail\Exception
      */
     public function __construct(array $params)
     {
@@ -60,11 +57,7 @@ class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Inte
             if (!is_resource($params['file'])) {
                 $params['raw'] = @file_get_contents($params['file']);
                 if ($params['raw'] === false) {
-                    /**
-                     * @see Zend_Mail_Exception
-                     */
-                    require_once 'Zend/Mail/Exception.php';
-                    throw new Zend_Mail_Exception('could not open file');
+                    throw new Exception\RuntimeException('could not open file');
                 }
             } else {
                 $params['raw'] = stream_get_contents($params['file']);
@@ -92,7 +85,7 @@ class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Inte
     /**
      * check if flag is set
      *
-     * @param mixed $flag a flag name, use constants defined in Zend_Mail_Storage
+     * @param mixed $flag a flag name, use constants defined in \Zend\Mail\Storage\Storage
      * @return bool true if set, otherwise false
      */
     public function hasFlag($flag)

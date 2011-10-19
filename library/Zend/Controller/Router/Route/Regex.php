@@ -15,23 +15,28 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Regex.php 23775 2011-03-01 17:25:24Z ralph $
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Controller_Router_Route_Abstract */
-require_once 'Zend/Controller/Router/Route/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Router\Route;
+use Zend\Config;
+use Zend\Controller\Router;
 
 /**
  * Regex Route
  *
+ * @uses       \Zend\Controller\Router\Exception
+ * @uses       \Zend\Controller\Router\Route\AbstractRoute
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Controller_Router_Route_Regex extends Zend_Controller_Router_Route_Abstract
+class Regex extends AbstractRoute
 {
     protected $_regex = null;
     protected $_defaults = array();
@@ -42,12 +47,12 @@ class Zend_Controller_Router_Route_Regex extends Zend_Controller_Router_Route_Ab
     /**
      * Instantiates route based on passed Zend_Config structure
      *
-     * @param Zend_Config $config Configuration object
+     * @param \Zend\Config\Config $config Configuration object
      */
-    public static function getInstance(Zend_Config $config)
+    public static function getInstance(Config\Config $config)
     {
-        $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
-        $map = ($config->map instanceof Zend_Config) ? $config->map->toArray() : array();
+        $defs = ($config->defaults instanceof Config\Config) ? $config->defaults->toArray() : array();
+        $map = ($config->map instanceof Config\Config) ? $config->map->toArray() : array();
         $reverse = (isset($config->reverse)) ? $config->reverse : null;
         return new self($config->route, $defs, $map, $reverse);
     }
@@ -165,8 +170,7 @@ class Zend_Controller_Router_Route_Regex extends Zend_Controller_Router_Route_Ab
     public function assemble($data = array(), $reset = false, $encode = false, $partial = false)
     {
         if ($this->_reverse === null) {
-            require_once 'Zend/Controller/Router/Exception.php';
-            throw new Zend_Controller_Router_Exception('Cannot assemble. Reversed route is not specified.');
+            throw new Router\Exception('Cannot assemble. Reversed route is not specified.');
         }
 
         $defaultValuesMapped  = $this->_getMappedValues($this->_defaults, true, false);
@@ -199,8 +203,7 @@ class Zend_Controller_Router_Route_Regex extends Zend_Controller_Router_Route_Ab
         $return = @vsprintf($this->_reverse, $mergedData);
 
         if ($return === false) {
-            require_once 'Zend/Controller/Router/Exception.php';
-            throw new Zend_Controller_Router_Exception('Cannot assemble. Too few arguments?');
+            throw new Router\Exception('Cannot assemble. Too few arguments?');
         }
 
         return $return;

@@ -17,41 +17,36 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Module.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Provider_Abstract
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Provider/Abstract.php';
+namespace Zend\Tool\Project\Provider;
+
+use Zend\Tool\Project\Profile\Profile as ProjectProfile,
+    Zend\Tool\Project\Profile\Iterator\ContextFilter,
+    Zend\Tool\Project\Profile\Iterator\EnabledResourceFilter,
+    Zend\Tool\Project\Profile\Resource\Resource;
 
 /**
- * @see Zend_Tool_Framework_Provider_Pretendable
- */
-require_once 'Zend/Tool/Framework/Provider/Pretendable.php';
-
-/**
- * @see Zend_Tool_Project_Profile_Iterator_ContextFilter
- */
-require_once 'Zend/Tool/Project/Profile/Iterator/ContextFilter.php';
-
-/**
- * @see Zend_Tool_Project_Profile_Iterator_EnabledResourceFilter
- */
-require_once 'Zend/Tool/Project/Profile/Iterator/EnabledResourceFilter.php';
-
-/**
+ * @uses       RecursiveIteratorIterator
+ * @uses       \Zend\Tool\Framework\Provider\Pretendable
+ * @uses       \Zend\Tool\Project\Profile\Iterator\ContextFilter
+ * @uses       \Zend\Tool\Project\Profile\Iterator\EnabledResourceFilter
+ * @uses       \Zend\Tool\Project\Provider\AbstractProvider
+ * @uses       \Zend\Tool\Project\Provider\Exception
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_Module
-    extends Zend_Tool_Project_Provider_Abstract
-    implements Zend_Tool_Framework_Provider_Pretendable
+class Module
+    extends AbstractProvider
+    implements \Zend\Tool\Framework\Provider\Pretendable
 {
 
-    public static function createResources(Zend_Tool_Project_Profile $profile, $moduleName, Zend_Tool_Project_Profile_Resource $targetModuleResource = null)
+    public static function createResources(ProjectProfile $profile, $moduleName, Resource $targetModuleResource = null)
     {
 
         // find the appliction directory, it will serve as our module skeleton
@@ -68,28 +63,29 @@ class Zend_Tool_Project_Provider_Module
 
         // if there is a module directory already, except
         if ($modulesDirectory->search(array('moduleDirectory' => array('moduleName' => $moduleName)))) {
-            throw new Zend_Tool_Project_Provider_Exception('A module named "' . $moduleName . '" already exists.');
+            throw new Exception\RuntimeException('A module named "' . $moduleName . '" already exists.');
         }
 
         // create the module directory
         $moduleDirectory = $modulesDirectory->createResource('moduleDirectory', array('moduleName' => $moduleName));
 
         // create a context filter so that we can pull out only what we need from the module skeleton
-        $moduleContextFilterIterator = new Zend_Tool_Project_Profile_Iterator_ContextFilter(
+        $moduleContextFilterIterator = new ContextFilter(
             $targetModuleResource,
             array(
                 'denyNames' => array('ModulesDirectory', 'ViewControllerScriptsDirectory'),
-                'denyType'  => 'Zend_Tool_Project_Context_Filesystem_File'
+                'denyType'  => 'Zend\Tool\Project\Context\Filesystem\File'
                 )
             );
 
         // the iterator for the module skeleton
-        $targetIterator = new RecursiveIteratorIterator($moduleContextFilterIterator, RecursiveIteratorIterator::SELF_FIRST);
+        $targetIterator = new \RecursiveIteratorIterator($moduleContextFilterIterator, \RecursiveIteratorIterator::SELF_FIRST);
 
         // initialize some loop state information
         $currentDepth = 0;
         $parentResources = array();
         $currentResource = $moduleDirectory;
+        $currentChildResource = null;
 
         // loop through the target module skeleton
         foreach ($targetIterator as $targetSubResource) {
@@ -136,40 +132,31 @@ class Zend_Tool_Project_Provider_Module
     {
         $this->_loadProfile(self::NO_PROFILE_THROW_EXCEPTION);
 
-        // determine if testing is enabled in the project
-        require_once 'Zend/Tool/Project/Provider/Test.php';
-        //$testingEnabled = Zend_Tool_Project_Provider_Test::isTestingEnabled($this->_loadedProfile);
-        
         $resources = self::createResources($this->_loadedProfile, $name);
 
         $response = $this->_registry->getResponse();
 
         if ($this->_registry->getRequest()->isPretend()) {
             $response->appendContent('I would create the following module and artifacts:');
-            foreach (new RecursiveIteratorIterator($resources, RecursiveIteratorIterator::SELF_FIRST) as $resource) {
+            foreach (new \RecursiveIteratorIterator($resources, \RecursiveIteratorIterator::SELF_FIRST) as $resource) {
                 if (is_callable(array($resource->getContext(), 'getPath'))) {
                     $response->appendContent($resource->getContext()->getPath());
                 }
             }
         } else {
             $response->appendContent('Creating the following module and artifacts:');
-            $enabledFilter = new Zend_Tool_Project_Profile_Iterator_EnabledResourceFilter($resources);
-            foreach (new RecursiveIteratorIterator($enabledFilter, RecursiveIteratorIterator::SELF_FIRST) as $resource) {
+            $enabledFilter = new EnabledResourceFilter($resources);
+            foreach (new \RecursiveIteratorIterator($enabledFilter, \RecursiveIteratorIterator::SELF_FIRST) as $resource) {
                 $response->appendContent($resource->getContext()->getPath());
                 $resource->create();
             }
-
-            $response->appendContent('Added a key for path module directory to the application.ini file');
-            $appConfigFile = $this->_loadedProfile->search('ApplicationConfigFile');
-            $appConfigFile->removeStringItem('resources.frontController.moduleDirectory', 'production');
-            $appConfigFile->addStringItem('resources.frontController.moduleDirectory', 'APPLICATION_PATH "/modules"', 'production', false);
-
+            
             if (strtolower($name) == 'default') {
                 $response->appendContent('Added a key for the default module to the application.ini file');
+                $appConfigFile = $this->_loadedProfile->search('ApplicationConfigFile');
                 $appConfigFile->addStringItem('resources.frontController.params.prefixDefaultModule', '1', 'production');
+                $appConfigFile->create();
             }
-
-            $appConfigFile->create();
 
             // store changes to the profile
             $this->_storeProfile();

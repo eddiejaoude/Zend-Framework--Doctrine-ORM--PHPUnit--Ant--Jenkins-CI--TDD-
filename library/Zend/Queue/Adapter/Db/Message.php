@@ -17,22 +17,22 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Message.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Db_Table_Abstract
+ * @namespace
  */
-require_once 'Zend/Db/Table/Abstract.php';
+namespace Zend\Queue\Adapter\Db;
 
 /**
+ * @uses       \Zend\Db\Table\AbstractTable
  * @category   Zend
  * @package    Zend_Queue
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Queue_Adapter_Db_Message extends Zend_Db_Table_Abstract
+class Message extends \Zend\Db\Table\AbstractTable
 {
     /**
      * @var string

@@ -13,20 +13,18 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ZapfDingbats.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Name.php';
-
-
-/** Zend_Pdf_Resource_Font_Simple_Standard */
-require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Resource\Font\Simple\Standard;
+use Zend\Pdf;
+use Zend\Pdf\Cmap;
 
 /**
  * Implementation for the standard PDF font ZapfDingbats.
@@ -41,14 +39,18 @@ require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
  * standard fonts. You should modify the script and regenerate the classes
  * instead of changing this class file by hand.
  *
- * @package    Zend_Pdf
+ * @uses       \Zend\Pdf\Cmap\AbstractCmap
+ * @uses       \Zend\Pdf\InternalType\NameObject
+ * @uses       \Zend\Pdf\Font
+ * @uses       \Zend\Pdf\Resource\Font\Simple\Standard\AbstractStandard
+ * @subpackage Zend_PDF_Fonts
  * @subpackage Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resource_Font_Simple_Standard
+class ZapfDingbats extends AbstractStandard
 {
-  /**** Instance Variables ****/
+    /**** Instance Variables ****/
 
 
     /**
@@ -186,10 +188,10 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
 
 
 
-  /**** Public Interface ****/
+    /**** Public Interface ****/
 
 
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor
@@ -205,7 +207,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
          * strings. Since this information is static, save unnecessary trips
          * through iconv() and just use pre-encoded hexidecimal strings.
          */
-        $this->_fontNames[Zend_Pdf_Font::NAME_COPYRIGHT]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_COPYRIGHT]['en'] =
           "\x00\x43\x00\x6f\x00\x70\x00\x79\x00\x72\x00\x69\x00\x67\x00\x68\x00"
           . "\x74\x00\x20\x00\x28\x00\x63\x00\x29\x00\x20\x00\x31\x00\x39\x00"
           . "\x38\x00\x35\x00\x2c\x00\x20\x00\x31\x00\x39\x00\x38\x00\x37\x00"
@@ -228,20 +230,20 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
           . "\x54\x00\x79\x00\x70\x00\x65\x00\x66\x00\x61\x00\x63\x00\x65\x00"
           . "\x20\x00\x43\x00\x6f\x00\x72\x00\x70\x00\x6f\x00\x72\x00\x61\x00"
           . "\x74\x00\x69\x00\x6f\x00\x6e\x00\x2e";
-        $this->_fontNames[Zend_Pdf_Font::NAME_FAMILY]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_FAMILY]['en'] =
           "\x00\x5a\x00\x61\x00\x70\x00\x66\x00\x44\x00\x69\x00\x6e\x00\x67\x00"
           . "\x62\x00\x61\x00\x74\x00\x73";
-        $this->_fontNames[Zend_Pdf_Font::NAME_STYLE]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_STYLE]['en'] =
           "\x00\x4d\x00\x65\x00\x64\x00\x69\x00\x75\x00\x6d";
-        $this->_fontNames[Zend_Pdf_Font::NAME_ID]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_ID]['en'] =
           "\x00\x34\x00\x33\x00\x30\x00\x38\x00\x32";
-        $this->_fontNames[Zend_Pdf_Font::NAME_FULL]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_FULL]['en'] =
           "\x00\x5a\x00\x61\x00\x70\x00\x66\x00\x44\x00\x69\x00\x6e\x00\x67\x00"
           . "\x62\x00\x61\x00\x74\x00\x73\x00\x20\x00\x4d\x00\x65\x00\x64\x00"
           . "\x69\x00\x75\x00\x6d";
-        $this->_fontNames[Zend_Pdf_Font::NAME_VERSION]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_VERSION]['en'] =
           "\x00\x30\x00\x30\x00\x32\x00\x2e\x00\x30\x00\x30\x00\x30";
-        $this->_fontNames[Zend_Pdf_Font::NAME_POSTSCRIPT]['en'] =
+        $this->_fontNames[Pdf\Font::NAME_POSTSCRIPT]['en'] =
           "\x00\x5a\x00\x61\x00\x70\x00\x66\x00\x44\x00\x69\x00\x6e\x00\x67\x00"
           . "\x62\x00\x61\x00\x74\x00\x73";
 
@@ -372,9 +374,8 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
           0x27b5 =>   0xc1, 0x27b6 =>   0xc2, 0x27b7 =>   0xc3, 0x27b8 =>   0xc4,
           0x27b9 =>   0xc5, 0x27ba =>   0xc6, 0x27bb =>   0xc7, 0x27bc =>   0xc8,
           0x27bd =>   0xc9, 0x27be =>   0xca);
-        require_once 'Zend/Pdf/Cmap.php';
-        $this->_cmap = Zend_Pdf_Cmap::cmapWithTypeData(
-            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
+        $this->_cmap = Cmap\AbstractCmap::cmapWithTypeData(
+            Cmap\AbstractCmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
 
 
         /* Resource dictionary */
@@ -383,7 +384,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
          * viewers already have all of the metrics data. We only need to provide
          * the font name and encoding method.
          */
-        $this->_resource->BaseFont = new Zend_Pdf_Element_Name('ZapfDingbats');
+        $this->_resource->BaseFont = new Pdf\InternalType\NameObject('ZapfDingbats');
 
         /* This font has a built-in custom character encoding method. Don't
          * override with WinAnsi like the other built-in fonts or else it will
@@ -393,7 +394,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
     }
 
 
-  /* Information and Conversion Methods */
+    /* Information and Conversion Methods */
 
     /**
      * Convert string encoding from local encoding to font encoding. Overridden
@@ -421,7 +422,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
             if (isset($this->_toFontEncoding[$characterCode])) {
                 $encodedString .= $this->_toFontEncoding[$characterCode];
             } else {
-                /* For now, mimic the behavior in Zend_Pdf_Font::encodeString()
+                /* For now, mimic the behavior in \Zend\Pdf\Font::encodeString()
                  * where unknown characters are removed completely. This is not
                  * perfect, but we should be consistent. In a future revision,
                  * we will use the well-known substitution character 0x1a
@@ -448,7 +449,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
             if (isset($this->_fromFontEncoding[$characterCode])) {
                 $decodedString .= $this->_fromFontEncoding[$characterCode];
             } else {
-                /* For now, mimic the behavior in Zend_Pdf_Font::encodeString()
+                /* For now, mimic the behavior in \Zend\Pdf\Font::encodeString()
                  * where unknown characters are removed completely. This is not
                  * perfect, but we should be consistent. In a future revision,
                  * we will use the Unicode substitution character (U+FFFD).

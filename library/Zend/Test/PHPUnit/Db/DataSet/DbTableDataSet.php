@@ -17,29 +17,28 @@
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTableDataSet.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-require_once "PHPUnit/Extensions/Database/DataSet/QueryDataSet.php";
-
-require_once "PHPUnit/Extensions/Database/DB/IDatabaseConnection.php";
 
 /**
- * @see Zend_Test_PHPUnit_Db_DataSet_DbTable
+ * @namespace
  */
-require_once "Zend/Test/PHPUnit/Db/DataSet/DbTable.php";
+namespace Zend\Test\PHPUnit\Db\DataSet;
 
 /**
  * Aggregate several Zend_Db_Table instances into a dataset.
  *
- * @uses       Zend_Db_Table
+ * @uses       \Zend\Test\PHPUnit\Db\Exception\InvalidArgumentException
+ * @uses       PHPUnit_Extensions_Database_DataSet_DefaultTableIterator
+ * @uses       PHPUnit_Extensions_Database_DataSet_QueryDataSet
+ * @uses       PHPUnit_Extensions_Database_DB_IDatabaseConnection
+ * @uses       \Zend\Test\PHPUnit\Db\DataSet\DbTable
  * @category   Zend
  * @package    Zend_Test
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet extends PHPUnit_Extensions_Database_DataSet_AbstractDataSet
+class DbTableDataSet extends \PHPUnit_Extensions_Database_DataSet_AbstractDataSet
 {
     /**
      * @var array
@@ -51,17 +50,17 @@ class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet extends PHPUnit_Extensions_Dat
      *
      * By default a select * will be done on the given tablename.
      *
-     * @param Zend_Db_Table_Abstract $table
-     * @param string|Zend_Db_Select $query
+     * @param \Zend\Db\Table\AbstractTable $table
+     * @param string|\Zend\Db\Select $query
      * @param string $where
      * @param string $order
      * @param string $count
      * @param string $offset
      */
-    public function addTable(Zend_Db_Table_Abstract $table, $where = null, $order = null, $count = null, $offset = null)
+    public function addTable(\Zend\Db\Table\AbstractTable $table, $where = null, $order = null, $count = null, $offset = null)
     {
         $tableName = $table->info('name');
-        $this->tables[$tableName] = new Zend_Test_PHPUnit_Db_DataSet_DbTable($table, $where, $order, $count, $offset);
+        $this->tables[$tableName] = new DbTable($table, $where, $order, $count, $offset);
     }
 
     /**
@@ -71,9 +70,9 @@ class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet extends PHPUnit_Extensions_Dat
      * @param bool $reverse
      * @return PHPUnit_Extensions_Database_DB_TableIterator
      */
-    protected function createIterator($reverse = FALSE)
+    protected function createIterator($reverse = \FALSE)
     {
-        return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($this->tables, $reverse);
+        return new \PHPUnit\Extensions\Database\DataSet\DefaultTableIterator($this->tables, $reverse);
     }
 
     /**
@@ -85,7 +84,9 @@ class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet extends PHPUnit_Extensions_Dat
     public function getTable($tableName)
     {
         if (!isset($this->tables[$tableName])) {
-            throw new InvalidArgumentException("$tableName is not a table in the current database.");
+            throw new \Zend\Test\PHPUnit\Db\Exception\InvalidArgumentException(
+            	"$tableName is not a table in the current database."
+            );
         }
 
         return $this->tables[$tableName];

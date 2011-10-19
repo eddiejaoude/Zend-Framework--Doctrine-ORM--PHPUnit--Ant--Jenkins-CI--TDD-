@@ -17,33 +17,31 @@
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OpenLdap.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Ldap_Node_Schema
+ * @namespace
  */
-require_once 'Zend/Ldap/Node/Schema.php';
-/**
- * @see Zend_Ldap_Node_Schema_AttributeType_OpenLdap
- */
-require_once 'Zend/Ldap/Node/Schema/AttributeType/OpenLdap.php';
-/**
- * @see Zend_Ldap_Node_Schema_ObjectClass_OpenLdap
- */
-require_once 'Zend/Ldap/Node/Schema/ObjectClass/OpenLdap.php';
+namespace Zend\Ldap\Node\Schema;
+
+use Zend\Ldap\Node\Schema,
+    Zend\Ldap;
 
 /**
- * Zend_Ldap_Node_Schema_OpenLdap provides a simple data-container for the Schema node of
+ * Zend_Ldap_Node_Schema_OpenLDAP provides a simple data-container for the Schema node of
  * an OpenLDAP server.
  *
+ * @uses       \Zend\Ldap\Attribute
+ * @uses       \Zend\Ldap\Node\Schema
+ * @uses       \Zend\Ldap\Node\Schema\AttributeType\OpenLdap
+ * @uses       \Zend\Ldap\Node\Schema\ObjectClass\OpenLdap
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
+class OpenLdap extends Schema
 {
     /**
      * The attribute Types
@@ -79,11 +77,11 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
     /**
      * Parses the schema
      *
-     * @param  Zend_Ldap_Dn $dn
-     * @param  Zend_Ldap    $ldap
-     * @return Zend_Ldap_Node_Schema Provides a fluid interface
+     * @param  \Zend\Ldap\Dn $dn
+     * @param  \Zend\Ldap\Ldap    $ldap
+     * @return \Zend\Ldap\Node\Schema Provides a fluid interface
      */
-    protected function _parseSchema(Zend_Ldap_Dn $dn, Zend_Ldap $ldap)
+    protected function _parseSchema(Ldap\Dn $dn, Ldap\Ldap $ldap)
     {
         parent::_parseSchema($dn, $ldap);
         $this->_loadAttributeTypes();
@@ -154,7 +152,7 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
         $this->_attributeTypes = array();
         foreach ($this->getAttribute('attributeTypes') as $value) {
             $val = $this->_parseAttributeType($value);
-            $val = new Zend_Ldap_Node_Schema_AttributeType_OpenLdap($val);
+            $val = new AttributeType\OpenLdap($val);
             $this->_attributeTypes[$val->getName()] = $val;
 
         }
@@ -222,7 +220,7 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
         $this->_objectClasses = array();
         foreach ($this->getAttribute('objectClasses') as $value) {
             $val = $this->_parseObjectClass($value);
-            $val = new Zend_Ldap_Node_Schema_ObjectClass_OpenLdap($val);
+            $val = new ObjectClass\OpenLdap($val);
             $this->_objectClasses[$val->getName()] = $val;
         }
         foreach ($this->_objectClasses as $val) {
@@ -270,10 +268,10 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
     /**
      * Resolves inheritance in objectClasses and attributes
      *
-     * @param Zend_Ldap_Node_Schema_Item $node
+     * @param \Zend\Ldap\Node\Schema\Item $node
      * @param array                      $repository
      */
-    protected function _resolveInheritance(Zend_Ldap_Node_Schema_Item $node, array $repository)
+    protected function _resolveInheritance(Item $node, array $repository)
     {
         $data = $node->getData();
         $parents = $data['sup'];
@@ -458,11 +456,11 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
                     while ($tmp = array_shift($tokens)) {
                         if ($tmp == ')') break;
                         if ($tmp != '$') {
-                            $data[$token][] = Zend_Ldap_Attribute::convertFromLdapValue($tmp);
+                            $data[$token][] = Ldap\Attribute::convertFromLdapValue($tmp);
                         }
                     }
                 } else {
-                    $data[$token] = Zend_Ldap_Attribute::convertFromLdapValue($data[$token]);
+                    $data[$token] = Ldap\Attribute::convertFromLdapValue($data[$token]);
                 }
                 // create a array if the value should be multivalued but was not
                 if (in_array($token, $multiValue) && !is_array($data[$token])) {

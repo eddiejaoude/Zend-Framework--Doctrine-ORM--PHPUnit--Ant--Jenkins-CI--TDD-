@@ -17,20 +17,28 @@
  * @subpackage Zend_InfoCard_Cipher
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cipher.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\InfoCard;
 
 /**
  * Provides an abstraction for encryption ciphers used in an Information Card
  * implementation
  *
+ * @uses       \Zend\InfoCard\Cipher\Exception
+ * @uses       \Zend\InfoCard\Cipher\PKI\Adapter\RSA
+ * @uses       \Zend\InfoCard\Cipher\Symmetric\Adapter\AES128CBC
+ * @uses       \Zend\InfoCard\Cipher\Symmetric\Adapter\AES256CBC
  * @category   Zend
  * @package    Zend_InfoCard
  * @subpackage Zend_InfoCard_Cipher
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_InfoCard_Cipher
+class Cipher
 {
     /**
      * AES 256 Encryption with CBC
@@ -65,35 +73,30 @@ class Zend_InfoCard_Cipher
     /**
      * Returns an instance of a cipher object supported based on the URI provided
      *
-     * @throws Zend_InfoCard_Cipher_Exception
+     * @throws \Zend\InfoCard\Cipher\Exception
      * @param string $uri The URI of the encryption method wantde
-     * @return mixed an Instance of Zend_InfoCard_Cipher_Symmetric_Interface or Zend_InfoCard_Cipher_Pki_Interface
+     * @return mixed an Instance of Zend\InfoCard\Cipher\Symmetric or Zend\InfoCard\Cipher\PKI
      *               depending on URI
      */
     static public function getInstanceByURI($uri)
     {
         switch($uri) {
             case self::ENC_AES256CBC:
-                include_once 'Zend/InfoCard/Cipher/Symmetric/Adapter/Aes256cbc.php';
-                return new Zend_InfoCard_Cipher_Symmetric_Adapter_Aes256cbc();
+                return new Cipher\Symmetric\Adapter\AES256CBC();
 
             case self::ENC_AES128CBC:
-                include_once 'Zend/InfoCard/Cipher/Symmetric/Adapter/Aes128cbc.php';
-                return new Zend_InfoCard_Cipher_Symmetric_Adapter_Aes128cbc();
+                return new Cipher\Symmetric\Adapter\AES128CBC();
 
             case self::ENC_RSA_OAEP_MGF1P:
-                include_once 'Zend/InfoCard/Cipher/Pki/Adapter/Rsa.php';
-                return new Zend_InfoCard_Cipher_Pki_Adapter_Rsa(Zend_InfoCard_Cipher_Pki_Adapter_Rsa::OAEP_PADDING);
+                return new Cipher\PKI\Adapter\RSA(Cipher\PKI\Adapter\RSA::OAEP_PADDING);
                 break;
 
             case self::ENC_RSA:
-                include_once 'Zend/InfoCard/Cipher/Pki/Adapter/Rsa.php';
-                return new Zend_InfoCard_Cipher_Pki_Adapter_Rsa(Zend_InfoCard_Cipher_Pki_Adapter_Rsa::NO_PADDING);
+                return new Cipher\PKI\Adapter\RSA(Cipher\PKI\Adapter\RSA::NO_PADDING);
                 break;
 
             default:
-                require_once 'Zend/InfoCard/Cipher/Exception.php';
-                throw new Zend_InfoCard_Cipher_Exception("Unknown Cipher URI");
+                throw new Cipher\Exception\InvalidArgumentException("Unknown Cipher URI");
         }
     }
 }

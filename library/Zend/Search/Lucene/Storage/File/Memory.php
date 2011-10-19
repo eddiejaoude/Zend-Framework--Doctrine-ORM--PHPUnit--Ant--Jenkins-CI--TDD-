@@ -17,20 +17,25 @@
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Memory.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Search_Lucene_Storage_File */
-require_once 'Zend/Search/Lucene/Storage/File.php';
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Storage\File;
+use Zend\Search\Lucene;
 
 /**
+ * @uses       \Zend\Search\Lucene\Exception\RuntimeException
+ * @uses       \Zend\Search\Lucene\Exception\InvalidArgumentException
+ * @uses       \Zend\Search\Lucene\Storage\File
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_File
+class Memory extends AbstractFile
 {
     /**
      * FileData
@@ -88,7 +93,7 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * @param integer $whence
      * @return integer
      */
-    public function seek($offset, $whence=SEEK_SET)
+    public function seek($offset, $whence=\SEEK\SET)
     {
         switch ($whence) {
             case SEEK_SET:
@@ -286,7 +291,6 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * and advances the file pointer.
      *
      * @return integer
-     * @throws Zend_Search_Lucene_Exception
      */
     public function readLong()
     {
@@ -307,7 +311,7 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
                     ord($str[6]) << 8   |
                     ord($str[7]);
         } else {
-            return $this->readLong32Bit();
+            return $this->_readLong32Bit();
         }
     }
 
@@ -315,7 +319,6 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * Writes long integer to the end of file
      *
      * @param integer $value
-     * @throws Zend_Search_Lucene_Exception
      */
     public function writeLong($value)
     {
@@ -337,7 +340,7 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
                             chr($value>>8  & 0xFF) .
                             chr($value     & 0xFF);
         } else {
-            $this->writeLong32Bit($value);
+            $this->_writeLong32Bit($value);
         }
 
         $this->_position = strlen($this->_data);
@@ -348,10 +351,10 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * Returns a long integer from the current position in the file,
      * advances the file pointer and return it as float (for 32-bit platforms).
      *
+     * @throws \Zend\Search\Lucene\Exception\RuntimeException
      * @return integer|float
-     * @throws Zend_Search_Lucene_Exception
      */
-    public function readLong32Bit()
+    protected function _readLong32Bit()
     {
         $wordHigh = $this->readInt();
         $wordLow  = $this->readInt();
@@ -361,8 +364,9 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
             if ($wordHigh == (int)0xFFFFFFFF  &&  ($wordLow & (int)0x80000000)) {
                 return $wordLow;
             } else {
-                require_once 'Zend/Search/Lucene/Exception.php';
-                throw new Zend_Search_Lucene_Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
+                throw new Lucene\Exception\RuntimeException(
+                	'Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.'
+                );
             }
 
         }
@@ -386,13 +390,14 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * Writes long integer to the end of file (32-bit platforms implementation)
      *
      * @param integer|float $value
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception\RuntimeException
      */
-    public function writeLong32Bit($value)
+    protected function _writeLong32Bit($value)
     {
         if ($value < (int)0x80000000) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
+            throw new Lucene\Exception\RuntimeException(
+            	'Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.'
+            );
         }
 
         if ($value < 0) {
@@ -515,7 +520,7 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
      * Writes a string to the end of file.
      *
      * @param string $str
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
      */
     public function writeString($str)
     {
@@ -568,8 +573,7 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
         }
 
         if ($chars < 0) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Invalid UTF-8 string');
+            throw new Lucene\Exception\InvalidArgumentException('Invalid UTF-8 string');
         }
 
         $this->writeVInt($chars);
@@ -598,4 +602,3 @@ class Zend_Search_Lucene_Storage_File_Memory extends Zend_Search_Lucene_Storage_
         return $returnValue;
     }
 }
-

@@ -17,11 +17,15 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: NotOverwritable.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * @namespace
+ */
+namespace Zend\Tool\Project\Context\System;
+
+/**
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
@@ -31,7 +35,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Tool_Project_Context_System_NotOverwritable
+interface NotOverwritable
 {
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework
  *
@@ -16,22 +17,21 @@
  * @package    Zend_Ldap
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Exception
+ * @namespace
  */
-require_once 'Zend/Exception.php';
+namespace Zend\Ldap;
 
 /**
+ * @uses       \Exception
  * @category   Zend
  * @package    Zend_Ldap
- * @uses       Zend_Exception
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Exception extends Zend_Exception
+class Exception extends \Exception
 {
     const LDAP_SUCCESS                        = 0x00;
     const LDAP_OPERATIONS_ERROR               = 0x01;
@@ -116,11 +116,11 @@ class Zend_Ldap_Exception extends Zend_Exception
     const LDAP_X_EXTENSION_NOT_LOADED         = 0x7002;
 
     /**
-     * @param Zend_Ldap $ldap A Zend_Ldap object
+     * @param \Zend\Ldap\Ldap $ldap A \Zend\Ldap\Ldap object
      * @param string    $str  An informtive exception message
      * @param int       $code An LDAP error code
      */
-    public function __construct(Zend_Ldap $ldap = null, $str = null, $code = 0)
+    public function __construct(LDAP $ldap = null, $str = null, $code = 0)
     {
         $errorMessages = array();
         $message = '';
@@ -150,10 +150,10 @@ class Zend_Ldap_Exception extends Zend_Exception
 
     /**
      * @deprecated not necessary any more - will be removed
-     * @param Zend_Ldap $ldap A Zend_Ldap object
+     * @param \Zend\Ldap\Ldap $ldap A \Zend\Ldap\Ldap object
      * @return int The current error code for the resource
      */
-    public static function getLdapCode(Zend_Ldap $ldap = null)
+    public static function getLDAPCode(LDAP $ldap = null)
     {
         if ($ldap !== null) {
             return $ldap->getLastErrorCode();

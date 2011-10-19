@@ -17,24 +17,30 @@
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Schema.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Ldap_Node_Abstract
+ * @namespace
  */
-require_once 'Zend/Ldap/Node/Abstract.php';
+namespace Zend\Ldap\Node;
+
+use Zend\Ldap;
+use Zend\Ldap\Node\RootDSE;
 
 /**
  * Zend_Ldap_Node_Schema provides a simple data-container for the Schema node.
  *
+ * @uses       \Zend\Ldap\Node\AbstractNode
+ * @uses       \Zend\Ldap\Node\RootDSE\RootDSE
+ * @uses       \Zend\Ldap\Node\RootDSE\ActiveDirectory
+ * @uses       \Zend\Ldap\Node\Schema\ActiveDirectory
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Node_Schema extends Zend_Ldap_Node_Abstract
+class Schema extends AbstractNode
 {
     const OBJECTCLASS_TYPE_UNKNOWN    = 0;
     const OBJECTCLASS_TYPE_STRUCTURAL = 1;
@@ -44,28 +50,20 @@ class Zend_Ldap_Node_Schema extends Zend_Ldap_Node_Abstract
     /**
      * Factory method to create the Schema node.
      *
-     * @param  Zend_Ldap $ldap
-     * @return Zend_Ldap_Node_Schema
-     * @throws Zend_Ldap_Exception
+     * @param  \Zend\Ldap\Ldap $ldap
+     * @return \Zend\Ldap\Node\Schema
+     * @throws \Zend\Ldap\Exception
      */
-    public static function create(Zend_Ldap $ldap)
+    public static function create(Ldap\Ldap $ldap)
     {
         $dn = $ldap->getRootDse()->getSchemaDn();
         $data = $ldap->getEntry($dn, array('*', '+'), true);
         switch ($ldap->getRootDse()->getServerType()) {
-            case Zend_Ldap_Node_RootDse::SERVER_TYPE_ACTIVEDIRECTORY:
-                /**
-                 * @see Zend_Ldap_Node_Schema_ActiveDirectory
-                 */
-                require_once 'Zend/Ldap/Node/Schema/ActiveDirectory.php';
-                return new Zend_Ldap_Node_Schema_ActiveDirectory($dn, $data, $ldap);
-            case Zend_Ldap_Node_RootDse::SERVER_TYPE_OPENLDAP:
-                /**
-                 * @see Zend_Ldap_Node_RootDse_ActiveDirectory
-                 */
-                require_once 'Zend/Ldap/Node/Schema/OpenLdap.php';
-                return new Zend_Ldap_Node_Schema_OpenLdap($dn, $data, $ldap);
-            case Zend_Ldap_Node_RootDse::SERVER_TYPE_EDIRECTORY:
+            case RootDSE::SERVER_TYPE_ACTIVEDIRECTORY:
+                return new Schema\ActiveDirectory($dn, $data, $ldap);
+            case RootDSE::SERVER_TYPE_OPENLDAP:
+                return new Schema\OpenLdap($dn, $data, $ldap);
+            case RootDSE::SERVER_TYPE_EDIRECTORY:
             default:
                 return new self($dn, $data, $ldap);
         }
@@ -76,11 +74,11 @@ class Zend_Ldap_Node_Schema extends Zend_Ldap_Node_Abstract
      *
      * Constructor is protected to enforce the use of factory methods.
      *
-     * @param  Zend_Ldap_Dn $dn
+     * @param  \Zend\Ldap\Dn $dn
      * @param  array        $data
-     * @param  Zend_Ldap    $ldap
+     * @param  \Zend\Ldap\Ldap    $ldap
      */
-    protected function __construct(Zend_Ldap_Dn $dn, array $data, Zend_Ldap $ldap)
+    protected function __construct(Ldap\Dn $dn, array $data, Ldap\Ldap $ldap)
     {
         parent::__construct($dn, $data, true);
         $this->_parseSchema($dn, $ldap);
@@ -89,11 +87,11 @@ class Zend_Ldap_Node_Schema extends Zend_Ldap_Node_Abstract
     /**
      * Parses the schema
      *
-     * @param  Zend_Ldap_Dn $dn
-     * @param  Zend_Ldap    $ldap
-     * @return Zend_Ldap_Node_Schema Provides a fluid interface
+     * @param  \Zend\Ldap\Dn $dn
+     * @param  \Zend\Ldap\Ldap    $ldap
+     * @return \Zend\Ldap\Node\Schema Provides a fluid interface
      */
-    protected function _parseSchema(Zend_Ldap_Dn $dn, Zend_Ldap $ldap)
+    protected function _parseSchema(Ldap\Dn $dn, Ldap\Ldap $ldap)
     {
         return $this;
     }

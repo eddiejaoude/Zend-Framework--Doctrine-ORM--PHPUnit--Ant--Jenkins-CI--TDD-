@@ -16,21 +16,22 @@
  * @package    Zend_Mime
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Decode.php 23984 2011-05-03 19:35:48Z ralph $
  */
 
 /**
- * @see Zend_Mime
+ * @namespace
  */
-require_once 'Zend/Mime.php';
+namespace Zend\Mime;
 
 /**
+ * @uses       \Zend\Mime\Exception\RuntimeException
+ * @uses       \Zend\Mime\Mime
  * @category   Zend
  * @package    Zend_Mime
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Mime_Decode
+class Decode
 {
     /**
      * Explode MIME multipart string into seperate parts
@@ -40,7 +41,7 @@ class Zend_Mime_Decode
      * @param  string $body     raw body of message
      * @param  string $boundary boundary as found in content-type
      * @return array parts with content of each part, empty if no parts found
-     * @throws Zend_Exception
+     * @throws Exception\RuntimeException
      */
     public static function splitMime($body, $boundary)
     {
@@ -69,7 +70,7 @@ class Zend_Mime_Decode
         // no more parts, find end boundary
         $p = strpos($body, '--' . $boundary . '--', $start);
         if ($p===false) {
-            throw new Zend_Exception('Not a valid Mime Message: End Missing');
+            throw new Exception\RuntimeException('Not a valid Mime Message: End Missing');
         }
 
         // the remaining part also needs to be parsed:
@@ -85,15 +86,17 @@ class Zend_Mime_Decode
      * @param  string $boundary boundary as found in content-type
      * @param  string $EOL EOL string; defaults to {@link Zend_Mime::LINEEND}
      * @return array|null parts as array('header' => array(name => value), 'body' => content), null if no parts found
-     * @throws Zend_Exception
+     * @throws Exception\RuntimeException
      */
-    public static function splitMessageStruct($message, $boundary, $EOL = Zend_Mime::LINEEND)
+    public static function splitMessageStruct($message, $boundary, $EOL = Mime::LINEEND)
     {
         $parts = self::splitMime($message, $boundary);
         if (count($parts) <= 0) {
             return null;
         }
         $result = array();
+        $headers = null; // "Declare" variable before the first usage "for reading"
+        $body    = null; // "Declare" variable before the first usage "for reading"
         foreach ($parts as $part) {
             self::splitMessage($part, $headers, $body, $EOL);
             $result[] = array('header' => $headers,
@@ -114,7 +117,7 @@ class Zend_Mime_Decode
      * @param  string $EOL EOL string; defaults to {@link Zend_Mime::LINEEND}
      * @return null
      */
-    public static function splitMessage($message, &$headers, &$body, $EOL = Zend_Mime::LINEEND)
+    public static function splitMessage($message, &$headers, &$body, $EOL = Mime::LINEEND)
     {
         // check for valid header at first line
         $firstline = strtok($message, "\n");
@@ -142,7 +145,7 @@ class Zend_Mime_Decode
 
         $headers = iconv_mime_decode_headers($headers, ICONV_MIME_DECODE_CONTINUE_ON_ERROR);
 
-        if ($headers === false ) {
+        if ($headers === false) {
             // an error occurs during the decoding
             return;
         }
@@ -185,7 +188,7 @@ class Zend_Mime_Decode
      * @param  string $wantedPart the wanted part, else an array with all parts is returned
      * @param  string $firstName  key name for the first part
      * @return string|array wanted part or all parts as array($firstName => firstPart, partname => value)
-     * @throws Zend_Exception
+     * @throws Exception\RuntimeException
      */
     public static function splitHeaderField($field, $wantedPart = null, $firstName = 0)
     {
@@ -200,7 +203,7 @@ class Zend_Mime_Decode
 
         $field = $firstName . '=' . $field;
         if (!preg_match_all('%([^=\s]+)\s*=\s*("[^"]+"|[^;]+)(;\s*|$)%', $field, $matches)) {
-            throw new Zend_Exception('not a valid header field');
+            throw new Exception\RuntimeException('not a valid header field');
         }
 
         if ($wantedPart) {

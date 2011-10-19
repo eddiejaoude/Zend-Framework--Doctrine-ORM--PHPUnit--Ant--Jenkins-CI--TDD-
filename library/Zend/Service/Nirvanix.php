@@ -17,19 +17,15 @@
  * @subpackage Nirvanix
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Nirvanix.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-/**
- * @see Zend_Http_Client
- */
-require_once 'Zend/Http/Client.php';
 
 /**
  * This class allows Nirvanix authentication credentials to be specified
  * in one place and provides a factory for returning convenience wrappers
  * around the Nirvanix web service namespaces.
  *
+ * @uses       Zend_Http_Client
+ * @uses       Zend_Loader
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Nirvanix
@@ -57,7 +53,7 @@ class Zend_Service_Nirvanix
     {
         // merge options with default options
         $defaultOptions = array('defaults'   => array(),
-                                'httpClient' => new Zend_Http_Client(),
+                                'httpClient' => new Zend\Http\Client(),
                                 'host'       => 'http://services.nirvanix.com');
         $this->_options = array_merge($defaultOptions, $options);
 
@@ -88,7 +84,6 @@ class Zend_Service_Nirvanix
         $options = array_merge($this->_options, $options);
 
         if (!class_exists($class)) {
-            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($class);
         }
         return new $class($options);

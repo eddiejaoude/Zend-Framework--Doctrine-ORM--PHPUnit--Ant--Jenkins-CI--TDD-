@@ -17,34 +17,37 @@
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Subquery.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Search_Lucene_Search_QueryEntry */
-require_once 'Zend/Search/Lucene/Search/QueryEntry.php';
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\QueryEntry;
 
 /**
+ * @uses       \Zend\Search\Lucene\Search\QueryEntry\AbstractQueryEntry
+ * @uses       \Zend\Search\Lucene\Search\Exception\QueryParserException
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_QueryEntry_Subquery extends Zend_Search_Lucene_Search_QueryEntry
+class Subquery extends AbstractQueryEntry
 {
     /**
      * Query
      *
-     * @var Zend_Search_Lucene_Search_Query
+     * @var \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
     private $_query;
 
     /**
      * Object constractor
      *
-     * @param Zend_Search_Lucene_Search_Query $query
+     * @param \Zend\Search\Lucene\Search\Query\AbstractQuery $query
      */
-    public function __construct(Zend_Search_Lucene_Search_Query $query)
+    public function __construct(\Zend\Search\Lucene\Search\Query\AbstractQuery $query)
     {
         $this->_query = $query;
     }
@@ -53,12 +56,13 @@ class Zend_Search_Lucene_Search_QueryEntry_Subquery extends Zend_Search_Lucene_S
      * Process modifier ('~')
      *
      * @param mixed $parameter
-     * @throws Zend_Search_Lucene_Search_QueryParserException
+     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
      */
     public function processFuzzyProximityModifier($parameter = null)
     {
-        require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
-        throw new Zend_Search_Lucene_Search_QueryParserException('\'~\' sign must follow term or phrase');
+        throw new \Zend\Search\Lucene\Search\Exception\QueryParserException(
+        	'\'~\' sign must follow term or phrase'
+        );
     }
 
 
@@ -66,7 +70,7 @@ class Zend_Search_Lucene_Search_QueryEntry_Subquery extends Zend_Search_Lucene_S
      * Transform entry to a subquery
      *
      * @param string $encoding
-     * @return Zend_Search_Lucene_Search_Query
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
     public function getQuery($encoding)
     {

@@ -16,8 +16,12 @@
  * @package   Zend_Text
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: MultiByte.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Text;
 
 /**
  * Zend_Text_MultiByte contains multibyte safe string methods
@@ -27,7 +31,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Text_MultiByte
+class MultiByte
 {
     /**
      * Word wrap
@@ -62,7 +66,7 @@ class Zend_Text_MultiByte
                     $cutLength = null;
                 } else {
                     $nextChar = iconv_substr($string, $width, 1, $charset);
-
+                    
                     if ($breakWidth === 1) {
                         $nextBreak = $nextChar;
                     } else {

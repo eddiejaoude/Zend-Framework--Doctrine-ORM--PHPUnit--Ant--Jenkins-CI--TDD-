@@ -17,28 +17,23 @@
  * @subpackage Object
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ean13.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Barcode_Object_ObjectAbstract
+ * @namespace
  */
-require_once 'Zend/Barcode/Object/ObjectAbstract.php';
-
-/**
- * @see Zend_Validate_Barcode
- */
-require_once 'Zend/Validate/Barcode.php';
+namespace Zend\Barcode\Object;
 
 /**
  * Class for generate Ean13 barcode
  *
+ * @uses       \Zend\Barcode\Object\AbstractObject
  * @category   Zend
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Barcode_Object_Ean13 extends Zend_Barcode_Object_ObjectAbstract
+class Ean13 extends AbstractObject
 {
 
     /**
@@ -62,17 +57,17 @@ class Zend_Barcode_Object_Ean13 extends Zend_Barcode_Object_ObjectAbstract
         ));
 
     protected $_parities = array(
-        0 => array('A','A','A','A','A','A'),
-        1 => array('A','A','B','A','B','B'),
-        2 => array('A','A','B','B','A','B'),
-        3 => array('A','A','B','B','B','A'),
-        4 => array('A','B','A','A','B','B'),
-        5 => array('A','B','B','A','A','B'),
-        6 => array('A','B','B','B','A','A'),
-        7 => array('A','B','A','B','A','B'),
-        8 => array('A','B','A','B','B','A'),
-        9 => array('A','B','B','A','B','A')
-    );
+		0 => array('A','A','A','A','A','A'),
+		1 => array('A','A','B','A','B','B'),
+		2 => array('A','A','B','B','A','B'),
+		3 => array('A','A','B','B','B','A'),
+		4 => array('A','B','A','A','B','B'),
+		5 => array('A','B','B','A','A','B'),
+		6 => array('A','B','B','B','A','A'),
+		7 => array('A','B','A','B','A','B'),
+		8 => array('A','B','A','B','B','A'),
+		9 => array('A','B','B','A','B','A')
+	);
 
     /**
      * Default options for Postnet barcode
@@ -181,7 +176,7 @@ class Zend_Barcode_Object_Ean13 extends Zend_Barcode_Object_ObjectAbstract
      */
     protected function _drawText()
     {
-        if (get_class($this) == 'Zend_Barcode_Object_Ean13') {
+        if (get_class($this) == 'Zend\Barcode\Object\Ean13') {
             $this->_drawEan13Text();
         } else {
             parent::_drawText();

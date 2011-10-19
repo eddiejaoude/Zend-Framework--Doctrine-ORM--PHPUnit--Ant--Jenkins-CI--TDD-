@@ -17,25 +17,26 @@
  * @subpackage Zend_Controller_Action_Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AutoCompleteDojo.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Controller_Action_Helper_AutoComplete_Abstract
+ * @namespace
  */
-require_once 'Zend/Controller/Action/Helper/AutoComplete/Abstract.php';
+namespace Zend\Controller\Action\Helper;
+use Zend\Controller\Front as FrontController,
+    Zend\Dojo\Data as DojoData,
+    Zend\Layout\Layout;
 
 /**
  * Create and send Dojo-compatible autocompletion lists
  *
- * @uses       Zend_Controller_Action_Helper_AutoComplete_Abstract
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Controller_Action_Helper_AutoCompleteDojo extends Zend_Controller_Action_Helper_AutoComplete_Abstract
+class AutoCompleteDojo extends AbstractAutoComplete
 {
     /**
      * Validate data for autocompletion
@@ -59,27 +60,23 @@ class Zend_Controller_Action_Helper_AutoCompleteDojo extends Zend_Controller_Act
      */
     public function prepareAutoCompletion($data, $keepLayouts = false)
     {
-        if (!$data instanceof Zend_Dojo_Data) {
-            require_once 'Zend/Dojo/Data.php';
+        if (!$data instanceof DojoData) {
             $items = array();
             foreach ($data as $key => $value) {
                 $items[] = array('label' => $value, 'name' => $value);
             }
-            $data = new Zend_Dojo_Data('name', $items);
+            $data = new DojoData('name', $items);
         }
 
         if (!$keepLayouts) {
-            require_once 'Zend/Controller/Action/HelperBroker.php';
-            Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNoRender(true);
-
-            require_once 'Zend/Layout.php';
-            $layout = Zend_Layout::getMvcInstance();
-            if ($layout instanceof Zend_Layout) {
+            $this->getBroker()->load('viewRenderer')->setNoRender(true);
+            $layout = Layout::getMvcInstance();
+            if ($layout instanceof Layout) {
                 $layout->disableLayout();
             }
         }
 
-        $response = Zend_Controller_Front::getInstance()->getResponse();
+        $response = FrontController::getInstance()->getResponse();
         $response->setHeader('Content-Type', 'application/json');
 
         return $data->toJson();

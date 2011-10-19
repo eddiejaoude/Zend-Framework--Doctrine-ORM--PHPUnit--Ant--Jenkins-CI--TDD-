@@ -17,15 +17,10 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: GetAccountBalanceResponse.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Service_DeveloperGarden_Response_ResponseAbstract
- */
-require_once 'Zend/Service/DeveloperGarden/Response/ResponseAbstract.php';
-
-/**
+ * @uses       Zend_Service_DeveloperGarden_Response_AbstractResponse
  * @category   Zend
  * @package    Zend_Service
  * @subpackage DeveloperGarden
@@ -34,6 +29,6 @@ require_once 'Zend/Service/DeveloperGarden/Response/ResponseAbstract.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_DeveloperGarden_Response_BaseUserService_GetAccountBalanceResponse
-    extends Zend_Service_DeveloperGarden_Response_ResponseAbstract
+    extends Zend_Service_DeveloperGarden_Response_AbstractResponse
 {
 }

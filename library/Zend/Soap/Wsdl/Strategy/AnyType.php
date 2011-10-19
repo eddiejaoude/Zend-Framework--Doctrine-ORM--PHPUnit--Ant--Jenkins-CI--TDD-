@@ -14,34 +14,36 @@
  *
  * @category   Zend
  * @package    Zend_Soap
- * @subpackage Wsdl
+ * @subpackage WSDL
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AnyType.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Soap_Wsdl_Strategy_Interface
+ * @namespace
  */
-require_once "Zend/Soap/Wsdl/Strategy/Interface.php";
+namespace Zend\Soap\Wsdl\Strategy;
+
+use Zend\Soap\Wsdl\Strategy;
 
 /**
  * Zend_Soap_Wsdl_Strategy_AnyType
  *
+ * @uses       \Zend\Soap\Wsdl\Strategy\StrategyInterface
  * @category   Zend
  * @package    Zend_Soap
- * @subpackage Wsdl
+ * @subpackage WSDL
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Soap_Wsdl_Strategy_AnyType implements Zend_Soap_Wsdl_Strategy_Interface
+class AnyType implements Strategy
 {
     /**
      * Not needed in this strategy.
      *
-     * @param Zend_Soap_Wsdl $context
+     * @param \Zend\Soap\Wsdl $context
      */
-    public function setContext(Zend_Soap_Wsdl $context)
+    public function setContext(\Zend\Soap\Wsdl $context)
     {
 
     }

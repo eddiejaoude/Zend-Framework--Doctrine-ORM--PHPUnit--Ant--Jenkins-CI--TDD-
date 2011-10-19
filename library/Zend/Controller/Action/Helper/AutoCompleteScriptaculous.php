@@ -17,25 +17,27 @@
  * @subpackage Zend_Controller_Action_Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AutoCompleteScriptaculous.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Controller_Action_Helper_AutoComplete_Abstract
+ * @namespace
  */
-require_once 'Zend/Controller/Action/Helper/AutoComplete/Abstract.php';
+namespace Zend\Controller\Action\Helper;
+
+use Zend\Controller\Action\Exception as ActionException;
 
 /**
  * Create and send Scriptaculous-compatible autocompletion lists
  *
- * @uses       Zend_Controller_Action_Helper_AutoComplete_Abstract
+ * @uses       \Zend\Controller\Action\Exception
+ * @uses       \Zend\Controller\Action\Helper\AutoComplete\AbstractAutoComplete
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Controller_Action_Helper_AutoCompleteScriptaculous extends Zend_Controller_Action_Helper_AutoComplete_Abstract
+class AutoCompleteScriptaculous extends AbstractAutoComplete
 {
     /**
      * Validate data for autocompletion
@@ -57,17 +59,13 @@ class Zend_Controller_Action_Helper_AutoCompleteScriptaculous extends Zend_Contr
      *
      * @param  mixed   $data
      * @param  boolean $keepLayouts
-     * @throws Zend_Controller_Action_Exception
+     * @throws \Zend\Controller\Action\Exception
      * @return string
      */
     public function prepareAutoCompletion($data, $keepLayouts = false)
     {
         if (!$this->validateData($data)) {
-            /**
-             * @see Zend_Controller_Action_Exception
-             */
-            require_once 'Zend/Controller/Action/Exception.php';
-            throw new Zend_Controller_Action_Exception('Invalid data passed for autocompletion');
+            throw new ActionException('Invalid data passed for autocompletion');
         }
 
         $data = (array) $data;

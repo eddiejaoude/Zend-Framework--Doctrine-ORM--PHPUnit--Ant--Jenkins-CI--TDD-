@@ -17,26 +17,26 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtaccessFile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_File
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
+namespace Zend\Tool\Project\Context\Zf;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\Tool\Project\Context\Filesystem\File
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_HtaccessFile extends Zend_Tool_Project_Context_Filesystem_File
+class HtaccessFile extends \Zend\Tool\Project\Context\Filesystem\File
 {
 
     /**
@@ -61,7 +61,7 @@ class Zend_Tool_Project_Context_Zf_HtaccessFile extends Zend_Tool_Project_Contex
      */
     public function getContents()
     {
-        $output = <<<EOS
+        $output = <<<'EOS'
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} -s [OR]

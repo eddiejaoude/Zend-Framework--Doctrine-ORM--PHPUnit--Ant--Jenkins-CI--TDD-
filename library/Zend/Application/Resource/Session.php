@@ -17,40 +17,60 @@
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Application_Resource_ResourceAbstract
+ * @namespace
  */
-require_once 'Zend/Application/Resource/ResourceAbstract.php';
+namespace Zend\Application\Resource;
 
+use Zend\Application\ResourceException,
+    Zend\Session\SessionManager,
+    Zend\Session\SaveHandler;
 
 /**
  * Resource for setting session options
  *
- * @uses       Zend_Application_Resource_ResourceAbstract
+ * @uses       \Zend\Application\ResourceException
+ * @uses       \Zend\Application\Resource\AbstractResource
+ * @uses       \Zend\Session\Manager
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Resource_Session extends Zend_Application_Resource_ResourceAbstract
+class Session extends AbstractResource
 {
+    /**
+     * Session manager
+     * @var Zend\Session\Manager
+     */
+    protected $_manager;
+
     /**
      * Save handler to use
      *
-     * @var Zend_Session_SaveHandler_Interface
+     * @var \Zend\Session\SaveHandler
      */
     protected $_saveHandler = null;
 
     /**
+     * Retrieve session manager
+     *
+     * @return Zend\Session\Manager|null
+     */
+    public function getManager()
+    {
+        return $this->_manager;
+    }
+
+    /**
      * Set session save handler
      *
-     * @param  array|string|Zend_Session_SaveHandler_Interface $saveHandler
-     * @return Zend_Application_Resource_Session
-     * @throws Zend_Application_Resource_Exception When $saveHandler is no valid save handler
+     * @param  array|string|\Zend\Session\SaveHandler $saveHandler
+     * @return \Zend\Application\Resource\Session
+     * @throws \Zend\Application\ResourceException When $saveHandler is not a valid save handler
      */
     public function setSaveHandler($saveHandler)
     {
@@ -61,14 +81,14 @@ class Zend_Application_Resource_Session extends Zend_Application_Resource_Resour
     /**
      * Get session save handler
      *
-     * @return Zend_Session_SaveHandler_Interface
+     * @return \Zend\Session\SaveHandler
      */
     public function getSaveHandler()
     {
-        if (!$this->_saveHandler instanceof Zend_Session_SaveHandler_Interface) {
+        if (!$this->_saveHandler instanceof SaveHandler) {
             if (is_array($this->_saveHandler)) {
                 if (!array_key_exists('class', $this->_saveHandler)) {
-                    throw new Zend_Application_Resource_Exception('Session save handler class not provided in options');
+                    throw new Exception\InitializationException('Session save handler class not provided in options');
                 }
                 $options = array();
                 if (array_key_exists('options', $this->_saveHandler)) {
@@ -77,11 +97,17 @@ class Zend_Application_Resource_Session extends Zend_Application_Resource_Resour
                 $this->_saveHandler = $this->_saveHandler['class'];
                 $this->_saveHandler = new $this->_saveHandler($options);
             } elseif (is_string($this->_saveHandler)) {
-                $this->_saveHandler = new $this->_saveHandler();
+                $this->_saveHandler = new $this->_saveHandler;
             }
 
-            if (!$this->_saveHandler instanceof Zend_Session_SaveHandler_Interface) {
-                throw new Zend_Application_Resource_Exception('Invalid session save handler');
+            if (!$this->_saveHandler instanceof SaveHandler) {
+                throw new Exception\InitializationException('Invalid session save handler');
+            }
+
+            // Inject session manager
+            $manager = $this->getManager();
+            if ($manager instanceof \Zend\Session\Manager) {
+                $this->_saveHandler->setManager($manager);
             }
         }
         return $this->_saveHandler;
@@ -98,21 +124,28 @@ class Zend_Application_Resource_Session extends Zend_Application_Resource_Resour
     /**
      * Defined by Zend_Application_Resource_Resource
      *
-     * @return void
+     * @return Zend\Session\Manager
      */
     public function init()
     {
         $options = array_change_key_case($this->getOptions(), CASE_LOWER);
+
+        // AbstractResource proxies options to setters during construction.
+        // This will set the savehandler as an array of options; we do not
+        // need or want to pass those to session configuration.
         if (isset($options['savehandler'])) {
             unset($options['savehandler']);
         }
 
-        if (count($options) > 0) {
-            Zend_Session::setOptions($options);
+        // Instantiate a session manager object, and store it locally
+        $this->_manager = new SessionManager($options);
+
+        // Determine if we have a save handler to initialize
+        $handler = false;
+        if ($this->_hasSaveHandler()) {
+            $handler = $this->getSaveHandler();
         }
 
-        if ($this->_hasSaveHandler()) {
-            Zend_Session::setSaveHandler($this->getSaveHandler());
-        }
+        return $this->_manager;
     }
 }

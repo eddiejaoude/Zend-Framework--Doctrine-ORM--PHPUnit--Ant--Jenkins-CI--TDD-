@@ -19,8 +19,12 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Decorator_Abstract */
-require_once 'Zend/Form/Decorator/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Decorator;
+
+use Zend\Form;
 
 /**
  * Zend_Form_Decorator_FormElements
@@ -32,14 +36,15 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  *
  * Any other options passed will be used as HTML attributes of the form tag.
  *
+ * @uses       \Zend\Form\Form
+ * @uses       \Zend\Form\Decorator\AbstractDecorator
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormElements.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
+class FormElements extends AbstractDecorator
 {
     /**
      * Merges given two belongsTo (array notation) strings
@@ -70,11 +75,11 @@ class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
     public function render($content)
     {
         $form    = $this->getElement();
-        if ((!$form instanceof Zend_Form) && (!$form instanceof Zend_Form_DisplayGroup)) {
+        if ((!$form instanceof Form\Form) && (!$form instanceof Form\DisplayGroup)) {
             return $content;
         }
 
-        $belongsTo      = ($form instanceof Zend_Form) ? $form->getElementsBelongTo() : null;
+        $belongsTo      = ($form instanceof Form\Form) ? $form->getElementsBelongTo() : null;
         $elementContent = '';
         $separator      = $this->getSeparator();
         $translator     = $form->getTranslator();
@@ -83,16 +88,16 @@ class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
         foreach ($form as $item) {
             $item->setView($view)
                  ->setTranslator($translator);
-            if ($item instanceof Zend_Form_Element) {
+            if ($item instanceof Form\Element) {
                 $item->setBelongsTo($belongsTo);
-            } elseif (!empty($belongsTo) && ($item instanceof Zend_Form)) {
+            } elseif (!empty($belongsTo) && ($item instanceof Form\Form)) {
                 if ($item->isArray()) {
                     $name = $this->mergeBelongsTo($belongsTo, $item->getElementsBelongTo());
                     $item->setElementsBelongTo($name, true);
                 } else {
                     $item->setElementsBelongTo($belongsTo, true);
                 }
-            } elseif (!empty($belongsTo) && ($item instanceof Zend_Form_DisplayGroup)) {
+            } elseif (!empty($belongsTo) && ($item instanceof Form\DisplayGroup)) {
                 foreach ($item as $element) {
                     $element->setBelongsTo($belongsTo);
                 }
@@ -100,16 +105,16 @@ class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
 
             $items[] = $item->render();
 
-            if (($item instanceof Zend_Form_Element_File)
-                || (($item instanceof Zend_Form)
-                    && (Zend_Form::ENCTYPE_MULTIPART == $item->getEnctype()))
-                || (($item instanceof Zend_Form_DisplayGroup)
-                    && (Zend_Form::ENCTYPE_MULTIPART == $item->getAttrib('enctype')))
+            if (($item instanceof Form\Element\File)
+                || (($item instanceof Form\Form)
+                    && (Form\Form::ENCTYPE_MULTIPART == $item->getEnctype()))
+                || (($item instanceof Form\DisplayGroup)
+                    && (Form\Form::ENCTYPE_MULTIPART == $item->getAttrib('enctype')))
             ) {
-                if ($form instanceof Zend_Form) {
-                    $form->setEnctype(Zend_Form::ENCTYPE_MULTIPART);
-                } elseif ($form instanceof Zend_Form_DisplayGroup) {
-                    $form->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
+                if ($form instanceof Form\Form) {
+                    $form->setEnctype(Form\Form::ENCTYPE_MULTIPART);
+                } elseif ($form instanceof Form\DisplayGroup) {
+                    $form->setAttrib('enctype', Form\Form::ENCTYPE_MULTIPART);
                 }
             }
         }

@@ -17,19 +17,13 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SearchResultSet.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-
-/**
- * @see Zend_Service_Technorati_ResultSet
- */
-require_once 'Zend/Service/Technorati/ResultSet.php';
-
 
 /**
  * Represents a Technorati Search query result set.
  *
+ * @uses       Zend_Service_Technorati_ResultSet
+ * @uses       Zend_Service_Technorati_SearchResult
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -70,10 +64,6 @@ class Zend_Service_Technorati_SearchResultSet extends Zend_Service_Technorati_Re
      */
     public function current()
     {
-        /**
-         * @see Zend_Service_Technorati_SearchResult
-         */
-        require_once 'Zend/Service/Technorati/SearchResult.php';
         return new Zend_Service_Technorati_SearchResult($this->_results->item($this->_currentIndex));
     }
 }

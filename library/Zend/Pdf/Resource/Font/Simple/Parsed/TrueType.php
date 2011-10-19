@@ -13,55 +13,55 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TrueType.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Name.php';
-
-/** Zend_Pdf_Resource_Font_FontDescriptor */
-require_once 'Zend/Pdf/Resource/Font/FontDescriptor.php';
-
-
-/** Zend_Pdf_Resource_Font_Simple_Parsed */
-require_once 'Zend/Pdf/Resource/Font/Simple/Parsed.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Resource\Font\Simple\Parsed;
+use Zend\Pdf;
+use Zend\Pdf\InternalType;
+use Zend\Pdf\Resource\Font as FontResource;
+use Zend\Pdf\BinaryParser\Font\OpenType as OpenTypeFontParser;
 
 /**
  * TrueType fonts implementation
  *
  * Font objects should be normally be obtained from the factory methods
- * {@link Zend_Pdf_Font::fontWithName} and {@link Zend_Pdf_Font::fontWithPath}.
+ * {@link \Zend\Pdf\Font::fontWithName} and {@link \Zend\Pdf\Font::fontWithPath}.
  *
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @uses       \Zend\Pdf\InternalType
+ * @uses       \Zend\Pdf\Font
+ * @uses       \Zend\Pdf\Resource\Font\FontDescriptor
+ * @uses       \Zend\Pdf\Resource\Font\Simple\Parsed\AbstractParsed
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_Simple_Parsed_TrueType extends Zend_Pdf_Resource_Font_Simple_Parsed
+class TrueType extends AbstractParsed
 {
     /**
      * Object constructor
      *
-     * @param Zend_Pdf_FileParser_Font_OpenType_TrueType $fontParser Font parser
+     * @param \Zend\Pdf\BinaryParser\Font\OpenType\TrueType $fontParser Font parser
      *   object containing parsed TrueType file.
      * @param integer $embeddingOptions Options for font embedding.
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend\Pdf\Exception
      */
-    public function __construct(Zend_Pdf_FileParser_Font_OpenType_TrueType $fontParser, $embeddingOptions)
+    public function __construct(OpenTypeFontParser\TrueType $fontParser, $embeddingOptions)
     {
         parent::__construct($fontParser, $embeddingOptions);
 
-        $this->_fontType = Zend_Pdf_Font::TYPE_TRUETYPE;
+        $this->_fontType = Pdf\Font::TYPE_TRUETYPE;
 
-        $this->_resource->Subtype  = new Zend_Pdf_Element_Name('TrueType');
+        $this->_resource->Subtype  = new InternalType\NameObject('TrueType');
 
-        $fontDescriptor = Zend_Pdf_Resource_Font_FontDescriptor::factory($this, $fontParser, $embeddingOptions);
+        $fontDescriptor = FontResource\FontDescriptor::factory($this, $fontParser, $embeddingOptions);
         $this->_resource->FontDescriptor = $this->_objectFactory->newObject($fontDescriptor);
     }
-
 }

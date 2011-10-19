@@ -17,17 +17,23 @@
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: QueryToken.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search;
+use Zend\Search\Lucene;
+
+/**
+ * @uses       \Zend\Search\Lucene\Exception\InvalidArgumentException
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_QueryToken
+class QueryToken
 {
     /**
      * Token types.
@@ -121,6 +127,7 @@ class Zend_Search_Lucene_Search_QueryToken
      * @param integer $tokenCategory
      * @param string  $tokText
      * @param integer $position
+     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
      */
     public function __construct($tokenCategory, $tokenText, $position)
     {
@@ -209,8 +216,9 @@ class Zend_Search_Lucene_Search_QueryToken
                         break;
 
                     default:
-                        require_once 'Zend/Search/Lucene/Exception.php';
-                        throw new Zend_Search_Lucene_Exception('Unrecognized query syntax lexeme: \'' . $tokenText . '\'');
+                        throw new Lucene\Exception\InvalidArgumentException(
+                        	'Unrecognized query syntax lexeme: \'' . $tokenText . '\''
+                        );
                 }
                 break;
 
@@ -218,8 +226,9 @@ class Zend_Search_Lucene_Search_QueryToken
                 $this->type = self::TT_NUMBER;
 
             default:
-                require_once 'Zend/Search/Lucene/Exception.php';
-                throw new Zend_Search_Lucene_Exception('Unrecognized lexeme type: \'' . $tokenCategory . '\'');
+                throw new Lucene\Exception\InvalidArgumentException(
+                	'Unrecognized lexeme type: \'' . $tokenCategory . '\''
+                );
         }
     }
 }

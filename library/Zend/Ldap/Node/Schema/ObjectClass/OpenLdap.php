@@ -17,30 +17,30 @@
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OpenLdap.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Ldap_Node_Schema_Item
+ * @namespace
  */
-require_once 'Zend/Ldap/Node/Schema/Item.php';
-/**
- * @see Zend_Ldap_Node_Schema_ObjectClass_Interface
- */
-require_once 'Zend/Ldap/Node/Schema/ObjectClass/Interface.php';
+namespace Zend\Ldap\Node\Schema\ObjectClass;
+
+use Zend\Ldap\Node\Schema\ObjectClass,
+    Zend\Ldap\Node\Schema;
 
 /**
- * Zend_Ldap_Node_Schema_ObjectClass_OpenLdap provides access to the objectClass
+ * Zend\Ldap\Node\Schema\ObjectClass\OpenLdap provides access to the objectClass
  * schema information on an OpenLDAP server.
  *
+ * @uses       \Zend\Ldap\Node\Schema
+ * @uses       \Zend\Ldap\Node\Schema\Item
+ * @uses       \Zend\Ldap\Node\Schema\ObjectClass
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Node_Schema_ObjectClass_OpenLdap extends Zend_Ldap_Node_Schema_Item
-    implements Zend_Ldap_Node_Schema_ObjectClass_Interface
+class OpenLdap extends Schema\Item implements ObjectClass
 {
     /**
      * All inherited "MUST" attributes
@@ -142,13 +142,13 @@ class Zend_Ldap_Node_Schema_ObjectClass_OpenLdap extends Zend_Ldap_Node_Schema_I
     public function getType()
     {
         if ($this->structural) {
-            return Zend_Ldap_Node_Schema::OBJECTCLASS_TYPE_STRUCTURAL;
+            return Schema::OBJECTCLASS_TYPE_STRUCTURAL;
         } else if ($this->abstract) {
-            return Zend_Ldap_Node_Schema::OBJECTCLASS_TYPE_ABSTRACT;
+            return Schema::OBJECTCLASS_TYPE_ABSTRACT;
         } else if ($this->auxiliary) {
-            return Zend_Ldap_Node_Schema::OBJECTCLASS_TYPE_AUXILIARY;
+            return Schema::OBJECTCLASS_TYPE_AUXILIARY;
         } else {
-            return Zend_Ldap_Node_Schema::OBJECTCLASS_TYPE_UNKNOWN;
+            return Schema::OBJECTCLASS_TYPE_UNKNOWN;
         }
     }
 
@@ -166,7 +166,7 @@ class Zend_Ldap_Node_Schema_ObjectClass_OpenLdap extends Zend_Ldap_Node_Schema_I
     /**
      * Returns the parent object classes in the inhertitance tree if one exists
      *
-     * @return array of Zend_Ldap_Node_Schema_ObjectClass_OpenLdap
+     * @return array of \Zend\Ldap\Node\Schema\ObjectClass\OpenLdap
      */
     public function getParents()
     {

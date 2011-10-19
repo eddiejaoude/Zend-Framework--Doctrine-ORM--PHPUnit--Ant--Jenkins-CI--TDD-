@@ -17,22 +17,24 @@
  * @subpackage Server
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Server_Cache */
-require_once 'Zend/Server/Cache.php';
+/**
+ * @namespace
+ */
+namespace Zend\XmlRpc\Server;
 
 /**
  * Zend_XmlRpc_Server_Cache: cache Zend_XmlRpc_Server server definition
  *
+ * @uses       Zend\Server\Cache
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage Server
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_XmlRpc_Server_Cache extends Zend_Server_Cache
+class Cache extends \Zend\Server\Cache
 {
     /**
      * @var array Skip system methods when caching XML-RPC server

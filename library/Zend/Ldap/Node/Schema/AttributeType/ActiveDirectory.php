@@ -17,30 +17,29 @@
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActiveDirectory.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Ldap_Node_Schema_Item
+ * @namespace
  */
-require_once 'Zend/Ldap/Node/Schema/Item.php';
-/**
- * @see Zend_Ldap_Node_Schema_AttributeType_Interface
- */
-require_once 'Zend/Ldap/Node/Schema/AttributeType/Interface.php';
+namespace Zend\Ldap\Node\Schema\AttributeType;
+
+use Zend\Ldap\Node\Schema\AttributeType,
+    Zend\Ldap\Node\Schema;
 
 /**
  * Zend_Ldap_Node_Schema_AttributeType_ActiveDirectory provides access to the attribute type
  * schema information on an Active Directory server.
  *
+ * @uses       \Zend\Ldap\Node\Schema\AttributeType
+ * @uses       \Zend\Ldap\Node\Schema\Item
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Node_Schema_AttributeType_ActiveDirectory extends Zend_Ldap_Node_Schema_Item
-    implements Zend_Ldap_Node_Schema_AttributeType_Interface
+class ActiveDirectory extends Schema\Item implements AttributeType
 {
     /**
      * Gets the attribute name

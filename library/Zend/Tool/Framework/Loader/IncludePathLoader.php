@@ -17,26 +17,29 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: IncludePathLoader.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Framework_Loader_Abstract
+ * @namespace
  */
-require_once 'Zend/Tool/Framework/Loader/Abstract.php';
+namespace Zend\Tool\Framework\Loader;
+
+use RecursiveDirectoryIterator,
+    RecursiveFilterIterator,
+    RecursiveIteratorIterator;
 
 /**
- * @see Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator
- */
-require_once 'Zend/Tool/Framework/Loader/IncludePathLoader/RecursiveFilterIterator.php';
-
-/**
+ * @uses       RecursiveDirectoryIterator
+ * @uses       RecursiveIteratorIterator
+ * @uses       \Zend\Loader
+ * @uses       \Zend\Tool\Framework\Loader\AbstractLoader
+ * @uses       \Zend\Tool\Framework\Loader\IncludePathLoader\RecursiveFilterIterator
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Loader_IncludePathLoader extends Zend_Tool_Framework_Loader_Abstract
+class IncludePathLoader extends AbstractLoader
 {
 
     /**
@@ -46,8 +49,7 @@ class Zend_Tool_Framework_Loader_IncludePathLoader extends Zend_Tool_Framework_L
      */
     protected function _getFiles()
     {
-        require_once 'Zend/Loader.php';
-        $paths = Zend_Loader::explodeIncludePath();
+        $paths = \Zend\Loader::explodeIncludePath();
 
         // used for checking similarly named files
         $relativeItems   = array();
@@ -80,7 +82,7 @@ class Zend_Tool_Framework_Loader_IncludePathLoader extends Zend_Tool_Framework_L
             $rdi = new RecursiveDirectoryIterator($path);
 
             // pass in the RecursiveDirectoryIterator & the patterns
-            $filter = new Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator(
+            $filter = new RecursiveFilterIterator(
                 $rdi,
                 $filterDenyDirectoryPattern,
                 $filterAcceptFilePattern

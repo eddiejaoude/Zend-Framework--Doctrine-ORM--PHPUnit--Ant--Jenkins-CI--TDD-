@@ -17,19 +17,13 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TagResultSet.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-
-/**
- * @see Zend_Service_Technorati_ResultSet
- */
-require_once 'Zend/Service/Technorati/ResultSet.php';
-
 
 /**
  * Represents a Technorati Tag query result set.
  *
+ * @uses       Zend_Service_Technorati_ResultSet
+ * @uses       Zend_Service_Technorati_TagResult
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -101,10 +95,6 @@ class Zend_Service_Technorati_TagResultSet extends Zend_Service_Technorati_Resul
      */
     public function current()
     {
-        /**
-         * @see Zend_Service_Technorati_TagResult
-         */
-        require_once 'Zend/Service/Technorati/TagResult.php';
         return new Zend_Service_Technorati_TagResult($this->_results->item($this->_currentIndex));
     }
 }

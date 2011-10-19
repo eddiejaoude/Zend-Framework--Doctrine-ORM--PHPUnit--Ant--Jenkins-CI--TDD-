@@ -17,48 +17,49 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Action.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Provider_Abstract
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Provider/Abstract.php';
+namespace Zend\Tool\Project\Provider;
+
+use Zend\Tool\Project\Profile\Profile as ProjectProfile,
+    Zend\Tool\Project\Profile\Resource\Resource;
 
 /**
- * @see Zend_Tool_Framework_Provider_Pretendable
- */
-require_once 'Zend/Tool/Framework/Provider/Pretendable.php';
-
-/**
+ * @uses       \Zend\Tool\Framework\Provider\Pretendable
+ * @uses       \Zend\Tool\Project\Provider\AbstractProvider
+ * @uses       \Zend\Tool\Project\Provider\Exception
+ * @uses       \Zend\Tool\Project\Provider\View
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_Action
-    extends Zend_Tool_Project_Provider_Abstract
-    implements Zend_Tool_Framework_Provider_Pretendable
+class Action
+    extends AbstractProvider
+    implements \Zend\Tool\Framework\Provider\Pretendable
 {
 
     /**
      * createResource()
      *
-     * @param Zend_Tool_Project_Profile $profile
+     * @param \Zend\Tool\Project\Profile\Profile $profile
      * @param string $actionName
      * @param string $controllerName
      * @param string $moduleName
-     * @return Zend_Tool_Project_Profile_Resource
+     * @return \Zend\Tool\Project\Profile\Resource\Resource
      */
-    public static function createResource(Zend_Tool_Project_Profile $profile, $actionName, $controllerName, $moduleName = null)
+    public static function createResource(ProjectProfile $profile, $actionName, $controllerName, $moduleName = null)
     {
 
         if (!is_string($actionName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Action::createResource() expects \"actionName\" is the name of a action resource to create.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Action::createResource() expects \"actionName\" is the name of a action resource to create.');
         }
 
         if (!is_string($controllerName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Action::createResource() expects \"controllerName\" is the name of a controller resource to create.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Action::createResource() expects \"controllerName\" is the name of a controller resource to create.');
         }
 
         $controllerFile = self::_getControllerFileResource($profile, $controllerName, $moduleName);
@@ -71,40 +72,40 @@ class Zend_Tool_Project_Provider_Action
     /**
      * hasResource()
      *
-     * @param Zend_Tool_Project_Profile $profile
+     * @param \Zend\Tool\Project\Profile\Profile $profile
      * @param string $actionName
      * @param string $controllerName
      * @param string $moduleName
-     * @return Zend_Tool_Project_Profile_Resource
+     * @return \Zend\Tool\Project\Profile\Resource\Resource
      */
-    public static function hasResource(Zend_Tool_Project_Profile $profile, $actionName, $controllerName, $moduleName = null)
+    public static function hasResource(ProjectProfile $profile, $actionName, $controllerName, $moduleName = null)
     {
         if (!is_string($actionName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Action::createResource() expects \"actionName\" is the name of a action resource to create.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Action::createResource() expects \"actionName\" is the name of a action resource to create.');
         }
 
         if (!is_string($controllerName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Action::createResource() expects \"controllerName\" is the name of a controller resource to create.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Action::createResource() expects \"controllerName\" is the name of a controller resource to create.');
         }
 
         $controllerFile = self::_getControllerFileResource($profile, $controllerName, $moduleName);
 
         if ($controllerFile == null) {
-            throw new Zend_Tool_Project_Provider_Exception('Controller ' . $controllerName . ' was not found.');
+            throw new Exception\RuntimeException('Controller ' . $controllerName . ' was not found.');
         }
-
-        return (($controllerFile->search(array('actionMethod' => array('actionName' => $actionName)))) instanceof Zend_Tool_Project_Profile_Resource);
+       
+        return (($controllerFile->search(array('actionMethod' => array('actionName' => $actionName)))) instanceof Resource);
     }
 
     /**
      * _getControllerFileResource()
      *
-     * @param Zend_Tool_Project_Profile $profile
+     * @param \Zend\Tool\Project\Profile\Profile $profile
      * @param string $controllerName
      * @param string $moduleName
-     * @return Zend_Tool_Project_Profile_Resource
+     * @return \Zend\Tool\Project\Profile\Resource\Resource
      */
-    protected static function _getControllerFileResource(Zend_Tool_Project_Profile $profile, $controllerName, $moduleName = null)
+    protected static function _getControllerFileResource(ProjectProfile $profile, $controllerName, $moduleName = null)
     {
         $profileSearchParams = array();
 
@@ -131,49 +132,33 @@ class Zend_Tool_Project_Provider_Action
 
         $this->_loadProfile();
 
+        // Check that there is not a dash or underscore, return if doesnt match regex
+        if (preg_match('#[_-]#', $name)) {
+            throw new Exception\RuntimeException('Action names should be camel cased.');
+        }
+        
+        $originalName = $name;
+        $originalControllerName = $controllerName;
+        
+        // ensure it is camelCase (lower first letter)
+        $name = strtolower(substr($name, 0, 1)) . substr($name, 1);
+        
+        // ensure controller is MixedCase
+        $controllerName = ucfirst($controllerName);
+        
+        if (self::hasResource($this->_loadedProfile, $name, $controllerName, $module)) {
+            throw new Exception\RuntimeException('This controller (' . $controllerName . ') already has an action named (' . $name . ')');
+        }
+        
+        $actionMethod = self::createResource($this->_loadedProfile, $name, $controllerName, $module);
+
         // get request/response object
         $request = $this->_registry->getRequest();
         $response = $this->_registry->getResponse();
         
-        // determine if testing is enabled in the project
-        require_once 'Zend/Tool/Project/Provider/Test.php';
-        $testingEnabled = Zend_Tool_Project_Provider_Test::isTestingEnabled($this->_loadedProfile);
-        
-        if ($testingEnabled && !Zend_Tool_Project_Provider_Test::isPHPUnitAvailable()) {
-            $testingEnabled = false;
-            $response->appendContent(
-                'Note: PHPUnit is required in order to generate controller test stubs.',
-                array('color' => array('yellow'))
-                );
-        }
-        
-        // Check that there is not a dash or underscore, return if doesnt match regex
-        if (preg_match('#[_-]#', $name)) {
-            throw new Zend_Tool_Project_Provider_Exception('Action names should be camel cased.');
-        }
-
-        $originalName = $name;
-        $originalControllerName = $controllerName;
-
-        // ensure it is camelCase (lower first letter)
-        $name = strtolower(substr($name, 0, 1)) . substr($name, 1);
-
-        // ensure controller is MixedCase
-        $controllerName = ucfirst($controllerName);
-
-        if (self::hasResource($this->_loadedProfile, $name, $controllerName, $module)) {
-            throw new Zend_Tool_Project_Provider_Exception('This controller (' . $controllerName . ') already has an action named (' . $name . ')');
-        }
-
-        $actionMethodResource = self::createResource($this->_loadedProfile, $name, $controllerName, $module);
-
-        if ($testingEnabled) {
-            $testActionMethodResource = Zend_Tool_Project_Provider_Test::createApplicationResource($this->_loadedProfile, $controllerName, $name, $module);
-        }
-
         // alert the user about inline converted names
         $tense = (($request->isPretend()) ? 'would be' : 'is');
-
+        
         if ($name !== $originalName) {
             $response->appendContent(
                 'Note: The canonical action name that ' . $tense
@@ -182,7 +167,7 @@ class Zend_Tool_Project_Provider_Action
                 array('color' => array('yellow'))
                 );
         }
-
+        
         if ($controllerName !== $originalControllerName) {
             $response->appendContent(
                 'Note: The canonical controller name that ' . $tense
@@ -191,36 +176,25 @@ class Zend_Tool_Project_Provider_Action
                 array('color' => array('yellow'))
                 );
         }
-
+        
         unset($tense);
-
+        
         if ($request->isPretend()) {
             $response->appendContent(
                 'Would create an action named ' . $name .
-                ' inside controller at ' . $actionMethodResource->getParentResource()->getContext()->getPath()
+                ' inside controller at ' . $actionMethod->getParentResource()->getContext()->getPath()
                 );
-                
-            if ($testActionMethodResource) {
-                $response->appendContent('Would create an action test in ' . $testActionMethodResource->getParentResource()->getContext()->getPath());
-            }
-                
         } else {
             $response->appendContent(
                 'Creating an action named ' . $name .
-                ' inside controller at ' . $actionMethodResource->getParentResource()->getContext()->getPath()
+                ' inside controller at ' . $actionMethod->getParentResource()->getContext()->getPath()
                 );
-            $actionMethodResource->create();
-            
-            if ($testActionMethodResource) {
-                $response->appendContent('Creating an action test in ' . $testActionMethodResource->getParentResource()->getContext()->getPath());
-                $testActionMethodResource->create();
-            }
-            
+            $actionMethod->create();
             $this->_storeProfile();
         }
 
         if ($viewIncluded) {
-            $viewResource = Zend_Tool_Project_Provider_View::createResource($this->_loadedProfile, $name, $controllerName, $module);
+            $viewResource = View::createResource($this->_loadedProfile, $name, $controllerName, $module);
 
             if ($this->_registry->getRequest()->isPretend()) {
                 $response->appendContent(

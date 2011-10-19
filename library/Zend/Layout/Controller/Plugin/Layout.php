@@ -19,36 +19,37 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Controller_Plugin_Abstract */
-require_once 'Zend/Controller/Plugin/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Layout\Controller\Plugin;
 
 /**
  * Render layouts
  *
- * @uses       Zend_Controller_Plugin_Abstract
+ * @uses       \Zend\Controller\Plugin\AbstractPlugin
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Plugins
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Layout.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract
+class Layout extends \Zend\Controller\Plugin\AbstractPlugin
 {
     protected $_layoutActionHelper = null;
 
     /**
-     * @var Zend_Layout
+     * @var \Zend\Layout\Layout
      */
     protected $_layout;
 
     /**
      * Constructor
      *
-     * @param  Zend_Layout $layout
+     * @param  \Zend\Layout\Layout $layout
      * @return void
      */
-    public function __construct(Zend_Layout $layout = null)
+    public function __construct(\Zend\Layout\Layout $layout = null)
     {
         if (null !== $layout) {
             $this->setLayout($layout);
@@ -58,7 +59,7 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
     /**
      * Retrieve layout object
      *
-     * @return Zend_Layout
+     * @return \Zend\Layout\Layout
      */
     public function getLayout()
     {
@@ -68,10 +69,10 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
     /**
      * Set layout object
      *
-     * @param  Zend_Layout $layout
-     * @return Zend_Layout_Controller_Plugin_Layout
+     * @param  \Zend\Layout\Layout $layout
+     * @return \Zend\Layout\Controller\Plugin\Layout
      */
-    public function setLayout(Zend_Layout $layout)
+    public function setLayout(\Zend\Layout\Layout $layout)
     {
         $this->_layout = $layout;
         return $this;
@@ -80,10 +81,10 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
     /**
      * Set layout action helper
      *
-     * @param  Zend_Layout_Controller_Action_Helper_Layout $layoutActionHelper
-     * @return Zend_Layout_Controller_Plugin_Layout
+     * @param  \Zend\Layout\Controller\Action\Helper\Layout $layoutActionHelper
+     * @return \Zend\Layout\Controller\Plugin\Layout
      */
-    public function setLayoutActionHelper(Zend_Layout_Controller_Action_Helper_Layout $layoutActionHelper)
+    public function setLayoutActionHelper(\Zend\Layout\Controller\Action\Helper\Layout $layoutActionHelper)
     {
         $this->_layoutActionHelper = $layoutActionHelper;
         return $this;
@@ -92,7 +93,7 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
     /**
      * Retrieve layout action helper
      *
-     * @return Zend_Layout_Controller_Action_Helper_Layout
+     * @return \Zend\Layout\Controller\Action\Helper\Layout
      */
     public function getLayoutActionHelper()
     {
@@ -102,10 +103,10 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
     /**
      * postDispatch() plugin hook -- render layout
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function postDispatch(Zend_Controller_Request_Abstract $request)
+    public function postDispatch(\Zend\Controller\Request\AbstractRequest $request)
     {
         $layout = $this->getLayout();
         $helper = $this->getLayoutActionHelper();
@@ -142,7 +143,7 @@ class Zend_Layout_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstra
         try {
             $fullContent = $layout->render();
             $response->setBody($fullContent);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             while (ob_get_level() > $obStartLevel) {
                 $fullContent .= ob_get_clean();
             }

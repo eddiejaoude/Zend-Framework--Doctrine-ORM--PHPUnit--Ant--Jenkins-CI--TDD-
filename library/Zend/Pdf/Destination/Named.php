@@ -13,20 +13,19 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Named.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Internally used classes */
-require_once 'Zend/Pdf/Element.php';
-require_once 'Zend/Pdf/Element/String.php';
-
-
-/** Zend_Pdf_Destination */
-require_once 'Zend/Pdf/Destination.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Destination;
+use Zend\Pdf\Exception;
+use Zend\Pdf\InternalType;
+use Zend\Pdf;
 
 /**
  * Destination array: [page /Fit]
@@ -37,31 +36,34 @@ require_once 'Zend/Pdf/Destination.php';
  * the smaller of the two, centering the page within the window in the other
  * dimension.
  *
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @uses       \Zend\Pdf\Destination\AbstractDestination
+ * @uses       \Zend\Pdf\InternalType\AbstractTypeObject
+ * @uses       \Zend\Pdf\InternalType\StringObject
+ * @uses       \Zend\Pdf\Exception
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
+class Named extends AbstractDestination
 {
     /**
      * Destination name
      *
-     * @var Zend_Pdf_Element_Name|Zend_Pdf_Element_String
+     * @var \Zend\Pdf\InternalType\NameObject|\Zend\Pdf\InternalType\StringObject
      */
     protected $_nameElement;
 
     /**
      * Named destination object constructor
      *
-     * @param Zend_Pdf_Element $resource
-     * @throws Zend_Pdf_Exception
+     * @param $resource
+     * @throws \Zend\Pdf\Exception
      */
-    public function __construct(Zend_Pdf_Element $resource)
+    public function __construct(InternalType\AbstractTypeObject $resource)
     {
-        if ($resource->getType() != Zend_Pdf_Element::TYPE_NAME  &&  $resource->getType() != Zend_Pdf_Element::TYPE_STRING) {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('Named destination resource must be a PDF name or a PDF string.');
+        if ($resource->getType() != InternalType\AbstractTypeObject::TYPE_NAME  &&  $resource->getType() != InternalType\AbstractTypeObject::TYPE_STRING) {
+            throw new Exception\CorruptedPdfException('Named destination resource must be a PDF name or a PDF string.');
         }
 
         $this->_nameElement = $resource;
@@ -71,17 +73,17 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
      * Create named destination object
      *
      * @param string $name
-     * @return Zend_Pdf_Destination_Named
+     * @return \Zend\Pdf\Destination\Named
      */
     public static function create($name)
     {
-        return new Zend_Pdf_Destination_Named(new Zend_Pdf_Element_String($name));
+        return new self(new InternalType\StringObject($name));
     }
 
     /**
      * Get name
      *
-     * @return Zend_Pdf_Element
+     * @return \Zend\Pdf\InternalType\AbstractTypeObject
      */
     public function getName()
     {
@@ -92,7 +94,7 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
      * Get resource
      *
      * @internal
-     * @return Zend_Pdf_Element
+     * @return \Zend\Pdf\InternalType\AbstractTypeObject
      */
     public function getResource()
     {

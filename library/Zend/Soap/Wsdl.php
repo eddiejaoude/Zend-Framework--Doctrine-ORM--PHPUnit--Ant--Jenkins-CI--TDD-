@@ -16,26 +16,25 @@
  * @package    Zend_Soap
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Wsdl.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Soap_Wsdl_Strategy_Interface
+ * @namespace
  */
-require_once "Zend/Soap/Wsdl/Strategy/Interface.php";
+namespace Zend\Soap;
+
+use DOMDocument,
+    Zend\Uri\Uri;
 
 /**
- * @see Zend_Soap_Wsdl_Strategy_Abstract
- */
-require_once "Zend/Soap/Wsdl/Strategy/Abstract.php";
-
-/**
- * Zend_Soap_Wsdl
+ * \Zend\Soap\Wsdl
  *
  * @category   Zend
  * @package    Zend_Soap
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Soap_Wsdl
+class Wsdl
 {
     /**
      * @var object DomDocument Instance
@@ -74,18 +73,18 @@ class Zend_Soap_Wsdl
      * Constructor
      *
      * @param string  $name Name of the Web Service being Described
-     * @param string  $uri URI where the WSDL will be available
-     * @param boolean|string|Zend_Soap_Wsdl_Strategy_Interface $strategy
+     * @param string|Uri $uri URI where the WSDL will be available
+     * @param boolean|string|\Zend\Soap\Wsdl\Strategy $strategy
      */
     public function __construct($name, $uri, $strategy = true)
     {
-        if ($uri instanceof Zend_Uri_Http) {
-            $uri = $uri->getUri();
+        if ($uri instanceof Uri) {
+            $uri = $uri->toString();
         }
         $this->_uri = $uri;
 
         /**
-         * @todo change DomDocument object creation from cparsing to construxting using API
+         * @todo change DomDocument object creation from cparsing to constructing using API
          * It also should authomatically escape $name and $uri values if necessary
          */
         $wsdl = "<?xml version='1.0' ?>
@@ -98,8 +97,7 @@ class Zend_Soap_Wsdl
                     xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'></definitions>";
         $this->_dom = new DOMDocument();
         if (!$this->_dom->loadXML($wsdl)) {
-            require_once 'Zend/Server/Exception.php';
-            throw new Zend_Server_Exception('Unable to create DomDocument');
+            throw new Exception\RuntimeException('Unable to create DomDocument');
         } else {
             $this->_wsdl = $this->_dom->documentElement;
         }
@@ -110,13 +108,13 @@ class Zend_Soap_Wsdl
     /**
      * Set a new uri for this WSDL
      *
-     * @param  string|Zend_Uri_Http $uri
-     * @return Zend_Server_Wsdl
+     * @param  string|Uri $uri
+     * @return \Zend\Server\Wsdl
      */
     public function setUri($uri)
     {
-        if ($uri instanceof Zend_Uri_Http) {
-            $uri = $uri->getUri();
+        if ($uri instanceof Uri) {
+            $uri = $uri->toString();
         }
         $oldUri = $this->_uri;
         $this->_uri = $uri;
@@ -136,31 +134,27 @@ class Zend_Soap_Wsdl
      * Set a strategy for complex type detection and handling
      *
      * @todo Boolean is for backwards compability with extractComplexType object var. Remove it in later versions.
-     * @param boolean|string|Zend_Soap_Wsdl_Strategy_Interface $strategy
-     * @return Zend_Soap_Wsdl
+     * @param boolean|string|\Zend\Soap\Wsdl\Strategy $strategy
+     * @return \Zend\Soap\Wsdl
      */
     public function setComplexTypeStrategy($strategy)
     {
         if($strategy === true) {
-            require_once "Zend/Soap/Wsdl/Strategy/DefaultComplexType.php";
-            $strategy = new Zend_Soap_Wsdl_Strategy_DefaultComplexType();
+            $strategy = new Wsdl\Strategy\DefaultComplexType();
         } else if($strategy === false) {
-            require_once "Zend/Soap/Wsdl/Strategy/AnyType.php";
-            $strategy = new Zend_Soap_Wsdl_Strategy_AnyType();
+            $strategy = new Wsdl\Strategy\AnyType();
         } else if(is_string($strategy)) {
             if(class_exists($strategy)) {
                 $strategy = new $strategy();
             } else {
-                require_once "Zend/Soap/Wsdl/Exception.php";
-                throw new Zend_Soap_Wsdl_Exception(
+                throw new Exception\InvalidArgumentException(
                     sprintf("Strategy with name '%s does not exist.", $strategy
                 ));
             }
         }
 
-        if(!($strategy instanceof Zend_Soap_Wsdl_Strategy_Interface)) {
-            require_once "Zend/Soap/Wsdl/Exception.php";
-            throw new Zend_Soap_Wsdl_Exception("Set a strategy that is not of type 'Zend_Soap_Wsdl_Strategy_Interface'");
+        if(!($strategy instanceof Wsdl\Strategy)) {
+            throw new Exception\InvalidArgumentException('Set a strategy that is not of type \'Zend\Soap\Wsdl\Strategy\'');
         }
         $this->_strategy = $strategy;
         return $this;
@@ -169,7 +163,7 @@ class Zend_Soap_Wsdl
     /**
      * Get the current complex type strategy
      *
-     * @return Zend_Soap_Wsdl_Strategy_Interface
+     * @return \Zend\Soap\Wsdl\Strategy
      */
     public function getComplexTypeStrategy()
     {
@@ -192,7 +186,7 @@ class Zend_Soap_Wsdl
 
         $message->setAttribute('name', $name);
 
-        if (sizeof($parts) > 0) {
+        if (count($parts) > 0) {
             foreach ($parts as $name => $type) {
                 $part = $this->_dom->createElement('part');
                 $part->setAttribute('name', $name);
@@ -317,17 +311,11 @@ class Zend_Soap_Wsdl
 
         if (is_array($fault)) {
             $node = $this->_dom->createElement('fault');
-            /**
-             * Note. Do we really need name attribute to be also set at wsdl:fault node???
-             * W3C standard doesn't mention it (http://www.w3.org/TR/wsdl#_soap:fault)
-             * But some real world WSDLs use it, so it may be required for compatibility reasons.
-             */
             if (isset($fault['name'])) {
                 $node->setAttribute('name', $fault['name']);
             }
-
-            $soap_node = $this->_dom->createElement('soap:fault');
-            foreach ($fault as $name => $value) {
+            $soap_node = $this->_dom->createElement('soap:body');
+            foreach ($output as $name => $value) {
                 $soap_node->setAttribute($name, $value);
             }
             $node->appendChild($soap_node);
@@ -367,8 +355,8 @@ class Zend_Soap_Wsdl
      */
     public function addSoapOperation($binding, $soap_action)
     {
-        if ($soap_action instanceof Zend_Uri_Http) {
-            $soap_action = $soap_action->getUri();
+        if ($soap_action instanceof Uri) {
+            $soap_action = $soap_action->toString();
         }
         $soap_operation = $this->_dom->createElement('soap:operation');
         $soap_operation->setAttribute('soapAction', $soap_action);
@@ -389,8 +377,8 @@ class Zend_Soap_Wsdl
      */
     public function addService($name, $port_name, $binding, $location)
     {
-        if ($location instanceof Zend_Uri_Http) {
-            $location = $location->getUri();
+        if ($location instanceof Uri) {
+            $location = $location->toString();
         }
         $service = $this->_dom->createElement('service');
         $service->setAttribute('name', $name);
@@ -449,10 +437,10 @@ class Zend_Soap_Wsdl
      */
     public function addTypes($types)
     {
-        if ($types instanceof DomDocument) {
+        if ($types instanceof \DomDocument) {
             $dom = $this->_dom->importNode($types->documentElement);
             $this->_wsdl->appendChild($types->documentElement);
-        } elseif ($types instanceof DomNode || $types instanceof DomElement || $types instanceof DomDocumentFragment ) {
+        } elseif ($types instanceof \DomNode || $types instanceof \DomElement || $types instanceof \DomDocumentFragment ) {
             $dom = $this->_dom->importNode($types);
             $this->_wsdl->appendChild($dom);
         }
@@ -462,12 +450,13 @@ class Zend_Soap_Wsdl
      * Add a complex type name that is part of this WSDL and can be used in signatures.
      *
      * @param string $type
-     * @return Zend_Soap_Wsdl
+     * @param string $wsdlType
+     * @return \Zend\Soap\Wsdl
      */
-    public function addType($type)
+    public function addType($type, $wsdlType)
     {
-        if(!in_array($type, $this->_includedTypes)) {
-            $this->_includedTypes[] = $type;
+        if(!isset($this->_includedTypes[$type])) {
+            $this->_includedTypes[$type] = $wsdlType;
         }
         return $this;
     }
@@ -576,7 +565,7 @@ class Zend_Soap_Wsdl
     /**
      * This function makes sure a complex types section and schema additions are set.
      *
-     * @return Zend_Soap_Wsdl
+     * @return \Zend\Soap\Wsdl
      */
     public function addSchemaTypeSection()
     {
@@ -591,6 +580,21 @@ class Zend_Soap_Wsdl
     }
 
     /**
+     * Translate PHP type into WSDL QName
+     *
+     * @param string $type
+     * @return string QName
+     */
+    public static function translateType($type)
+    {
+        if ($type[0] == '\\') {
+            $type = substr($type, 1);
+        }
+
+        return str_replace('\\', '.', $type);
+    }
+
+    /**
      * Add a {@link http://www.w3.org/TR/wsdl#_types types} data type definition
      *
      * @param string $type Name of the class to be specified
@@ -598,8 +602,8 @@ class Zend_Soap_Wsdl
      */
     public function addComplexType($type)
     {
-        if (in_array($type, $this->getTypes())) {
-            return "tns:$type";
+        if (isset($this->_includedTypes[$type])) {
+            return $this->_includedTypes[$type];
         }
         $this->addSchemaTypeSection();
 
@@ -618,8 +622,7 @@ class Zend_Soap_Wsdl
     private function _parseElement($element)
     {
         if (!is_array($element)) {
-            require_once "Zend/Soap/Wsdl/Exception.php";
-            throw new Zend_Soap_Wsdl_Exception("The 'element' parameter needs to be an associative array.");
+            throw new Exception\RuntimeException("The 'element' parameter needs to be an associative array.");
         }
 
         $elementXml = $this->_dom->createElement('xsd:element');

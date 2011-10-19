@@ -13,34 +13,44 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Html.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Pdf_Color */
-require_once 'Zend/Pdf/Color.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Color;
+use Zend\Pdf\Exception;
 
+use Zend\Pdf\Color,
+    Zend\Pdf;
 
 /**
  * HTML color implementation
  *
- * Factory class which vends Zend_Pdf_Color objects from typical HTML
+ * Factory class which vends \Zend\Pdf\Color objects from typical HTML
  * representations.
  *
+ * @uses       \Zend\Pdf\Color
+ * @uses       \Zend\Pdf\Color\GrayScale
+ * @uses       \Zend\Pdf\Color\Rgb
+ * @uses       \Zend\Pdf\Exception
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Color_Html extends Zend_Pdf_Color
+class Html implements Color
 {
 
     /**
      * Color
      *
-     * @var Zend_Pdf_Color
+     * @var \Zend\Pdf\Color
      */
     private $_color;
 
@@ -48,7 +58,7 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
      * Class constructor.
      *
      * @param mixed $color
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend\Pdf\Exception
      */
     public function __construct($color)
     {
@@ -80,11 +90,11 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
     }
 
     /**
-     * Creates a Zend_Pdf_Color object from the HTML representation.
+     * Creates a \Zend\Pdf\Color object from the HTML representation.
      *
      * @param string $color May either be a hexidecimal number of the form
      *    #rrggbb or one of the 140 well-known names (black, white, blue, etc.)
-     * @return Zend_Pdf_Color
+     * @return \Zend\Pdf\Color
      */
     public static function color($color)
     {
@@ -94,23 +104,21 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
             $g = round((hexdec($matches[2]) / 255), 3);
             $b = round((hexdec($matches[3]) / 255), 3);
             if (($r == $g) && ($g == $b)) {
-                require_once 'Zend/Pdf/Color/GrayScale.php';
-                return new Zend_Pdf_Color_GrayScale($r);
+                return new GrayScale($r);
             } else {
-                require_once 'Zend/Pdf/Color/Rgb.php';
-                return new Zend_Pdf_Color_Rgb($r, $g, $b);
+                return new Rgb($r, $g, $b);
             }
         } else {
-            return Zend_Pdf_Color_Html::namedColor($color);
+            return self::namedColor($color);
         }
     }
 
     /**
-     * Creates a Zend_Pdf_Color object from the named color.
+     * Creates a \Zend\Pdf\Color object from the named color.
      *
      * @param string $color One of the 140 well-known color names (black, white,
      *    blue, etc.)
-     * @return Zend_Pdf_Color
+     * @return \Zend\Pdf\Color
      */
     public static function namedColor($color)
     {
@@ -398,15 +406,12 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
                 $r = 0.604; $g = 0.804; $b = 0.196; break;
 
             default:
-                require_once 'Zend/Pdf/Exception.php';
-                throw new Zend_Pdf_Exception('Unknown color name: ' . $color);
+                throw new Exception\InvalidArgumentException('Unknown color name: ' . $color);
         }
         if (($r == $g) && ($g == $b)) {
-            require_once 'Zend/Pdf/Color/GrayScale.php';
-            return new Zend_Pdf_Color_GrayScale($r);
+            return new GrayScale($r);
         } else {
-            require_once 'Zend/Pdf/Color/Rgb.php';
-            return new Zend_Pdf_Color_Rgb($r, $g, $b);
+            return new Rgb($r, $g, $b);
         }
     }
 }

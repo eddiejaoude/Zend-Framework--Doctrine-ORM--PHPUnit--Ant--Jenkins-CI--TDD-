@@ -17,9 +17,12 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FieldInfo.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Index;
 
 /**
  * @category   Zend
@@ -28,7 +31,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Index_FieldInfo
+class FieldInfo
 {
     public $name;
     public $isIndexed;
@@ -47,4 +50,3 @@ class Zend_Search_Lucene_Index_FieldInfo
         $this->payloadsStored  = $payloadsStored;
     }
 }
-

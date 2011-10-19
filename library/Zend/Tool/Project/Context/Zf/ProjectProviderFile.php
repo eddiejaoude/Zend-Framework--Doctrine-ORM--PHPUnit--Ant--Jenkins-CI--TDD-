@@ -17,31 +17,30 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ProjectProviderFile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_File
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
+namespace Zend\Tool\Project\Context\Zf;
 
 /**
- * @see Zend_CodeGenerator_Php_File
- */
-require_once 'Zend/CodeGenerator/Php/File.php';
-
-/**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\CodeGenerator\Php\PhpClass
+ * @uses       \Zend\CodeGenerator\Php\PhpFile
+ * @uses       \Zend\CodeGenerator\Php\PhpMethod
+ * @uses       \Zend\Filter\Word\DashToCamelCase
+ * @uses       \Zend\Tool\Project\Context\Filesystem\File
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_ProjectProviderFile extends Zend_Tool_Project_Context_Filesystem_File
+class ProjectProviderFile extends \Zend\Tool\Project\Context\Filesystem\File
 {
 
     /**
@@ -57,7 +56,7 @@ class Zend_Tool_Project_Context_Zf_ProjectProviderFile extends Zend_Tool_Project
     /**
      * init()
      *
-     * @return Zend_Tool_Project_Context_Zf_ProjectProviderFile
+     * @return \Zend\Tool\Project\Context\Zf\ProjectProviderFile
      */
     public function init()
     {
@@ -117,18 +116,18 @@ class Zend_Tool_Project_Context_Zf_ProjectProviderFile extends Zend_Tool_Project
     public function getContents()
     {
 
-        $filter = new Zend_Filter_Word_DashToCamelCase();
+        $filter = new \Zend\Filter\Word\DashToCamelCase();
 
         $className = $filter->filter($this->_projectProviderName) . 'Provider';
 
-        $class = new Zend_CodeGenerator_Php_Class(array(
+        $class = new \Zend\CodeGenerator\Php\PhpClass(array(
             'name' => $className,
-            'extendedClass' => 'Zend_Tool_Project_Provider_Abstract'
+            'extendedClass' => '\Zend\Tool\Project\Provider\AbstractProvider'
             ));
 
         $methods = array();
         foreach ($this->_actionNames as $actionName) {
-            $methods[] = new Zend_CodeGenerator_Php_Method(array(
+            $methods[] = new \Zend\CodeGenerator\Php\PhpMethod(array(
                 'name' => $actionName,
                 'body' => '        /** @todo Implementation */'
                 ));
@@ -138,11 +137,7 @@ class Zend_Tool_Project_Context_Zf_ProjectProviderFile extends Zend_Tool_Project
             $class->setMethods($methods);
         }
 
-        $codeGenFile = new Zend_CodeGenerator_Php_File(array(
-            'requiredFiles' => array(
-                'Zend/Tool/Project/Provider/Abstract.php',
-                'Zend/Tool/Project/Provider/Exception.php'
-                ),
+        $codeGenFile = new \Zend\CodeGenerator\Php\PhpFile(array(
             'classes' => array($class)
             ));
 

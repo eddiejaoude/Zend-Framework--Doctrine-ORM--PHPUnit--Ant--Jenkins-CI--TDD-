@@ -17,28 +17,23 @@
  * @subpackage Object
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ean2.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Barcode_Object_Ean5
+ * @namespace
  */
-require_once 'Zend/Barcode/Object/Ean5.php';
-
-/**
- * @see Zend_Validate_Barcode
- */
-require_once 'Zend/Validate/Barcode.php';
+namespace Zend\Barcode\Object;
 
 /**
  * Class for generate Ean2 barcode
  *
+ * @uses       \Zend\Barcode\Object\Ean5
  * @category   Zend
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Barcode_Object_Ean2 extends Zend_Barcode_Object_Ean5
+class Ean2 extends Ean5
 {
 
     protected $_parities = array(

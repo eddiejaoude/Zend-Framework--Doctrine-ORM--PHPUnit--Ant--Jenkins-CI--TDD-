@@ -17,17 +17,13 @@
  * @subpackage StrikeIron
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Base.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
 /**
- * @see Zend_Service_StrikeIron_Decorator
- */
-require_once 'Zend/Service/StrikeIron/Decorator.php';
-
-
-/**
+ * @uses       SoapHeader
+ * @uses       SoapClient
+ * @uses       Zend_Service_StrikeIron_Decorator
+ * @uses       Zend_Service_StrikeIron_Exception
  * @category   Zend
  * @package    Zend_Service
  * @subpackage StrikeIron
@@ -62,10 +58,6 @@ class Zend_Service_StrikeIron_Base
     public function __construct($options = array())
     {
         if (!extension_loaded('soap')) {
-            /**
-             * @see Zend_Service_StrikeIron_Exception
-             */
-            require_once 'Zend/Service/StrikeIron/Exception.php';
             throw new Zend_Service_StrikeIron_Exception('SOAP extension is not enabled');
         }
 
@@ -99,10 +91,6 @@ class Zend_Service_StrikeIron_Base
                                                             $this->_outputHeaders);
         } catch (Exception $e) {
             $message = get_class($e) . ': ' . $e->getMessage();
-            /**
-             * @see Zend_Service_StrikeIron_Exception
-             */
-            require_once 'Zend/Service/StrikeIron/Exception.php';
             throw new Zend_Service_StrikeIron_Exception($message, $e->getCode(), $e);
         }
 
@@ -145,10 +133,6 @@ class Zend_Service_StrikeIron_Base
 
             foreach ($this->_options['headers'] as $header) {
                 if (! $header instanceof SoapHeader) {
-                    /**
-                     * @see Zend_Service_StrikeIron_Exception
-                     */
-                    require_once 'Zend/Service/StrikeIron/Exception.php';
                     throw new Zend_Service_StrikeIron_Exception('Header must be instance of SoapHeader');
                 } else if ($header->name == 'LicenseInfo') {
                     $foundLicenseInfo = true;
@@ -193,10 +177,10 @@ class Zend_Service_StrikeIron_Base
      * on what was originally called.
      *
      * @see    __call()
-     * @param  object $result  Raw result returned from SOAPClient_>__soapCall()
-     * @param  string $method  Method name that was passed to SOAPClient->__soapCall()
-     * @param  array  $params  Method parameters that were passed to SOAPClient->__soapCall()
-     * @return mixed  Transformed result
+     * @param  $result  Raw result returned from SOAPClient_>__soapCall()
+     * @param  $method  Method name that was passed to SOAPClient->__soapCall()
+     * @param  $params  Method parameters that were passed to SOAPClient->__soapCall()
+     * @return mixed    Transformed result
      */
     protected function _transformResult($result, $method, $params)
     {
@@ -262,10 +246,6 @@ class Zend_Service_StrikeIron_Base
             $subscriptionInfo = new Zend_Service_StrikeIron_Decorator($info, 'SubscriptionInfo');
         } else {
             $msg = 'No SubscriptionInfo header found in last output headers';
-            /**
-             * @see Zend_Service_StrikeIron_Exception
-             */
-            require_once 'Zend/Service/StrikeIron/Exception.php';
             throw new Zend_Service_StrikeIron_Exception($msg);
         }
 

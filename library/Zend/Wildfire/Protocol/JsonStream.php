@@ -17,28 +17,30 @@
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: JsonStream.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Wildfire_Plugin_Interface */
-require_once 'Zend/Wildfire/Plugin/Interface.php';
-
-/** Zend_Wildfire_Channel_Interface */
-require_once 'Zend/Wildfire/Channel/Interface.php';
-
-/** Zend_Json */
-require_once 'Zend/Json.php';
+/**
+ * @namespace
+ */
+namespace Zend\Wildfire\Protocol;
+use Zend\Wildfire\Plugin,
+    Zend\Wildfire\Protocol\Exception,
+    Zend\Wildfire;
 
 /**
  * Encodes messages into the Wildfire JSON Stream Communication Protocol.
  *
+ * @uses       \Zend\Json\Json
+ * @uses       \Zend\Wildfire\Channel
+ * @uses       \Zend\Wildfire\Exception
+ * @uses       \Zend\Wildfire\Plugin
  * @category   Zend
  * @package    Zend_Wildfire
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Wildfire_Protocol_JsonStream
+class JsonStream
 {
     /**
      * The protocol URI for this protocol
@@ -60,10 +62,10 @@ class Zend_Wildfire_Protocol_JsonStream
     /**
      * Register a plugin that uses this protocol
      *
-     * @param Zend_Wildfire_Plugin_Interface $plugin The plugin to be registered
+     * @param \Zend\Wildfire\Plugin $plugin The plugin to be registered
      * @return boolean Returns TRUE if plugin was registered, false if it was already registered
      */
-    public function registerPlugin(Zend_Wildfire_Plugin_Interface $plugin)
+    public function registerPlugin(Plugin $plugin)
     {
         if (in_array($plugin,$this->_plugins)) {
             return false;
@@ -75,12 +77,12 @@ class Zend_Wildfire_Protocol_JsonStream
     /**
      * Record a message with the given data in the given structure
      *
-     * @param Zend_Wildfire_Plugin_Interface $plugin The plugin recording the message
+     * @param \Zend\Wildfire\Plugin $plugin The plugin recording the message
      * @param string $structure The structure to be used for the data
      * @param array $data The data to be recorded
      * @return boolean Returns TRUE if message was recorded
      */
-    public function recordMessage(Zend_Wildfire_Plugin_Interface $plugin, $structure, $data)
+    public function recordMessage(Plugin $plugin, $structure, $data)
     {
         if(!isset($this->_messages[$structure])) {
             $this->_messages[$structure] = array();
@@ -99,10 +101,10 @@ class Zend_Wildfire_Protocol_JsonStream
     /**
      * Remove all qued messages
      *
-     * @param Zend_Wildfire_Plugin_Interface $plugin The plugin for which to clear messages
+     * @param \Zend\Wildfire\Plugin $plugin The plugin for which to clear messages
      * @return boolean Returns TRUE if messages were present
      */
-    public function clearMessages(Zend_Wildfire_Plugin_Interface $plugin)
+    public function clearMessages(Plugin $plugin)
     {
         $uri = $plugin->getUri();
 
@@ -145,21 +147,20 @@ class Zend_Wildfire_Protocol_JsonStream
      */
     protected function _encode($value)
     {
-        return Zend_Json::encode($value, true, array('silenceCyclicalExceptions'=>true));
+        return \Zend\Json\Json::encode($value, true, array('silenceCyclicalExceptions'=>true));
     }
 
     /**
      * Retrieves all formatted data ready to be sent by the channel.
      *
-     * @param Zend_Wildfire_Channel_Interface $channel The instance of the channel that will be transmitting the data
+     * @param \Zend\Wildfire\Channel $channel The instance of the channel that will be transmitting the data
      * @return mixed Returns the data to be sent by the channel.
-     * @throws Zend_Wildfire_Exception
+     * @throws \Zend\Wildfire\Exception
      */
-    public function getPayload(Zend_Wildfire_Channel_Interface $channel)
+    public function getPayload(Wildfire\Channel $channel)
     {
-        if (!$channel instanceof Zend_Wildfire_Channel_HttpHeaders) {
-            require_once 'Zend/Wildfire/Exception.php';
-            throw new Zend_Wildfire_Exception('The '.get_class($channel).' channel is not supported by the '.get_class($this).' protocol.');
+        if (!$channel instanceof Wildfire\Channel\HttpHeaders) {
+            throw new Exception\InvalidArgumentException('The '.get_class($channel).' channel is not supported by the '.get_class($this).' protocol.');
         }
 
         if ($this->_plugins) {
@@ -217,8 +218,7 @@ class Zend_Wildfire_Protocol_JsonStream
                             $message_index++;
 
                             if ($message_index > 99999) {
-                                require_once 'Zend/Wildfire/Exception.php';
-                                throw new Zend_Wildfire_Exception('Maximum number (99,999) of messages reached!');
+                                throw new Exception\OutOfRangeException('Maximum number (99,999) of messages reached!');
                             }
                         }
                     }

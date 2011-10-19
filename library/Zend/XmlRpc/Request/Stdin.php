@@ -19,9 +19,12 @@
  */
 
 /**
- * Zend_XmlRpc_Request
+ * @namespace
  */
-require_once 'Zend/XmlRpc/Request.php';
+namespace Zend\XmlRpc\Request;
+
+use Zend\XmlRpc\Request as XmlRpcRequest,
+    Zend\XmlRpc\Server\Exception as ServerException;
 
 /**
  * XmlRpc Request object -- Request via STDIN
@@ -30,13 +33,14 @@ require_once 'Zend/XmlRpc/Request.php';
  * built at construction time using data from STDIN; if no data is available, the
  * request is declared a fault.
  *
- * @category Zend
- * @package  Zend_XmlRpc
+ * @uses       \Zend\XmlRpc\Request\Request
+ * @uses       \Zend\XmlRpc\Server\Exception
+ * @category   Zend
+ * @package    Zend_XmlRpc
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Stdin.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_XmlRpc_Request_Stdin extends Zend_XmlRpc_Request
+class Stdin extends XmlRpcRequest
 {
     /**
      * Raw XML as received via request
@@ -57,7 +61,7 @@ class Zend_XmlRpc_Request_Stdin extends Zend_XmlRpc_Request
     {
         $fh = fopen('php://stdin', 'r');
         if (!$fh) {
-            $this->_fault = new Zend_XmlRpc_Server_Exception(630);
+            $this->_fault = new ServerException(630);
             return;
         }
 

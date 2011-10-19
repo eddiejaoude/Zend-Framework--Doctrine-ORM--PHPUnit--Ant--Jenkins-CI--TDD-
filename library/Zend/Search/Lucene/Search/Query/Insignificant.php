@@ -17,32 +17,36 @@
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Insignificant.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Zend_Search_Lucene_Search_Query */
-require_once 'Zend/Search/Lucene/Search/Query.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Query;
+use Zend\Search\Lucene;
+use Zend\Search\Lucene\Search\Weight;
+use Zend\Search\Lucene\Search\Highlighter;
 
 /**
  * The insignificant query returns empty result, but doesn't limit result set as a part of other queries
  *
+ * @uses       \Zend\Search\Lucene\Search\Query\AbstractQuery
+ * @uses       \Zend\Search\Lucene\Search\Weight\EmptyResultWeight
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_Search_Query
+class Insignificant extends AbstractQuery
 {
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\SearchIndex $index
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function rewrite(Zend_Search_Lucene_Interface $index)
+    public function rewrite(Lucene\SearchIndex $index)
     {
         return $this;
     }
@@ -50,10 +54,10 @@ class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_S
     /**
      * Optimize query in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\SearchIndex $index
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function optimize(Zend_Search_Lucene_Interface $index)
+    public function optimize(Lucene\SearchIndex $index)
     {
         return $this;
     }
@@ -61,23 +65,22 @@ class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_S
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @return Zend_Search_Lucene_Search_Weight
+     * @param \Zend\Search\Lucene\SearchIndex $reader
+     * @return \Zend\Search\Lucene\Search\Weight\Weight
      */
-    public function createWeight(Zend_Search_Lucene_Interface $reader)
+    public function createWeight(Lucene\SearchIndex $reader)
     {
-        require_once 'Zend/Search/Lucene/Search/Weight/Empty.php';
-        return new Zend_Search_Lucene_Search_Weight_Empty();
+        return new Weight\EmptyResultWeight();
     }
 
     /**
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\SearchIndex $reader
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      */
-    public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null)
+    public function execute(Lucene\SearchIndex $reader, $docsFilter = null)
     {
         // Do nothing
     }
@@ -98,10 +101,10 @@ class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_S
      * Score specified document
      *
      * @param integer $docId
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\SearchIndex $reader
      * @return float
      */
-    public function score($docId, Zend_Search_Lucene_Interface $reader)
+    public function score($docId, Lucene\SearchIndex $reader)
     {
         return 0;
     }
@@ -119,9 +122,9 @@ class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_S
     /**
      * Query specific matches highlighting
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param \Zend\Search\Lucene\Search\Highlighter $highlighter  Highlighter object (also contains doc for highlighting)
      */
-    protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
+    protected function _highlightMatches(Highlighter $highlighter)
     {
         // Do nothing
     }
@@ -136,4 +139,3 @@ class Zend_Search_Lucene_Search_Query_Insignificant extends Zend_Search_Lucene_S
         return '<InsignificantQuery>';
     }
 }
-

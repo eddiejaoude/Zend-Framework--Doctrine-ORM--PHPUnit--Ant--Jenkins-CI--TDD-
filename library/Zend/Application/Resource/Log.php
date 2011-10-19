@@ -17,37 +17,37 @@
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Application_Resource_ResourceAbstract
+ * @namespace
  */
-require_once 'Zend/Application/Resource/ResourceAbstract.php';
+namespace Zend\Application\Resource;
 
+use Zend\Log as ZendLog;
 
 /**
  * Resource for initializing the locale
  *
- * @uses       Zend_Application_Resource_ResourceAbstract
+ * @uses       \Zend\Application\Resource\AbstractResource
+ * @uses       \Zend\Log\Logger
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Resource_Log
-    extends Zend_Application_Resource_ResourceAbstract
+class Log extends AbstractResource
 {
     /**
-     * @var Zend_Log
+     * @var \Zend\Log\Logger
      */
     protected $_log;
 
     /**
      * Defined by Zend_Application_Resource_Resource
      *
-     * @return Zend_Log
+     * @return \Zend\Log\Logger
      */
     public function init()
     {
@@ -56,21 +56,26 @@ class Zend_Application_Resource_Log
 
     /**
      * Attach logger
-     *
-     * @param  Zend_Log $log
-     * @return Zend_Application_Resource_Log
+     * 
+     * @param  \Zend\Log\Logger $log 
+     * @return \Zend\Application\Resource\Log
      */
-    public function setLog(Zend_Log $log)
+    public function setLog(ZendLog\Logger $log)
     {
         $this->_log = $log;
         return $this;
     }
 
+    /**
+     * Retrieve logger
+     * 
+     * @return \Zend\Log\Logger
+     */
     public function getLog()
     {
         if (null === $this->_log) {
             $options = $this->getOptions();
-            $log = Zend_Log::factory($options);
+            $log = ZendLog\Logger::factory($options);
             $this->setLog($log);
         }
         return $this->_log;

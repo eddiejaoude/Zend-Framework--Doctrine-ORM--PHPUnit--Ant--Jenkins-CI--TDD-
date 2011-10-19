@@ -19,11 +19,12 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** @see Zend_Captcha_Base */
-require_once 'Zend/Captcha/Base.php';
+/**
+ * @namespace
+ */
+namespace Zend\Captcha;
 
-/** @see Zend_Service_ReCaptcha */
-require_once 'Zend/Service/ReCaptcha.php';
+use Zend\Service\ReCaptcha\ReCaptcha as ReCaptchaService;
 
 /**
  * ReCaptcha adapter
@@ -32,14 +33,15 @@ require_once 'Zend/Service/ReCaptcha.php';
  *
  * @see http://recaptcha.net/apidocs/captcha/
  *
+ * @uses       Zend\Captcha\AbstractAdapter
+ * @uses       Zend\Service\ReCaptcha\ReCaptcha
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ReCaptcha.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
+class ReCaptcha extends AbstractAdapter
 {
     /**@+
      * ReCaptcha Field names
@@ -112,7 +114,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
      * Set ReCaptcha Private key
      *
      * @param string $privkey
-     * @return Zend_Captcha_ReCaptcha
+     * @return \Zend\Captcha\ReCaptcha
      */
     public function setPrivkey($privkey)
     {
@@ -124,7 +126,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
      * Set ReCaptcha public key
      *
      * @param string $pubkey
-     * @return Zend_Captcha_ReCaptcha
+     * @return \Zend\Captcha\ReCaptcha
      */
     public function setPubkey($pubkey)
     {
@@ -135,18 +137,18 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
     /**
      * Constructor
      *
-     * @param  array|Zend_Config $options
+     * @param  array|\Zend\Config\Config $options
      * @return void
      */
     public function __construct($options = null)
     {
-        $this->setService(new Zend_Service_ReCaptcha());
+        $this->setService(new ReCaptchaService());
         $this->_serviceParams = $this->getService()->getParams();
         $this->_serviceOptions = $this->getService()->getOptions();
 
         parent::__construct($options);
 
-        if ($options instanceof Zend_Config) {
+        if ($options instanceof \Zend\Config\Config) {
             $options = $options->toArray();
         }
         if (!empty($options)) {
@@ -157,10 +159,10 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
     /**
      * Set service object
      *
-     * @param  Zend_Service_ReCaptcha $service
-     * @return Zend_Captcha_ReCaptcha
+     * @param  Zend\Service\ReCaptcha\ReCaptcha $service
+     * @return Zend\Captcha\ReCaptcha
      */
-    public function setService(Zend_Service_ReCaptcha $service)
+    public function setService(ReCaptchaService $service)
     {
         $this->_service = $service;
         return $this;
@@ -169,7 +171,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
     /**
      * Retrieve ReCaptcha service object
      *
-     * @return Zend_Service_ReCaptcha
+     * @return Zend\Service\ReCaptcha\ReCaptcha
      */
     public function getService()
     {
@@ -184,7 +186,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
      *
      * @param  string $key
      * @param  mixed $value
-     * @return Zend_Captcha_ReCaptcha
+     * @return \Zend\Captcha\ReCaptcha
      */
     public function setOption($key, $value)
     {
@@ -214,7 +216,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
     /**
      * Validate captcha
      *
-     * @see    Zend_Validate_Interface::isValid()
+     * @see    Zend\Validator::isValid()
      * @param  mixed $value
      * @return boolean
      */
@@ -259,7 +261,7 @@ class Zend_Captcha_ReCaptcha extends Zend_Captcha_Base
      * @param  mixed $element
      * @return string
      */
-    public function render(Zend_View_Interface $view = null, $element = null)
+    public function render(\Zend\View\Renderer $view = null, $element = null)
     {
         return $this->getService()->getHTML();
     }

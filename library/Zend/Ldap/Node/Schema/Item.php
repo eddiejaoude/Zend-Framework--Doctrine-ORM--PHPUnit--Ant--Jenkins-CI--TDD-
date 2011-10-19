@@ -17,20 +17,27 @@
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Item.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Ldap\Node\Schema;
 
 /**
  * Zend_Ldap_Node_Schema_Item provides a base implementation for managing schema
  * items like objectClass and attribute.
  *
+ * @uses       ArrayAccess
+ * @uses       BadMethodCallException
+ * @uses       Countable
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Ldap_Node_Schema_Item implements ArrayAccess, Countable
+abstract class Item implements \ArrayAccess, \Countable
 {
     /**
      * The underlying data
@@ -53,7 +60,7 @@ abstract class Zend_Ldap_Node_Schema_Item implements ArrayAccess, Countable
      * Sets the data
      *
      * @param  array $data
-     * @return Zend_Ldap_Node_Schema_Item Provides a fluid interface
+     * @return \Zend\Ldap\Node\Schema\Item Provides a fluid interface
      */
     public function setData(array $data)
     {
@@ -110,7 +117,7 @@ abstract class Zend_Ldap_Node_Schema_Item implements ArrayAccess, Countable
      */
     public function offsetSet($name, $value)
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     /**
@@ -136,7 +143,7 @@ abstract class Zend_Ldap_Node_Schema_Item implements ArrayAccess, Countable
      */
     public function offsetUnset($name)
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     /**

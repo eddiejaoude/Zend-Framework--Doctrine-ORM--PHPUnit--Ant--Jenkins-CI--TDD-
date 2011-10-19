@@ -18,48 +18,44 @@
  * @subpackage Zend_OpenId_Provider
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_OpenId_Provider_User
+ * @namespace
  */
-require_once "Zend/OpenId/Provider/User.php";
-
-/**
- * @see Zend_Session_Namespace
- */
-require_once "Zend/Session/Namespace.php";
+namespace Zend\OpenId\Provider\User;
 
 /**
  * Class to get/store information about logged in user in Web Browser using
  * PHP session
  *
+ * @uses       Zend\OpenId\Provider\User\AbstractUser
+ * @uses       Zend\Session\Container
  * @category   Zend
  * @package    Zend_OpenId
  * @subpackage Zend_OpenId_Provider
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_OpenId_Provider_User_Session extends Zend_OpenId_Provider_User
+class Session extends AbstractUser
 {
     /**
      * Reference to an implementation of Zend_Session_Namespace object
      *
-     * @var Zend_Session_Namespace $_session
+     * @var \Zend\Session\Container $_session
      */
     private $_session = null;
 
     /**
-     * Creates Zend_OpenId_Provider_User_Session object with given session
+     * Creates \Zend\OpenId\Provider\User\Session object with given session
      * namespace or creates new session namespace named "openid"
      *
-     * @param Zend_Session_Namespace $session
+     * @param \Zend\Session\Container $session
      */
-    public function __construct(Zend_Session_Namespace $session = null)
+    public function __construct(\Zend\Session\Container $session = null)
     {
         if ($session === null) {
-            $this->_session = new Zend_Session_Namespace("openid");
+            $this->_session = new \Zend\Session\Container("openid");
         } else {
             $this->_session = $session;
         }

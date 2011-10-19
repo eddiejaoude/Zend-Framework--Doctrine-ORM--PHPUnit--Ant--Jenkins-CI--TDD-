@@ -19,8 +19,10 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Decorator_Abstract */
-require_once 'Zend/Form/Decorator/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Decorator;
 
 /**
  * Zend_Form_Decorator_Callback
@@ -41,14 +43,15 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * content. To replace the content, specify a placement of boolean false;
  * defaults to append content.
  *
+ * @uses       \Zend\Form\Decorator\AbstractDecorator
+ * @uses       \Zend\Form\Decorator\Exception
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Callback.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Form_Decorator_Callback extends Zend_Form_Decorator_Abstract
+class Callback extends AbstractDecorator
 {
     /**
      * Callback
@@ -60,14 +63,13 @@ class Zend_Form_Decorator_Callback extends Zend_Form_Decorator_Abstract
      * Set callback
      *
      * @param  callback $callback
-     * @return Zend_Form_Decorator_Callback
-     * @throws Zend_Form_Exception
+     * @return \Zend\Form\Decorator\Callback
+     * @throws \Zend\Form\Decorator\Exception
      */
     public function setCallback($callback)
     {
         if (!is_callable($callback)) {
-            require_once 'Zend/Form/Exception.php';
-            throw new Zend_Form_Exception('Invalid callback provided to callback decorator');
+            throw new Exception\InvalidArgumentException('Invalid callback provided to callback decorator');
         }
         $this->_callback = $callback;
         return $this;

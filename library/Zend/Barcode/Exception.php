@@ -16,48 +16,22 @@
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
  */
-/**
- * Zend_Exception
- */
-require_once 'Zend/Exception.php';
 
 /**
- * Zend_Barcode_Exception
+ * @namespace
+ */
+namespace Zend\Barcode;
+
+/**
+ * Exception for Zend_Barcode component.
  *
+ * @uses       Zend\Exception
  * @category   Zend
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Barcode_Exception extends Zend_Exception
+interface Exception
 {
-    /**
-     * Is this exception renderable?
-     * @var bool
-     */
-    protected $_isRenderable = true;
-
-    /**
-     * Set renderable flag
-     *
-     * @param  bool $flag
-     * @return Zend_Barcode_Exception
-     */
-    public function setIsRenderable($flag)
-    {
-        $this->_isRenderable = (bool) $flag;
-        return $this;
-    }
-
-    /**
-     * Retrieve renderable flag
-     *
-     * @return bool
-     */
-    public function isRenderable()
-    {
-        return $this->_isRenderable;
-    }
 }

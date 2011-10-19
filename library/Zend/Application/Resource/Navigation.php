@@ -17,19 +17,19 @@
  * @subpackage Resource
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Navigation.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Application_Resource_ResourceAbstract
+ * @namespace
  */
-require_once 'Zend/Application/Resource/ResourceAbstract.php';
-
+namespace Zend\Application\Resource;
 
 /**
  * Resource for setting navigation structure
  *
- * @uses       Zend_Application_Resource_ResourceAbstract
+ * @uses       \Zend\Application\Resource\AbstractResource
+ * @uses       \Zend\Navigation\Navigation
+ * @uses       \Zend\Registry
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
@@ -37,31 +37,27 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  * @author     Dolf Schimmel
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Resource_Navigation
-    extends Zend_Application_Resource_ResourceAbstract
+class Navigation
+    extends AbstractResource
 {
     const DEFAULT_REGISTRY_KEY = 'Zend_Navigation';
 
     /**
-     * @var Zend_Navigation
+     * @var \Zend\Navigation\Navigation
      */
     protected $_container;
 
     /**
      * Defined by Zend_Application_Resource_Resource
      *
-     * @return Zend_Navigation
+     * @return \Zend\Navigation\Navigation
      */
     public function init()
     {
         if (!$this->_container) {
             $options = $this->getOptions();
             $pages = isset($options['pages']) ? $options['pages'] : array();
-            $this->_container = new Zend_Navigation($pages);
-
-            if(isset($options['defaultPageType'])) {
-                Zend_Navigation_Page::setDefaultPageType($options['defaultPageType']);
-            }
+            $this->_container = new \Zend\Navigation\Navigation($pages);
         }
 
         $this->store();
@@ -100,7 +96,7 @@ class Zend_Application_Resource_Navigation
             $key = self::DEFAULT_REGISTRY_KEY;
         }
 
-        Zend_Registry::set($key,$this->getContainer());
+        \Zend\Registry::set($key,$this->getContainer());
     }
 
     /**
@@ -112,13 +108,13 @@ class Zend_Application_Resource_Navigation
     {
         $this->getBootstrap()->bootstrap('view');
         $view = $this->getBootstrap()->view;
-        $view->getHelper('navigation')->navigation($this->getContainer());
+        $view->plugin('navigation')->setContainer($this->getContainer());
     }
 
     /**
      * Returns navigation container
      *
-     * @return Zend_Navigation
+     * @return \Zend\Navigation\Navigation
      */
     public function getContainer()
     {

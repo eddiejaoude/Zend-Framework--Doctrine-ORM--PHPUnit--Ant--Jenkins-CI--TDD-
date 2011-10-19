@@ -19,20 +19,22 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Element_Xhtml */
-require_once 'Zend/Form/Element/Xhtml.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Element;
 
 /**
  * Base class for multi-option form elements
  *
+ * @uses       \Zend\Form\Element\Xhtml
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Multi.php 23775 2011-03-01 17:25:24Z ralph $
  */
-abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
+abstract class Multi extends Xhtml
 {
     /**
      * Array of options for multi-item
@@ -99,7 +101,7 @@ abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
      *
      * @param  string $option
      * @param  string $value
-     * @return Zend_Form_Element_Multi
+     * @return \Zend\Form\Element\Multi
      */
     public function addMultiOption($option, $value = '')
     {
@@ -116,7 +118,7 @@ abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
      * Add many options at once
      *
      * @param  array $options
-     * @return Zend_Form_Element_Multi
+     * @return \Zend\Form\Element\Multi
      */
     public function addMultiOptions(array $options)
     {
@@ -137,7 +139,7 @@ abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
      * Set all options at once (overwrites)
      *
      * @param  array $options
-     * @return Zend_Form_Element_Multi
+     * @return \Zend\Form\Element\Multi
      */
     public function setMultiOptions(array $options)
     {
@@ -201,7 +203,7 @@ abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
     /**
      * Clear all options
      *
-     * @return Zend_Form_Element_Multi
+     * @return \Zend\Form\Element\Multi
      */
     public function clearMultiOptions()
     {
@@ -214,7 +216,7 @@ abstract class Zend_Form_Element_Multi extends Zend_Form_Element_Xhtml
      * Set flag indicating whether or not to auto-register inArray validator
      *
      * @param  bool $flag
-     * @return Zend_Form_Element_Multi
+     * @return \Zend\Form\Element\Multi
      */
     public function setRegisterInArrayValidator($flag)
     {

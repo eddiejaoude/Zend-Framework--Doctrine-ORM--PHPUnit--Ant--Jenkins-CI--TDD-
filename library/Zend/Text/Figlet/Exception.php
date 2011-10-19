@@ -13,26 +13,22 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category  Zend
- * @package   Zend_Figlet
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
- */
-
-/**
- * @see Zend_Text_Exception
- */
-require_once 'Zend/Text/Exception.php';
-
-/**
- * Exception class for Zend_Figlet
- *
- * @category  Zend
- * @package   Zend_Text_Figlet
- * @uses      Zend_Text_Exception
+ * @package   Zend_Text
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Text_Figlet_Exception extends Zend_Text_Exception
-{
-}
+
+/**
+ * @namespace
+ */
+namespace Zend\Text\Figlet;
+
+/**
+ * @uses       Zend\Exception
+ * @category   Zend
+ * @package    Zend_Text
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ */
+interface Exception extends \Zend\Text\Exception
+{}

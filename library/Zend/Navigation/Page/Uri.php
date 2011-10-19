@@ -17,24 +17,28 @@
  * @subpackage Page
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Uri.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Navigation_Page_Abstract
+ * @namespace
  */
-require_once 'Zend/Navigation/Page.php';
+namespace Zend\Navigation\Page;
+
+use Zend\Navigation\AbstractPage,
+    Zend\Navigation\Exception\InvalidArgumentException;
 
 /**
  * Represents a page that is defined by specifying a URI
  *
+ * @uses       \Zend\Navigation\Exception
+ * @uses       \Zend\Navigation\Page\Page
  * @category   Zend
  * @package    Zend_Navigation
  * @subpackage Page
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Navigation_Page_Uri extends Zend_Navigation_Page
+class Uri extends AbstractPage
 {
     /**
      * Page URI
@@ -47,14 +51,13 @@ class Zend_Navigation_Page_Uri extends Zend_Navigation_Page
      * Sets page URI
      *
      * @param  string $uri                page URI, must a string or null
-     * @return Zend_Navigation_Page_Uri   fluent interface, returns self
-     * @throws Zend_Navigation_Exception  if $uri is invalid
+     * @return \Zend\Navigation\Page\Uri   fluent interface, returns self
+     * @throws \Zend\Navigation\InvalidArgumentException  if $uri is invalid
      */
     public function setUri($uri)
     {
         if (null !== $uri && !is_string($uri)) {
-            require_once 'Zend/Navigation/Exception.php';
-            throw new Zend_Navigation_Exception(
+            throw new InvalidArgumentException(
                     'Invalid argument: $uri must be a string or null');
         }
 
@@ -74,12 +77,25 @@ class Zend_Navigation_Page_Uri extends Zend_Navigation_Page
 
     /**
      * Returns href for this page
+     * 
+     * Includes the fragment identifier if it is set.
      *
      * @return string
      */
     public function getHref()
     {
-        return $this->getUri();
+        $uri = $this->getUri();
+        
+        $fragment = $this->getFragment();       
+        if (null !== $fragment) {
+            if ('#' == substr($uri, -1)) {
+                return $uri . $fragment;
+            } else {                
+                return $uri . '#' . $fragment;
+            }
+        }
+        
+        return $uri;
     }
 
     // Public methods:

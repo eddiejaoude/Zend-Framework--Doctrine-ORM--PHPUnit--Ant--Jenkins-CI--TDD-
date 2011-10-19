@@ -16,32 +16,35 @@
  * @package    Zend_Application
  * @subpackage Module
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Autoloader.php 23775 2011-03-01 17:25:24Z ralph $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** @see Zend_Loader_Autoloader_Resource */
-require_once 'Zend/Loader/Autoloader/Resource.php';
+/**
+ * @namespace
+ */
+namespace Zend\Application\Module;
+
+use Zend\Loader\ResourceAutoloader;
 
 /**
  * Resource loader for application module classes
  *
- * @uses       Zend_Loader_Autoloader_Resource
+ * @uses       \Zend\Loader\ResourceAutoloader
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Module
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Application_Module_Autoloader extends Zend_Loader_Autoloader_Resource
+class Autoloader extends ResourceAutoloader
 {
     /**
      * Constructor
      *
-     * @param  array|Zend_Config $options
+     * @param  array|\Zend\Config\Config $options
      * @return void
      */
-    public function __construct($options)
+    public function __construct($options = null)
     {
         parent::__construct($options);
         $this->initDefaultResourceTypes();
@@ -57,11 +60,11 @@ class Zend_Application_Module_Autoloader extends Zend_Loader_Autoloader_Resource
         $basePath = $this->getBasePath();
         $this->addResourceTypes(array(
             'dbtable' => array(
-                'namespace' => 'Model_DbTable',
+                'namespace' => 'Model\\DbTable',
                 'path'      => 'models/DbTable',
             ),
             'mappers' => array(
-                'namespace' => 'Model_Mapper',
+                'namespace' => 'Model\\Mapper',
                 'path'      => 'models/mappers',
             ),
             'form'    => array(
@@ -81,11 +84,11 @@ class Zend_Application_Module_Autoloader extends Zend_Loader_Autoloader_Resource
                 'path'      => 'services',
             ),
             'viewhelper' => array(
-                'namespace' => 'View_Helper',
+                'namespace' => 'View\\Helper',
                 'path'      => 'views/helpers',
             ),
             'viewfilter' => array(
-                'namespace' => 'View_Filter',
+                'namespace' => 'View\\Filter',
                 'path'      => 'views/filters',
             ),
         ));

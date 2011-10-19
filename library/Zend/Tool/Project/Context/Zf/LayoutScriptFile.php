@@ -17,26 +17,28 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: LayoutScriptFile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_File
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
+namespace Zend\Tool\Project\Context\Zf;
+use Zend\Tool\Project\Context\Exception;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\Tool\Project\Context\Filesystem\File
+ * @uses       \Zend\Tool\Project\Exception
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_LayoutScriptFile extends Zend_Tool_Project_Context_Filesystem_File
+class LayoutScriptFile extends \Zend\Tool\Project\Context\Filesystem\File
 {
 
     /**
@@ -62,14 +64,14 @@ class Zend_Tool_Project_Context_Zf_LayoutScriptFile extends Zend_Tool_Project_Co
     /**
      * init()
      *
-     * @return Zend_Tool_Project_Context_Zf_ViewScriptFile
+     * @return \Zend\Tool\Project\Context\Zf\ViewScriptFile
      */
     public function init()
     {
         if ($layoutName = $this->_resource->getAttribute('layoutName')) {
             $this->_layoutName = $layoutName;
         } else {
-            throw new Exception('Either a forActionName or scriptName is required.');
+            throw new Exception\RuntimeException('Either a forActionName or scriptName is required.');
         }
 
         parent::init();
@@ -99,8 +101,9 @@ class Zend_Tool_Project_Context_Zf_LayoutScriptFile extends Zend_Tool_Project_Co
      */
     public function getContents()
     {
-        $contents = <<<EOS
-<?php echo \$this->layout()->content; ?>
+        $contents = <<<'EOS'
+<?php echo $this->plugin('layout')->getLayout()->content; ?>
+
 EOS;
 
         return $contents;

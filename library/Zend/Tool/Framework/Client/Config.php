@@ -17,8 +17,16 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Config.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Tool\Framework\Client;
+
+use Zend\Config as Configuration,
+    Zend\Config\Writer as ConfigWriter,
+    Zend\Tool\Framework\Client\Exception;
 
 /**
  * @category   Zend
@@ -26,13 +34,13 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Client_Config
+class Config
 {
 
     protected $_configFilepath = null;
 
     /**
-     * @var Zend_Config
+     * @var Configuration\Config
      */
     protected $_config = null;
 
@@ -61,24 +69,26 @@ class Zend_Tool_Framework_Client_Config
 
     /**
      * @param  string $configFilepath
-     * @return Zend_Tool_Framework_Client_Config
+     * @return Config
      */
     public function setConfigFilepath($configFilepath)
     {
         if (!file_exists($configFilepath)) {
-            require_once 'Zend/Tool/Framework/Client/Exception.php';
-            throw new Zend_Tool_Framework_Client_Exception('Provided path to config ' . $configFilepath . ' does not exist');
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Provided path to config "%s" does not exist',
+                $configFilepath
+            ));
         }
 
         $this->_configFilepath = $configFilepath;
         $this->loadConfig($configFilepath);
-
+        
         return $this;
     }
 
     /**
      * Load the configuration from the given path.
-     *
+     * 
      * @param string $configFilepath
      */
     protected function loadConfig($configFilepath)
@@ -87,28 +97,26 @@ class Zend_Tool_Framework_Client_Config
 
         switch ($suffix) {
             case '.ini':
-                require_once 'Zend/Config/Ini.php';
-                $this->_config = new Zend_Config_Ini($configFilepath, null, array('allowModifications' => true));
+                $this->_config = new Configuration\Ini($configFilepath, null, array('allowModifications' => true));
                 break;
             case '.xml':
-                require_once 'Zend/Config/Xml.php';
-                $this->_config = new Zend_Config_Xml($configFilepath, null, array('allowModifications' => true));
+                $this->_config = new Configuration\Xml($configFilepath, null, array('allowModifications' => true));
                 break;
             case '.php':
-                require_once 'Zend/Config.php';
-                $this->_config = new Zend_Config(include $configFilepath, true);
+                $this->_config = new Configuration\Config(include $configFilepath, true);
                 break;
             default:
-                require_once 'Zend/Tool/Framework/Client/Exception.php';
-                throw new Zend_Tool_Framework_Client_Exception('Unknown config file type '
-                    . $suffix . ' at location ' . $configFilepath
-                    );
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'Unknown config file type "%s" at location "%s"',
+                    $suffix,
+                    $configFilepath
+                ));
         }
     }
 
     /**
      * Return the filepath of the configuration.
-     *
+     * 
      * @return string
      */
     public function getConfigFilepath()
@@ -118,7 +126,7 @@ class Zend_Tool_Framework_Client_Config
 
     /**
      * Get a configuration value.
-     *
+     * 
      * @param string $name
      * @param string $defaultValue
      * @return mixed
@@ -181,14 +189,13 @@ class Zend_Tool_Framework_Client_Config
     }
 
     /**
-     * @throws Zend_Tool_Framework_Client_Exception
-     * @return Zend_Config
+     * @throws \Zend\Tool\Framework\Client\Exception
+     * @return Configuration\Config
      */
     public function getConfigInstance()
     {
         if(!$this->exists()) {
-            require_once "Zend/Tool/Framework/Client/Exception.php";
-            throw new Zend_Tool_Framework_Client_Exception("Client has no persistent configuration.");
+            throw new Exception\RuntimeException("Client has no persistent configuration.");
         }
 
         return $this->_config;
@@ -214,30 +221,28 @@ class Zend_Tool_Framework_Client_Config
     /**
      * Get the config writer that corresponds to the current config file type.
      *
-     * @return Zend_Config_Writer_FileAbstract
+     * @return ConfigWriter\AbstractFileWriter
      */
     protected function getConfigWriter()
     {
         $suffix = substr($this->getConfigFilepath(), -4);
         switch($suffix) {
             case '.ini':
-                require_once "Zend/Config/Writer/Ini.php";
-                $writer = new Zend_Config_Writer_Ini();
+                $writer = new ConfigWriter\Ini();
                 $writer->setRenderWithoutSections();
                 break;
             case '.xml':
-                require_once "Zend/Config/Writer/Xml.php";
-                $writer = new Zend_Config_Writer_Xml();
+                $writer = new ConfigWriter\Xml();
                 break;
             case '.php':
-                require_once "Zend/Config/Writer/Array.php";
-                $writer = new Zend_Config_Writer_Array();
+                $writer = new ConfigWriter\ArrayWriter();
                 break;
             default:
-                require_once 'Zend/Tool/Framework/Client/Exception.php';
-                throw new Zend_Tool_Framework_Client_Exception('Unknown config file type '
-                    . $suffix . ' at location ' . $this->getConfigFilepath()
-                    );
+                throw new Exception\RuntimeException(sprintf(
+                    'Unknown config file type "%s" at location "%s"',
+                    $suffix,
+                    $this->getConfigFilepath()
+                ));
         }
         return $writer;
     }

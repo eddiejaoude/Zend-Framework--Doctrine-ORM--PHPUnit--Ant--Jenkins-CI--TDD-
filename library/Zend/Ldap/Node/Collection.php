@@ -17,40 +17,38 @@
  * @subpackage Node
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Collection.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Ldap_Collection
+ * @namespace
  */
-require_once 'Zend/Ldap/Collection.php';
+namespace Zend\Ldap\Node;
 
+use Zend\Ldap\Node;
 
 /**
  * Zend_Ldap_Node_Collection provides a collecion of nodes.
  *
+ * @uses       \Zend\Ldap\Collection
+ * @uses       \Zend\Ldap\Node
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Node
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Node_Collection extends Zend_Ldap_Collection
+class Collection extends \Zend\Ldap\Collection
 {
     /**
      * Creates the data structure for the given entry data
      *
      * @param  array $data
-     * @return Zend_Ldap_Node
+     * @return \Zend\Ldap\Node
      */
     protected function _createEntry(array $data)
     {
-        /**
-         * @see Zend_Ldap_Node
-         */
-        require_once 'Zend/Ldap/Node.php';
-        $node = Zend_Ldap_Node::fromArray($data, true);
-        $node->attachLdap($this->_iterator->getLdap());
+        $node = Node::fromArray($data, true);
+        $node->attachLDAP($this->_iterator->getLDAP());
         return $node;
     }
 

@@ -16,23 +16,22 @@
  * @package    Zend_Controller
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Zend_Controller_Response_Abstract */
-require_once 'Zend/Controller/Response/Abstract.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Response;
 
 /**
  * Zend_Controller_Response_Http
  *
  * HTTP response for controllers
  *
- * @uses Zend_Controller_Response_Abstract
- * @package Zend_Controller
+ * @uses       \Zend\Controller\Response\AbstractResponse
+ * @package    Zend_Controller
  * @subpackage Response
  */
-class Zend_Controller_Response_Http extends Zend_Controller_Response_Abstract
+class Http extends AbstractResponse
 {
 }

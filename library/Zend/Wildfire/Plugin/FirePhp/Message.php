@@ -17,21 +17,26 @@
  * @subpackage Plugin
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Message.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Wildfire\Plugin\FirePhp;
+use Zend\Wildfire;
 
 /**
  * A message envelope that can be passed to Zend_Wildfire_Plugin_FirePhp to be
  * logged to Firebug instead of a variable.
  *
+ * @uses       \Zend\Wildfire\Exception
  * @category   Zend
  * @package    Zend_Wildfire
  * @subpackage Plugin
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Wildfire_Plugin_FirePhp_Message
+class Message
 {
     /**
      * The style of the message
@@ -211,12 +216,12 @@ class Zend_Wildfire_Plugin_FirePhp_Message
      */
     public function setOption($key, $value)
     {
-      if(!array_key_exists($key,$this->_options)) {
-        throw new Zend_Wildfire_Exception('Option with name "'.$key.'" does not exist!');
-      }
-      $previous = $this->_options[$key];
-      $this->_options[$key] = $value;
-      return $previous;
+        if(!array_key_exists($key,$this->_options)) {
+            throw new Plugin\OutOfBoundsException('Option with name "'.$key.'" does not exist!');
+        }
+        $previous = $this->_options[$key];
+        $this->_options[$key] = $value;
+        return $previous;
     }
 
     /**
@@ -227,10 +232,10 @@ class Zend_Wildfire_Plugin_FirePhp_Message
      */
     public function getOption($key)
     {
-      if(!array_key_exists($key,$this->_options)) {
-        throw new Zend_Wildfire_Exception('Option with name "'.$key.'" does not exist!');
-      }
-      return $this->_options[$key];
+        if(!array_key_exists($key,$this->_options)) {
+            throw new Plugin\OutOfBoundsException('Option with name "'.$key.'" does not exist!');
+        }
+        return $this->_options[$key];
     }
 
     /**

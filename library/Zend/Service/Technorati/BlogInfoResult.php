@@ -17,19 +17,15 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BlogInfoResult.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-
-/**
- * @see Zend_Service_Technorati_Utils
- */
-require_once 'Zend/Service/Technorati/Utils.php';
-
 
 /**
  * Represents a single Technorati BlogInfo query result object.
  *
+ * @uses       DOMXPath
+ * @uses       Zend_Service_Technorati_Exception
+ * @uses       Zend_Service_Technorati_Utils
+ * @uses       Zend_Service_Technorati_Weblog
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -79,21 +75,12 @@ class Zend_Service_Technorati_BlogInfoResult
     public function __construct(DomDocument $dom)
     {
         $xpath = new DOMXPath($dom);
-        /**
-         * @see Zend_Service_Technorati_Weblog
-         */
-        require_once 'Zend/Service/Technorati/Weblog.php';
-
         $result = $xpath->query('//result/weblog');
         if ($result->length == 1) {
             $this->_weblog = new Zend_Service_Technorati_Weblog($result->item(0));
         } else {
             // follow the same behavior of blogPostTags
             // and raise an Exception if the URL is not a valid weblog
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                 "Your URL is not a recognized Technorati weblog");
         }

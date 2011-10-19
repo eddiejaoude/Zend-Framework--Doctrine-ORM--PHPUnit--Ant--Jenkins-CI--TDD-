@@ -14,22 +14,27 @@
  *
  * @category   Zend
  * @package    Zend_Server
- * @subpackage Method
+ * @subpackage Zend_Server_Method
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Prototype.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Server\Method;
 
 /**
  * Method prototype metadata
  *
+ * @uses       \Zend\Server\Method\Parameter
  * @category   Zend
  * @package    Zend_Server
- * @subpackage Method
+ * @subpackage Zend_Server_Method
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Server_Method_Prototype
+class Prototype
 {
     /**
      * @var string Return type
@@ -63,7 +68,7 @@ class Zend_Server_Method_Prototype
      * Set return value
      *
      * @param  string $returnType
-     * @return Zend_Server_Method_Prototype
+     * @return \Zend\Server\Method\Prototype
      */
     public function setReturnType($returnType)
     {
@@ -85,18 +90,17 @@ class Zend_Server_Method_Prototype
      * Add a parameter
      *
      * @param  string $parameter
-     * @return Zend_Server_Method_Prototype
+     * @return \Zend\Server\Method\Prototype
      */
     public function addParameter($parameter)
     {
-        if ($parameter instanceof Zend_Server_Method_Parameter) {
+        if ($parameter instanceof Parameter) {
             $this->_parameters[] = $parameter;
             if (null !== ($name = $parameter->getName())) {
                 $this->_parameterNameMap[$name] = count($this->_parameters) - 1;
             }
         } else {
-            require_once 'Zend/Server/Method/Parameter.php';
-            $parameter = new Zend_Server_Method_Parameter(array(
+            $parameter = new Parameter(array(
                 'type' => (string) $parameter,
             ));
             $this->_parameters[] = $parameter;
@@ -108,7 +112,7 @@ class Zend_Server_Method_Prototype
      * Add parameters
      *
      * @param  array $parameter
-     * @return Zend_Server_Method_Prototype
+     * @return \Zend\Server\Method\Prototype
      */
     public function addParameters(array $parameters)
     {
@@ -122,7 +126,7 @@ class Zend_Server_Method_Prototype
      * Set parameters
      *
      * @param  array $parameters
-     * @return Zend_Server_Method_Prototype
+     * @return \Zend\Server\Method\Prototype
      */
     public function setParameters(array $parameters)
     {
@@ -160,7 +164,7 @@ class Zend_Server_Method_Prototype
      * Retrieve a single parameter by name or index
      *
      * @param  string|int $index
-     * @return null|Zend_Server_Method_Parameter
+     * @return null|\Zend\Server\Method\Parameter
      */
     public function getParameter($index)
     {
@@ -180,7 +184,7 @@ class Zend_Server_Method_Prototype
      * Set object state from array
      *
      * @param  array $options
-     * @return Zend_Server_Method_Prototype
+     * @return \Zend\Server\Method\Prototype
      */
     public function setOptions(array $options)
     {

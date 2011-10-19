@@ -17,27 +17,36 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTableFile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * @namespace
+ */
+namespace Zend\Tool\Project\Context\Zf;
+use Zend\CodeGenerator\Php;
+
+/**
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\CodeGenerator\Php\PhpClass
+ * @uses       \Zend\CodeGenerator\Php\PhpFile
+ * @uses       \Zend\CodeGenerator\Php\PhpProperty
+ * @uses       \Zend\Tool\Project\Context\Zf\AbstractClassFile
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_DbTableFile extends Zend_Tool_Project_Context_Zf_AbstractClassFile
+class DbTableFile extends AbstractClassFile
 {
 
     protected $_dbTableName = null;
-
+    
     protected $_actualTableName = null;
-
+    
     /**
      * getName()
      *
@@ -59,7 +68,7 @@ class Zend_Tool_Project_Context_Zf_DbTableFile extends Zend_Tool_Project_Context
         $this->_filesystemName = ucfirst($this->_dbTableName) . '.php';
         parent::init();
     }
-
+    
     public function getPersistentAttributes()
     {
         return array('dbTableName' => $this->_dbTableName);
@@ -67,26 +76,26 @@ class Zend_Tool_Project_Context_Zf_DbTableFile extends Zend_Tool_Project_Context
 
     public function getContents()
     {
-        $className = $this->getFullClassName($this->_dbTableName, 'Model_DbTable');
-
-        $codeGenFile = new Zend_CodeGenerator_Php_File(array(
+        $className = $this->getFullClassName($this->_dbTableName, 'Model\DbTable');
+        
+        $codeGenFile = new Php\PhpFile(array(
             'fileName' => $this->getPath(),
             'classes' => array(
-                new Zend_CodeGenerator_Php_Class(array(
+                new Php\PhpClass(array(
                     'name' => $className,
-                    'extendedClass' => 'Zend_Db_Table_Abstract',
+                    'extendedClass' => '\Zend\Db\Table\AbstractTable',
                     'properties' => array(
-                        new Zend_CodeGenerator_Php_Property(array(
+                        new Php\PhpProperty(array(
                             'name' => '_name',
-                            'visibility' => Zend_CodeGenerator_Php_Property::VISIBILITY_PROTECTED,
+                            'visibility' => Php\PhpProperty::VISIBILITY_PROTECTED,
                             'defaultValue' => $this->_actualTableName
                             ))
                         ),
-
+                
                     ))
                 )
             ));
         return $codeGenFile->generate();
     }
-
+    
 }

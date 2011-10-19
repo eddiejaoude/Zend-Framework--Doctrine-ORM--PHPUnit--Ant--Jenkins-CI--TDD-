@@ -17,8 +17,12 @@
  * @subpackage Value
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: MessageBody.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Amf\Value;
 
 /**
  * An AMF Message contains information about the actual individual
@@ -36,7 +40,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Amf_Value_MessageBody
+class MessageBody
 {
     /**
      * A string describing which operation, function, or method
@@ -107,7 +111,7 @@ class Zend_Amf_Value_MessageBody
      * Set target Uri
      *
      * @param  string $targetUri
-     * @return Zend_Amf_Value_MessageBody
+     * @return \Zend\Amf\Value\MessageBody
      */
     public function setTargetUri($targetUri)
     {
@@ -132,7 +136,7 @@ class Zend_Amf_Value_MessageBody
      * Set response Uri
      *
      * @param  string $responseUri
-     * @return Zend_Amf_Value_MessageBody
+     * @return \Zend\Amf\Value\MessageBody
      */
     public function setResponseUri($responseUri)
     {
@@ -157,7 +161,7 @@ class Zend_Amf_Value_MessageBody
      * Set response data
      *
      * @param  mixed $data
-     * @return Zend_Amf_Value_MessageBody
+     * @return \Zend\Amf\Value\MessageBody
      */
     public function setData($data)
     {
@@ -169,7 +173,7 @@ class Zend_Amf_Value_MessageBody
      * Set reply method
      *
      * @param  string $methodName
-     * @return Zend_Amf_Value_MessageBody
+     * @return \Zend\Amf\Value\MessageBody
      */
     public function setReplyMethod($methodName)
     {

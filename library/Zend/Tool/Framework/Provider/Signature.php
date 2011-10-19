@@ -17,43 +17,38 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Signature.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Reflection_Class
+ * @namespace
  */
-require_once 'Zend/Reflection/Class.php';
+namespace Zend\Tool\Framework\Provider;
+use Zend\Tool\Framework\Provider,
+    Zend\Tool\Framework\RegistryEnabled;
 
 /**
- * @see Zend_Tool_Framework_Registry
- */
-require_once 'Zend/Tool/Framework/Registry/EnabledInterface.php';
-
-/**
- * @see Zend_Tool_Framework_Action_Base
- */
-require_once 'Zend/Tool/Framework/Action/Base.php';
-
-/**
- * The purpose of Zend_Tool_Framework_Provider_Signature is to derive
+ * The purpose of Zend\Tool\Framework\Provider\Signature is to derive
  * callable signatures from the provided provider.
  *
+ * @uses       \Zend\Reflection\ReflectionClass
+ * @uses       \Zend\Tool\Framework\Action\Base
+ * @uses       \Zend\Tool\Framework\Provider\Exception
+ * @uses       \Zend\Tool\Framework\RegistryEnabled
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Registry_EnabledInterface
+class Signature implements RegistryEnabled
 {
 
     /**
-     * @var Zend_Tool_Framework_Registry
+     * @var \Zend\Tool\Framework\Registry
      */
     protected $_registry = null;
 
     /**
-     * @var Zend_Tool_Framework_Provider_Interface
+     * @var \Zend\Tool\Framework\Provider
      */
     protected $_provider = null;
 
@@ -78,7 +73,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     protected $_actions = array();
 
     /**
-     * @var Zend_Reflection_Class
+     * @var \Zend\Reflection\ReflectionClass
      */
     protected $_providerReflection = null;
 
@@ -90,21 +85,21 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     /**
      * Constructor
      *
-     * @param Zend_Tool_Framework_Provider_Interface $provider
+     * @param \Zend\Tool\Framework\Provider $provider
      */
-    public function __construct(Zend_Tool_Framework_Provider_Interface $provider)
+    public function __construct(Provider $provider)
     {
         $this->_provider = $provider;
-        $this->_providerReflection = new Zend_Reflection_Class($provider);
+        $this->_providerReflection = new \Zend\Reflection\ReflectionClass($provider);
     }
 
     /**
      * setRegistry()
      *
-     * @param Zend_Tool_Framework_Registry_Interface $registry
-     * @return Zend_Tool_Framework_Provider_Signature
+     * @param \Zend\Tool\Framework\Registry $registry
+     * @return \Zend\Tool\Framework\Provider\Signature
      */
-    public function setRegistry(Zend_Tool_Framework_Registry_Interface $registry)
+    public function setRegistry(\Zend\Tool\Framework\Registry $registry)
     {
         $this->_registry = $registry;
         return $this;
@@ -132,7 +127,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     /**
      * Get the provider for this signature
      *
-     * @return Zend_Tool_Framework_Provider_Interface
+     * @return \Zend\Tool\Framework\Provider
      */
     public function getProvider()
     {
@@ -142,7 +137,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     /**
      * getProviderReflection()
      *
-     * @return Zend_Reflection_Class
+     * @return \Zend\Reflection\ReflectionClass
      */
     public function getProviderReflection()
     {
@@ -243,6 +238,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
             if (strpos($name, '_')) {
                 $name = substr($name, strrpos($name, '_')+1);
             }
+            $name = substr($className, strrpos($className, '\\')+1);
             $name = preg_replace('#(Provider|Manifest)$#', '', $name);
             $this->_name = $name;
         }
@@ -259,8 +255,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
         if ($this->_providerReflection->hasMethod('getSpecialties')) {
             $specialties = $this->_provider->getSpecialties();
             if (!is_array($specialties)) {
-                require_once 'Zend/Tool/Framework/Provider/Exception.php';
-                throw new Zend_Tool_Framework_Provider_Exception(
+                throw new Exception\RuntimeException(
                     'Provider ' . get_class($this->_provider) . ' must return an array for method getSpecialties().'
                     );
             }
@@ -268,8 +263,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
             $defaultProperties = $this->_providerReflection->getDefaultProperties();
             $specialties = (isset($defaultProperties['_specialties'])) ? $defaultProperties['_specialties'] : array();
             if (!is_array($specialties)) {
-                require_once 'Zend/Tool/Framework/Provider/Exception.php';
-                throw new Zend_Tool_Framework_Provider_Exception(
+                throw new Exception\RuntimeException(
                     'Provider ' . get_class($this->_provider) . '\'s property $_specialties must be an array.'
                     );
             }
@@ -311,10 +305,10 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
             }
 
             /**
-             * check to see if the method was a required method by a Zend_Tool_* interface
+             * check to see if the method was a required method by a Zend\Tool\* interface
              */
             foreach ($method->getDeclaringClass()->getInterfaces() as $methodDeclaringClassInterface) {
-                if (strpos($methodDeclaringClassInterface->getName(), 'Zend_Tool_') === 0
+                if (strpos($methodDeclaringClassInterface->getName(), 'Zend\\Tool\\') === 0
                     && $methodDeclaringClassInterface->hasMethod($methodName)) {
                     continue 2;
                 }
@@ -340,7 +334,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
             // get the action, and create non-existent actions when they dont exist (the true part below)
             $action = $this->_registry->getActionRepository()->getAction($actionableMethods[$methodName]['actionName']);
             if ($action == null) {
-                $action = new Zend_Tool_Framework_Action_Base($actionableMethods[$methodName]['actionName']);
+                $action = new \Zend\Tool\Framework\Action\Base($actionableMethods[$methodName]['actionName']);
                 $this->_registry->getActionRepository()->addAction($action);
             }
             $actionableMethods[$methodName]['action'] = $action;

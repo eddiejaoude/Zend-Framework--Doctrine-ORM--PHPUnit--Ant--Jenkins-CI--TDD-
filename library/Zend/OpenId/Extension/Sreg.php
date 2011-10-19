@@ -17,23 +17,23 @@
  * @package    Zend_OpenId
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Sreg.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_OpenId_Extension
+ * @namespace
  */
-require_once "Zend/OpenId/Extension.php";
+namespace Zend\OpenId\Extension;
 
 /**
- * 'Simple Refistration Extension' for Zend_OpenId
+ * 'Simple Refistration Extension' for Zend\OpenId
  *
+ * @uses       Zend\OpenId\Extension
  * @category   Zend
  * @package    Zend_OpenId
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
+class Sreg extends AbstractExtension
 {
     /**
      * SREG 1.1 namespace. All OpenID SREG 1.1 messages MUST contain variable
@@ -112,7 +112,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     }
 
     /**
-     * Adds additional SREG data to OpenId 'checkid_immediate' or
+     * Adds additional SREG data to OpenID 'checkid_immediate' or
      * 'checkid_setup' request.
      *
      * @param array &$params request's var/val pairs
@@ -137,7 +137,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
                 }
             }
             if ($this->_version >= 1.1) {
-                $params['openid.ns.sreg'] = Zend_OpenId_Extension_Sreg::NAMESPACE_1_1;
+                $params['openid.ns.sreg'] = self::NAMESPACE_1_1;
             }
             if (!empty($required)) {
                 $params['openid.sreg.required'] = $required;
@@ -153,7 +153,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     }
 
     /**
-     * Parses OpenId 'checkid_immediate' or 'checkid_setup' request,
+     * Parses OpenID 'checkid_immediate' or 'checkid_setup' request,
      * extracts SREG variables and sets ovject properties to corresponding
      * values.
      *
@@ -163,7 +163,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     public function parseRequest($params)
     {
         if (isset($params['openid_ns_sreg']) &&
-            $params['openid_ns_sreg'] === Zend_OpenId_Extension_Sreg::NAMESPACE_1_1) {
+            $params['openid_ns_sreg'] === self::NAMESPACE_1_1) {
             $this->_version= 1.1;
         } else {
             $this->_version= 1.0;
@@ -198,7 +198,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     }
 
     /**
-     * Adds additional SREG data to OpenId 'id_res' response.
+     * Adds additional SREG data to OpenID 'id_res' response.
      *
      * @param array &$params response's var/val pairs
      * @return bool
@@ -207,7 +207,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     {
         if (is_array($this->_props) && count($this->_props) > 0) {
             if ($this->_version >= 1.1) {
-                $params['openid.ns.sreg'] = Zend_OpenId_Extension_Sreg::NAMESPACE_1_1;
+                $params['openid.ns.sreg'] = self::NAMESPACE_1_1;
             }
             foreach (self::getSregProperties() as $prop) {
                 if (!empty($this->_props[$prop])) {
@@ -219,7 +219,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     }
 
     /**
-     * Parses OpenId 'id_res' response and sets object's properties according
+     * Parses OpenID 'id_res' response and sets object's properties according
      * to 'openid.sreg.*' variables in response
      *
      * @param array $params response's var/val pairs
@@ -228,7 +228,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
     public function parseResponse($params)
     {
         if (isset($params['openid_ns_sreg']) &&
-            $params['openid_ns_sreg'] === Zend_OpenId_Extension_Sreg::NAMESPACE_1_1) {
+            $params['openid_ns_sreg'] === self::NAMESPACE_1_1) {
             $this->_version= 1.1;
         } else {
             $this->_version= 1.0;
@@ -267,7 +267,7 @@ class Zend_OpenId_Extension_Sreg extends Zend_OpenId_Extension
 
     /**
      * Check if given $data contains necessury SREG properties to sutisfy
-     * OpenId request. On success sets SREG response properties from given
+     * OpenID request. On success sets SREG response properties from given
      * $data and returns true, on failure returns false.
      *
      * @param array $data data from tusted servers database

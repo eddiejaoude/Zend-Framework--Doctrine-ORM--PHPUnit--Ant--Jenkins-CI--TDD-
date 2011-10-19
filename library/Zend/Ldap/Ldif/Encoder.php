@@ -17,11 +17,15 @@
  * @subpackage Ldif
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Encoder.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * Zend_Ldap_Ldif_Encoder provides methods to encode and decode LDAP data into/from LDIF.
+ * @namespace
+ */
+namespace Zend\Ldap\Ldif;
+
+/**
+ * Zend_Ldap_Ldif_Encoder provides methods to encode and decode LDAP data into/from Ldif.
  *
  * @category   Zend
  * @package    Zend_Ldap
@@ -29,7 +33,7 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Ldap_Ldif_Encoder
+class Encoder
 {
     /**
      * Additional options used during encoding
@@ -59,7 +63,7 @@ class Zend_Ldap_Ldif_Encoder
     }
 
     /**
-     * Decodes the string $string into an array of LDIF items
+     * Decodes the string $string into an array of Ldif items
      *
      * @param  string $string
      * @return array
@@ -71,7 +75,7 @@ class Zend_Ldap_Ldif_Encoder
     }
 
     /**
-     * Decodes the string $string into an array of LDIF items
+     * Decodes the string $string into an array of Ldif items
      *
      * @param  string $string
      * @return array
@@ -138,7 +142,7 @@ class Zend_Ldap_Ldif_Encoder
     }
 
     /**
-     * Encode $value into a LDIF representation
+     * Encode $value into a Ldif representation
      *
      * @param  mixed $value   The value to be encoded
      * @param  array $options Additional options used during encoding
@@ -163,7 +167,7 @@ class Zend_Ldap_Ldif_Encoder
             return $this->_encodeString($value);
         } else if (is_array($value)) {
             return $this->_encodeAttributes($value);
-        } else if ($value instanceof Zend_Ldap_Node) {
+        } else if ($value instanceof \Zend\Ldap\Node) {
             return $value->toLdif($this->_options);
         }
         return null;

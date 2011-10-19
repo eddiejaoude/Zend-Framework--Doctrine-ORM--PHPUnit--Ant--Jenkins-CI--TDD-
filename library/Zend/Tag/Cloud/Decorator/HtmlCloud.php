@@ -17,24 +17,24 @@
  * @subpackage Cloud
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlCloud.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tag_Cloud_Decorator_Cloud
+ * @namespace
  */
-require_once 'Zend/Tag/Cloud/Decorator/Cloud.php';
+namespace Zend\Tag\Cloud\Decorator;
 
 /**
  * Simple HTML decorator for clouds
  *
+ * @uses      \Zend\Tag\Cloud\Decorator\Cloud
  * @category  Zend
  * @package   Zend_Tag
- * @uses      Zend_Tag_Cloud_Decorator_Cloud
+ * @uses      \Zend\Tag\Cloud\Decorator\Cloud
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
+class HtmlCloud extends Cloud
 {
     /**
      * @var string Encoding to use
@@ -47,7 +47,7 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      * @var array
      */
     protected $_htmlTags = array(
-        'ul' => array('class' => 'Zend_Tag_Cloud')
+        'ul' => array('class' => 'Zend\Tag\Cloud')
     );
 
     /**
@@ -71,7 +71,7 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      * Set encoding
      *
      * @param string
-     * @return Zend_Tag_Cloud_Decorator_HtmlCloud
+     * @return \Zend\Tag\Cloud\Decorator\HTMLCloud
      */
     public function setEncoding($value)
     {
@@ -83,9 +83,9 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      * Set the HTML tags surrounding all tags
      *
      * @param  array $htmlTags
-     * @return Zend_Tag_Cloud_Decorator_HtmlCloud
+     * @return \Zend\Tag\Cloud\Decorator\HTMLCloud
      */
-    public function setHtmlTags(array $htmlTags)
+    public function setHTMLTags(array $htmlTags)
     {
         $this->_htmlTags = $htmlTags;
         return $this;
@@ -96,7 +96,7 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      *
      * @return array
      */
-    public function getHtmlTags()
+    public function getHTMLTags()
     {
         return $this->_htmlTags;
     }
@@ -105,7 +105,7 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      * Set the separator between the single tags
      *
      * @param  string
-     * @return Zend_Tag_Cloud_Decorator_HtmlCloud
+     * @return \Zend\Tag\Cloud\Decorator\HTMLCloud
      */
     public function setSeparator($separator)
     {
@@ -124,17 +124,23 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
     }
 
     /**
-     * Defined by Zend_Tag_Cloud_Decorator_Cloud
+     * Defined by Zend\Tag\Cloud\Decorator\Cloud
      *
      * @param  array $tags
      * @return string
      */
-    public function render(array $tags)
+    public function render($tags)
     {
-        $cloudHtml = implode($this->getSeparator(), $tags);
+        if (!is_array($tags)) {
+            throw new Exception(sprintf(
+                'HtmlCloud::render() expects an array argument; received "%s"',
+                (is_object($tags) ? get_class($tags) : gettype($tags))
+            ));
+        }
+        $cloudHTML = implode($this->getSeparator(), $tags);
 
         $enc = $this->getEncoding();
-        foreach ($this->getHtmlTags() as $key => $data) {
+        foreach ($this->getHTMLTags() as $key => $data) {
             if (is_array($data)) {
                 $htmlTag    = $key;
                 $attributes = '';
@@ -147,9 +153,9 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
                 $attributes = '';
             }
 
-            $cloudHtml = sprintf('<%1$s%3$s>%2$s</%1$s>', $htmlTag, $cloudHtml, $attributes);
+            $cloudHTML = sprintf('<%1$s%3$s>%2$s</%1$s>', $htmlTag, $cloudHTML, $attributes);
         }
 
-        return $cloudHtml;
+        return $cloudHTML;
     }
 }

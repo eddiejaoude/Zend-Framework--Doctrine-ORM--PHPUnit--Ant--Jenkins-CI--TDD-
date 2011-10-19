@@ -17,17 +17,24 @@
  * @subpackage Client
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Result.php 23966 2011-05-03 14:30:07Z ralph $
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Rest\Client;
+
+/**
+ * @uses       IteratorAggregate
+ * @uses       \Zend\Rest\Client\Exception\ResultException
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage Client
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Rest_Client_Result implements IteratorAggregate {
+class Result implements \IteratorAggregate 
+{
     /**
      * @var SimpleXMLElement
      */
@@ -43,6 +50,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
      * Constructor
      *
      * @param string $data XML Result
+     * @throws \Zend\Rest\Client\Exception\ResultException
      * @return void
      */
     public function __construct($data)
@@ -57,8 +65,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
                 $message = "REST Response Error: " . $this->_errstr;
                 $this->_errstr = null;
             }
-            require_once "Zend/Rest/Client/Result/Exception.php";
-            throw new Zend_Rest_Client_Result_Exception($message);
+            throw new Exception\ResultException($message);
         }
     }
 
@@ -84,7 +91,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
      * @param SimpleXMLElement $value
      * @return mixed
      */
-    public function toValue(SimpleXMLElement $value)
+    public function toValue(\SimpleXMLElement $value)
     {
         $node = dom_import_simplexml($value);
         return $node->nodeValue;
@@ -94,7 +101,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
      * Get Property Overload
      *
      * @param string $name
-     * @return null|SimpleXMLElement|array Null if not found, SimpleXMLElement if only one value found, array of Zend_Rest_Client_Result objects otherwise
+     * @return null|SimpleXMLElement|array Null if not found, SimpleXMLElement if only one value found, array of \Zend\Rest\Client\Result objects otherwise
      */
     public function __get($name)
     {
@@ -155,7 +162,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
 
         $result = $this->_sxml->xpath("//$name");
 
-        if (sizeof($result) > 0) {
+        if (count($result) > 0) {
             return true;
         }
 
@@ -180,8 +187,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
     public function getStatus()
     {
         $status = $this->_sxml->xpath('//status/text()');
-        if ( !isset($status[0]) ) return false;
-        
+
         $status = strtolower($status[0]);
 
         if (ctype_alpha($status) && $status == 'success') {
@@ -227,7 +233,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
             return (string) $message[0];
         } else {
             $result = $this->_sxml->xpath('//response');
-            if (sizeof($result) > 1) {
+            if (count($result) > 1) {
                 return (string) "An error occured.";
             } else {
                 return (string) $result[0];

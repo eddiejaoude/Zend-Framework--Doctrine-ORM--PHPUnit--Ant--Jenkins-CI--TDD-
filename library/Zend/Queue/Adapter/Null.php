@@ -17,33 +17,40 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Null.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Queue_Adapter_AdapterAbstract
+ * @namespace
  */
-require_once 'Zend/Queue/Adapter/AdapterAbstract.php';
+namespace Zend\Queue\Adapter;
+use Zend\Queue\Queue,
+    Zend\Queue\Message,
+    Zend\Queue\Exception as QueueException;
+
 
 /**
  * Class testing.  No supported functions.  Also used to disable a Zend_Queue.
  *
+ * @uses       \Zend\Queue\Adapter\AdapterAbstract
+ * @uses       \Zend\Queue\Queue
+ * @uses       \Zend\Queue\Exception
+ * @uses       \Zend\Queue\Message
  * @category   Zend
  * @package    Zend_Queue
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Queue_Adapter_Null extends Zend_Queue_Adapter_AdapterAbstract
+class Null extends AbstractAdapter
 {
     /**
      * Constructor
      *
-     * @param  array|Zend_Config $options
-     * @param  null|Zend_Queue $queue
+     * @param  array|\Zend\Config\Config $options
+     * @param  null|\Zend\Queue\Queue $queue
      * @return void
      */
-    public function __construct($options, Zend_Queue $queue = null)
+    public function __construct($options, Queue $queue = null)
     {
         parent::__construct($options, $queue);
     }
@@ -55,57 +62,52 @@ class Zend_Queue_Adapter_Null extends Zend_Queue_Adapter_AdapterAbstract
     /**
      * Does a queue already exist?
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
     public function isExists($name)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
 
     /**
      * Create a new queue
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
     public function create($name, $timeout=null)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /**
      * Delete a queue and all of it's messages
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
     public function delete($name)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /**
      * Get an array of all available queues
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
     public function getQueues()
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /**
      * Return the approximate number of messages in the queue
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
-    public function count(Zend_Queue $queue=null)
+    public function count(Queue $queue=null)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /********************************************************************
@@ -115,34 +117,31 @@ class Zend_Queue_Adapter_Null extends Zend_Queue_Adapter_AdapterAbstract
     /**
      * Send a message to the queue
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
-    public function send($message, Zend_Queue $queue=null)
+    public function send($message, Queue $queue=null)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /**
      * Get messages in the queue
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
-    public function receive($maxMessages=null, $timeout=null, Zend_Queue $queue=null)
+    public function receive($maxMessages=null, $timeout=null, Queue $queue=null)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /**
      * Delete a message from the queue
      *
-     * @throws Zend_Queue_Exception - not supported.
+     * @throws \Zend\Queue\Exception - not supported.
      */
-    public function deleteMessage(Zend_Queue_Message $message)
+    public function deleteMessage(Message $message)
     {
-        require_once 'Zend/Queue/Exception.php';
-        throw new Zend_Queue_Exception(__FUNCTION__ . '() is not supported by ' . get_class($this));
+        throw new QueueException(__FUNCTION__ . '() is not supported by ' . get_class($this));
     }
 
     /********************************************************************

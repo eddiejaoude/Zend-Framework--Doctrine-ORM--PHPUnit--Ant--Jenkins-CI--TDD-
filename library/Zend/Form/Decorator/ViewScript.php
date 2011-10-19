@@ -19,8 +19,10 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Decorator_Abstract */
-require_once 'Zend/Form/Decorator/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Decorator;
 
 /**
  * Zend_Form_Decorator_ViewScript
@@ -31,7 +33,6 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * - separator: separator to use between view script content and provided content (defaults to PHP_EOL)
  * - placement: whether to append or prepend view script content to provided content (defaults to prepend)
  * - viewScript: view script to use
- * - viewModule: module that view script is in (optional)
  *
  * The view script is rendered as a partial; the element being decorated is
  * passed in as the 'element' variable:
@@ -40,17 +41,18 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * echo $this->element->getLabel();
  * </code>
  *
- * Any options other than separator, placement, viewScript, and viewModule are passed to
+ * Any options other than separator, placement, and viewScript are passed to
  * the partial as local variables.
  *
+ * @uses       \Zend\Form\Decorator\AbstractDecorator
+ * @uses       \Zend\Form\Decorator\Exception
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ViewScript.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Form_Decorator_ViewScript extends Zend_Form_Decorator_Abstract
+class ViewScript extends AbstractDecorator
 {
     /**
      * Default placement: append
@@ -65,16 +67,10 @@ class Zend_Form_Decorator_ViewScript extends Zend_Form_Decorator_Abstract
     protected $_viewScript;
 
     /**
-     * View script module
-     * @var string
-     */
-    protected $_viewModule;
-
-    /**
      * Set view script
      *
      * @param  string $script
-     * @return Zend_Form_Decorator_ViewScript
+     * @return \Zend\Form\Decorator\ViewScript
      */
     public function setViewScript($script)
     {
@@ -107,42 +103,6 @@ class Zend_Form_Decorator_ViewScript extends Zend_Form_Decorator_Abstract
     }
 
     /**
-     * Set view script module
-     *
-     * @param  string $module
-     * @return Zend_Form_Decorator_ViewScript
-     */
-    public function setViewModule($viewModule)
-    {
-        $this->_viewModule = (string) $viewModule;
-        return $this;
-    }
-
-    /**
-     * Get view script module
-     *
-     * @return string|null
-     */
-    public function getViewModule()
-    {
-        if (null === $this->_viewModule) {
-            if (null !== ($element = $this->getElement())) {
-                if (null !== ($viewModule = $element->getAttrib('viewModule'))) {
-                    $this->setViewModule($viewModule);
-                    return $viewModule;
-                }
-            }
-
-            if (null !== ($viewModule = $this->getOption('viewModule'))) {
-                $this->setViewModule($viewModule)
-                     ->removeOption('viewModule');
-            }
-        }
-
-        return $this->_viewModule;
-    }
-
-    /**
      * Render a view script
      *
      * @param  string $content
@@ -158,8 +118,7 @@ class Zend_Form_Decorator_ViewScript extends Zend_Form_Decorator_Abstract
 
         $viewScript = $this->getViewScript();
         if (empty($viewScript)) {
-            require_once 'Zend/Form/Exception.php';
-            throw new Zend_Form_Exception('No view script registered with ViewScript decorator');
+            throw new Exception\UnexpectedValueException('No view script registered with ViewScript decorator');
         }
 
         $separator = $this->getSeparator();
@@ -170,12 +129,7 @@ class Zend_Form_Decorator_ViewScript extends Zend_Form_Decorator_Abstract
         $vars['content']   = $content;
         $vars['decorator'] = $this;
 
-        $viewModule = $this->getViewModule();
-        if (empty($viewModule)) {
-            $renderedContent = $view->partial($viewScript, $vars);
-        } else {
-            $renderedContent = $view->partial($viewScript, $viewModule, $vars);
-        }
+        $renderedContent = $view->partial($viewScript, $vars);
 
         // Get placement again to see if it has changed
         $placement = $this->getPlacement();

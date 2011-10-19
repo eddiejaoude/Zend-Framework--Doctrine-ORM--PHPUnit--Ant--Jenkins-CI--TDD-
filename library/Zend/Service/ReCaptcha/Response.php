@@ -20,6 +20,13 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Service\ReCaptcha;
+
+use Zend\Http\Response as HTTPResponse;
+
+/**
  * Zend_Service_ReCaptcha_Response
  *
  * @category   Zend
@@ -27,9 +34,8 @@
  * @subpackage ReCaptcha
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Response.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Service_ReCaptcha_Response
+class Response
 {
     /**
      * Status
@@ -55,9 +61,9 @@ class Zend_Service_ReCaptcha_Response
      *
      * @param string $status
      * @param string $errorCode
-     * @param Zend_Http_Response $httpResponse If this is set the content will override $status and $errorCode
+     * @param \Zend\Http\Response $httpResponse If this is set the content will override $status and $errorCode
      */
-    public function __construct($status = null, $errorCode = null, Zend_Http_Response $httpResponse = null)
+    public function __construct($status = null, $errorCode = null, HTTPResponse $httpResponse = null)
     {
         if ($status !== null) {
             $this->setStatus($status);
@@ -76,7 +82,7 @@ class Zend_Service_ReCaptcha_Response
      * Set the status
      *
      * @param string $status
-     * @return Zend_Service_ReCaptcha_Response
+     * @return \Zend\Service\ReCaptcha\Response
      */
     public function setStatus($status)
     {
@@ -113,7 +119,7 @@ class Zend_Service_ReCaptcha_Response
      * Set the error code
      *
      * @param string $errorCode
-     * @return Zend_Service_ReCaptcha_Response
+     * @return \Zend\Service\ReCaptcha\Response
      */
     public function setErrorCode($errorCode)
     {
@@ -135,10 +141,10 @@ class Zend_Service_ReCaptcha_Response
     /**
      * Populate this instance based on a Zend_Http_Response object
      *
-     * @param Zend_Http_Response $response
-     * @return Zend_Service_ReCaptcha_Response
+     * @param \Zend\Http\Response $response
+     * @return \Zend\Service\ReCaptcha\Response
      */
-    public function setFromHttpResponse(Zend_Http_Response $response)
+    public function setFromHttpResponse(HTTPResponse $response)
     {
         $body = $response->getBody();
 

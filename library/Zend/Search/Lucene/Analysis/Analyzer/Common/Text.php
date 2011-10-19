@@ -17,23 +17,23 @@
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Text.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Zend_Search_Lucene_Analysis_Analyzer_Common */
-require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\Analyzer\Common;
+use Zend\Search\Lucene\Analysis;
 
 /**
+ * @uses       \Zend\Search\Lucene\Analysis\Token
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
-class Zend_Search_Lucene_Analysis_Analyzer_Common_Text extends Zend_Search_Lucene_Analysis_Analyzer_Common
+class Text extends AbstractCommon
 {
     /**
      * Current position in a stream
@@ -65,7 +65,7 @@ class Zend_Search_Lucene_Analysis_Analyzer_Common_Text extends Zend_Search_Lucen
      * Get next token
      * Returns null at the end of stream
      *
-     * @return Zend_Search_Lucene_Analysis_Token|null
+     * @return \Zend\Search\Lucene\Analysis\Token|null
      */
     public function nextToken()
     {
@@ -87,7 +87,7 @@ class Zend_Search_Lucene_Analysis_Analyzer_Common_Text extends Zend_Search_Lucen
 
             $this->_position = $endpos;
 
-            $token = $this->normalize(new Zend_Search_Lucene_Analysis_Token($str, $pos, $endpos));
+            $token = $this->normalize(new Analysis\Token($str, $pos, $endpos));
         } while ($token === null); // try again if token is skipped
 
         return $token;

@@ -19,19 +19,23 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Form_Element */
-require_once 'Zend/Form/Element.php';
+/**
+ * @namespace
+ */
+namespace Zend\Form\Element;
+
+use Zend\Form\Element;
 
 /**
  * Base element for XHTML elements
  *
+ * @uses       \Zend\Form\Element
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xhtml.php 23775 2011-03-01 17:25:24Z ralph $
  */
-abstract class Zend_Form_Element_Xhtml extends Zend_Form_Element
+abstract class Xhtml extends Element
 {
 }

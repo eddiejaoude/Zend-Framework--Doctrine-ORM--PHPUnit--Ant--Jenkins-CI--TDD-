@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -18,20 +17,24 @@
  * @subpackage Delicious
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SimplePost.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Service\Delicious;
 
 /**
  * Represents a publicly available post
  *
+ * @uses       Zend_Service_Delicious_Exception
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Delicious
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Service_Delicious_SimplePost
+class SimplePost
 {
     /**
      * @var string Post url
@@ -63,11 +66,7 @@ class Zend_Service_Delicious_SimplePost
     public function __construct(array $post)
     {
         if (!isset($post['u']) || !isset($post['d'])) {
-            /**
-             * @see Zend_Service_Delicious_Exception
-             */
-            require_once 'Zend/Service/Delicious/Exception.php';
-            throw new Zend_Service_Delicious_Exception('Title and URL not set.');
+            throw new Exception('Title and URL not set.');
         }
 
         $this->_url   = $post['u'];

@@ -17,28 +17,23 @@
  * @subpackage Object
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Planet.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Barcode_Object_Postnet
+ * @namespace
  */
-require_once 'Zend/Barcode/Object/Postnet.php';
-
-/**
- * @see Zend_Validate_Barcode
- */
-require_once 'Zend/Validate/Barcode.php';
+namespace Zend\Barcode\Object;
 
 /**
  * Class for generate Planet barcode
  *
+ * @uses       \Zend\Barcode\Object\Postnet
  * @category   Zend
  * @package    Zend_Barcode
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Barcode_Object_Planet extends Zend_Barcode_Object_Postnet
+class Planet extends Postnet
 {
 
     /**

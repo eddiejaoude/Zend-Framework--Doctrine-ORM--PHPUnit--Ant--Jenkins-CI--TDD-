@@ -14,27 +14,33 @@
  *
  * @category   Zend
  * @package    Zend_Soap
- * @subpackage Wsdl
+ * @subpackage WSDL
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DefaultComplexType.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Soap_Wsdl_Strategy_Abstract
+ * @namespace
  */
-require_once "Zend/Soap/Wsdl/Strategy/Abstract.php";
+namespace Zend\Soap\Wsdl\Strategy;
+
+use Zend\Soap;
+
+use Zend\Soap\Exception;
 
 /**
  * Zend_Soap_Wsdl_Strategy_DefaultComplexType
  *
+ * @uses       ReflectionClass
+ * @uses       \Zend\Soap\WsdlException
+ * @uses       \Zend\Soap\Wsdl\Strategy\AbstractStrategy
  * @category   Zend
  * @package    Zend_Soap
- * @subpackage Wsdl
+ * @subpackage WSDL
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy_Abstract
+class DefaultComplexType extends AbstractStrategy
 {
     /**
      * Add a complex type by recursivly using all the class properties fetched via Reflection.
@@ -45,20 +51,32 @@ class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy
     public function addComplexType($type)
     {
         if(!class_exists($type)) {
-            require_once "Zend/Soap/Wsdl/Exception.php";
-            throw new Zend_Soap_Wsdl_Exception(sprintf(
-                "Cannot add a complex type %s that is not an object or where ".
-                "class could not be found in 'DefaultComplexType' strategy.", $type
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Cannot add a complex type %s that is not an object or where '
+              . 'class could not be found in \'DefaultComplexType\' strategy.', $type
             ));
         }
 
+        if (($soapType = $this->scanRegisteredTypes($type)) !== null) {
+            return $soapType;
+        }
+
         $dom = $this->getContext()->toDomDocument();
-        $class = new ReflectionClass($type);
+        $class = new \ReflectionClass($type);
+
+        $soapTypeName = Soap\Wsdl::translateType($type);
+        $soapType     = 'tns:' . $soapTypeName;
+
+        // Register type here to avoid recursion
+        $this->getContext()->addType($type, $soapType);
+
+
+        $defaultProperties = $class->getDefaultProperties();
 
         $defaultProperties = $class->getDefaultProperties();
 
         $complexType = $dom->createElement('xsd:complexType');
-        $complexType->setAttribute('name', $type);
+        $complexType->setAttribute('name', $soapTypeName);
 
         $all = $dom->createElement('xsd:all');
 
@@ -84,8 +102,7 @@ class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy
 
         $complexType->appendChild($all);
         $this->getContext()->getSchema()->appendChild($complexType);
-        $this->getContext()->addType($type);
 
-        return "tns:$type";
+        return $soapType;
     }
 }

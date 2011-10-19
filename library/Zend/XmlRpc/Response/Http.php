@@ -19,21 +19,22 @@
  */
 
 /**
- * Zend_XmlRpc_Response
+ * @namespace
  */
-require_once 'Zend/XmlRpc/Response.php';
+namespace Zend\XmlRpc\Response;
+
+use Zend\XmlRpc\Response as XmlRpcResponse;
 
 /**
  * HTTP response
  *
- * @uses Zend_XmlRpc_Response
- * @category Zend
- * @package  Zend_XmlRpc
+ * @uses       \Zend\XmlRpc\Response\Response
+ * @category   Zend
+ * @package    Zend_XmlRpc
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Http.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_XmlRpc_Response_Http extends Zend_XmlRpc_Response
+class Http extends XmlRpcResponse
 {
     /**
      * Override __toString() to send HTTP Content-Type header

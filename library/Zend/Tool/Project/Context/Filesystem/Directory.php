@@ -17,48 +17,50 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Directory.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_Abstract
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/Abstract.php';
+namespace Zend\Tool\Project\Context\Filesystem;
+
+use Zend\Tool\Project\Profile\Resource\Resource;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\Tool\Project\Context\Filesystem\AbstractFilesystem
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Filesystem_Directory extends Zend_Tool_Project_Context_Filesystem_Abstract
+class Directory extends AbstractFilesystem
 {
 
     /**
      * getName()
-     *
+     * 
      * @return string
      */
     public function getName()
     {
         return 'directory';
     }
-
+    
     /**
      * create()
      *
-     * @return Zend_Tool_Project_Context_Filesystem_Directory;
+     * @return \Zend\Tool\Project\Context\Filesystem\Directory;
      */
     public function create()
     {
         // check to ensure the parent exists, if not, call it and create it
-        if (($parentResource = $this->_resource->getParentResource()) instanceof Zend_Tool_Project_Profile_Resource) {
-            if ((($parentContext = $parentResource->getContext()) instanceof Zend_Tool_Project_Context_Filesystem_Abstract)
+        if (($parentResource = $this->_resource->getParentResource()) instanceof Resource) {
+            if ((($parentContext = $parentResource->getContext()) instanceof AbstractFilesystem)
                 && (!$parentContext->exists())) {
                 $parentResource->create();
             }
@@ -74,7 +76,7 @@ class Zend_Tool_Project_Context_Filesystem_Directory extends Zend_Tool_Project_C
     /**
      * delete()
      *
-     * @return Zend_Tool_Project_Context_Filesystem_Directory
+     * @return \Zend\Tool\Project\Context\Filesystem\Directory
      */
     public function delete()
     {

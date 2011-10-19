@@ -17,22 +17,36 @@
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Wildcard.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Query;
 
-/** Zend_Search_Lucene_Search_Query */
-require_once 'Zend/Search/Lucene/Search/Query.php';
-
+use Zend\Search\Lucene\Index,
+	Zend\Search\Lucene,
+	Zend\Search\Lucene\Analysis\Analyzer,
+	Zend\Search\Lucene\Search\Highlighter,
+	Zend\Search\Lucene\Exception\UnsupportedMethodCallException,
+	Zend\Search\Lucene\Exception\RuntimeException,
+	Zend\Search\Lucene\Exception\OutOfBoundsException;
 
 /**
+ * @uses       \Zend\Search\Lucene\Index
+ * @uses       \Zend\Search\Lucene\Analysis\Analyzer\Analyzer
+ * @uses       \Zend\Search\Lucene\Exception\RuntimeException
+ * @uses       \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+ * @uses       \Zend\Search\Lucene\Exception\OutOfBoundsException
+ * @uses       \Zend\Search\Lucene\Index\Term
+ * @uses       \Zend\Search\Lucene\Search\Query
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search_Query
+class Wildcard extends AbstractQuery
 {
     /**
      * Search pattern.
@@ -40,7 +54,7 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
      * Field has to be fully specified or has to be null
      * Text may contain '*' or '?' symbols
      *
-     * @var Zend_Search_Lucene_Index_Term
+     * @var \Zend\Search\Lucene\Index\Term
      */
     private $_pattern;
 
@@ -67,9 +81,9 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
     /**
      * Zend_Search_Lucene_Search_Query_Wildcard constructor.
      *
-     * @param Zend_Search_Lucene_Index_Term $pattern
+     * @param \Zend\Search\Lucene\Index\Term $pattern
      */
-    public function __construct(Zend_Search_Lucene_Index_Term $pattern)
+    public function __construct(Index\Term $pattern)
     {
         $this->_pattern = $pattern;
     }
@@ -121,11 +135,12 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
-     * @throws Zend_Search_Lucene_Exception
+     * @param \Zend\Search\Lucene\SearchIndex $index
+     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \Zend\Search\Lucene\Exception\OutOfBoundsException
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function rewrite(Zend_Search_Lucene_Interface $index)
+    public function rewrite(Lucene\SearchIndex $index)
     {
         $this->_matches = array();
 
@@ -141,8 +156,9 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
         $matchExpression = '/^' . str_replace(array('\\?', '\\*'), array('.', '.*') , preg_quote($this->_pattern->text, '/')) . '$/';
 
         if ($prefixLength < self::$_minPrefixLength) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('At least ' . self::$_minPrefixLength . ' non-wildcard characters are required at the beginning of pattern.');
+            throw new RuntimeException(
+            	'At least ' . self::$_minPrefixLength . ' non-wildcard characters are required at the beginning of pattern.'
+            );
         }
 
         /** @todo check for PCRE unicode support may be performed through Zend_Environment in some future */
@@ -152,13 +168,12 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
             $matchExpression .= 'u';
         }
 
-        $maxTerms = Zend_Search_Lucene::getTermsPerQueryLimit();
+        $maxTerms = Lucene\Lucene::getTermsPerQueryLimit();
         foreach ($fields as $field) {
             $index->resetTermsStream();
 
-            require_once 'Zend/Search/Lucene/Index/Term.php';
             if ($prefix != '') {
-                $index->skipTo(new Zend_Search_Lucene_Index_Term($prefix, $field));
+                $index->skipTo(new Index\Term($prefix, $field));
 
                 while ($index->currentTerm() !== null          &&
                        $index->currentTerm()->field == $field  &&
@@ -167,23 +182,21 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
                         $this->_matches[] = $index->currentTerm();
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            require_once 'Zend/Search/Lucene/Exception.php';
-                            throw new Zend_Search_Lucene_Exception('Terms per query limit is reached.');
+                            throw new OutOfBoundsException('Terms per query limit is reached.');
                         }
                     }
 
                     $index->nextTerm();
                 }
             } else {
-                $index->skipTo(new Zend_Search_Lucene_Index_Term('', $field));
+                $index->skipTo(new Index\Term('', $field));
 
                 while ($index->currentTerm() !== null  &&  $index->currentTerm()->field == $field) {
                     if (preg_match($matchExpression, $index->currentTerm()->text) === 1) {
                         $this->_matches[] = $index->currentTerm();
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            require_once 'Zend/Search/Lucene/Exception.php';
-                            throw new Zend_Search_Lucene_Exception('Terms per query limit is reached.');
+                            throw new OutOfBoundsException('Terms per query limit is reached.');
                         }
                     }
 
@@ -195,14 +208,11 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
         }
 
         if (count($this->_matches) == 0) {
-            require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
-            return new Zend_Search_Lucene_Search_Query_Empty();
+            return new EmptyResult();
         } else if (count($this->_matches) == 1) {
-            require_once 'Zend/Search/Lucene/Search/Query/Term.php';
-            return new Zend_Search_Lucene_Search_Query_Term(reset($this->_matches));
+            return new Term(reset($this->_matches));
         } else {
-            require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
-            $rewrittenQuery = new Zend_Search_Lucene_Search_Query_MultiTerm();
+            $rewrittenQuery = new MultiTerm();
 
             foreach ($this->_matches as $matchedTerm) {
                 $rewrittenQuery->addTerm($matchedTerm);
@@ -215,20 +225,20 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
     /**
      * Optimize query in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\SearchIndex $index
+     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function optimize(Zend_Search_Lucene_Interface $index)
+    public function optimize(Lucene\SearchIndex $index)
     {
-        require_once 'Zend/Search/Lucene/Exception.php';
-        throw new Zend_Search_Lucene_Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
+        throw new UnsupportedMethodCallException('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
 
     /**
      * Returns query pattern
      *
-     * @return Zend_Search_Lucene_Index_Term
+     * @return \Zend\Search\Lucene\Index\Term
      */
     public function getPattern()
     {
@@ -239,14 +249,13 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
     /**
      * Return query terms
      *
+     * @throws \Zend\Search\Lucene\Exception\RuntimeException
      * @return array
-     * @throws Zend_Search_Lucene_Exception
      */
     public function getQueryTerms()
     {
         if ($this->_matches === null) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Search has to be performed first to get matched terms');
+            throw new RuntimeException('Search has to be performed first to get matched terms');
         }
 
         return $this->_matches;
@@ -255,14 +264,13 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @return Zend_Search_Lucene_Search_Weight
-     * @throws Zend_Search_Lucene_Exception
+     * @param \Zend\Search\Lucene\SearchIndex $reader
+     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @return \Zend\Search\Lucene\Search\Weight\Weight
      */
-    public function createWeight(Zend_Search_Lucene_Interface $reader)
+    public function createWeight(Lucene\SearchIndex $reader)
     {
-        require_once 'Zend/Search/Lucene/Exception.php';
-        throw new Zend_Search_Lucene_Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
+        throw new UnsupportedMethodCallException('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
 
@@ -270,14 +278,13 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
-     * @throws Zend_Search_Lucene_Exception
+     * @param \Zend\Search\Lucene\SearchIndex $reader
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
      */
-    public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null)
+    public function execute(Lucene\SearchIndex $reader, $docsFilter = null)
     {
-        require_once 'Zend/Search/Lucene/Exception.php';
-        throw new Zend_Search_Lucene_Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
+        throw new UnsupportedMethodCallException('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
     /**
@@ -285,35 +292,37 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
      *
      * It's an array with document ids as keys (performance considerations)
      *
+     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
      * @return array
-     * @throws Zend_Search_Lucene_Exception
      */
     public function matchedDocs()
     {
-        require_once 'Zend/Search/Lucene/Exception.php';
-        throw new Zend_Search_Lucene_Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
+        throw new UnsupportedMethodCallException(
+        	'Wildcard query should not be directly used for search. Use $query->rewrite($index)'
+        );
     }
 
     /**
      * Score specified document
      *
      * @param integer $docId
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\SearchIndex $reader
+     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
      * @return float
-     * @throws Zend_Search_Lucene_Exception
      */
-    public function score($docId, Zend_Search_Lucene_Interface $reader)
+    public function score($docId, Lucene\SearchIndex $reader)
     {
-        require_once 'Zend/Search/Lucene/Exception.php';
-        throw new Zend_Search_Lucene_Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
+        throw new UnsupportedMethodCallException(
+        	'Wildcard query should not be directly used for search. Use $query->rewrite($index)'
+        );
     }
 
     /**
      * Query specific matches highlighting
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param \Zend\Search\Lucene\Search\Highlighter $highlighter  Highlighter object (also contains doc for highlighting)
      */
-    protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
+    protected function _highlightMatches(Lucene\Search\Highlighter $highlighter)
     {
         $words = array();
 
@@ -325,8 +334,7 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
         }
 
         $docBody = $highlighter->getDocument()->getFieldUtf8Value('body');
-        require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
-        $tokens = Zend_Search_Lucene_Analysis_Analyzer::getDefault()->tokenize($docBody, 'UTF-8');
+        $tokens = Analyzer\Analyzer::getDefault()->tokenize($docBody, 'UTF-8');
         foreach ($tokens as $token) {
             if (preg_match($matchExpression, $token->getTermText()) === 1) {
                 $words[] = $token->getTermText();
@@ -359,4 +367,3 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
         return $query;
     }
 }
-

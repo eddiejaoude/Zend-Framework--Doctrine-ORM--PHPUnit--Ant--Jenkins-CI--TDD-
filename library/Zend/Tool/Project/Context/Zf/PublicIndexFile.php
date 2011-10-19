@@ -17,26 +17,27 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PublicIndexFile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_File
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
+namespace Zend\Tool\Project\Context\Zf;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\CodeGenerator\Php\PhpFile
+ * @uses       \Zend\Tool\Project\Context\Filesystem\File
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_PublicIndexFile extends Zend_Tool_Project_Context_Filesystem_File
+class PublicIndexFile extends \Zend\Tool\Project\Context\Filesystem\File
 {
 
     /**
@@ -61,11 +62,11 @@ class Zend_Tool_Project_Context_Zf_PublicIndexFile extends Zend_Tool_Project_Con
      */
     public function getContents()
     {
-        $codeGenerator = new Zend_CodeGenerator_Php_File(array(
-            'body' => <<<EOS
+        $codeGenerator = new \Zend\CodeGenerator\Php\PhpFile(array(
+            'body' => <<<'EOS'
 // Define path to application directory
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
+    || define('APPLICATION_PATH', realpath(__DIR__ . '/../application'));
 
 // Define application environment
 defined('APPLICATION_ENV')
@@ -78,15 +79,16 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 /** Zend_Application */
-require_once 'Zend/Application.php';
+require_once 'Zend/Application/Application.php';
 
 // Create application, bootstrap, and run
-\$application = new Zend_Application(
+$application = new Zend\Application\Application (
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
-\$application->bootstrap()
+$application->bootstrap()
             ->run();
+
 EOS
             ));
         return $codeGenerator->generate();

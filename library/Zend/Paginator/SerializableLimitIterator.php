@@ -16,16 +16,22 @@
  * @package    Zend_Paginator
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SerializableLimitIterator.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Paginator;
+
+/**
+ * @uses       LimitIterator
+ * @uses       Serializable
  * @category   Zend
  * @package    Zend_Paginator
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Paginator_SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
+class SerializableLimitIterator extends \LimitIterator implements \Serializable, \ArrayAccess
 {
 
     /**
@@ -50,7 +56,7 @@ class Zend_Paginator_SerializableLimitIterator extends LimitIterator implements 
      * @param int $count Maximum number of elements to show or -1 for all
      * @see LimitIterator::__construct
      */
-    public function __construct (Iterator $it, $offset=0, $count=-1)
+    public function __construct (\Iterator $it, $offset=0, $count=-1)
     {
         parent::__construct($it, $offset, $count);
         $this->_offset = $offset;
@@ -120,9 +126,8 @@ class Zend_Paginator_SerializableLimitIterator extends LimitIterator implements 
                 $current = $this->current();
                 $this->seek($currentOffset);
                 return null !== $current;
-            } catch (OutOfBoundsException $e) {
+            } catch (\OutOfBoundsException $e) {
                 // reset position in case of exception is assigned null
-                $this->rewind();
                 $this->seek($currentOffset);
                 return false;
             }

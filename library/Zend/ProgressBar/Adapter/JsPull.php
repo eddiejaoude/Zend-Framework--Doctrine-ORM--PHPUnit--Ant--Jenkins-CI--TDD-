@@ -14,30 +14,28 @@
  * @package    Zend_ProgressBar
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: JsPull.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Json
+ * @namespace
  */
-require_once 'Zend/Json.php';
+namespace Zend\ProgressBar\Adapter;
 
-/**
- * @see Zend_ProgressBar_Adapter
- */
-require_once 'Zend/ProgressBar/Adapter.php';
+use Zend\Json\Json;
 
 /**
  * Zend_ProgressBar_Adapter_JsPull offers a simple method for updating a
  * progressbar in a browser.
  *
+ * @uses      \Zend\Json\Json
+ * @uses      \Zend\ProgressBar\Adapter\Adapter
  * @category  Zend
  * @package   Zend_ProgressBar
  * @uses      Zend_ProgressBar_Adapter_Interface
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_ProgressBar_Adapter_JsPull extends Zend_ProgressBar_Adapter
+class JsPull extends AbstractAdapter
 {
     /**
      * Wether to exit after json data send or not
@@ -50,7 +48,7 @@ class Zend_ProgressBar_Adapter_JsPull extends Zend_ProgressBar_Adapter
      * Set wether to exit after json data send or not
      *
      * @param  boolean $exitAfterSend
-     * @return Zend_ProgressBar_Adapter_JsPull
+     * @return \Zend\ProgressBar\Adapter\JsPull
      */
     public function setExitAfterSend($exitAfterSend)
     {
@@ -80,7 +78,7 @@ class Zend_ProgressBar_Adapter_JsPull extends Zend_ProgressBar_Adapter
             'finished'      => false
         );
 
-        $data = Zend_Json::encode($arguments);
+        $data = Json::encode($arguments);
 
         // Output the data
         $this->_outputData($data);
@@ -93,7 +91,7 @@ class Zend_ProgressBar_Adapter_JsPull extends Zend_ProgressBar_Adapter
      */
     public function finish()
     {
-        $data = Zend_Json::encode(array('finished' => true));
+        $data = Json::encode(array('finished' => true));
 
         $this->_outputData($data);
     }

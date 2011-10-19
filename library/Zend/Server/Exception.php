@@ -19,17 +19,18 @@
  */
 
 /**
- * Zend_Exception
+ * @namespace
  */
-require_once 'Zend/Exception.php';
+namespace Zend\Server;
 
 /**
- * Zend_Server_Reflection exceptions
+ * Zend_Server exceptions
  *
- * @package Zend_Server
- * @subpackage Reflection
- * @version $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
+ * @category   Zend
+ * @package    Zend_Server
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Server_Exception extends Zend_Exception
+interface Exception
 {
 }

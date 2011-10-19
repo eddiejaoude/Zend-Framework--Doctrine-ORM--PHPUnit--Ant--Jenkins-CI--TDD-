@@ -17,22 +17,30 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Model.php 24074 2011-05-28 20:54:48Z ralph $
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Tool\Project\Provider;
+use Zend\Tool\Project\Profile\Profile as ProjectProfile,
+    Zend\Tool\Project\Profile\Resource\Resource;
+
+/**
+ * @uses       \Zend\Tool\Project\Provider\AbstractProvider
+ * @uses       \Zend\Tool\Project\Provider\Exception
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstract
+class Model extends AbstractProvider
 {
 
-    public static function createResource(Zend_Tool_Project_Profile $profile, $modelName, $moduleName = null)
+    public static function createResource(ProjectProfile $profile, $modelName, $moduleName = null)
     {
         if (!is_string($modelName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Model::createResource() expects \"modelName\" is the name of a model resource to create.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Model::createResource() expects \"modelName\" is the name of a model resource to create.');
         }
 
         if (!($modelsDirectory = self::_getModelsDirectoryResource($profile, $moduleName))) {
@@ -41,11 +49,11 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
             } else {
                 $exceptionMessage = 'A model directory was not found.';
             }
-            throw new Zend_Tool_Project_Provider_Exception($exceptionMessage);
+            throw new Exception\RuntimeException($exceptionMessage);
         }
 
         $newModel = $modelsDirectory->createResource(
-            'modelFile',
+            'modelFile', 
             array('modelName' => $modelName, 'moduleName' => $moduleName)
             );
 
@@ -55,34 +63,29 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
     /**
      * hasResource()
      *
-     * @param Zend_Tool_Project_Profile $profile
+     * @param \Zend\Tool\Project\Profile\Profile $profile
      * @param string $modelName
      * @param string $moduleName
-     * @return Zend_Tool_Project_Profile_Resource
+     * @return \Zend\Tool\Project\Profile\Resource\Resource
      */
-    public static function hasResource(Zend_Tool_Project_Profile $profile, $modelName, $moduleName = null)
+    public static function hasResource(ProjectProfile $profile, $modelName, $moduleName = null)
     {
         if (!is_string($modelName)) {
-            throw new Zend_Tool_Project_Provider_Exception('Zend_Tool_Project_Provider_Model::createResource() expects \"modelName\" is the name of a model resource to check for existence.');
+            throw new Exception\RuntimeException('Zend\\Tool\\Project\\Provider\\Model::createResource() expects \"modelName\" is the name of a model resource to check for existence.');
         }
 
         $modelsDirectory = self::_getModelsDirectoryResource($profile, $moduleName);
-        
-        if (!$modelsDirectory instanceof Zend_Tool_Project_Profile_Resource) {
-            return false;
-        }
-        
-        return (($modelsDirectory->search(array('modelFile' => array('modelName' => $modelName)))) instanceof Zend_Tool_Project_Profile_Resource);
+        return (($modelsDirectory->search(array('modelFile' => array('modelName' => $modelName)))) instanceof Resource);
     }
-
+    
     /**
      * _getModelsDirectoryResource()
      *
-     * @param Zend_Tool_Project_Profile $profile
+     * @param \Zend\Tool\Project\Profile\Profile $profile
      * @param string $moduleName
-     * @return Zend_Tool_Project_Profile_Resource
+     * @return \Zend\Tool\Project\Profile\Resource\Resource
      */
-    protected static function _getModelsDirectoryResource(Zend_Tool_Project_Profile $profile, $moduleName = null)
+    protected static function _getModelsDirectoryResource(ProjectProfile $profile, $moduleName = null)
     {
         $profileSearchParams = array();
 
@@ -94,7 +97,7 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
 
         return $profile->search($profileSearchParams);
     }
-
+    
     /**
      * Create a new model
      *
@@ -106,29 +109,29 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
         $this->_loadProfile(self::NO_PROFILE_THROW_EXCEPTION);
 
         $originalName = $name;
-
+        
         $name = ucwords($name);
-
+        
         // determine if testing is enabled in the project
-        $testingEnabled = false; //Zend_Tool_Project_Provider_Test::isTestingEnabled($this->_loadedProfile);
+        $testingEnabled = false; //Zend\Tool\Project\Provider\Test::isTestingEnabled($this->_loadedProfile);
         $testModelResource = null;
 
         // Check that there is not a dash or underscore, return if doesnt match regex
         if (preg_match('#[_-]#', $name)) {
-            throw new Zend_Tool_Project_Provider_Exception('Model names should be camel cased.');
+            throw new Exception\RuntimeException('Model names should be camel cased.');
         }
-
+        
         if (self::hasResource($this->_loadedProfile, $name, $module)) {
-            throw new Zend_Tool_Project_Provider_Exception('This project already has a model named ' . $name);
+            throw new Exception\RuntimeException('This project already has a model named ' . $name);
         }
-
+        
         // get request/response object
         $request = $this->_registry->getRequest();
         $response = $this->_registry->getResponse();
-
+        
         // alert the user about inline converted names
         $tense = (($request->isPretend()) ? 'would be' : 'is');
-
+        
         if ($name !== $originalName) {
             $response->appendContent(
                 'Note: The canonical model name that ' . $tense
@@ -137,15 +140,15 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
                 array('color' => array('yellow'))
                 );
         }
-
+        
         try {
             $modelResource = self::createResource($this->_loadedProfile, $name, $module);
 
             if ($testingEnabled) {
-                // $testModelResource = Zend_Tool_Project_Provider_Test::createApplicationResource($this->_loadedProfile, $name, 'index', $module);
+                // $testModelResource = Zend\Tool\Project\Provider\Test::createApplicationResource($this->_loadedProfile, $name, 'index', $module);
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->setException($e);
             return;
         }

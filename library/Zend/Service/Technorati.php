@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -18,9 +17,7 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Technorati.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
 
 /**
  * Zend_Service_Technorati provides an easy, intuitive and object-oriented interface
@@ -29,6 +26,18 @@
  * It provides access to all available Technorati API queries
  * and returns the original XML response as a friendly PHP object.
  *
+ * @uses       DOMDocument
+ * @uses       DOMXPath
+ * @uses       Zend_Rest_Client
+ * @uses       Zend_Service_Technorati_BlogInfoResult
+ * @uses       Zend_Service_Technorati_CosmosResultSet
+ * @uses       Zend_Service_Technorati_DailyCountsResultSet
+ * @uses       Zend_Service_Technorati_Exception
+ * @uses       Zend_Service_Technorati_GetInfoResult
+ * @uses       Zend_Service_Technorati_KeyInfoResult
+ * @uses       Zend_Service_Technorati_SearchResultSet
+ * @uses       Zend_Service_Technorati_TagResultSet
+ * @uses       Zend_Service_Technorati_TagsResultSet
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -156,10 +165,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_COSMOS, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_CosmosResultSet
-         */
-        require_once 'Zend/Service/Technorati/CosmosResultSet.php';
         return new Zend_Service_Technorati_CosmosResultSet($dom, $options);
     }
 
@@ -218,10 +223,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_SEARCH, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_SearchResultSet
-         */
-        require_once 'Zend/Service/Technorati/SearchResultSet.php';
         return new Zend_Service_Technorati_SearchResultSet($dom, $options);
     }
 
@@ -266,10 +267,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_TAG, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_TagResultSet
-         */
-        require_once 'Zend/Service/Technorati/TagResultSet.php';
         return new Zend_Service_Technorati_TagResultSet($dom, $options);
     }
 
@@ -302,10 +299,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_DAILYCOUNTS, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_DailyCountsResultSet
-         */
-        require_once 'Zend/Service/Technorati/DailyCountsResultSet.php';
         return new Zend_Service_Technorati_DailyCountsResultSet($dom);
     }
 
@@ -340,10 +333,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_TOPTAGS, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_TagsResultSet
-         */
-        require_once 'Zend/Service/Technorati/TagsResultSet.php';
         return new Zend_Service_Technorati_TagsResultSet($dom);
     }
 
@@ -369,10 +358,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_BLOGINFO, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_BlogInfoResult
-         */
-        require_once 'Zend/Service/Technorati/BlogInfoResult.php';
         return new Zend_Service_Technorati_BlogInfoResult($dom);
     }
 
@@ -412,10 +397,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_BLOGPOSTTAGS, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_TagsResultSet
-         */
-        require_once 'Zend/Service/Technorati/TagsResultSet.php';
         return new Zend_Service_Technorati_TagsResultSet($dom);
     }
 
@@ -446,10 +427,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_GETINFO, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_GetInfoResult
-         */
-        require_once 'Zend/Service/Technorati/GetInfoResult.php';
         return new Zend_Service_Technorati_GetInfoResult($dom);
     }
 
@@ -474,10 +451,6 @@ class Zend_Service_Technorati
         $response = $this->_makeRequest(self::API_PATH_KEYINFO, $options);
         $dom = $this->_convertResponseAndCheckContent($response);
 
-        /**
-         * @see Zend_Service_Technorati_KeyInfoResult
-         */
-        require_once 'Zend/Service/Technorati/KeyInfoResult.php';
         return new Zend_Service_Technorati_KeyInfoResult($dom, $this->_apiKey);
     }
 
@@ -503,10 +476,6 @@ class Zend_Service_Technorati
     public function getRestClient()
     {
         if ($this->_restClient === null) {
-            /**
-             * @see Zend_Rest_Client
-             */
-            require_once 'Zend/Rest/Client.php';
             $this->_restClient = new Zend_Rest_Client(self::API_URI_BASE);
         }
 
@@ -652,10 +621,6 @@ class Zend_Service_Technorati
             $options['days'] = (int) $options['days'];
             if ($options['days'] < self::PARAM_DAYS_MIN_VALUE ||
                 $options['days'] > self::PARAM_DAYS_MAX_VALUE) {
-                /**
-                 * @see Zend_Service_Technorati_Exception
-                 */
-                require_once 'Zend/Service/Technorati/Exception.php';
                 throw new Zend_Service_Technorati_Exception(
                             "Invalid value '" . $options['days'] . "' for 'days' option");
             }
@@ -765,10 +730,6 @@ class Zend_Service_Technorati
     protected function _validateInArrayOption($name, $options, array $array)
     {
         if (isset($options[$name]) && !in_array($options[$name], $array)) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "Invalid value '{$options[$name]}' for '$name' option");
         }
@@ -785,10 +746,6 @@ class Zend_Service_Technorati
     protected function _validateMandatoryOption($name, $options)
     {
         if (!isset($options[$name]) || !trim($options[$name])) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "Empty value for '$name' option");
         }
@@ -851,10 +808,6 @@ class Zend_Service_Technorati
     protected function _validateOptionFormat(array $options)
     {
         if (isset($options['format']) && $options['format'] != 'xml') {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "Invalid value '" . $options['format'] . "' for 'format' option. " .
                         "Zend_Service_Technorati supports only 'xml'");
@@ -878,10 +831,6 @@ class Zend_Service_Technorati
         $options['limit'] = (int) $options['limit'];
         if ($options['limit'] < self::PARAM_LIMIT_MIN_VALUE ||
             $options['limit'] > self::PARAM_LIMIT_MAX_VALUE) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "Invalid value '" . $options['limit'] . "' for 'limit' option");
         }
@@ -902,10 +851,6 @@ class Zend_Service_Technorati
 
         $options['start'] = (int) $options['start'];
         if ($options['start'] < self::PARAM_START_MIN_VALUE) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "Invalid value '" . $options['start'] . "' for 'start' option");
         }
@@ -942,10 +887,6 @@ class Zend_Service_Technorati
         $result = $xpath->query("/tapi/document/result/error");
         if ($result->length >= 1) {
             $error = $result->item(0)->nodeValue;
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception($error);
         }
     }
@@ -977,10 +918,6 @@ class Zend_Service_Technorati
     protected static function _checkResponse(Zend_Http_Response $response)
     {
         if ($response->isError()) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(sprintf(
                         'Invalid response status code (HTTP/%s %s %s)',
                         $response->getVersion(), $response->getStatus(), $response->getMessage()));
@@ -1000,10 +937,6 @@ class Zend_Service_Technorati
     {
         $difference = array_diff(array_keys($options), $validOptions);
         if ($difference) {
-            /**
-             * @see Zend_Service_Technorati_Exception
-             */
-            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "The following parameters are invalid: '" .
                         implode("', '", $difference) . "'");

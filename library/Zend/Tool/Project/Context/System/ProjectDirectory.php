@@ -17,45 +17,36 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ProjectDirectory.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Tool_Project_Context_Filesystem_Directory
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Filesystem/Directory.php';
+namespace Zend\Tool\Project\Context\System;
+use Zend\Tool\Project\Context\System,
+    Zend\Tool\Project\Context\Exception;
 
 /**
- * @see Zend_Tool_Project_Context_System_Interface
- */
-require_once 'Zend/Tool/Project/Context/System/Interface.php';
-
-/**
- * @see Zend_Tool_Project_Context_System_TopLevelRestrictable
- */
-require_once 'Zend/Tool/Project/Context/System/TopLevelRestrictable.php';
-
-/**
- * @see Zend_Tool_Project_Context_System_NotOverwritable
- */
-require_once 'Zend/Tool/Project/Context/System/NotOverwritable.php';
-
-/**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\Tool\Project\Context\Filesystem\Directory
+ * @uses       \Zend\Tool\Project\Context\System
+ * @uses       \Zend\Tool\Project\Context\System\NotOverwritable
+ * @uses       \Zend\Tool\Project\Context\System\TopLevelRestrictable
+ * @uses       \Zend\Tool\Project\Exception
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_System_ProjectDirectory
-    extends Zend_Tool_Project_Context_Filesystem_Directory
-    implements Zend_Tool_Project_Context_System_Interface,
-               Zend_Tool_Project_Context_System_NotOverwritable,
-               Zend_Tool_Project_Context_System_TopLevelRestrictable
+class ProjectDirectory
+    extends \Zend\Tool\Project\Context\Filesystem\Directory
+    implements System,
+               NotOverwritable,
+               TopLevelRestrictable
 {
 
     /**
@@ -76,7 +67,7 @@ class Zend_Tool_Project_Context_System_ProjectDirectory
     /**
      * init()
      *
-     * @return Zend_Tool_Project_Context_System_ProjectDirectory
+     * @return \Zend\Tool\Project\Context\System\ProjectDirectory
      */
     public function init()
     {
@@ -90,8 +81,7 @@ class Zend_Tool_Project_Context_System_ProjectDirectory
 
         // if not, exception.
         if ($projectDirectory == null) {
-            require_once 'Zend/Tool/Project/Exception.php';
-            throw new Zend_Tool_Project_Exception('projectDirectory cannot find the directory for this project.');
+            throw new Exception\RuntimeException('projectDirectory cannot find the directory for this project.');
         }
 
         $this->_baseDirectory = rtrim($projectDirectory, '\\/');
@@ -101,26 +91,10 @@ class Zend_Tool_Project_Context_System_ProjectDirectory
     /**
      * create()
      *
-     * @return Zend_Tool_Project_Context_System_ProjectDirectory
+     * @return \Zend\Tool\Project\Context\System\ProjectDirectory
      */
     public function create()
     {
-        if (file_exists($this->getPath())) {
-            /*
-            foreach (new DirectoryIterator($this->getPath()) as $item) {
-                if (!$item->isDot()) {
-                    if ($registry->getClient()->isInteractive()) {
-                        // @todo prompt for override
-                    } else {
-                        require_once 'Zend/Tool/Project/Context/Exception.php';
-                        throw new Zend_Tool_Project_Context_Exception('This directory is not empty, project creation aborted.');
-                    }
-                    break;
-                }
-            }
-            */
-        }
-
         parent::create();
         return $this;
     }

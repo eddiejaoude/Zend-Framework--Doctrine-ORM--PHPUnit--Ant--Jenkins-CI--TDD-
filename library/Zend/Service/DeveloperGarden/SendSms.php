@@ -17,35 +17,15 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SendSms.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Service_DeveloperGarden_Client_ClientAbstract
- */
-require_once 'Zend/Service/DeveloperGarden/Client/ClientAbstract.php';
-
-/**
- * @see Zend_Service_DeveloperGarden_Response_SendSms_SendSMSResponse
- */
-require_once 'Zend/Service/DeveloperGarden/Response/SendSms/SendSMSResponse.php';
-
-/**
- * @see Zend_Service_DeveloperGarden_Response_SendSms_SendFlashSMSResponse
- */
-require_once 'Zend/Service/DeveloperGarden/Response/SendSms/SendFlashSMSResponse.php';
-
-/**
- * @see Zend_Service_DeveloperGarden_Request_SendSms_SendSMS
- */
-require_once 'Zend/Service/DeveloperGarden/Request/SendSms/SendSMS.php';
-
-/**
- * @see Zend_Service_DeveloperGarden_Request_SendSms_SendFlashSMS
- */
-require_once 'Zend/Service/DeveloperGarden/Request/SendSms/SendFlashSMS.php';
-
-/**
+ * @uses       Zend_Service_DeveloperGarden_Client_AbstractClient
+ * @uses       Zend_Service_DeveloperGarden_Client_Exception
+ * @uses       Zend_Service_DeveloperGarden_Request_SendSms_SendFlashSMS
+ * @uses       Zend_Service_DeveloperGarden_Request_SendSms_SendSMS
+ * @uses       Zend_Service_DeveloperGarden_Response_SendSms_SendFlashSMSResponse
+ * @uses       Zend_Service_DeveloperGarden_Response_SendSms_SendSMSResponse
  * @category   Zend
  * @package    Zend_Service
  * @subpackage DeveloperGarden
@@ -54,7 +34,7 @@ require_once 'Zend/Service/DeveloperGarden/Request/SendSms/SendFlashSMS.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_DeveloperGarden_SendSms
-    extends Zend_Service_DeveloperGarden_Client_ClientAbstract
+    extends Zend_Service_DeveloperGarden_Client_AbstractClient
 {
     /**
      * wsdl file
@@ -126,11 +106,11 @@ class Zend_Service_DeveloperGarden_SendSms
     /**
      * sends an sms with the given parameters
      *
-     * @param Zend_Service_DeveloperGarden_Request_SendSms_SendSmsAbstract $sms
+     * @param Zend_Service_DeveloperGarden_Request_SendSms_AbstractSendSms $sms
      *
-     * @return Zend_Service_DeveloperGarden_Response_SendSms_SendSmsAbstract
+     * @return Zend_Service_DeveloperGarden_Response_SendSms_AbstractSendSms
      */
-    public function send(Zend_Service_DeveloperGarden_Request_SendSms_SendSmsAbstract $sms)
+    public function send(Zend_Service_DeveloperGarden_Request_SendSms_AbstractSendSms $sms)
     {
         $client = $this->getSoapClient();
         $request = array(
@@ -146,7 +126,6 @@ class Zend_Service_DeveloperGarden_SendSms
                 $response = $client->sendFlashSms($request);
                 break;
             default : {
-                require_once 'Zend/Service/DeveloperGarden/Client/Exception.php';
                 throw new Zend_Service_DeveloperGarden_Client_Exception('Unknown SMS Type');
             }
         }

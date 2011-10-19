@@ -13,34 +13,38 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cmyk.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Numeric.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Color;
 
-
-/** Zend_Pdf_Color */
-require_once 'Zend/Pdf/Color.php';
+use Zend\Pdf\Color,
+    Zend\Pdf\InternalType;
 
 /**
  * CMYK color implementation
  *
+ * @uses       \Zend\Pdf\Color
+ * @uses       \Zend\Pdf\InternalType\NumericObject
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Color
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
+class Cmyk implements Color
 {
     /**
      * Cyan level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_c;
 
@@ -48,7 +52,7 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * Magenta level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_m;
 
@@ -56,7 +60,7 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * Yellow level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_y;
 
@@ -64,7 +68,7 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * Key (BlacK) level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
      *
-     * @var Zend_Pdf_Element_Numeric
+     * @var \Zend\Pdf\InternalType\NumericObject
      */
     private $_k;
 
@@ -91,10 +95,10 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
         if ($k < 0) { $k = 0; }
         if ($k > 1) { $k = 1; }
 
-        $this->_c = new Zend_Pdf_Element_Numeric($c);
-        $this->_m = new Zend_Pdf_Element_Numeric($m);
-        $this->_y = new Zend_Pdf_Element_Numeric($y);
-        $this->_k = new Zend_Pdf_Element_Numeric($k);
+        $this->_c = new InternalType\NumericObject($c);
+        $this->_m = new InternalType\NumericObject($m);
+        $this->_y = new InternalType\NumericObject($y);
+        $this->_k = new InternalType\NumericObject($k);
     }
 
     /**

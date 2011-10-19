@@ -19,26 +19,27 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Controller_Plugin_Abstract */
-require_once 'Zend/Controller/Plugin/Abstract.php';
-
-/** Zend_Registry */
-require_once 'Zend/Registry.php';
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Plugin;
+use Zend\Controller\Request;
 
 /**
  * Manage a stack of actions
  *
- * @uses       Zend_Controller_Plugin_Abstract
+ * @uses       \Zend\Controller\Exception
+ * @uses       \Zend\Controller\Plugin\AbstractPlugin
+ * @uses       \Zend\Registry
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Plugins
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActionStack.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
+class ActionStack extends AbstractPlugin
 {
-    /** @var Zend_Registry */
+    /** @var \Zend\Registry */
     protected $_registry;
 
     /**
@@ -69,14 +70,14 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * Constructor
      *
-     * @param  Zend_Registry $registry
+     * @param  \Zend\Registry $registry
      * @param  string $key
      * @return void
      */
-    public function __construct(Zend_Registry $registry = null, $key = null)
+    public function __construct(\Zend\Registry $registry = null, $key = null)
     {
         if (null === $registry) {
-            $registry = Zend_Registry::getInstance();
+            $registry = \Zend\Registry::getInstance();
         }
         $this->setRegistry($registry);
 
@@ -92,10 +93,10 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * Set registry object
      *
-     * @param  Zend_Registry $registry
-     * @return Zend_Controller_Plugin_ActionStack
+     * @param  \Zend\Registry $registry
+     * @return \Zend\Controller\Plugin\ActionStack
      */
-    public function setRegistry(Zend_Registry $registry)
+    public function setRegistry(\Zend\Registry $registry)
     {
         $this->_registry = $registry;
         return $this;
@@ -104,7 +105,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * Retrieve registry object
      *
-     * @return Zend_Registry
+     * @return \Zend\Registry
      */
     public function getRegistry()
     {
@@ -125,7 +126,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
      * Set registry key
      *
      * @param  string $key
-     * @return Zend_Controller_Plugin_ActionStack
+     * @return \Zend\Controller\Plugin\ActionStack
      */
     public function setRegistryKey($key)
     {
@@ -137,7 +138,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
      *  Set clearRequestParams flag
      *
      *  @param  bool $clearRequestParams
-     *  @return Zend_Controller_Plugin_ActionStack
+     *  @return \Zend\Controller\Plugin\ActionStack
      */
     public function setClearRequestParams($clearRequestParams)
     {
@@ -171,7 +172,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
      * Save stack to registry
      *
      * @param  array $stack
-     * @return Zend_Controller_Plugin_ActionStack
+     * @return \Zend\Controller\Plugin\ActionStack
      */
     protected function _saveStack(array $stack)
     {
@@ -183,10 +184,10 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * Push an item onto the stack
      *
-     * @param  Zend_Controller_Request_Abstract $next
-     * @return Zend_Controller_Plugin_ActionStack
+     * @param  \Zend\Controller\Request\AbstractRequest $next
+     * @return \Zend\Controller\Plugin\ActionStack
      */
-    public function pushStack(Zend_Controller_Request_Abstract $next)
+    public function pushStack(Request\AbstractRequest $next)
     {
         $stack = $this->getStack();
         array_push($stack, $next);
@@ -196,7 +197,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * Pop an item off the action stack
      *
-     * @return false|Zend_Controller_Request_Abstract
+     * @return false|\Zend\Controller\Request\AbstractRequest
      */
     public function popStack()
     {
@@ -208,9 +209,8 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
         $next = array_pop($stack);
         $this->_saveStack($stack);
 
-        if (!$next instanceof Zend_Controller_Request_Abstract) {
-            require_once 'Zend/Controller/Exception.php';
-            throw new Zend_Controller_Exception('ArrayStack should only contain request objects');
+        if (!$next instanceof Request\AbstractRequest) {
+            throw new end\Controller\Exception('ArrayStack should only contain request objects');
         }
         $action = $next->getActionName();
         if (empty($action)) {
@@ -234,10 +234,10 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
     /**
      * postDispatch() plugin hook -- check for actions in stack, and dispatch if any found
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param  \Zend\Controller\Request\AbstractRequest $request
      * @return void
      */
-    public function postDispatch(Zend_Controller_Request_Abstract $request)
+    public function postDispatch(Request\AbstractRequest $request)
     {
         // Don't move on to next request if this is already an attempt to
         // forward
@@ -264,7 +264,7 @@ class Zend_Controller_Plugin_ActionStack extends Zend_Controller_Plugin_Abstract
      * @param  array $next
      * @return void
      */
-    public function forward(Zend_Controller_Request_Abstract $next)
+    public function forward(Request\AbstractRequest $next)
     {
         $request = $this->getRequest();
         if ($this->getClearRequestParams()) {

@@ -17,29 +17,15 @@
  * @subpackage Technorati
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DailyCountsResultSet.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
-
-/**
- * @see Zend_Date
- */
-require_once 'Zend/Date.php';
-
-/**
- * @see Zend_Service_Technorati_ResultSet
- */
-require_once 'Zend/Service/Technorati/ResultSet.php';
-
-/**
- * @see Zend_Service_Technorati_Utils
- */
-require_once 'Zend/Service/Technorati/Utils.php';
-
 
 /**
  * Represents a Technorati Tag query result set.
  *
+ * @uses       Zend_Date
+ * @uses       Zend_Service_Technorati_DailyCountsResult
+ * @uses       Zend_Service_Technorati_ResultSet
+ * @uses       Zend_Service_Technorati_Utils
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
@@ -73,10 +59,6 @@ class Zend_Service_Technorati_DailyCountsResultSet extends Zend_Service_Technora
     public function __construct(DomDocument $dom, $options = array())
     {
         parent::__construct($dom, $options);
-
-        // default locale prevent Zend_Date to fail
-        // when script is executed via shell
-        // Zend_Locale::setDefault('en');
 
         $result = $this->_xpath->query('/tapi/document/result/days/text()');
         if ($result->length == 1) $this->_days = (int) $result->item(0)->data;
@@ -116,10 +98,6 @@ class Zend_Service_Technorati_DailyCountsResultSet extends Zend_Service_Technora
      */
     public function current()
     {
-        /**
-         * @see Zend_Service_Technorati_DailyCountsResult
-         */
-        require_once 'Zend/Service/Technorati/DailyCountsResult.php';
         return new Zend_Service_Technorati_DailyCountsResult($this->_results->item($this->_currentIndex));
     }
 }

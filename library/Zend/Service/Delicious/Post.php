@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -18,31 +17,28 @@
  * @subpackage Delicious
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Post.php 23775 2011-03-01 17:25:24Z ralph $
  */
-
 
 /**
- * @see Zend_Date
+ * @namespace
  */
-require_once 'Zend/Date.php';
-
-/**
- * @see Zend_Service_Delicious_SimplePost
- */
-require_once 'Zend/Service/Delicious/SimplePost.php';
-
+namespace Zend\Service\Delicious;
+use \Zend\Date\Date;
 
 /**
  * Zend_Service_Delicious_Post represents a post of a user that can be edited
  *
+ * @uses       Zend_Date
+ * @uses       Zend_Service_Delicious
+ * @uses       Zend_Service_Delicious_Exception
+ * @uses       Zend_Service_Delicious_SimplePost
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Delicious
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
+class Post extends SimplePost
 {
     /**
      * Service that has downloaded the post
@@ -57,7 +53,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     protected $_others;
 
     /**
-     * @var Zend_Date Post date
+     * @var \Zend\Date\Date Post date
      */
     protected $_date;
 
@@ -79,29 +75,21 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
      * @throws Zend_Service_Delicious_Exception
      * @return void
      */
-    public function __construct(Zend_Service_Delicious $service, $values)
+    public function __construct(Delicious $service, $values)
     {
         $this->_service = $service;
 
-        if ($values instanceof DOMElement) {
+        if ($values instanceof \DOMElement) {
             $values = self::_parsePostNode($values);
         }
 
         if (!is_array($values) || !isset($values['url']) || !isset($values['title'])) {
-            /**
-             * @see Zend_Service_Delicious_Exception
-             */
-            require_once 'Zend/Service/Delicious/Exception.php';
-            throw new Zend_Service_Delicious_Exception("Second argument must be array with at least 2 keys ('url' and"
+            throw new Exception("Second argument must be array with at least 2 keys ('url' and"
                                                      . " 'title')");
         }
 
-        if (isset($values['date']) && ! $values['date'] instanceof Zend_Date) {
-            /**
-             * @see Zend_Service_Delicious_Exception
-             */
-            require_once 'Zend/Service/Delicious/Exception.php';
-            throw new Zend_Service_Delicious_Exception("Date has to be an instance of Zend_Date");
+        if (isset($values['date']) && ! $values['date'] instanceof Date) {
+            throw new Exception("Date has to be an instance of \Zend\Date\Date");
         }
 
         foreach (array('url', 'title', 'notes', 'others', 'tags', 'date', 'shared', 'hash') as $key) {
@@ -179,7 +167,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     /**
      * Getter for date
      *
-     * @return Zend_Date
+     * @return \Zend\Date\Date
      */
     public function getDate()
     {
@@ -259,12 +247,12 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
             'replace'    => 'yes'
         );
         /*
-        if ($this->_date instanceof Zend_Date) {
+        if ($this->_date instanceof \Zend\Date\Date) {
             $parms['dt'] = $this->_date->get('Y-m-d\TH:i:s\Z');
         }
         */
 
-        return $this->_service->makeRequest(Zend_Service_Delicious::PATH_POSTS_ADD, $parms);
+        return $this->_service->makeRequest(Delicious::PATH_POSTS_ADD, $parms);
     }
 
     /**
@@ -273,7 +261,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
      * @param  DOMElement $node
      * @return array
      */
-    protected static function _parsePostNode(DOMElement $node)
+    protected static function _parsePostNode(\DOMElement $node)
     {
         return array(
             'url'    => $node->getAttribute('href'),
@@ -281,10 +269,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
             'notes'  => $node->getAttribute('extended'),
             'others' => (int) $node->getAttribute('others'),
             'tags'   => explode(' ', $node->getAttribute('tag')),
-            /**
-             * @todo replace strtotime() with Zend_Date equivalent
-             */
-            'date'   => new Zend_Date(strtotime($node->getAttribute('time'))),
+            'date'   => new Date(strtotime($node->getAttribute('time'))),
             'shared' => ($node->getAttribute('shared') == 'no' ? false : true),
             'hash'   => $node->getAttribute('hash')
         );

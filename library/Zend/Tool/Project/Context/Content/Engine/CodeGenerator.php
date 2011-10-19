@@ -17,11 +17,21 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CodeGenerator.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * @namespace
+ */
+namespace Zend\Tool\Project\Context\Content\Engine;
+
+use Zend\CodeGenerator\AbstractCodeGenerator,
+    Zend\CodeGenerator\Php as PhpCodeGenerator,
+    Zend\Tool\Framework\Client\Storage,
+    Zend\Tool\Project\Context,
+    Zend\Tool\Project\Exception;
+
+/**
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
@@ -31,10 +41,10 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
+class CodeGenerator
 {
     /**
-     * @var Zend_Tool_Framework_Client_Storage
+     * @var Storage
      */
     protected $_storage = null;
 
@@ -46,10 +56,10 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
     /**
      * __construct()
      *
-     * @param Zend_Tool_Framework_Client_Storage $storage
+     * @param Storage $storage
      * @param string $contentPrefix
      */
-    public function __construct(Zend_Tool_Framework_Client_Storage $storage, $contentPrefix)
+    public function __construct(Storage $storage, $contentPrefix)
     {
         $this->_storage       = $storage;
         $this->_contentPrefix = $contentPrefix;
@@ -58,11 +68,11 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
     /**
      * hasContent()
      *
-     * @param Zend_Tool_Project_Context_Interface $context
+     * @param \Zend\Tool\Project\Context $context
      * @param string $method
      * @return string
      */
-    public function hasContent(Zend_Tool_Project_Context_Interface $context, $method)
+    public function hasContent(Context $context, $method)
     {
         return $this->_storage->has($this->_contentPrefix . '/' . $context->getName() . '/' . $method . '.php');
     }
@@ -70,25 +80,25 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
     /**
      * getContent()
      *
-     * @param Zend_Tool_Project_Context_Interface $context
+     * @param \Zend\Tool\Project\Context $context
      * @param string $method
      * @param mixed $parameters
      * @return string
      */
-    public function getContent(Zend_Tool_Project_Context_Interface $context, $method, $parameters)
+    public function getContent(Context $context, $method, $parameters)
     {
         $streamUri = $this->_storage->getStreamUri($this->_contentPrefix . '/' . $context->getName() . '/' . $method . '.php');
 
         if (method_exists($context, 'getCodeGenerator')) {
             $codeGenerator = $context->getCodeGenerator();
         } else {
-            $codeGenerator = new Zend_CodeGenerator_Php_File();
+            $codeGenerator = new PhpCodeGenerator\PhpFile();
         }
 
         $codeGenerator = include $streamUri;
 
-        if (!$codeGenerator instanceof Zend_CodeGenerator_Abstract) {
-            throw new Zend_Tool_Project_Exception('Custom file at ' . $streamUri . ' did not return the $codeGenerator object.');
+        if (!$codeGenerator instanceof AbstractCodeGenerator) {
+            throw new Exception\RuntimeException('Custom file at ' . $streamUri . ' did not return the $codeGenerator object.');
         }
 
         return $codeGenerator->generate();

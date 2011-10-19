@@ -17,15 +17,11 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: IpAddress.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Validate_Ip
- */
-require_once 'Zend/Validate/Ip.php';
-
-/**
+ * @uses       Zend\Validator\Ip
+ * @uses       Zend_Service_DeveloperGarden_Exception
  * @category   Zend
  * @package    Zend_Service
  * @subpackage DeveloperGarden
@@ -79,11 +75,10 @@ class Zend_Service_DeveloperGarden_IpLocation_IpAddress
      */
     public function setIp($ip)
     {
-        $validator = new Zend_Validate_Ip();
+        $validator = new Zend\Validator\Ip();
 
         if (!$validator->isValid($ip)) {
             $message = $validator->getMessages();
-            require_once 'Zend/Service/DeveloperGarden/Exception.php';
             throw new Zend_Service_DeveloperGarden_Exception($message['notIpAddress']);
         }
         $this->_address = $ip;
@@ -110,7 +105,6 @@ class Zend_Service_DeveloperGarden_IpLocation_IpAddress
     public function setVersion($version)
     {
         if (!in_array($version, $this->_versionSupported)) {
-            require_once 'Zend/Service/DeveloperGarden/Exception.php';
             throw new Zend_Service_DeveloperGarden_Exception('Ip Version ' . (int)$version . ' is not supported.');
         }
 

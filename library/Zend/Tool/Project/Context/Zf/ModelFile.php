@@ -17,38 +17,40 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ModelFile.php 24060 2011-05-28 17:18:04Z adamlundrigan $
  */
 
 /**
- * Zend_Tool_Project_Context_Zf_AbstractClassFile
+ * @namespace
  */
-require_once 'Zend/Tool/Project/Context/Zf/AbstractClassFile.php';
+namespace Zend\Tool\Project\Context\Zf;
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend\Tool\Project
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
+ * @uses       \Zend\CodeGenerator\Php\PhpClass
+ * @uses       \Zend\CodeGenerator\Php\PhpFile
+ * @uses       \Zend\Tool\Project\Context\Zf\AbstractClassFile
  * @category   Zend
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Context_Zf_ModelFile extends Zend_Tool_Project_Context_Zf_AbstractClassFile
+class ModelFile extends AbstractClassFile
 {
 
     /**
      * @var string
      */
     protected $_modelName = 'Base';
-
+    
     /**
      * @var string
      */
     protected $_filesystemName = 'modelName';
-
+    
     /**
      * init()
      *
@@ -71,7 +73,7 @@ class Zend_Tool_Project_Context_Zf_ModelFile extends Zend_Tool_Project_Context_Z
             'modelName' => $this->getModelName()
             );
     }
-
+    
     /**
      * getName()
      *
@@ -86,22 +88,22 @@ class Zend_Tool_Project_Context_Zf_ModelFile extends Zend_Tool_Project_Context_Z
     {
         return $this->_modelName;
     }
-
+    
     public function getContents()
     {
-
+        
         $className = $this->getFullClassName($this->_modelName, 'Model');
-
-        $codeGenFile = new Zend_CodeGenerator_Php_File(array(
+        
+        $codeGenFile = new \Zend\CodeGenerator\Php\PhpFile(array(
             'fileName' => $this->getPath(),
             'classes' => array(
-                new Zend_CodeGenerator_Php_Class(array(
+                new \Zend\CodeGenerator\Php\PhpClass(array(
                     'name' => $className,
                     ))
                 )
             ));
         return $codeGenFile->generate();
     }
-
-
+    
+    
 }

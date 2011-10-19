@@ -13,27 +13,25 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Type0.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Internally used classes */
-require_once 'Zend/Pdf/Element/Array.php';
-require_once 'Zend/Pdf/Element/Name.php';
-
-
-/** Zend_Pdf_Resource_Font */
-require_once 'Zend/Pdf/Resource/Font.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Resource\Font;
+use Zend\Pdf\InternalType;
+use Zend\Pdf;
 
 /**
  * Adobe PDF composite fonts implementation
  *
  * A composite font is one whose glyphs are obtained from other fonts or from fontlike
- * objects called CIDFonts ({@link Zend_Pdf_Resource_Font_CidFont}), organized hierarchically.
+ * objects called CIDFonts ({@link \Zend\Pdf\Resource\Font\CidFont\AbstractCidFont}),
+ * organized hierarchically.
  * In PDF, a composite font is represented by a font dictionary whose Subtype value is Type0;
  * this is also called a Type 0 font (the Type 0 font at the top level of the hierarchy is the
  * root font).
@@ -53,19 +51,23 @@ require_once 'Zend/Pdf/Resource/Font.php';
  *
  *
  * Font objects should be normally be obtained from the factory methods
- * {@link Zend_Pdf_Font::fontWithName} and {@link Zend_Pdf_Font::fontWithPath}.
+ * {@link \Zend\Pdf\Font::fontWithName} and {@link \Zend\Pdf\Font::fontWithPath}.
  *
- * @package    Zend_Pdf
- * @subpackage Fonts
+ * @uses       \Zend\Pdf\InternalType\ArrayObject
+ * @uses       \Zend\Pdf\InternalType\NameObject
+ * @uses       \Zend\Pdf\Font
+ * @uses       \Zend\Pdf\Resource\Font\AbstractFont
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Fonts
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
+class Type0 extends AbstractFont
 {
     /**
      * Descendant CIDFont
      *
-     * @var Zend_Pdf_Resource_Font_CidFont
+     * @var \Zend\Pdf\Resource\Font\CidFont\AbstractCidFont
      */
     private $_descendantFont;
 
@@ -103,13 +105,13 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
      * Object constructor
      *
      */
-    public function __construct(Zend_Pdf_Resource_Font_CidFont $descendantFont)
+    public function __construct(CidFont\AbstractCidFont $descendantFont)
     {
         parent::__construct();
 
         $this->_objectFactory->attach($descendantFont->getFactory());
 
-        $this->_fontType       = Zend_Pdf_Font::TYPE_TYPE_0;
+        $this->_fontType       = Pdf\Font::TYPE_TYPE_0;
         $this->_descendantFont = $descendantFont;
 
 
@@ -131,10 +133,10 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
         $this->_lineGap = $descendantFont->getLineGap();
 
 
-        $this->_resource->Subtype         = new Zend_Pdf_Element_Name('Type0');
-        $this->_resource->BaseFont        = new Zend_Pdf_Element_Name($descendantFont->getResource()->BaseFont->value);
-        $this->_resource->DescendantFonts = new Zend_Pdf_Element_Array(array( $descendantFont->getResource() ));
-        $this->_resource->Encoding        = new Zend_Pdf_Element_Name('Identity-H');
+        $this->_resource->Subtype         = new InternalType\NameObject('Type0');
+        $this->_resource->BaseFont        = new InternalType\NameObject($descendantFont->getResource()->BaseFont->value);
+        $this->_resource->DescendantFonts = new InternalType\ArrayObject(array( $descendantFont->getResource() ));
+        $this->_resource->Encoding        = new InternalType\NameObject('Identity-H');
 
         $toUnicode = $this->_objectFactory->newStreamObject(self::getToUnicodeCMapData());
         $this->_resource->ToUnicode = $toUnicode;
@@ -144,7 +146,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
     /**
      * Returns an array of glyph numbers corresponding to the Unicode characters.
      *
-     * Zend_Pdf uses 'Identity-H' encoding for Type 0 fonts.
+     * Zend_PDF uses 'Identity-H' encoding for Type 0 fonts.
      * So we don't need to perform any conversion
      *
      * See also {@link glyphNumberForCharacter()}.
@@ -160,7 +162,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
     /**
      * Returns the glyph number corresponding to the Unicode character.
      *
-     * Zend_Pdf uses 'Identity-H' encoding for Type 0 fonts.
+     * Zend_PDF uses 'Identity-H' encoding for Type 0 fonts.
      * So we don't need to perform any conversion
      *
      * @param integer $characterCode Unicode character code (code point).
@@ -206,7 +208,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
      *
      * @param array &$glyphNumbers Array of glyph numbers.
      * @return array Array of glyph widths (integers).
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend\Pdf\Exception
      */
     public function widthsForGlyphs($glyphNumbers)
     {
@@ -220,7 +222,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
      *
      * @param integer $glyphNumber
      * @return integer
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend\Pdf\Exception
      */
     public function widthForGlyph($glyphNumber)
     {

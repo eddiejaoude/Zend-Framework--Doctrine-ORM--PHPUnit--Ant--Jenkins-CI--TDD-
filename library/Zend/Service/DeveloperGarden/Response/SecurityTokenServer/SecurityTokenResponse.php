@@ -17,20 +17,12 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SecurityTokenResponse.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
- * @see Zend_Service_DeveloperGarden_Response_ResponseAbstract
- */
-require_once 'Zend/Service/DeveloperGarden/Response/ResponseAbstract.php';
-
-/**
- * @see Zend_Service_DeveloperGarden_Response_SecurityTokenServer_Interface
- */
-require_once 'Zend/Service/DeveloperGarden/Response/SecurityTokenServer/Interface.php';
-
-/**
+ * @uses       Zend_Service_DeveloperGarden_Response_Exception
+ * @uses       Zend_Service_DeveloperGarden_Response_AbstractResponse
+ * @uses       Zend_Service_DeveloperGarden_Response_SecurityTokenServer_Interface
  * @category   Zend
  * @package    Zend_Service
  * @subpackage DeveloperGarden
@@ -39,7 +31,7 @@ require_once 'Zend/Service/DeveloperGarden/Response/SecurityTokenServer/Interfac
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_DeveloperGarden_Response_SecurityTokenServer_SecurityTokenResponse
-    extends Zend_Service_DeveloperGarden_Response_ResponseAbstract
+    extends Zend_Service_DeveloperGarden_Response_AbstractResponse
     implements Zend_Service_DeveloperGarden_Response_SecurityTokenServer_Interface
 {
     /**
@@ -71,7 +63,6 @@ class Zend_Service_DeveloperGarden_Response_SecurityTokenServer_SecurityTokenRes
     public function getTokenData()
     {
         if (empty($this->tokenData)) {
-            require_once 'Zend/Service/DeveloperGarden/Response/Exception.php';
             throw new Zend_Service_DeveloperGarden_Response_Exception('No valid tokenData found.');
         }
 

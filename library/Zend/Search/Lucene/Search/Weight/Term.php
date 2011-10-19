@@ -17,41 +17,47 @@
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Term.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-
-/** Zend_Search_Lucene_Search_Weight */
-require_once 'Zend/Search/Lucene/Search/Weight.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Weight;
+use Zend\Search\Lucene\Index;
+use Zend\Search\Lucene\Search\Query;
+use Zend\Search\Lucene;
 
 /**
+ * @uses       \Zend\Search\Lucene\Search\Weight\AbstractWeight
+ * @uses       \Zend\Search\Lucene\Index\Term
+ * @uses       \Zend\Search\Lucene\Search\Query\AbstractQuery
+ * @uses       \Zend\Search\Lucene\SearchIndex
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Weight_Term extends Zend_Search_Lucene_Search_Weight
+class Term extends AbstractWeight
 {
     /**
      * IndexReader.
      *
-     * @var Zend_Search_Lucene_Interface
+     * @var \Zend\Search\Lucene\SearchIndex
      */
     private $_reader;
 
     /**
      * Term
      *
-     * @var Zend_Search_Lucene_Index_Term
+     * @var \Zend\Search\Lucene\Index\Term
      */
     private $_term;
 
     /**
      * The query that this concerns.
      *
-     * @var Zend_Search_Lucene_Search_Query
+     * @var \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
     private $_query;
 
@@ -74,13 +80,13 @@ class Zend_Search_Lucene_Search_Weight_Term extends Zend_Search_Lucene_Search_We
      * Zend_Search_Lucene_Search_Weight_Term constructor
      * reader - index reader
      *
-     * @param Zend_Search_Lucene_Index_Term   $term
-     * @param Zend_Search_Lucene_Search_Query $query
-     * @param Zend_Search_Lucene_Interface    $reader
+     * @param \Zend\Search\Lucene\Index\Term                 $term
+     * @param \Zend\Search\Lucene\Search\Query\AbstractQuery $query
+     * @param \Zend\Search\Lucene\SearchIndex             $reader
      */
-    public function __construct(Zend_Search_Lucene_Index_Term   $term,
-                                Zend_Search_Lucene_Search_Query $query,
-                                Zend_Search_Lucene_Interface    $reader)
+    public function __construct(Index\Term            $term,
+                                Query\AbstractQuery   $query,
+                                Lucene\SearchIndex $reader)
     {
         $this->_term   = $term;
         $this->_query  = $query;
@@ -122,4 +128,3 @@ class Zend_Search_Lucene_Search_Weight_Term extends Zend_Search_Lucene_Search_We
         $this->_value = $this->_queryWeight * $this->_idf;
     }
 }
-

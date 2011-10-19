@@ -17,8 +17,15 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DictionaryLoader.php 23775 2011-03-01 17:25:24Z ralph $
  */
+
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Index;
+
+use Zend\Search\Lucene,
+	Zend\Search\Lucene\Exception\InvalidFileFormatException;
 
 /**
  * Dictionary loader
@@ -27,14 +34,14 @@
  * Manual "method inlining" is performed to increase dictionary index loading operation
  * which is major bottelneck for search performance.
  *
- *
+ * @uses       \Zend\Search\Lucene\Exception\InvalidFileFormatException
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Index_DictionaryLoader
+class DictionaryLoader
 {
     /**
      * Dictionary index loader.
@@ -46,7 +53,7 @@ class Zend_Search_Lucene_Index_DictionaryLoader
      *
      * @param string $data
      * @return array
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
      */
     public static function load($data)
     {
@@ -59,8 +66,7 @@ class Zend_Search_Lucene_Index_DictionaryLoader
         $pos += 4;
         if ($tiVersion != (int)0xFFFFFFFE /* pre-2.1 format */ &&
             $tiVersion != (int)0xFFFFFFFD /* 2.1+ format    */) {
-                require_once 'Zend/Search/Lucene/Exception.php';
-                throw new Zend_Search_Lucene_Exception('Wrong TermInfoIndexFile file format');
+                throw new InvalidFileFormatException('Wrong TermInfoIndexFile file format');
         }
 
         // $indexTermCount = $tiiFile->readLong();
@@ -79,8 +85,7 @@ class Zend_Search_Lucene_Index_DictionaryLoader
                 (ord($data[$pos+2])          != 0) ||
                 (ord($data[$pos+3])          != 0) ||
                 ((ord($data[$pos+4]) & 0x80) != 0)) {
-                    require_once 'Zend/Search/Lucene/Exception.php';
-                    throw new Zend_Search_Lucene_Exception('Largest supported segment size (for 32-bit mode) is 2Gb');
+                    throw new InvalidFileFormatException('Largest supported segment size (for 32-bit mode) is 2Gb');
                  }
 
             $indexTermCount = ord($data[$pos+4]) << 24  |
@@ -97,8 +102,7 @@ class Zend_Search_Lucene_Index_DictionaryLoader
         $skipInterval = ord($data[$pos]) << 24 | ord($data[$pos+1]) << 16 | ord($data[$pos+2]) << 8  | ord($data[$pos+3]);
         $pos += 4;
         if ($indexTermCount < 1) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Wrong number of terms in a term dictionary index');
+            throw new InvalidFileFormatException('Wrong number of terms in a term dictionary index');
         }
 
         if ($tiVersion == (int)0xFFFFFFFD /* 2.1+ format */) {
@@ -160,7 +164,6 @@ class Zend_Search_Lucene_Index_DictionaryLoader
                 }
             }
 
-            // $termValue        = Zend_Search_Lucene_Index_Term::getPrefix($prevTerm, $termPrefixLength) . $termSuffix;
             $pb = 0; $pc = 0;
             while ($pb < strlen($prevTerm)  &&  $pc < $termPrefixLength) {
                 $charBytes = 1;
@@ -241,11 +244,9 @@ class Zend_Search_Lucene_Index_DictionaryLoader
             $indexPointer += $vint;
 
 
-            // $this->_termDictionary[] =  new Zend_Search_Lucene_Index_Term($termValue, $termFieldNum);
             $termDictionary[] = array($termFieldNum, $termValue);
 
             $termInfos[] =
-                 // new Zend_Search_Lucene_Index_TermInfo($docFreq, $freqPointer, $proxPointer, $skipDelta, $indexPointer);
                  array($docFreq, $freqPointer, $proxPointer, $skipDelta, $indexPointer);
 
             $prevTerm = $termValue;
@@ -253,8 +254,7 @@ class Zend_Search_Lucene_Index_DictionaryLoader
 
         // Check special index entry mark
         if ($termDictionary[0][0] != (int)0xFFFFFFFF) {
-            require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception('Wrong TermInfoIndexFile file format');
+            throw new InvalidFileFormatException('Wrong TermInfoIndexFile file format');
         }
 
         if (PHP_INT_SIZE > 4) {

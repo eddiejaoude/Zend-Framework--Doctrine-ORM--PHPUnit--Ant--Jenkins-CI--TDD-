@@ -15,14 +15,13 @@
  * @category   Zend
  * @package    Zend_Wildfire
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Exception.php 23775 2011-03-01 17:25:24Z ralph $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-
-/** Zend_Exception */
-require_once 'Zend/Exception.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Wildfire;
 
 /**
  * @category   Zend
@@ -30,6 +29,7 @@ require_once 'Zend/Exception.php';
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Wildfire_Exception extends Zend_Exception
-{}
+interface Exception
+{
+}
 

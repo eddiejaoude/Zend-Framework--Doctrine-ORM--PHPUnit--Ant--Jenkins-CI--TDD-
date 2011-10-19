@@ -13,23 +13,21 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Annotation
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Annotation
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Link.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Internally used classes */
-require_once 'Zend/Pdf/Element.php';
-require_once 'Zend/Pdf/Element/Array.php';
-require_once 'Zend/Pdf/Element/Dictionary.php';
-require_once 'Zend/Pdf/Element/Name.php';
-require_once 'Zend/Pdf/Element/Numeric.php';
-
-
-/** Zend_Pdf_Annotation */
-require_once 'Zend/Pdf/Annotation.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Annotation;
+use Zend\Pdf\Exception;
+use Zend\Pdf;
+use Zend\Pdf\InternalStructure;
+use Zend\Pdf\InternalType;
+use Zend\Pdf\Destination;
 
 /**
  * A link annotation represents either a hypertext link to a destination elsewhere in
@@ -38,30 +36,38 @@ require_once 'Zend/Pdf/Annotation.php';
  * Only destinations are used now since only GoTo action can be created by user
  * in current implementation.
  *
- * @package    Zend_Pdf
- * @subpackage Annotation
+ * @uses       \Zend\Pdf\Action\AbstractAction
+ * @uses       \Zend\Pdf\Annotation\AbstractAnnotation
+ * @uses       \Zend\Pdf\Destination\AbstractDestination
+ * @uses       \Zend\Pdf\Destination\Named
+ * @uses       \Zend\Pdf\InternalType\AbstractTypeObject
+ * @uses       \Zend\Pdf\InternalType\ArrayObject
+ * @uses       \Zend\Pdf\InternalType\DictionaryObject
+ * @uses       \Zend\Pdf\InternalType\NameObject
+ * @uses       \Zend\Pdf\InternalType\NumericObject
+ * @uses       \Zend\Pdf\Exception
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Annotation
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
+class Link extends AbstractAnnotation
 {
     /**
      * Annotation object constructor
      *
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend\Pdf\Exception
      */
-    public function __construct(Zend_Pdf_Element $annotationDictionary)
+    public function __construct(InternalType\AbstractTypeObject $annotationDictionary)
     {
-        if ($annotationDictionary->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('Annotation dictionary resource has to be a dictionary.');
+        if ($annotationDictionary->getType() != InternalType\AbstractTypeObject::TYPE_DICTIONARY) {
+            throw new Exception\CorruptedPdfException('Annotation dictionary resource has to be a dictionary.');
         }
 
         if ($annotationDictionary->Subtype === null  ||
-            $annotationDictionary->Subtype->getType() != Zend_Pdf_Element::TYPE_NAME  ||
+            $annotationDictionary->Subtype->getType() != InternalType\AbstractTypeObject::TYPE_NAME  ||
             $annotationDictionary->Subtype->value != 'Link') {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('Subtype => Link entry is requires');
+            throw new Exception\CorruptedPdfException('Subtype => Link entry is requires');
         }
 
         parent::__construct($annotationDictionary);
@@ -74,61 +80,57 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
      * @param float $y1
      * @param float $x2
      * @param float $y2
-     * @param Zend_Pdf_Target|string $target
-     * @return Zend_Pdf_Annotation_Link
+     * @param \Zend\Pdf\InternalStructure\NavigationTarget|string $target
+     * @return \Zend\Pdf\Annotation\Link
      */
     public static function create($x1, $y1, $x2, $y2, $target)
     {
         if (is_string($target)) {
-            require_once 'Zend/Pdf/Destination/Named.php';
-            $destination = Zend_Pdf_Destination_Named::create($target);
+            $destination = Destination\Named::create($target);
         }
-        if (!$target instanceof Zend_Pdf_Target) {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('$target parameter must be a Zend_Pdf_Target object or a string.');
+        if (!$target instanceof InternalStructure\NavigationTarget) {
+            throw new Exception\InvalidArgumentException('$target parameter must be a \Zend\Pdf\InternalStructure\NavigationTarget object or a string.');
         }
 
-        $annotationDictionary = new Zend_Pdf_Element_Dictionary();
+        $annotationDictionary = new InternalType\DictionaryObject();
 
-        $annotationDictionary->Type    = new Zend_Pdf_Element_Name('Annot');
-        $annotationDictionary->Subtype = new Zend_Pdf_Element_Name('Link');
+        $annotationDictionary->Type    = new InternalType\NameObject('Annot');
+        $annotationDictionary->Subtype = new InternalType\NameObject('Link');
 
-        $rectangle = new Zend_Pdf_Element_Array();
-        $rectangle->items[] = new Zend_Pdf_Element_Numeric($x1);
-        $rectangle->items[] = new Zend_Pdf_Element_Numeric($y1);
-        $rectangle->items[] = new Zend_Pdf_Element_Numeric($x2);
-        $rectangle->items[] = new Zend_Pdf_Element_Numeric($y2);
+        $rectangle = new InternalType\ArrayObject();
+        $rectangle->items[] = new InternalType\NumericObject($x1);
+        $rectangle->items[] = new InternalType\NumericObject($y1);
+        $rectangle->items[] = new InternalType\NumericObject($x2);
+        $rectangle->items[] = new InternalType\NumericObject($y2);
         $annotationDictionary->Rect = $rectangle;
 
-        if ($target instanceof Zend_Pdf_Destination) {
+        if ($target instanceof Destination\AbstractDestination) {
             $annotationDictionary->Dest = $target->getResource();
         } else {
             $annotationDictionary->A = $target->getResource();
         }
 
-        return new Zend_Pdf_Annotation_Link($annotationDictionary);
+        return new self($annotationDictionary);
     }
 
     /**
      * Set link annotation destination
      *
-     * @param Zend_Pdf_Target|string $target
-     * @return Zend_Pdf_Annotation_Link
+     * @param \Zend\Pdf\InternalStructure\NavigationTarget|string $target
+     * @return \Zend\Pdf\Annotation\Link
      */
     public function setDestination($target)
     {
         if (is_string($target)) {
-            require_once 'Zend/Pdf/Destination/Named.php';
-            $destination = Zend_Pdf_Destination_Named::create($target);
+            $destination = Destination\Named::create($target);
         }
-        if (!$target instanceof Zend_Pdf_Target) {
-            require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('$target parameter must be a Zend_Pdf_Target object or a string.');
+        if (!$target instanceof InternalStructure\NavigationTarget) {
+            throw new Exception\InvalidArgumentException('$target parameter must be a \Zend\Pdf\InternalStructure\NavigationTarget object or a string.');
         }
 
         $this->_annotationDictionary->touch();
         $this->_annotationDictionary->Dest = $destination->getResource();
-        if ($target instanceof Zend_Pdf_Destination) {
+        if ($target instanceof Destination\AbstractDestination) {
             $this->_annotationDictionary->Dest = $target->getResource();
             $this->_annotationDictionary->A    = null;
         } else {
@@ -142,7 +144,7 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
     /**
      * Get link annotation destination
      *
-     * @return Zend_Pdf_Target|null
+     * @return \Zend\Pdf\InternalStructure\NavigationTarget|null
      */
     public function getDestination()
     {
@@ -152,11 +154,9 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
         }
 
         if ($this->_annotationDictionary->Dest !== null) {
-            require_once 'Zend/Pdf/Destination.php';
-            return Zend_Pdf_Destination::load($this->_annotationDictionary->Dest);
+            return Destination\AbstractDestination::load($this->_annotationDictionary->Dest);
         } else {
-            require_once 'Zend/Pdf/Action.php';
-            return Zend_Pdf_Action::load($this->_annotationDictionary->A);
+            return Pdf\Action\AbstractAction::load($this->_annotationDictionary->A);
         }
     }
 }

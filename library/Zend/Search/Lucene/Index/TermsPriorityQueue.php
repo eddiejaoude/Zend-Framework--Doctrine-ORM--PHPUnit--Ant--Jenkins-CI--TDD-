@@ -17,20 +17,25 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TermsPriorityQueue.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Search_Lucene_PriorityQueue */
-require_once 'Zend/Search/Lucene/PriorityQueue.php';
+/**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Index;
+use Zend\Search\Lucene;
+
+/** @todo !!!!!! convert to SPL class usage */
 
 /**
+ * @uses       \Zend\Search\Lucene\PriorityQueue
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Index_TermsPriorityQueue extends Zend_Search_Lucene_PriorityQueue
+class TermsPriorityQueue extends Lucene\AbstractPriorityQueue
 {
     /**
      * Compare elements
@@ -45,5 +50,4 @@ class Zend_Search_Lucene_Index_TermsPriorityQueue extends Zend_Search_Lucene_Pri
     {
         return strcmp($termsStream1->currentTerm()->key(), $termsStream2->currentTerm()->key()) < 0;
     }
-
 }

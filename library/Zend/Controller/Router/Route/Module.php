@@ -15,26 +15,34 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Module.php 23775 2011-03-01 17:25:24Z ralph $
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Controller_Router_Route_Abstract */
-require_once 'Zend/Controller/Router/Route/Abstract.php';
+/**
+ * @namespace
+ */
+namespace Zend\Controller\Router\Route;
+use Zend\Controller\Request;
+
+use Zend\Controller\Dispatcher;
+
+use Zend\Config;
 
 /**
  * Module Route
  *
  * Default route for module functionality
  *
+ * @uses       \Zend\Controller\Front
+ * @uses       \Zend\Controller\Router\Route\AbstractRoute
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
-class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_Abstract
+class Module extends AbstractRoute
 {
     /**
      * URI delimiter
@@ -61,12 +69,12 @@ class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_A
     /**#@-*/
 
     /**
-     * @var Zend_Controller_Dispatcher_Interface
+     * @var \Zend\Controller\Dispatcher
      */
     protected $_dispatcher;
 
     /**
-     * @var Zend_Controller_Request_Abstract
+     * @var \Zend\Controller\Request\AbstractRequest
      */
     protected $_request;
 
@@ -77,11 +85,11 @@ class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_A
     /**
      * Instantiates route based on passed Zend_Config structure
      */
-    public static function getInstance(Zend_Config $config)
+    public static function getInstance(Config\Config $config)
     {
-        $frontController = Zend_Controller_Front::getInstance();
+        $frontController = \Zend\Controller\Front::getInstance();
 
-        $defs       = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
+        $defs       = ($config->defaults instanceof Config\Config) ? $config->defaults->toArray() : array();
         $dispatcher = $frontController->getDispatcher();
         $request    = $frontController->getRequest();
 
@@ -92,12 +100,12 @@ class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_A
      * Constructor
      *
      * @param array $defaults Defaults for map variables with keys as variable names
-     * @param Zend_Controller_Dispatcher_Interface $dispatcher Dispatcher object
-     * @param Zend_Controller_Request_Abstract $request Request object
+     * @param \Zend\Controller\Dispatcher $dispatcher Dispatcher object
+     * @param \Zend\Controller\Request\AbstractRequest $request Request object
      */
     public function __construct(array $defaults = array(),
-                Zend_Controller_Dispatcher_Interface $dispatcher = null,
-                Zend_Controller_Request_Abstract $request = null)
+                \Zend\Controller\Dispatcher $dispatcher = null,
+                \Zend\Controller\Request\AbstractRequest $request = null)
     {
         $this->_defaults = $defaults;
 
@@ -236,6 +244,10 @@ class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_A
             $key = ($encode) ? urlencode($key) : $key;
             if (is_array($value)) {
                 foreach ($value as $arrayValue) {
+                    if (is_array($arrayValue)) {
+                        // Ignore nested arrays
+                        continue;
+                    }
                     $arrayValue = ($encode) ? urlencode($arrayValue) : $arrayValue;
                     $url .= '/' . $key;
                     $url .= '/' . $arrayValue;

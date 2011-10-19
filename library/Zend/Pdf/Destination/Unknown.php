@@ -13,25 +13,26 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Unknown.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Pdf_Destination_Explicit */
-require_once 'Zend/Pdf/Destination/Explicit.php';
-
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Destination;
 
 /**
  * Unrecognized explicit destination representation class
  *
- * @package    Zend_Pdf
- * @subpackage Destination
+ * @uses       \Zend\Pdf\Destination\Explicit
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Destination
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Destination_Unknown extends Zend_Pdf_Destination_Explicit
+class Unknown extends Explicit
 {
 }

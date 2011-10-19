@@ -13,22 +13,19 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ * @package    Zend_PDF
+ * @subpackage Zend_PDF_Internal
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:
  */
 
-/** Internally used classes */
-require_once 'Zend/Pdf/Element.php';
-require_once 'Zend/Pdf/Element/Array.php';
-require_once 'Zend/Pdf/Element/String/Binary.php';
-require_once 'Zend/Pdf/Element/Boolean.php';
-require_once 'Zend/Pdf/Element/Dictionary.php';
-require_once 'Zend/Pdf/Element/Name.php';
-require_once 'Zend/Pdf/Element/Null.php';
-require_once 'Zend/Pdf/Element/Numeric.php';
-require_once 'Zend/Pdf/Element/String.php';
+/**
+ * @namespace
+ */
+namespace Zend\Pdf\Resource;
+use Zend\Pdf\InternalType;
+use Zend\Pdf\ObjectFactory;
+use Zend\Pdf;
 
 
 /**
@@ -47,12 +44,12 @@ require_once 'Zend/Pdf/Element/String.php';
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Extractor
+class Extractor
 {
     /**
      * PDF objects factory.
      *
-     * @var Zend_Pdf_ElementFactory_Interface
+     * @var \Zend\Pdf\ObjectFactory
      */
     protected $_factory;
 
@@ -68,7 +65,7 @@ class Zend_Pdf_Resource_Extractor
      */
     public function __construct()
     {
-        $this->_factory   = Zend_Pdf_ElementFactory::createFactory(1);
+        $this->_factory   = Pdf\ObjectFactory::createFactory(1);
         $this->_processed = array();
     }
 
@@ -76,11 +73,10 @@ class Zend_Pdf_Resource_Extractor
      * Clone page, extract it and dependent objects from the current document,
      * so it can be used within other docs
      *
-     * return Zend_Pdf_Page
+     * return \Zend\Pdf\Page
      */
-    public function clonePage(Zend_Pdf_Page $page)
+    public function clonePage(Pdf\Page $page)
     {
         return $page->clonePage($this->_factory, $this->_processed);
     }
 }
-
