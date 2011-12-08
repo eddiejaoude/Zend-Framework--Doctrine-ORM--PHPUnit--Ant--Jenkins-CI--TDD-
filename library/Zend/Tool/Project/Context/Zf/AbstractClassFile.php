@@ -17,7 +17,7 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AbstractClassFile.php 24060 2011-05-28 17:18:04Z adamlundrigan $
+ * @version    $Id: AbstractClassFile.php 24161 2011-06-28 16:41:59Z adamlundrigan $
  */
 
 /**
@@ -67,7 +67,8 @@ abstract class Zend_Tool_Project_Context_Zf_AbstractClassFile extends Zend_Tool_
                 $prefix = $containingResource->getAttribute('classNamePrefix');
                 $fullClassName = $prefix;
             } elseif ($containingResource->getName() == 'ModuleDirectory') {
-                $prefix = ucfirst($containingResource->getAttribute('moduleName')) . '_';
+                $filter = new Zend_Filter_Word_DashToCamelCase();
+                $prefix = $filter->filter(ucfirst($containingResource->getAttribute('moduleName'))) . '_';
                 $fullClassName = $prefix;
             }
         }
