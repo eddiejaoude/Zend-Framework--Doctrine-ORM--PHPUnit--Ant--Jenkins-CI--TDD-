@@ -1,11 +1,3 @@
-/* RESETS */
-html {font-size:1.25em;}
-html * {margin:0em; padding:0em; }
-body {font:50% verdana,arial,helvetica,sans-serif; overflow:visible; }
-img {border:none;}
-ul {list-style-type:none;}
-table { border-collapse: collapse; }
-
 /* IE6 */
 .ie6 { display:none; }
 

@@ -1,0 +1,156 @@
+/* IE6 */
+.ie6 { display:none; }
+
+/* COMMON */
+.fleft { float:left; }
+.fright { float:right; }
+.both { clear:both; }
+.click { cursor:pointer; }
+.hidden { display:none; }
+
+a,
+a:link,
+a:active,
+a:visited {
+    color:#333;
+    padding:0.2em 1em;
+    text-decoration:none;
+}
+a:hover {
+    color:#666;
+}
+
+/* ERRORS */
+ul.errors  li { color:#f00; }
+div.error {
+    background:#FFDFDF;
+    border:1px solid #f00; 
+    color:#f00;
+    padding:1em;
+    margin:0.8em 0em;
+}
+
+/* FORMs */
+form.box {
+    background:#EFEFEF;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+    border:1px solid #ccc;
+    color:#333;
+    margin:auto;
+    padding:2em;
+    width:40em;
+}
+form.box input {
+    border:1px solid #ccc;
+    color:#333;
+    margin-bottom:0.6em;    
+    padding:0.3em;
+    width:100%; 
+}
+form.box input.active {
+    background:#DFDFFF;
+    border:1px solid #3F4FFF;
+}
+form.box select {  }
+
+/* FONTs */
+p {
+    line-height:1.5em;
+    margin:0.8em 0em;
+}
+h1 {
+    border-bottom:1px solid #000;
+    color:#ccc;
+    float:right;
+    text-align:right;
+    width:8em;
+}
+h2 {  }
+
+/* NAVIGATIO */
+ul#navigation { 
+    float:left;
+}
+ul#navigation li {
+    float:left;
+}
+ul#navigation li.details {
+    font-style:italic;
+    font-weight:bold;
+}
+ul#navigation li a,
+ul#navigation li a:link,
+ul#navigation li a:active,
+ul#navigation li a:visited {
+    color:#333;
+    padding:0.2em 1em;
+    text-decoration:underline;
+}
+ul#navigation li a:hover {
+    color:#f00;
+}
+
+/* COMMON LAYOUT */
+body {
+
+}
+div#page {
+    margin:1em;
+    padding:1em;
+}
+
+div#main {
+    clear:both;
+}
+
+div#footer {
+    border-top:1px solid #ccc;
+    margin-top:2em;
+    padding-top:1em;
+    text-align:center;
+}
+
+/* TABLES */
+table.data {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #ccc;
+    width:100%;
+}
+
+table.data thead {
+
+}
+
+table.data thead tr {
+    
+}
+
+table.data thead tr td{
+    color:#999;
+    font-size:1.3em;
+    font-weight:bold;
+    padding:0.3em;
+}
+
+table.data tbody {
+
+}
+
+table.data tbody tr {
+
+}
+
+table.data tbody tr.active {
+    background:#DFDFFF;
+}
+
+table.data tbody tr td{
+    padding:0.2em;
+}
+

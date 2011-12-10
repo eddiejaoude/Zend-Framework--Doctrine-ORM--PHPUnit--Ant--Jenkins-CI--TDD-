@@ -40,6 +40,9 @@ abstract class Application_BaseController extends Zend_Controller_Action
 
         # flash messenger
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+        
+        # load theme engine
+        $this->_themes();
     }
 
     /**
@@ -64,6 +67,33 @@ abstract class Application_BaseController extends Zend_Controller_Action
                 throw new Exception('Alert string $this->view->alert must be an array');
             }
         }
+    }
+    
+    /**
+     * Themes
+     *
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          void
+     *
+     */
+    protected function _themes()
+    {
+        # get theme
+        $request = $this->getRequest();
+        $theme = $request->getParam('theme');
+        
+        # set session - to make persistent for registered users this should be save as a setting in DB
+        $session = new Zend_Session_Namespace('theme');
+        if (!empty($theme)) {
+            $session->theme = $theme;
+        } else {
+            if (empty($session->theme)) { $session->theme = $this->_registry->config->application->theme->default->layout; }
+            $theme = $session->theme;
+        }
+        
+        # load theme        
+        $this->_helper->layout->setLayout($theme);
     }
 
 }

@@ -13,7 +13,7 @@
 	# CSS
 	echo $this->headLink()
                             ->appendStylesheet($this->baseUrl() . '/themes/default/css/resets.css')
-                            ->appendStylesheet($this->baseUrl() . '/themes/default/css/common.css');
+                            ->appendStylesheet($this->baseUrl() . '/themes/basic/css/common.css');
         
 	# Javascript
 	echo $this->headScript()
@@ -24,7 +24,6 @@
     <body>
         <?php echo '<!-- Mode: ' . APPLICATION_ENV . ' mode -->'; ?>
         <div id="page">
-            <h1>Website</h1>
             <ul id="navigation">
                 <?php
                 echo '<li><a href="' . $this->url(array('module' => 'default', 'controller' => 'index', 'action' => 'index'), null, true) . '">Home</a></li>';
@@ -42,6 +41,8 @@
                 ?>
             </ul>
             
+            <h1>Website</h1>
+            
             <div id="main">
                 <?php echo !empty($this->alert) ? '<div class="error">' . implode('<br />', $this->alert) .'</div>' : null; ?>
                 <?php echo $this->layout()->content; ?>
@@ -51,8 +52,8 @@
                 <a href="http://build.jaoudestudios.com">Latest Demo</a> |
                 <a href="http://build.jaoudestudios.com:8080">Jenkins Builds</a> |
                 <a href="http://build.jaoudestudios.com/build">Build Docs</a>  |
-                <a href="http://build.jaoudestudios.com/build/coverage">Test Code Coverage</a>   |
-                Theme:default <a href="/index/index/theme/basic">(change)</a>
+                <a href="http://build.jaoudestudios.com/build/coverage">Test Code Coverage</a> |
+                Theme:basic <a href="/index/index/theme/master">(change)</a>
             </div>
 
         </div>
