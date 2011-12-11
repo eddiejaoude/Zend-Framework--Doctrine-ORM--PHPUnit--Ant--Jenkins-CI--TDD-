@@ -94,6 +94,12 @@ abstract class Application_BaseController extends Zend_Controller_Action
         
         # load theme        
         $this->_helper->layout->setLayout($theme);
+        
+        # set link for theme switching
+        $this->view->themelink = '/' . $this->getRequest()->getModuleName() . '/' .
+                                    $this->getRequest()->getControllerName() . '/' .
+                                    $this->getRequest()->getACtionName();
+        
     }
 
 }
