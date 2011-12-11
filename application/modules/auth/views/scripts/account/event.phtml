@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php
+        <?php 
         if (count($this->events) > 0)
         {
             foreach ($this->events as $k=>$v)
@@ -28,3 +28,6 @@
         ?>
     </tbody>
 </table>
+<?php
+echo $this->paginationControl($this->events, 'Sliding', 'partials/paginator.phtml');
+?>

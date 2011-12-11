@@ -75,8 +75,19 @@ class Auth_AccountController extends Auth_BaseController
     public function eventAction()
     {
         # get account events
-        $events = $this->_em->getRepository('Auth_Model_AccountEvent')->findBy(array('account_id' => Zend_Auth::getInstance()->getIdentity()->getId()));
+        $events_query = $this->_em->createQueryBuilder()
+                            ->select('ae')
+                            ->from('Auth_Model_AccountEvent', 'ae')
+                            ->where('ae.account_id = :account_id')
+                            ->orderBy('ae.created_at', 'DESC')
+                            ->setParameter('account_id', Zend_Auth::getInstance()->getIdentity()->getId());
 
+        # pagination
+        $paginator = new Custom_Paginator_DoctrineAdapter($events_query);
+        $events =  new Zend_Paginator($paginator);
+        $events->setItemCountPerPage($this->_request->getParam('limit', $this->_registry->config->application->pagination->limit));
+        $events->setCurrentPageNumber($this->_request->getParam('page', 1));
+        
         # send to view
         $this->view->events = $events;
     }
