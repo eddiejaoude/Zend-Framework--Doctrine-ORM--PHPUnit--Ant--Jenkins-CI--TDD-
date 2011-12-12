@@ -52,8 +52,24 @@
                 <a href="http://build.jaoudestudios.com">Latest Demo</a> |
                 <a href="http://build.jaoudestudios.com:8080">Jenkins Builds</a> |
                 <a href="http://build.jaoudestudios.com/build">Build Docs</a>  |
-                <a href="http://build.jaoudestudios.com/build/coverage">Test Code Coverage</a> |
-                Theme:basic <a href="<?php echo $this->themelink; ?>/theme/master">(change)</a>
+                <a href="http://build.jaoudestudios.com/build/coverage">Test Code Coverage</a>
+                <?php if (Zend_Auth::getInstance()->hasIdentity()): ?>
+                |
+                <span class="themeLabel">Theme:basic</span> <?= $this->formThemeSelect->setAttrib('id', 'formFooterThemeSelect') ?>
+                <?php endif; ?>
+            </div>
+            <script type="text/javascript">
+                (function($){
+                    $(document).ready(function(){
+                        $form = $('#formFooterThemeSelect');
+                        $('input[type=submit]', $form).hide();
+                        $form.change(function(){
+                            this.submit();
+                        });
+                        $('span.themeLabel').hide();
+                    });
+                })(jQuery);
+            </script>
             </div>
 
         </div>
