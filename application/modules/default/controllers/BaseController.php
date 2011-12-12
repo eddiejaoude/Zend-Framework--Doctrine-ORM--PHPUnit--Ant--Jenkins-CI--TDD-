@@ -35,6 +35,9 @@ abstract class BaseController extends Application_BaseController
      */
     public function  postDispatch()
     {
+        if (Zend_Auth::getInstance()->hasIdentity()){
+            $this->view->formThemeSelect = new Auth_Form_ThemeSelect();
+        }
         parent::postDispatch();
     }
 }

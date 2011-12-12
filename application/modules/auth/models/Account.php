@@ -5,6 +5,7 @@
  */
 class Auth_Model_Account {
 
+    public static $defaultTheme = 'master';
     /**
      * @var integer $id
      * @Id @Column(type="integer")
@@ -29,6 +30,12 @@ class Auth_Model_Account {
      * @Column(type="string")
      */
     private $password;
+
+    /**
+     * @var string $theme
+     * @Column(type="string")
+     */
+    private $theme;
 
     /**
      * @var string $created_at
@@ -129,4 +136,31 @@ class Auth_Model_Account {
     {
         return $this->created_at;
     }
+
+    /**
+     * Get the account theme
+     * 
+     * @return string
+     */
+    public function getTheme()
+    {
+        if (!$this->theme){
+            $this->theme = self::$defaultTheme;
+        }
+        return $this->theme;
+    }
+
+    /**
+     * Set the account theme
+     * 
+     * @param string $theme
+     * @return Auth_Model_Account 
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = $theme;
+        return $this;
+    }
+
+
 }

@@ -153,3 +153,23 @@ table.data tbody tr td{
     padding:0.2em;
 }
 
+#formFooterThemeSelect {
+    display:inline;
+    width:100px;
+}
+#formFooterThemeSelect dl,
+#formFooterThemeSelect dl dt,
+#formFooterThemeSelect dl dd {
+    display:inline;
+}
+#formFooterThemeSelect select {
+    border:1px #000 solid;
+}
+#formFooterThemeSelect select,
+#formFooterThemeSelect option
+{
+    font-size:1.0em;
+}
+#formFooterThemeSelect select option {
+    padding:0 0.5em;
+}
