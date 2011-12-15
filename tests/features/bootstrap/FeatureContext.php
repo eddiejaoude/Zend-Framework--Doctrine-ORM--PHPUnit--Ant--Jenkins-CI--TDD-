@@ -30,37 +30,15 @@ class FeatureContext extends BehatContext
         // Initialize your context here
     }
 
-
-    /**
-     * @Given /^I am on "([^"]*)"$/
-     */
-    public function iAmOn($argument1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When /^I fill in "([^"]*)" with "([^"]*)"$/
-     */
-    public function iFillInWith($argument1, $argument2)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I press "([^"]*)"$/
-     */
-    public function iPress($argument1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then /^I should see "([^"]*)"$/
-     */
-    public function iShouldSee($argument1)
-    {
-        throw new PendingException();
-    }
-
+//
+// Place your definition and hook methods here:
+//
+//    /**
+//     * @Given /^I have done something with "([^"]*)"$/
+//     */
+//    public function iHaveDoneSomethingWith($argument)
+//    {
+//        doSomethingWith($argument);
+//    }
+//
 }
