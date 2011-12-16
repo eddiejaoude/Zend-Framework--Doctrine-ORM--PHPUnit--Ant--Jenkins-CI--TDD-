@@ -38,6 +38,9 @@ FEATURES include
   - phpcs 
   - php_codebrowser 
   - phpdocs
+  - phantm - PHp ANalzer for Type Mismatches (https://github.com/colder/phantm) (coming soon)
+  - padawan - code antipatterns and "smells" (https://github.com/mayflowergmbh/padawan) (coming soon)
+  - PHP Security Audit Tool (http://sourceforge.net/projects/phpsecaudit/) (coming soon)
 - Ant build scripts for Continuous Integration
 - Selenium rc tests driven by phpunit
 - Ant deploy script including 'dry run' mode (coming soon)
