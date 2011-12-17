@@ -161,3 +161,14 @@ table.data tbody tr td{
     padding:0.2em;
 }
 
+/* PAGINATION */
+div.paginationControl {
+    margin-top:0.4em;
+}
+div.paginationControl a, 
+div.paginationControl a:link, 
+div.paginationControl a:active, 
+div.paginationControl a:visited {
+    padding:0em;
+}
+
