@@ -1,0 +1,6 @@
+<h2>Web Server Pagination</h2>
+<?php
+foreach ($this->schools as $k=>$v) {
+    echo $v->name . '<br>'; 
+}
+echo $this->paginationControl($this->schools, 'Sliding', 'paginator.phtml');

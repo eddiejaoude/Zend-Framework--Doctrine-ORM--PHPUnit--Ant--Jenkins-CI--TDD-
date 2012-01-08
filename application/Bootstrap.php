@@ -55,6 +55,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view = $this->getResource('view');
         $view->addHelperPath( APPLICATION_PATH . '/modules/default/views/helpers', 'Default_View_Helper');
     }
+    
+    /**
+     * Web service config
+     * 
+     * @author          Eddie Jaoude
+     * @param           void
+     * @return          object $config
+     */
+    protected function _initConfigWebservices()
+    {
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/webservices.ini', APPLICATION_ENV);
+        return $config;
+    }
 
     /**
      * Application  Base Controller & model

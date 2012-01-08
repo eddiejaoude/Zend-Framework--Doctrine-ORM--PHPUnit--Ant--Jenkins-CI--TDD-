@@ -15,7 +15,8 @@ class Auth_Model_AccountRepository extends EntityRepository
      * Authenticate user
      *
      * @author          Eddie Jaoude
-     * @param           void
+     * @param           string $hash
+     * @param           array $data
      * @return           void
      *
      */
