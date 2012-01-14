@@ -91,6 +91,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_registry->config              = new stdClass();
         $this->_registry->config->application = $config;
     }
+    
+    /**
+     * ZFDebug
+     * 
+     * GitHub project https://github.com/jokkedk/ZFDebug
+     *
+     */
+    protected function _initZFDebug()
+    {
+        if ('development' == APPLICATION_ENV) {
+            $autoloader = Zend_Loader_Autoloader::getInstance();
+            $autoloader->registerNamespace('ZFDebug');
+
+            $options = array(
+                'plugins' => array('Variables', 
+                                   //'Database' => array('adapter' => $db), 
+                                   'File' => array('basePath' => APPLICATION_PATH . 
+                                                            '..'),
+                                   //'Cache' => array('backend' => $cache->getBackend()), 
+                                   'Exception'
+                                )
+            );
+            $debug = new ZFDebug_Controller_Plugin_Debug($options);
+
+            $this->bootstrap('frontController');
+            $frontController = $this->getResource('frontController');
+            $frontController->registerPlugin($debug);
+        }
+    }
 
     /**
      * Tmp director
@@ -176,5 +205,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_registry->doctrine      = new stdClass();
         $this->_registry->doctrine->_em = EntityManager::create($this->_registry->config->application->doctrine->connection->toArray(), $config);
     }
+    
 
 }
