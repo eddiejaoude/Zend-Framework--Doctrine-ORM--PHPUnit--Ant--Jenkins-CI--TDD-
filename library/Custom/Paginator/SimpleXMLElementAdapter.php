@@ -1,12 +1,14 @@
 <?php
 /**
  * Paginator Adapter for Objects
+ * 
+ * No actual slicing is done here, in the example this is handled prior to this object
  *
  * @author          Eddie Jaoude
  * @package         Custom Module
  *
  */
-class Custom_Paginator_ObjectAdapter implements Zend_Paginator_Adapter_Interface
+class Custom_Paginator_SimpleXMLElementAdapter implements Zend_Paginator_Adapter_Interface
 {
 
     /**

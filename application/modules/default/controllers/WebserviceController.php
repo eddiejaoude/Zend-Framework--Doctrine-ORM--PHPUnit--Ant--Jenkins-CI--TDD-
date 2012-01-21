@@ -55,7 +55,7 @@ class WebserviceController extends BaseController
         );
 
         # pagination
-        $paginator = new Custom_Paginator_ObjectAdapter($data);
+        $paginator = new Custom_Paginator_SimpleXMLElementAdapter($data);
         $schools =  new Zend_Paginator($paginator);
         $schools->setItemCountPerPage($this->_request->getParam('limit', $this->_registry->config->application->pagination->limit));
         $schools->setCurrentPageNumber($this->_request->getParam('page', 1));
