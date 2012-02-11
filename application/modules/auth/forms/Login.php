@@ -50,12 +50,16 @@ class Auth_Form_Login extends Zend_Form
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty');
+        
+        $hash = new Zend_Form_Element_Hash('csrf', array('salt' => 'unique'));
+        $hash->setTimeout(300)
+                ->addErrorMessage('Form timed out. Please reload the page & try again');
 
         # Submit
         $submit = new Zend_Form_Element_Submit('login');
 
         # Create
-        $this->addElements(array($email, $password, $submit));
+        $this->addElements(array($email, $password, $hash, $submit));
     }
 }
 
