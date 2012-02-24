@@ -59,7 +59,7 @@ class Auth_Form_Login extends Zend_Form
         $submit = new Zend_Form_Element_Submit('login');
 
         # Create
-        $this->addElements(array($email, $password, $hash, $submit));
+        $this->addElements(array($email, $password, $submit));
     }
 }
 
