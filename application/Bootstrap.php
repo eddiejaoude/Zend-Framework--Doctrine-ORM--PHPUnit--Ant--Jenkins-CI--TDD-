@@ -57,19 +57,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * Application  Base Controller & model
-     *
-     * @author          Eddie Jaoude
-     * @param           void
-     * @return          void
-     *
-     */
-    protected function _initApplicationBase()
-    {
-        include_once(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'BaseController.php');
-    }
-
-    /**
      * Configuration
      *
      * @author          Eddie Jaoude

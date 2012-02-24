@@ -7,7 +7,7 @@
  * @package       Auth Module
  *
  */
-class Auth_IndexController extends Auth_BaseController
+class Auth_IndexController extends Zend_Controller_Action
 {
 
     /**

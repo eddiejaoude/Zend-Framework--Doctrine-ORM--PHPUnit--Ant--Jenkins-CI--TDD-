@@ -7,7 +7,7 @@
  * @package       Auth Module
  *
  */
-class Auth_LoginController extends Auth_BaseController
+class Auth_LoginController extends Zend_Controller_Action
 {
     /**
      * Initialisation method
@@ -86,11 +86,11 @@ class Auth_LoginController extends Auth_BaseController
             if ($form->isValid($data)) {
                 # attempt to authentication
                 $authenticate = new Custom_Auth_Adapter(
-                $this->_em->getRepository('Auth_Model_Account'),
-                $this->_registry->config->auth->hash, $data);
+                $this->getRequest()->_em->getRepository('Auth_Model_Account'),
+                $this->getRequest()->_registry->config->auth->hash, $data);
                 $save = Zend_Auth::getInstance()->authenticate($authenticate);
                 if (Zend_Auth::getInstance()->hasIdentity()) {
-                    $this->_flashMessenger->addMessage('Logged in successfully');
+                    $this->getRequest()->_flashMessenger->addMessage('Logged in successfully');
                     # record event
                     $this->_helper->event->record(
                     'logged in',

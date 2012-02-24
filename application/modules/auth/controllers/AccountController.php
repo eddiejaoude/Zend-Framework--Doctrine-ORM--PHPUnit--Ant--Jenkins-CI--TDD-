@@ -7,7 +7,7 @@
  * @package       Auth Module
  *
  */
-class Auth_AccountController extends Auth_BaseController
+class Auth_AccountController extends Zend_Controller_Action
 {
 
     /**
@@ -75,7 +75,7 @@ class Auth_AccountController extends Auth_BaseController
     public function eventAction()
     {
         # get account events
-        $events = $this->_em->getRepository('Auth_Model_AccountEvent')->findBy(array('account_id' => Zend_Auth::getInstance()->getIdentity()->getId()));
+        $events = $this->getRequest()->_em->getRepository('Auth_Model_AccountEvent')->findBy(array('account_id' => Zend_Auth::getInstance()->getIdentity()->getId()));
 
         # send to view
         $this->view->events = $events;

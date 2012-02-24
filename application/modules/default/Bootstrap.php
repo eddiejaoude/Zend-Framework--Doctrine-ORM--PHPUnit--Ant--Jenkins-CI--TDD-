@@ -25,19 +25,5 @@ class Default_Bootstrap extends Zend_Application_Module_Bootstrap
         return $moduleLoader;
     }
 
-    /**
-     * Load BaseController
-     *
-     * @author          Eddie Jaoude
-     * @param           void
-     * @return           void
-     *
-     */
-    protected function _initBaseController()
-    {
-        # base controller - can this be moved and autoloaded?
-        include_once('controllers/BaseController.php');
-    }
-
 }
 

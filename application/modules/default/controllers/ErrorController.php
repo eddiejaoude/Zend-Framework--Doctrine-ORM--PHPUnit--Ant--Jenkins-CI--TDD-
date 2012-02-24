@@ -6,7 +6,7 @@
  * @package       Default Module
  *
  */
-class ErrorController extends BaseController
+class ErrorController extends Zend_Controller_Action
 {
 
     /**
@@ -43,7 +43,7 @@ class ErrorController extends BaseController
         }
 
         // Log exception, if logger available
-        if ($log = $this->_logger) {
+        if ($log = $this->getRequest()->_logger) {
             $log->crit($this->view->message . ': ' . $errors->exception, $errors->exception);
         }
 

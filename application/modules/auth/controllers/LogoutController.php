@@ -7,7 +7,7 @@
  * @package       Auth Module
  *
  */
-class Auth_LogoutController extends Auth_BaseController
+class Auth_LogoutController extends Zend_Controller_Action
 {
 
     /**
@@ -66,7 +66,7 @@ class Auth_LogoutController extends Auth_BaseController
         Zend_Auth::getInstance()->clearIdentity();
 
         # display to user
-        $this->_flashMessenger->addMessage('You have been logged out');
+        $this->getRequest()->_flashMessenger->addMessage('You have been logged out');
 
         # redirect
         $this->_helper->redirector('index', 'login', 'auth');

@@ -30,20 +30,6 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap
     }
 
     /**
-     * Load BaseController
-     *
-     * @author          Eddie Jaoude
-     * @param           void
-     * @return           void
-     *
-     */
-    protected function _initBaseController()
-    {
-        # base controller - can this be moved and autoloaded?
-        require_once('controllers/AuthBaseController.php');
-    }
-
-    /**
      * Configuration
      *
      * @author          Eddie Jaoude

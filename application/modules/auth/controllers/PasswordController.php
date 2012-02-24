@@ -6,7 +6,7 @@
  * @author Koen Huybrechts
  * @package Auth Module
  */
-class Auth_PasswordController extends Auth_BaseController
+class Auth_PasswordController extends Zend_Controller_Action
 {
 
     /**
@@ -101,13 +101,13 @@ class Auth_PasswordController extends Auth_BaseController
             # check validate form
             if ($form->isValid($data)) {
                 # attempt to resend password
-                $user = $this->_em->getRepository('Auth_Model_Account')->findOneBy(array('email' => (string)$data['email']));
+                $user = $this->getRequest()->_em->getRepository('Auth_Model_Account')->findOneBy(array('email' => (string)$data['email']));
 
                 if (count($user) === 1) {
-                    $password = $this->_em->getRepository('Auth_Model_Account')->generatePassword($this->_registry->config->auth->password->length);
+                    $password = $this->getRequest()->_em->getRepository('Auth_Model_Account')->generatePassword($this->getRequest()->_registry->config->auth->password->length);
 
-                    $user->setPassword($password, $this->_registry->config->auth->hash);
-                    $this->_em->flush();
+                    $user->setPassword($password, $this->getRequest()->_registry->config->auth->hash);
+                    $this->getRequest()->_em->flush();
 
                     # send email
                     $emailReset = new Zend_Mail();
@@ -116,18 +116,18 @@ class Auth_PasswordController extends Auth_BaseController
                     // @ToDo Create a view file with an email template
                     $emailReset->setBodyText('New Password: ' . $password);
 
-                    $emailReset->setFrom($this->_registry->config->application->system->email->address,
-                                            $this->_registry->config->application->system->email->name);
+                    $emailReset->setFrom($this->getRequest()->_registry->config->application->system->email->address,
+                                            $this->getRequest()->_registry->config->application->system->email->name);
                     if ($emailReset->send()) {
                         # Record event
                         $this->_helper->event->record('reset password', $user->getId());
-                        $this->_flashMessenger->addMessage('A new password has been sent to ' . $user->getEmail());
+                        $this->getRequest()->_flashMessenger->addMessage('A new password has been sent to ' . $user->getEmail());
                         $this->_helper->redirector('index', 'index', 'default');
                     }
                 } else {
                     # Record event
                     // $this->_helper->event->record('reset password failed'); // removed because no account to log against
-                    $this->_flashMessenger->addMessage('Sending failed');
+                    $this->getRequest()->_flashMessenger->addMessage('Sending failed');
                     $this->_helper->redirector('forgot', 'password', 'auth');
                 }
             } else {
@@ -149,26 +149,26 @@ class Auth_PasswordController extends Auth_BaseController
 
             $form->getElement('newPassword')
                     ->addValidator('NotIdentical', FALSE, array('token' => $data['currentPassword']))
-                    ->addValidator('stringLength', FALSE, array($this->_registry->config->auth->password->length, 100));
+                    ->addValidator('stringLength', FALSE, array($this->getRequest()->_registry->config->auth->password->length, 100));
             $form->getElement('confirmPassword')
                     ->addValidator('Identical', FALSE, array('token' => $data['newPassword']));
 
             # check validate form
             if ($form->isValid($data)) {
                 # attempt update the password
-                $user = $this->_em->getRepository('Auth_Model_Account')->findOneBy(array('id' => Zend_Auth::getInstance()->getIdentity()->getId()));
+                $user = $this->getRequest()->_em->getRepository('Auth_Model_Account')->findOneBy(array('id' => Zend_Auth::getInstance()->getIdentity()->getId()));
 
                 // @Todo Create one function where we can generate the correct hash
-                if (count($user) === 1 && hash('SHA256', $this->_registry->config->auth->hash . $data['currentPassword']) == $user->getPassword()) { //User exists and posted current password matches the saved password
+                if (count($user) === 1 && hash('SHA256', $this->getRequest()->_registry->config->auth->hash . $data['currentPassword']) == $user->getPassword()) { //User exists and posted current password matches the saved password
                     # Set new password
-                    $user->setPassword($data['newPassword'], $this->_registry->config->auth->hash);
-                    $this->_em->flush();
+                    $user->setPassword($data['newPassword'], $this->getRequest()->_registry->config->auth->hash);
+                    $this->getRequest()->_em->flush();
 
                     # Record event
                     $this->_helper->event->record('update password', Zend_Auth::getInstance()->getIdentity()->getId());
 
                     # Provide feedback
-                    $this->_flashMessenger->addMessage('Your password has been updated'); // move to view
+                    $this->getRequest()->_flashMessenger->addMessage('Your password has been updated'); // move to view
                     # Redirect to the secure page
                     $this->_helper->redirector('index', 'account', 'auth');
                 } else {
@@ -176,7 +176,7 @@ class Auth_PasswordController extends Auth_BaseController
                     # Record event
                     $this->_helper->event->record('update password failed', Zend_Auth::getInstance()->getIdentity()->getId());
 
-                    $this->_flashMessenger->addMessage('Updating password failed'); // move to view
+                    $this->getRequest()->_flashMessenger->addMessage('Updating password failed'); // move to view
                     $this->_helper->redirector('index', 'index', 'default');
                 }
             } else {

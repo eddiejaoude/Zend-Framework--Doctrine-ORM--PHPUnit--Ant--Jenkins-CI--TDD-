@@ -6,7 +6,7 @@
  * @package       Default Module
  *
  */
-class IndexController extends BaseController
+class IndexController extends Zend_Controller_Action
 {
 
     /**
