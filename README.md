@@ -1,4 +1,4 @@
-[![DashboardHub Badge](http://dashboardhub.io/badge/551f624e868569.68550397 "DashboardHub Badge")](http://dashboardhub.io/d/551f624e868569.68550397)
+[![DashboardHub Badge](http://badge.dashboardhub.io/badge/551f624e868569.68550397 "DashboardHub Badge")](http://pipeline.dashboardhub.io/d/551f624e868569.68550397)
 
 --------------------------------------------------------
 GOAL - BEST PRACTICE TEST DRIVEN DEVELOPMENT
